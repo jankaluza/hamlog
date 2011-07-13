@@ -1,0 +1,9 @@
+FILE(GLOB SRC *.cpp)
+
+ADD_EXECUTABLE(hamlog_qt ${SRC})
+
+TARGET_LINK_LIBRARIES(hamlog_qt hamlog ${QT_LIBRARIES})
+
+INSTALL(TARGETS hamlog_qt RUNTIME DESTINATION bin)
+
+
