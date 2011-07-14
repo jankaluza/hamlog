@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 	boost::program_options::options_description desc("Usage: hamlog_server [OPTIONS] <config_file.cfg>\nAllowed options");
 	desc.add_options()
 		("help,h", "help")
-		("no-daemonize,n", "Do not run spectrum as daemon")
+		("no-daemonize,n", "Do not run server as daemon")
 		;
 	try
 	{
