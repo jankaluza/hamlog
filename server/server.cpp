@@ -25,7 +25,7 @@
 namespace HamLog {
 
 Server::Server(const std::string &hostname, const std::string &port)
-	: m_ioService(), m_acceptor(m_ioService), m_socket(new boost::asio::ip::tcp::socket(m_ioService)) {
+	: m_ioService(), m_acceptor(m_ioService), m_session(new Session(m_ioService)) {
 
 	boost::asio::ip::tcp::resolver resolver(m_ioService);
 	boost::asio::ip::tcp::resolver::query query(hostname, port);
@@ -35,7 +35,7 @@ Server::Server(const std::string &hostname, const std::string &port)
 	m_acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
 	m_acceptor.bind(endpoint);
 	m_acceptor.listen();
-	m_acceptor.async_accept(*m_socket, boost::bind(&Server::handleAccept, this, boost::asio::placeholders::error));
+	m_acceptor.async_accept(m_session->getSocket(), boost::bind(&Server::handleAccept, this, boost::asio::placeholders::error));
 }
 
 void Server::start() {
@@ -53,9 +53,10 @@ void Server::handleAccept(const boost::system::error_code& e) {
 	}
 
 	std::cout << "New client connection\n";
+	m_sessionManager.start(m_session);
 
-	m_socket = new boost::asio::ip::tcp::socket(m_ioService);
-	m_acceptor.async_accept(*m_socket, boost::bind(&Server::handleAccept, this, boost::asio::placeholders::error));
+	m_session.reset(new Session(m_ioService));
+	m_acceptor.async_accept(m_session->getSocket(), boost::bind(&Server::handleAccept, this, boost::asio::placeholders::error));
 }
 
 void Server::handleStop() {

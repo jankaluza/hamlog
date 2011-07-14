@@ -20,30 +20,29 @@
 
 #pragma once
 
+#include <boost/array.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
-#include <string>
-#include "sessionmanager.h"
 #include "session.h"
+#include <list>
 
 namespace HamLog {
 
-class Server {
+class SessionManager : public boost::enable_shared_from_this<Session> {
 	public:
-		Server(const std::string& address, const std::string &port);
+		typedef boost::shared_ptr<SessionManager> ref;
 
-		void start();
+		SessionManager();
 
-		void stop();
+		void start(Session::ref session);
+
+		void stop(Session::ref session);
 
 	private:
-		void handleAccept(const boost::system::error_code &e);
+		void handleStopped(Session::ref session);
 
-		void handleStop();
-
-		boost::asio::io_service m_ioService;
-		boost::asio::ip::tcp::acceptor m_acceptor;
-		SessionManager m_sessionManager;
-		Session::ref m_session;
+		std::list<Session::ref> m_sessions;
 };
 
 }

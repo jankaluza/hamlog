@@ -18,32 +18,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#pragma once
-
-#include <boost/asio.hpp>
-#include <string>
 #include "sessionmanager.h"
-#include "session.h"
+#include <boost/bind.hpp>
 
 namespace HamLog {
 
-class Server {
-	public:
-		Server(const std::string& address, const std::string &port);
+SessionManager::SessionManager() {
+	
+}
 
-		void start();
+void SessionManager::start(Session::ref session) {
+	m_sessions.push_back(session);
+	session->onStopped.connect(boost::bind(&SessionManager::handleStopped, this, session));
+	session->start();
+}
 
-		void stop();
+void SessionManager::stop(Session::ref session) {
+	session->stop();
+}
 
-	private:
-		void handleAccept(const boost::system::error_code &e);
-
-		void handleStop();
-
-		boost::asio::io_service m_ioService;
-		boost::asio::ip::tcp::acceptor m_acceptor;
-		SessionManager m_sessionManager;
-		Session::ref m_session;
-};
+void SessionManager::handleStopped(Session::ref session) {
+	m_sessions.remove(session);
+}
 
 }
