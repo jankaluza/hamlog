@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 	}
 
 	Server server(CONFIG_STRING(&config, "server.hostname"),
-				  boost::lexical_cast<std::string>(CONFIG_INT(&config, "server.port")));
+				  CONFIG_INT(&config, "server.port"));
 
 	server.start();
 

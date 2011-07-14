@@ -18,30 +18,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#include "sessionmanager.h"
+#include "request.h"
 #include <boost/bind.hpp>
 #include <iostream>
 
 namespace HamLog {
-
-SessionManager::SessionManager() {
 	
+Request::Request()
+	: m_majorVersion(0),
+	m_minorVersion(0),
+	m_finished(false) {
+	m_method.reserve(4);
 }
 
-void SessionManager::start(Session::ref session) {
-	m_sessions.push_back(session);
-	session->onStopped.connect(boost::bind(&SessionManager::handleStopped, this, session));
-	session->start();
-	std::cout << "Session " << session << " started\n";
+void Request::dump() {
+	std::cout << "Method: " << m_method << "\n";
+	std::cout << "HTTP major version: " << m_majorVersion << "\n";
+	std::cout << "HTTP minor version: " << m_minorVersion << "\n";
+	std::cout << "URI: " << m_uri << "\n";
+	std::cout << "Finished: " << m_finished << "\n";
 }
 
-void SessionManager::stop(Session::ref session) {
-	session->stop();
-}
-
-void SessionManager::handleStopped(Session::ref session) {
-	m_sessions.remove(session);
-	std::cout << "Session " << session << " finished\n";
-}
 
 }

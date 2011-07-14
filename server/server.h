@@ -29,7 +29,7 @@ namespace HamLog {
 
 class Server {
 	public:
-		Server(const std::string& address, const std::string &port);
+		Server(const std::string& address, int port);
 
 		void start();
 

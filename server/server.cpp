@@ -24,12 +24,13 @@
 
 namespace HamLog {
 
-Server::Server(const std::string &hostname, const std::string &port)
+Server::Server(const std::string &hostname, int port)
 	: m_ioService(), m_acceptor(m_ioService), m_session(new Session(m_ioService)) {
 
-	boost::asio::ip::tcp::resolver resolver(m_ioService);
-	boost::asio::ip::tcp::resolver::query query(hostname, port);
-	boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+// 	boost::asio::ip::tcp::resolver resolver(m_ioService);
+// 	boost::asio::ip::tcp::resolver::query query(hostname, port);
+// 	boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
 
 	m_acceptor.open(endpoint.protocol());
 	m_acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));

@@ -20,12 +20,16 @@
 
 #include "session.h"
 #include <boost/bind.hpp>
+#include <boost/tuple/tuple.hpp>
 #include <iostream>
+#include "request.h"
 
 namespace HamLog {
 	
 Session::Session(boost::asio::io_service& ioService)
-	: m_socket(ioService) {
+	: m_socket(ioService),
+	m_authenticated(false),
+	m_req(new Request()) {
 }
 
 boost::asio::ip::tcp::socket& Session::getSocket() {
@@ -50,25 +54,33 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t bytes) 
 
 	std::cout << "data received. size = " << bytes << "\n";
 
-	if (true /*&& all_data_received_and_response_is_ready*/) {
+	bool parsed = m_requestParser.parse(m_req, m_buffer.begin(), m_buffer.begin() + bytes);
+	if (!parsed) {
+		// TODO: send Error
+		stop();
+	}
+
+	if (m_req->isFinished()) {
+		m_req->dump();
+		m_req.reset(new Request());
+		
 		boost::asio::async_write(m_socket, boost::asio::buffer("response\n"),
 								 boost::bind(&Session::handleWrite, shared_from_this(), boost::asio::placeholders::error));
     }
-	else {
-		m_socket.async_read_some(boost::asio::buffer(m_buffer),
-								boost::bind(&Session::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-	}
+
+	m_socket.async_read_some(boost::asio::buffer(m_buffer),
+							 boost::bind(&Session::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
 void Session::handleWrite(const boost::system::error_code& e) {
-	if (!e) {
-		boost::system::error_code ec;
-		m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
-	}
-
-	if (e != boost::asio::error::operation_aborted) {
-		stop();
-	}
+// 	if (!e) {
+// 		boost::system::error_code ec;
+// 		m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+// 	}
+// 
+// 	if (e != boost::asio::error::operation_aborted) {
+// 		stop();
+// 	}
 }
 
 }
