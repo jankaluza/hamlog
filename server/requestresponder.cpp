@@ -18,47 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#pragma once
-
-#include <boost/array.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/asio.hpp>
-#include <boost/signal.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <string>
+#include "requestresponder.h"
+#include <boost/bind.hpp>
+#include <iostream>
+#include "reply.h"
 
 namespace HamLog {
-
-class Request : public boost::enable_shared_from_this<Request> {
-	public:
-		typedef boost::shared_ptr<Request> ref;
-
-		typedef struct _Header {
-			std::string name;
-			std::string value;
-		} Header;
-
-		Request();
-
-		void dump();
-
-		bool isFinished() {
-			return m_finished;
-		}
-
-		const std::string &getURI() {
-			return m_uri;
-		}
-
-	private:
-		std::string m_method;
-		std::string m_uri;
-		unsigned int m_majorVersion;
-		unsigned int m_minorVersion;
-		bool m_finished;
-		std::list<Header> m_headers;
-		friend class RequestParser;
-};
+	
+RequestResponder::RequestResponder(const std::string &uri)
+	: m_uri(uri) {
+	
+}
 
 }

@@ -1,0 +1,8 @@
+*~
+hamlog_*
+CMakeC*
+CMakeF*
+Doxyfile
+Makefile
+*.cmake
+libhamlog*

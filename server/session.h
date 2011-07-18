@@ -27,6 +27,7 @@
 #include <boost/signal.hpp>
 #include <string>
 #include "requestparser.h"
+#include "requesthandler.h"
 
 namespace HamLog {
 
@@ -51,6 +52,7 @@ class Session : public boost::enable_shared_from_this<Session> {
 		boost::asio::ip::tcp::socket m_socket;
 		bool m_authenticated;
 		RequestParser m_requestParser;
+		RequestHandler m_requestHandler;
 		Request::ref m_req;
 		boost::array<char, 8192> m_buffer;
 };

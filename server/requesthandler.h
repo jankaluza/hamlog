@@ -27,38 +27,25 @@
 #include <boost/signal.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <string>
+#include "request.h"
+#include "requestresponder.h"
+#include "reply.h"
 
 namespace HamLog {
 
-class Request : public boost::enable_shared_from_this<Request> {
+class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
 	public:
-		typedef boost::shared_ptr<Request> ref;
+		typedef boost::shared_ptr<RequestHandler> ref;
 
-		typedef struct _Header {
-			std::string name;
-			std::string value;
-		} Header;
+		RequestHandler();
 
-		Request();
+		void addResponder(RequestResponder::ref responder);
 
-		void dump();
-
-		bool isFinished() {
-			return m_finished;
-		}
-
-		const std::string &getURI() {
-			return m_uri;
-		}
+		Reply::ref handleRequest(Request::ref req);
 
 	private:
-		std::string m_method;
-		std::string m_uri;
-		unsigned int m_majorVersion;
-		unsigned int m_minorVersion;
-		bool m_finished;
-		std::list<Header> m_headers;
-		friend class RequestParser;
+		std::map<std::string, RequestResponder::ref> m_responders;
+
 };
 
 }

@@ -30,35 +30,42 @@
 
 namespace HamLog {
 
-class Request : public boost::enable_shared_from_this<Request> {
+class Reply : public boost::enable_shared_from_this<Reply> {
 	public:
-		typedef boost::shared_ptr<Request> ref;
+		typedef boost::shared_ptr<Reply> ref;
 
 		typedef struct _Header {
 			std::string name;
 			std::string value;
 		} Header;
 
-		Request();
+		typedef enum {
+			ok = 200,
+			moved_permanently = 301,
+			moved_temporarily = 302,
+			not_modified = 304,
+			bad_request = 400,
+			unauthorized = 401,
+			forbidden = 403,
+			not_found = 404,
+			internal_server_error = 500,
+		} Status;
+
+
+		Reply(Status status = Reply::ok, const std::string &content_type = "text/hamlog");
 
 		void dump();
 
-		bool isFinished() {
-			return m_finished;
-		}
+		std::string toString();
 
-		const std::string &getURI() {
-			return m_uri;
+		void setContent(const std::string &content) {
+			m_content = content;
 		}
 
 	private:
-		std::string m_method;
-		std::string m_uri;
-		unsigned int m_majorVersion;
-		unsigned int m_minorVersion;
-		bool m_finished;
-		std::list<Header> m_headers;
-		friend class RequestParser;
+		Status m_status;
+		std::vector<Header> m_headers;
+		std::string m_content;
 };
 
 }
