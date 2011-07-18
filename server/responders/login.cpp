@@ -22,15 +22,16 @@
 #include <boost/bind.hpp>
 #include <iostream>
 #include "reply.h"
+#include "session.h"
 
 namespace HamLog {
 namespace Responder {
 	
-Login::Login() : RequestResponder("/login") {
+Login::Login() : RequestResponder("/login", false) {
 	
 }
 
-bool Login::handleRequest(Request::ref request, Reply::ref reply) {
+void Login::createAuthorizationRequest(Reply::ref reply) {
 	Reply::Header header;
 	header.name = "WWW-Authenticate";
 
@@ -43,6 +44,17 @@ bool Login::handleRequest(Request::ref request, Reply::ref reply) {
 	reply->setContent("Authentication");
 	reply->setStatus(Reply::unauthorized);
 	reply->setContentType("text/html");
+}
+
+bool Login::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+	if (!request->hasHeader("Authorization")) {
+		createAuthorizationRequest(reply);
+	}
+	else {
+		session->setAuthenticated(true);
+		reply->setContent("Authorized");
+		reply->setContentType("text/html");
+	}
 	return true;
 }
 

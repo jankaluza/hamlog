@@ -21,6 +21,7 @@
 #include "request.h"
 #include <boost/bind.hpp>
 #include <iostream>
+#include <boost/foreach.hpp>
 
 namespace HamLog {
 	
@@ -29,6 +30,14 @@ Request::Request()
 	m_minorVersion(0),
 	m_finished(false) {
 	m_method.reserve(4);
+}
+
+bool Request::hasHeader(const std::string &name) {
+	BOOST_FOREACH(Header &header, m_headers) {
+		if (header.name == name)
+			return true;
+	}
+	return false;
 }
 
 void Request::dump() {

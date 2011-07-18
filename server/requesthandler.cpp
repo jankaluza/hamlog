@@ -24,10 +24,12 @@
 #include "reply.h"
 #include "responders/root.h"
 #include "responders/login.h"
+#include "session.h"
 
 namespace HamLog {
 	
-RequestHandler::RequestHandler() {
+RequestHandler::RequestHandler(Session *session)
+	: m_session(session) {
 	addResponder(RequestResponder::ref(new Responder::Root()));
 	addResponder(RequestResponder::ref(new Responder::Login()));
 }
@@ -47,8 +49,14 @@ Reply::ref RequestHandler::handleRequest(Request::ref req) {
 		return reply;
 	}
 
+	if (m_responders[req->getURI()]->needAuthentication() && !m_session->isAuthenticated()) {
+		Reply::ref reply(new Reply(Reply::unauthorized, "text/html"));
+		reply->setContent("401 - Unauthorized");
+		return reply;
+	}
+
  	Reply::ref reply(new Reply(Reply::ok));
-	if (m_responders[req->getURI()]->handleRequest(req, reply)) {
+	if (m_responders[req->getURI()]->handleRequest(m_session, req, reply)) {
 		return reply;
 	}
 

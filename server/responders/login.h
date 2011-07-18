@@ -32,6 +32,9 @@
 #include "reply.h"
 
 namespace HamLog {
+
+class Session;
+
 namespace Responder {
 
 class Login : public boost::enable_shared_from_this<Login>, public RequestResponder {
@@ -40,7 +43,10 @@ class Login : public boost::enable_shared_from_this<Login>, public RequestRespon
 
 		Login();
 
-		bool handleRequest(Request::ref request, Reply::ref reply);
+		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+
+	private:
+		void createAuthorizationRequest(Reply::ref);
 };
 
 }

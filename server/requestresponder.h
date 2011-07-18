@@ -32,20 +32,27 @@
 
 namespace HamLog {
 
+class Session;
+
 class RequestResponder : public boost::enable_shared_from_this<RequestResponder> {
 	public:
 		typedef boost::shared_ptr<RequestResponder> ref;
 
-		RequestResponder(const std::string &uri);
+		RequestResponder(const std::string &uri, bool needAuthentication = true);
 
 		const std::string &getURI() {
 			return m_uri;
 		}
 
-		virtual bool handleRequest(Request::ref request, Reply::ref reply) = 0;
+		bool needAuthentication() {
+			return m_authentication;
+		}
+
+		virtual bool handleRequest(Session *session, Request::ref request, Reply::ref reply) = 0;
 
 	private:
 		std::string m_uri;
+		bool m_authentication;
 
 };
 

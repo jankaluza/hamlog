@@ -35,6 +35,14 @@ Reply::Reply(Status status, const std::string &content_type)
 	m_headers[1].value = "0";
 }
 
+bool Reply::hasHeader(const std::string &name) {
+	BOOST_FOREACH(Header &header, m_headers) {
+		if (header.name == name)
+			return true;
+	}
+	return false;
+}
+
 void Reply::dump() {
 	std::cout << toString();
 }

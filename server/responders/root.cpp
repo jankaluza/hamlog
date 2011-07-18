@@ -22,15 +22,16 @@
 #include <boost/bind.hpp>
 #include <iostream>
 #include "reply.h"
+#include "session.h"
 
 namespace HamLog {
 namespace Responder {
 	
-Root::Root() : RequestResponder("/") {
+Root::Root() : RequestResponder("/", false) {
 	
 }
 
-bool Root::handleRequest(Request::ref request, Reply::ref reply) {
+bool Root::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
 	reply->setContentType("text/html");
 	reply->setContent("<html><head></head><body>This is HamLog server. Download HamLog and setup your username to connect it.</body></html>");
 	return true;

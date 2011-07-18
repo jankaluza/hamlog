@@ -29,6 +29,7 @@ namespace HamLog {
 Session::Session(boost::asio::io_service& ioService)
 	: m_socket(ioService),
 	m_authenticated(false),
+	m_requestHandler(this),
 	m_req(new Request()) {
 }
 

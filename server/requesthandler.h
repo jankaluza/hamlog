@@ -33,11 +33,13 @@
 
 namespace HamLog {
 
+class Session;
+
 class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
 	public:
 		typedef boost::shared_ptr<RequestHandler> ref;
 
-		RequestHandler();
+		RequestHandler(Session *session);
 		~RequestHandler();
 
 		void addResponder(RequestResponder::ref responder);
@@ -46,6 +48,7 @@ class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
 
 	private:
 		std::map<std::string, RequestResponder::ref> m_responders;
+		Session *m_session;
 
 };
 

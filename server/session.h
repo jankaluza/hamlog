@@ -45,6 +45,14 @@ class Session : public boost::enable_shared_from_this<Session> {
 
 		boost::signal<void ()> onStopped;
 
+		void setAuthenticated(bool authenticated) {
+			m_authenticated = authenticated;
+		}
+
+		bool isAuthenticated() {
+			return m_authenticated;
+		}
+
 	private:
 		void handleRead(const boost::system::error_code& e, std::size_t bytes);
 		void handleWrite(const boost::system::error_code& e);
