@@ -22,11 +22,16 @@
 #include <boost/bind.hpp>
 #include <iostream>
 #include "reply.h"
+#include "responders/root.h"
 
 namespace HamLog {
 	
 RequestHandler::RequestHandler() {
-	
+	addResponder(RequestResponder::ref(new Responder::Root()));
+}
+
+RequestHandler::~RequestHandler() {
+	m_responders.clear();
 }
 
 void RequestHandler::addResponder(RequestResponder::ref responder) {
@@ -36,10 +41,17 @@ void RequestHandler::addResponder(RequestResponder::ref responder) {
 Reply::ref RequestHandler::handleRequest(Request::ref req) {
 	if (m_responders.find(req->getURI()) == m_responders.end()) {
 		Reply::ref reply(new Reply(Reply::not_found, "text/html"));
-		reply->setContent("<html><head></head><body><b>test</b></body></html>");
+		reply->setContent("<html><head></head><body>440 - This page does not exist</body></html>");
 		return reply;
 	}
-// 	Reply::ref reply(new Reply(Reply::ok, "text/html"));
+
+ 	Reply::ref reply(new Reply(Reply::ok));
+	if (m_responders[req->getURI()]->handleRequest(req, reply)) {
+		return reply;
+	}
+
+	reply->setStatus(Reply::bad_request);
+	reply->setContent("Bad request");
 	
 
 	return Reply::ref();

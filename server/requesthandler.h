@@ -38,6 +38,7 @@ class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
 		typedef boost::shared_ptr<RequestHandler> ref;
 
 		RequestHandler();
+		~RequestHandler();
 
 		void addResponder(RequestResponder::ref responder);
 
