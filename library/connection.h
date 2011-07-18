@@ -21,13 +21,19 @@
 #ifndef _HAMLOG_CONNECTION_H
 #define _HAMLOG_CONNECTION_H
 
+#include "parser.h"
+
 typedef struct _HAMConnection {
 	int fd;
 	void *input_handle;
+
 	char *hostname;
 	int port;
 	char *username;
 	char *password;
+
+	HAMReply *reply;
+	HAMParser *parser;
 	char *read_buffer;
 } HAMConnection;
 

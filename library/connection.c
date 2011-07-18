@@ -20,6 +20,8 @@
 
 #include "connection.h"
 #include "eventloop.h"
+#include "parser.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -29,7 +31,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-#include <sys/socket.h> 
+#include <sys/socket.h>
 
 static HAMConnectionUICallbacks *ui_callbacks = NULL;
 
@@ -49,9 +51,15 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 	connection->username = strdup(username);
 	connection->password = strdup(password);
 	connection->read_buffer = malloc(sizeof(char) * 8192);
+	connection->parser = ham_parser_new();
 
 	if (connection->hostname == NULL || connection->username == NULL ||
 		connection->password == NULL || connection->read_buffer == NULL) {
+		free(connection->hostname);
+		free(connection->username);
+		free(connection->password);
+		free(connection->read_buffer);
+		ham_parser_destroy(connection->parser);
 		free(connection);
 		return NULL;
 	}
@@ -70,8 +78,17 @@ static void ham_connection_read_data(void * user_data, int fd, HAMInputCondition
 	}
 
 	connection->read_buffer[len] = 0;
-
+	// TODO: just draft from this down vvvv 
 	printf("GOT DAT:%s\n", connection->read_buffer);
+
+	if (ham_parser_parse(connection->parser, connection->reply, connection->read_buffer, len)) {
+		if (connection->reply->finished) {
+			// TODO: handle
+		}
+	}
+	else {
+		// TODO: ERROR	
+	}
 }
 
 void ham_connection_connect(HAMConnection *connection) {
@@ -117,11 +134,16 @@ void ham_connection_disconnect(HAMConnection *connection) {
 }
 
 void ham_connection_destroy(HAMConnection *connection) {
+	if (connection == NULL)
+		return;
+
 	if (connection->input_handle) {
 		ham_connection_disconnect(connection);
 	}
 	free(connection->hostname);
 	free(connection->username);
 	free(connection->password);
+	free(connection->read_buffer);
+	ham_parser_destroy(connection->parser);
 	free(connection);
 }
