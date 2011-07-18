@@ -52,6 +52,7 @@ SET(HAMLOG_VERSION 1.0)
 SET(PROJECT_VERSION 1.0)
 
 include_directories(${Boost_INCLUDE_DIRS})
+include_directories(library)
 
 ADD_SUBDIRECTORY(ui)
 ADD_SUBDIRECTORY(library)

@@ -67,7 +67,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 	return connection;
 }
 
-static void ham_connection_read_data(void * user_data, int fd, HAMInputCondition condition) {
+static void ham_connection_read_data(void * user_data, int fd) {
 	HAMConnection *connection = user_data;
 	int len = read(connection->fd, connection->read_buffer, 8192);
 
@@ -122,7 +122,7 @@ void ham_connection_connect(HAMConnection *connection) {
 		return;
 	}
 
-	connection->input_handle = ham_input_add(connection->fd, HAM_INPUT_READ, ham_connection_read_data, connection);
+	connection->input_handle = ham_input_add(connection->fd, ham_connection_read_data, connection);
 }
 
 void ham_connection_disconnect(HAMConnection *connection) {

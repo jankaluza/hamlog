@@ -18,24 +18,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
+#pragma once
+
+#include <QtCore>
 #include <QApplication>
-#include <QMainWindow>
+#include "eventloop.h"
 
-#include "qteventloop.h"
-#include "connection.h"
+class QtEventLoop : public QObject {
+	Q_OBJECT
 
-// #include "mainwindow.h"
+	public:
+		static QtEventLoop *getInstance();
 
-int main(int argc, char *argv[]) {
-	QApplication app(argc, argv);
-	app.setApplicationName("HamLog");
+		void *handleInputAdd(int fd, HAMInputCallback callback, void *user_data);
+		void handleInputRemove(void *handle);
 
-	/*QtEventLoop *eventLoop = */QtEventLoop::getInstance();
+	private slots:
+		void handleInputActivated(int fd);
 
-	HAMConnection *connection = ham_connection_new("localhost", 8080, "test", "test");
-	ham_connection_connect(connection);
+	private:
+		QtEventLoop();
 
-// 	QMainWindow mainWin;
-// 	mainWin.show();
-	return app.exec();
-}
+		typedef struct _InputClosure {
+			HAMInputCallback callback;
+			void *user_data;
+		} InputClosure;
+
+		HAMEventLoopUICallbacks m_uiCallbacks;
+		std::map<QSocketNotifier *, InputClosure> m_notifiers;
+		static QtEventLoop* m_instance;
+};

@@ -6,3 +6,5 @@ Doxyfile
 Makefile
 *.cmake
 libhamlog*
+core*
+*.cxx

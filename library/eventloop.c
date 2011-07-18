@@ -42,11 +42,11 @@ void ham_timeout_remove(void *handle) {
 	ui_callbacks->timeout_remove(handle);
 }
 
-void *ham_input_add(int fd, HAMInputCondition cond, HAMInputCallback callback, void *user_data) {
+void *ham_input_add(int fd, HAMInputCallback callback, void *user_data) {
 	if (ui_callbacks == NULL)
 		return NULL;
 
-	return ui_callbacks->input_add(fd, cond, callback, user_data);
+	return ui_callbacks->input_add(fd, callback, user_data);
 }
 
 void ham_input_remove(void *handle) {

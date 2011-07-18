@@ -1,6 +1,11 @@
 FILE(GLOB SRC *.cpp)
+FILE(GLOB MOC_HDRS *.h)
 
-ADD_EXECUTABLE(hamlog_qt ${SRC})
+include(${QT_USE_FILE})
+
+QT4_WRAP_CPP(MOC_SRCS ${MOC_HDRS})
+
+ADD_EXECUTABLE(hamlog_qt ${SRC} ${MOC_SRCS})
 
 TARGET_LINK_LIBRARIES(hamlog_qt hamlog ${QT_LIBRARIES})
 

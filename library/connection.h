@@ -23,6 +23,10 @@
 
 #include "parser.h"
 
+#ifdef __cplusplus                                                                                                                                                      
+extern "C" {
+#endif
+
 typedef struct _HAMConnection {
 	int fd;
 	void *input_handle;
@@ -47,5 +51,9 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 void ham_connection_connect(HAMConnection *connection);
 void ham_connection_disconnect(HAMConnection *connection);
 void ham_connection_destroy(HAMConnection *connection);
+
+#ifdef __cplusplus                                                                                                                                                      
+}
+#endif
 
 #endif

@@ -21,25 +21,28 @@
 #ifndef _HAMLOG_EVENTLOOP_H
 #define _HAMLOG_EVENTLOOP_H
 
-typedef enum {
-	HAM_INPUT_READ  = 1 << 0,
-	HAM_INPUT_WRITE = 1 << 1,
-} HAMInputCondition;
+#ifdef __cplusplus                                                                                                                                                      
+extern "C" {
+#endif
 
 typedef void (*HAMTimeoutCallback) (void *data);
-typedef void (*HAMInputCallback) (void *data, int fd, HAMInputCondition condition);
+typedef void (*HAMInputCallback) (void *data, int fd);
 
 typedef struct _HAMEventLoopUICallbacks {
 	void * (*timeout_add) (int interval, HAMTimeoutCallback callback, void *user_data);
 	void   (*timeout_remove) (void *handle);
-	void * (*input_add) (int fd, HAMInputCondition cond, HAMInputCallback callback, void *user_data);
+	void * (*input_add) (int fd, HAMInputCallback callback, void *user_data);
 	void   (*input_remove) (void *handle);
 } HAMEventLoopUICallbacks;
 
 void ham_eventloop_set_ui_callbacks(HAMEventLoopUICallbacks *callbacks);
 void *ham_timeout_add(int interval, HAMTimeoutCallback callback, void *user_data);
 void ham_timeout_remove(void *handle);
-void *ham_input_add(int fd, HAMInputCondition cond, HAMInputCallback callback, void *user_data);
+void *ham_input_add(int fd, HAMInputCallback callback, void *user_data);
 void ham_input_remove(void *handle);
+
+#ifdef __cplusplus                                                                                                                                                      
+}
+#endif
 
 #endif
