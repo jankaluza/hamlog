@@ -76,14 +76,14 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t bytes) 
 }
 
 void Session::handleWrite(const boost::system::error_code& e) {
-	if (!e) {
-		boost::system::error_code ec;
-		m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
-	}
-
-	if (e != boost::asio::error::operation_aborted) {
-		stop();
-	}
+// 	if (!e) {
+// 		boost::system::error_code ec;
+// 		m_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+// 	}
+// 
+// 	if (e != boost::asio::error::operation_aborted) {
+// 		stop();
+// 	}
 }
 
 }
