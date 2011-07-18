@@ -23,11 +23,13 @@
 #include <iostream>
 #include "reply.h"
 #include "responders/root.h"
+#include "responders/login.h"
 
 namespace HamLog {
 	
 RequestHandler::RequestHandler() {
 	addResponder(RequestResponder::ref(new Responder::Root()));
+	addResponder(RequestResponder::ref(new Responder::Login()));
 }
 
 RequestHandler::~RequestHandler() {

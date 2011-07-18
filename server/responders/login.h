@@ -27,57 +27,21 @@
 #include <boost/signal.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <string>
+#include "requestresponder.h"
+#include "request.h"
+#include "reply.h"
 
 namespace HamLog {
+namespace Responder {
 
-class Reply : public boost::enable_shared_from_this<Reply> {
+class Login : public boost::enable_shared_from_this<Login>, public RequestResponder {
 	public:
-		typedef boost::shared_ptr<Reply> ref;
+		typedef boost::shared_ptr<Login> ref;
 
-		typedef struct _Header {
-			std::string name;
-			std::string value;
-		} Header;
+		Login();
 
-		typedef enum {
-			ok = 200,
-			moved_permanently = 301,
-			moved_temporarily = 302,
-			not_modified = 304,
-			bad_request = 400,
-			unauthorized = 401,
-			forbidden = 403,
-			not_found = 404,
-			internal_server_error = 500,
-		} Status;
-
-
-		Reply(Status status = Reply::ok, const std::string &content_type = "text/hamlog");
-
-		void dump();
-
-		std::string toString();
-
-		void setStatus(const Status &status) {
-			m_status = status;
-		}
-
-		void setContentType(const std::string &contentType) {
-			m_headers[0].value = contentType;
-		}
-
-		void setContent(const std::string &content) {
-			m_content = content;
-		}
-
-		void addHeader(const Header &header) {
-			m_headers.push_back(header);
-		}
-
-	private:
-		Status m_status;
-		std::vector<Header> m_headers;
-		std::string m_content;
+		bool handleRequest(Request::ref request, Reply::ref reply);
 };
 
+}
 }
