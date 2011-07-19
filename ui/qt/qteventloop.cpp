@@ -23,10 +23,12 @@
 QtEventLoop* QtEventLoop::m_instance = NULL;  
 
 static void *timeout_add(int interval, HAMTimeoutCallback callback, void *user_data) {
+	// TODO
 	return NULL;
 }
 
 static void timeout_remove(void *handle) {
+	// TODO
 }
 
 static void *input_add(int fd, HAMInputCallback callback, void *user_data) {
@@ -41,7 +43,7 @@ QtEventLoop::QtEventLoop() {
 	m_uiCallbacks.timeout_add = timeout_add;
 	m_uiCallbacks.timeout_remove = timeout_remove;
 	m_uiCallbacks.input_add = input_add;
-	m_uiCallbacks.timeout_remove = input_remove;
+	m_uiCallbacks.input_remove = input_remove;
 	ham_eventloop_set_ui_callbacks(&m_uiCallbacks);
 }
 

@@ -18,20 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
+#pragma once
+
+#include <QtCore>
 #include <QApplication>
-#include <QMainWindow>
+#include "ui_mainwindow.h"
+#include "connection.h"
 
-#include "mainwindow.h"
+class QtConnection;
+class QtEventLoop;
 
-int main(int argc, char *argv[]) {
-	QApplication app(argc, argv);
-	app.setApplicationName("HamLog");
+class MainWindow : public QMainWindow {
+	Q_OBJECT
 
-	MainWindow window;
-	window.show();
+	public:
+		MainWindow();
 
-// 	HAMConnection *connection = ham_connection_new("localhost", 8080, "test", "test");
-// 	ham_connection_connect(connection);
+	public slots:
+		void connectServer();
 
-	return app.exec();
-}
+	private slots:
+		void handleConnected(HAMConnection *connection);
+		void handleDisconnected(HAMConnection *connection, const QString &reason);
+
+	private:
+		Ui_MainWindow ui;
+		QtEventLoop *m_eventLoop;
+		QtConnection *m_connection;
+		HAMConnection *m_conn;
+};

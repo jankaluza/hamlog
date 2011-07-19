@@ -8,3 +8,4 @@ Makefile
 libhamlog*
 core*
 *.cxx
+ui_*.h
