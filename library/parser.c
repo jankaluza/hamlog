@@ -30,7 +30,7 @@ HAMParser *ham_parser_new() {
 	if (parser == NULL)
 		return NULL;
 
-	parser->state = method_start;
+	ham_parser_reset(parser);
 
 	return parser;
 }
@@ -74,41 +74,8 @@ static int isDigit(int c) {
 	return c >= '0' && c <= '9';
 }
 
-static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input) {
+static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 	switch (parser->state) {
-		case method_start:
-			if (!isChar(input) || isControl(input) || isSpecial(input)) {
-				return 0;
-			}
-			else {
-				parser->state = method;
-				//response->method.push_back(input);
-				return 1;
-			}
-		case method:
-			if (input == ' ') {
-				parser->state = uri;
-				return 1;
-			}
-			else if (!isChar(input) || isControl(input) || isSpecial(input)) {
-				return 0;
-			}
-			else {
-				//response->m_method.push_back(input);
-				return 1;
-			}
-		case uri:
-			if (input == ' ') {
-				parser->state = http_version_h;
-				return 1;
-			}
-			else if (isControl(input)) {
-				return 0;
-			}
-			else {
-				//response->m_uri.push_back(input);
-				return 1;
-			}
 		case http_version_h:
 			if (input == 'H') {
 				parser->state = http_version_t_1;
@@ -143,8 +110,6 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 			}
 		case http_version_slash:
 			if (input == '/') {
-				//response->m_majorVersion = 0;
-				//response->m_minorVersion = 0;
 				parser->state = http_version_major_start;
 				return 1;
 			}
@@ -153,7 +118,6 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 			}
 		case http_version_major_start:
 			if (isDigit(input)) {
- 				//response->m_majorVersion = //response->m_majorVersion * 10 + input - '0';
 				parser->state = http_version_major;
 				return 1;
 			}
@@ -166,7 +130,6 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 				return 1;
 			}
 			else if (isDigit(input)) {
- 				//response->m_majorVersion = //response->m_majorVersion * 10 + input - '0';
 				return 1;
 			}
 			else {
@@ -174,7 +137,6 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 			}
 		case http_version_minor_start:
 			if (isDigit(input)) {
- 				//response->m_minorVersion = //response->m_minorVersion * 10 + input - '0';
 				parser->state = http_version_minor;
 				return 1;
 			}
@@ -182,16 +144,54 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 				return 0;
 			}
 		case http_version_minor:
-			if (input == '\r') {
-				parser->state = expecting_newline_1;
+			if (input == ' ') {
+				parser->state = status_start;
 				return 1;
 			}
 			else if (isDigit(input)) {
- 				//response->m_minorVersion = //response->m_minorVersion * 10 + input - '0';
 				return 1;
 			}
 			else {
 				return 0;
+			}
+		case status_start:
+			if (isDigit(input)) {
+				reply->status = 100 * (input - '0');
+				parser->state = status_1;
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		case status_1:
+			if (isDigit(input)) {
+				reply->status += 10 * (input - '0');
+				parser->state = status_2;
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		case status_2:
+			if (isDigit(input)) {
+				reply->status += input - '0';
+				parser->state = status_text;
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		case status_text:
+			/* we skip this one */
+			if (isDigit(input)) {
+				return 0;
+			}
+			else if (input == '\r') {
+				parser->state = expecting_newline_1;
+				return 1;
+			}
+			else {
+				return 1;
 			}
 		case expecting_newline_1:
 			if (input == '\n') {
@@ -206,7 +206,7 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 				parser->state = expecting_newline_3;
 				return 1;
 			}
-			else if (/*!response->m_headers.empty() &&*/ (input == ' ' || input == '\t')) {
+			else if (reply->headers_count == 0 && (input == ' ' || input == '\t')) {
 				parser->state = header_lws;
 				return 1;
 			}
@@ -214,10 +214,9 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 				return 0;
 			}
 			else {
-// 				Request::Header header;
-// 				header.name.push_back(input);
- 				//response->m_headers.push_back(header);
 				parser->state = header_name;
+				parser->ptr = parser->header_name;
+				*parser->ptr++ = input;
 				return 1;
 			}
 		case header_lws:
@@ -233,6 +232,8 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 			}
 			else {
 				parser->state = header_value;
+				parser->ptr = parser->header_value;
+				*parser->ptr++ = input;
 				//response->m_headers.back().value.push_back(input);
 				return 1;
 			}
@@ -245,7 +246,7 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 				return 0;
 			}
 			else {
- 				//response->m_headers.back().name.push_back(input);
+				*parser->ptr++ = input;
 				return 1;
 			}
 		case space_before_header_value:
@@ -259,13 +260,34 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 		case header_value:
 			if (input == '\r') {
 				parser->state = expecting_newline_2;
+				/*HAMReplyHeader *header = */ham_reply_header_new(parser->header_name, parser->header_value);
 				return 1;
 			}
 			else if (isControl(input)) {
 				return 0;
 			}
 			else {
- 				//response->m_headers.back().value.push_back(input);
+ 				*parser->ptr++ = input;
+				return 1;
+			}
+		case content_start:
+			if (input == '\r') {
+				parser->state = expecting_newline_3;
+				return 1;
+			}
+			else {
+				parser->state = content;
+				parser->ptr = reply->content;
+				*parser->ptr++ = input;
+				return 1;
+			}
+		case content:
+			if (input == '\r') {
+				parser->state = expecting_newline_4;
+				return 1;
+			}
+			else {
+ 				*parser->ptr++ = input;
 				return 1;
 			}
 		case expecting_newline_2:
@@ -278,7 +300,14 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 			}
 		case expecting_newline_3:
 			if (input == '\n') {
-				//response->m_finished = true;
+				parser->state = content_start;
+				return 1;
+			}
+			return 0;
+		case expecting_newline_4:
+			if (input == '\n') {
+				reply->finished = 1;
+				ham_parser_reset(parser);
 				return 1;
 			}
 			return 0;
@@ -288,17 +317,17 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *response, char input)
 }
 
 int ham_parser_parse(HAMParser *parser, HAMReply *response, const char *data, unsigned long size) {
-	for (;size <= 0; size--) {
-		if (ham_parser_consume(parser, response, *data) == 0) {
+	for (;size > 0; size--) {
+		if (ham_parser_consume(parser, response, *data++) == 0) {
 			return 0;
 		}
-		data++;
 	}
 	return 1;
 }
 
 void ham_parser_reset(HAMParser *parser) {
-	parser->state = method_start;
+	parser->state = http_version_h;
+	parser->ptr = NULL;
 }
 
 void ham_parser_destroy(HAMParser *parser) {

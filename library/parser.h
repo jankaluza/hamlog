@@ -21,24 +21,10 @@
 #ifndef _HAMLOG_PARSER_H
 #define _HAMLOG_PARSER_H
 
-typedef struct _Header {
-	char *name;
-	char *value;
-} HAMReplyHeader;
-
-typedef struct _Reply {
-	unsigned int status;
-	char *content;
-	HAMReplyHeader **headers;
-	int finished;
-} HAMReply;
+#include "reply.h"
 
 // TODO: better namespace
 typedef enum _HAMParserState {
-	method_start,
-	method,
-	uri_start,
-	uri,
 	http_version_h,
 	http_version_t_1,
 	http_version_t_2,
@@ -48,6 +34,12 @@ typedef enum _HAMParserState {
 	http_version_major,
 	http_version_minor_start,
 	http_version_minor,
+	status_start,
+	status_1,
+	status_2,
+	status_text,
+	content_start,
+	content,
 	expecting_newline_1,
 	header_line_start,
 	header_lws,
@@ -55,11 +47,15 @@ typedef enum _HAMParserState {
 	space_before_header_value,
 	header_value,
 	expecting_newline_2,
-	expecting_newline_3
+	expecting_newline_3,
+	expecting_newline_4,
 } HAMParserState;
 
 typedef struct _HAMParser {
 	HAMParserState state;
+	char header_name[512];
+	char header_value[512];
+	char *ptr;
 } HAMParser;
 
 HAMParser *ham_parser_new();

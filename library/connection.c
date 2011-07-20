@@ -52,6 +52,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 	connection->password = strdup(password);
 	connection->read_buffer = malloc(sizeof(char) * 8192);
 	connection->parser = ham_parser_new();
+	connection->reply = ham_reply_new();
 
 	if (connection->hostname == NULL || connection->username == NULL ||
 		connection->password == NULL || connection->read_buffer == NULL) {

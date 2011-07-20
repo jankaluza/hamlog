@@ -18,40 +18,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#ifndef _HAMLOG_CONNECTION_H
-#define _HAMLOG_CONNECTION_H
-
-#include "parser.h"
-#include "reply.h"
+#ifndef _HAMLOG_REPLY_H
+#define _HAMLOG_REPLY_H
 
 #ifdef __cplusplus                                                                                                                                                      
 extern "C" {
 #endif
 
-typedef struct _HAMConnection {
-	int fd;
-	void *input_handle;
+#define MAX_REPLY_SIZE 8192
 
-	char *hostname;
-	int port;
-	char *username;
-	char *password;
+typedef struct _Header {
+	char *name;
+	char *value;
+} HAMReplyHeader;
 
-	HAMReply *reply;
-	HAMParser *parser;
-	char *read_buffer;
-} HAMConnection;
+typedef struct _Reply {
+	unsigned int status;
+	char *content;
+	HAMReplyHeader **headers;
+	unsigned int headers_count;
+	int finished;
+} HAMReply;
 
-typedef struct _HAMConnectionUICallbacks {
-	void (*connected) (HAMConnection *connection);
-	void (*disconnected) (HAMConnection *connection, const char *reason);
-} HAMConnectionUICallbacks;
+HAMReplyHeader *ham_reply_header_new(const char *name, const char *value);
+void ham_reply_header_destroy(HAMReplyHeader *header);
 
-void ham_connection_set_ui_callbacks(HAMConnectionUICallbacks *callbacks);
-HAMConnection *ham_connection_new(const char *hostname, int port, const char *username, const char *password);
-void ham_connection_connect(HAMConnection *connection);
-void ham_connection_disconnect(HAMConnection *connection);
-void ham_connection_destroy(HAMConnection *connection);
+const char *ham_reply_header_get_name(HAMReplyHeader *header);
+const char *ham_reply_header_get_value(HAMReplyHeader *header);
+
+
+HAMReply *ham_reply_new();
+void ham_reply_dump(HAMReply *reply);
+void ham_reply_destroy(HAMReply *reply);
 
 #ifdef __cplusplus                                                                                                                                                      
 }
