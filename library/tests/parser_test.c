@@ -43,9 +43,14 @@ int main(int argc, char **argv) {
 	printf("parser returned %d\n", ret);
 	ham_reply_dump(reply);
 
+	ham_reply_destroy(reply);
+	reply = ham_reply_new();
+
 	ret = ham_parser_parse(parser, reply, req2, strlen(req2));
 	printf("parser returned %d\n", ret);
 	ham_reply_dump(reply);
+
+	printf("value if Content-Type header is %s\n", ham_reply_get_header(reply, "Content-Type"));
 
 	ham_reply_destroy(reply);
 	ham_parser_destroy(parser);

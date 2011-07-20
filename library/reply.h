@@ -51,6 +51,10 @@ HAMReply *ham_reply_new();
 void ham_reply_dump(HAMReply *reply);
 void ham_reply_destroy(HAMReply *reply);
 
+void ham_reply_add_header(HAMReply *reply, HAMReplyHeader *header);
+const char *ham_reply_get_header(HAMReply *reply, const char *name);
+
+
 #ifdef __cplusplus                                                                                                                                                      
 }
 #endif

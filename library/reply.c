@@ -93,7 +93,37 @@ void ham_reply_destroy(HAMReply *reply) {
 }
 
 void ham_reply_dump(HAMReply *reply) {
+	int i;
 	printf("reply dump:\n");
 	printf("   status=%d\n", reply->status);
 	printf("   content=%s\n", reply->content);
+	printf("   Headers:\n");
+	for (i = 0; i < reply->headers_count; i++) {
+		HAMReplyHeader *header = reply->headers[i];
+		printf("       %s: %s\n", header->name, header->value);
+	}
+}
+
+void ham_reply_add_header(HAMReply *reply, HAMReplyHeader *header) {
+	reply->headers_count++;
+	reply->headers = realloc(reply->headers, sizeof(HAMReplyHeader*) * reply->headers_count);
+
+	if (reply->headers == NULL) {
+		reply->headers_count = 0;
+		return;
+	}
+
+	reply->headers[reply->headers_count - 1] = header;
+}
+
+const char *ham_reply_get_header(HAMReply *reply, const char *name) {
+	int i;
+	for (i = 0; i < reply->headers_count; i++) {
+		HAMReplyHeader *header = reply->headers[i];
+		if (strcmp(header->name, name) == 0) {
+			return header->value;
+		}
+	}
+
+	return NULL;
 }

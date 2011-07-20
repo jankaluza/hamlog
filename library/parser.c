@@ -232,7 +232,6 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 			}
 			else {
 				parser->state = header_value;
-				parser->ptr = parser->header_value;
 				*parser->ptr++ = input;
 				//response->m_headers.back().value.push_back(input);
 				return 1;
@@ -252,6 +251,8 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 		case space_before_header_value:
 			if (input == ' ') {
 				parser->state = header_value;
+				*parser->ptr = 0;
+				parser->ptr = parser->header_value;
 				return 1;
 			}
 			else {
@@ -260,7 +261,9 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 		case header_value:
 			if (input == '\r') {
 				parser->state = expecting_newline_2;
-				/*HAMReplyHeader *header = */ham_reply_header_new(parser->header_name, parser->header_value);
+				*parser->ptr = 0;
+				HAMReplyHeader *header = ham_reply_header_new(parser->header_name, parser->header_value);
+				ham_reply_add_header(reply, header);
 				return 1;
 			}
 			else if (isControl(input)) {
@@ -283,6 +286,7 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 			}
 		case content:
 			if (input == '\r') {
+				*parser->ptr = 0;
 				parser->state = expecting_newline_4;
 				return 1;
 			}
