@@ -18,44 +18,37 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#ifndef _HAMLOG_CONNECTION_H
-#define _HAMLOG_CONNECTION_H
-
-#include "parser.h"
-#include "reply.h"
-#include "request.h"
+#ifndef _HAMLOG_REQUEST_H
+#define _HAMLOG_REQUEST_H
 
 #ifdef __cplusplus                                                                                                                                                      
 extern "C" {
 #endif
 
-typedef struct _HAMConnection {
-	int fd;
-	void *input_handle;
+#define MAX_REPLY_SIZE 8192
 
-	char *hostname;
-	int port;
-	char *username;
-	char *password;
+typedef struct _RequestHeader {
+	char *name;
+	char *value;
+} HAMRequestHeader;
 
-	HAMReply *reply;
-	HAMParser *parser;
-	char *read_buffer;
-} HAMConnection;
+typedef struct _Request {
+	char *method;
+	char *uri;
+	char *content;
+	char *content_type;
+	HAMRequestHeader **headers;
+	unsigned int headers_count;
+} HAMRequest;
 
-typedef struct _HAMConnectionUICallbacks {
-	void (*connected) (HAMConnection *connection);
-	void (*disconnected) (HAMConnection *connection, const char *reason);
-	void (*reply_received) (HAMConnection *connection, HAMReply *reply);
-} HAMConnectionUICallbacks;
 
-void ham_connection_set_ui_callbacks(HAMConnectionUICallbacks *callbacks);
-HAMConnection *ham_connection_new(const char *hostname, int port, const char *username, const char *password);
-void ham_connection_connect(HAMConnection *connection);
-void ham_connection_disconnect(HAMConnection *connection);
-void ham_connection_send(HAMConnection *connection, HAMRequest *request);
-void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request);
-void ham_connection_destroy(HAMConnection *connection);
+HAMRequest *ham_request_new(const char *uri, const char *method, const char *content, const char *content_type);
+void ham_request_dump(HAMRequest *request);
+void ham_request_destroy(HAMRequest *request);
+char *ham_request_get_data(HAMRequest *request);
+
+void ham_request_add_header(HAMRequest *request, const char *name, const char *value);
+
 
 #ifdef __cplusplus                                                                                                                                                      
 }

@@ -79,12 +79,12 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	}
 
 	connection->read_buffer[len] = 0;
-	// TODO: just draft from this down vvvv 
-	printf("GOT DAT:%s\n", connection->read_buffer);
 
 	if (ham_parser_parse(connection->parser, connection->reply, connection->read_buffer, len)) {
 		if (connection->reply->finished) {
-			// TODO: handle
+			ham_reply_dump(connection->reply);
+			ham_reply_destroy(connection->reply);
+			connection->reply = ham_reply_new();
 		}
 	}
 	else {
@@ -124,6 +124,9 @@ void ham_connection_connect(HAMConnection *connection) {
 	}
 
 	connection->input_handle = ham_input_add(connection->fd, ham_connection_read_data, connection);
+
+	HAMRequest *request = ham_request_new("/login", "GET", NULL, NULL);
+	ham_connection_send_destroy(connection, request);
 }
 
 void ham_connection_disconnect(HAMConnection *connection) {
@@ -132,6 +135,17 @@ void ham_connection_disconnect(HAMConnection *connection) {
 
 	connection->fd = -1;
 	connection->input_handle = NULL;
+}
+
+void ham_connection_send(HAMConnection *connection, HAMRequest *request) {
+	char *data = ham_request_get_data(request);
+	write(connection->fd, data, strlen(data));
+	free(data);
+}
+
+void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request) {
+	ham_connection_send(connection, request);
+	ham_request_destroy(request);
 }
 
 void ham_connection_destroy(HAMConnection *connection) {

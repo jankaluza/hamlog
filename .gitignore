@@ -9,3 +9,4 @@ libhamlog*
 core*
 *.cxx
 ui_*.h
+parser_test
