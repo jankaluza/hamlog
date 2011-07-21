@@ -69,11 +69,33 @@ void ham_request_destroy(HAMRequest *request) {
 }
 
 void ham_request_dump(HAMRequest *request) {
+	char *data = ham_request_get_data(request);
+	printf("%s\n", data);
+	free(data);
 }
 
 char *ham_request_get_data(HAMRequest *request) {
-	char *data = malloc(sizeof(char) * (strlen(request->method) + strlen(request->uri)) + 14 + 1);
-	sprintf(data, "%s %s HTTP/1.1\r\n\r\n", request->method, request->uri);
+	int i;
+	int size = strlen(request->method) + strlen(request->uri) + 14 + 1; // 1 space + " HTTP/1/1\r\n\0"
+
+	for (i = 0; i < request->headers_count; i++) {
+		size += strlen(request->headers[i]->name) + strlen(request->headers[i]->value) + 2 + 2; // ": " + "\r\n"
+	}
+
+	size += 2; // "\r\n"
+
+	char *data = malloc(sizeof(char) * size);
+	int end = sprintf(data, "%s %s HTTP/1.1\r\n", request->method, request->uri);
+
+	char *ptr = data;
+	ptr += end;
+	for (i = 0; i < request->headers_count; i++) {
+		end = sprintf(ptr, "%s: %s\r\n", request->headers[i]->name, request->headers[i]->value);
+		ptr += end;
+	}
+
+	end = sprintf(ptr, "\r\n");
+
 	return data;
 }
 
@@ -87,7 +109,9 @@ void ham_request_add_header(HAMRequest *request, const char *name, const char *v
 	}
 
 	// TODO: check allocation
-	request->headers[request->headers_count - 1]->name = strdup(name);
-	request->headers[request->headers_count - 1]->name = strdup(value);
+	HAMRequestHeader *header = malloc(sizeof(HAMRequestHeader));
+	header->name = strdup(name);
+	header->value = strdup(value);
+	request->headers[request->headers_count - 1] = header;
 }
 

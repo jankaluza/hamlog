@@ -24,6 +24,7 @@
 #include "parser.h"
 #include "reply.h"
 #include "request.h"
+#include "list.h"
 
 #ifdef __cplusplus                                                                                                                                                      
 extern "C" {
@@ -41,7 +42,11 @@ typedef struct _HAMConnection {
 	HAMReply *reply;
 	HAMParser *parser;
 	char *read_buffer;
+
+	HAMList *handlers;
 } HAMConnection;
+
+typedef void (*HAMReplyHandler) (HAMConnection *connection, HAMReply *reply, void *data);
 
 typedef struct _HAMConnectionUICallbacks {
 	void (*connected) (HAMConnection *connection);
@@ -53,8 +58,8 @@ void ham_connection_set_ui_callbacks(HAMConnectionUICallbacks *callbacks);
 HAMConnection *ham_connection_new(const char *hostname, int port, const char *username, const char *password);
 void ham_connection_connect(HAMConnection *connection);
 void ham_connection_disconnect(HAMConnection *connection);
-void ham_connection_send(HAMConnection *connection, HAMRequest *request);
-void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request);
+void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
+void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
 void ham_connection_destroy(HAMConnection *connection);
 
 #ifdef __cplusplus                                                                                                                                                      

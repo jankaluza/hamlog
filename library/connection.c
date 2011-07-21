@@ -35,6 +35,11 @@
 
 static HAMConnectionUICallbacks *ui_callbacks = NULL;
 
+typedef struct {
+	HAMReplyHandler handler;
+	void *ui_data;
+} HandlerTuple;
+
 void ham_connection_set_ui_callbacks(HAMConnectionUICallbacks *callbacks) {
 	ui_callbacks = callbacks;
 }
@@ -53,6 +58,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 	connection->read_buffer = malloc(sizeof(char) * 8192);
 	connection->parser = ham_parser_new();
 	connection->reply = ham_reply_new();
+	connection->handlers = ham_list_new();
 
 	if (connection->hostname == NULL || connection->username == NULL ||
 		connection->password == NULL || connection->read_buffer == NULL) {
@@ -61,6 +67,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 		free(connection->password);
 		free(connection->read_buffer);
 		ham_parser_destroy(connection->parser);
+		ham_list_destroy(connection->handlers);
 		free(connection);
 		return NULL;
 	}
@@ -83,6 +90,18 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	if (ham_parser_parse(connection->parser, connection->reply, connection->read_buffer, len)) {
 		if (connection->reply->finished) {
 			ham_reply_dump(connection->reply);
+
+			HandlerTuple *tuple = ham_list_get_first(connection->handlers);
+			if (tuple) {
+				HAMReplyHandler handler = tuple->handler;
+				void *ui_data = tuple->ui_data;
+				ham_list_remove(connection->handlers, tuple);
+				if (handler) {
+					handler(connection, connection->reply, ui_data);
+				}
+				
+			}
+
 			ham_reply_destroy(connection->reply);
 			connection->reply = ham_reply_new();
 		}
@@ -90,6 +109,15 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	else {
 		// TODO: ERROR	
 	}
+}
+
+static void ham_login_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
+	printf("login_handle_response: handling reply\n");
+
+	// TODO: compute authorization here
+	HAMRequest *request = ham_request_new("/login", "GET", NULL, NULL);
+	ham_request_add_header(request, "Authorization", "Something....");
+	ham_connection_send_destroy(connection, request, NULL, NULL);
 }
 
 void ham_connection_connect(HAMConnection *connection) {
@@ -126,7 +154,7 @@ void ham_connection_connect(HAMConnection *connection) {
 	connection->input_handle = ham_input_add(connection->fd, ham_connection_read_data, connection);
 
 	HAMRequest *request = ham_request_new("/login", "GET", NULL, NULL);
-	ham_connection_send_destroy(connection, request);
+	ham_connection_send_destroy(connection, request, ham_login_handle_response, NULL);
 }
 
 void ham_connection_disconnect(HAMConnection *connection) {
@@ -137,14 +165,23 @@ void ham_connection_disconnect(HAMConnection *connection) {
 	connection->input_handle = NULL;
 }
 
-void ham_connection_send(HAMConnection *connection, HAMRequest *request) {
+void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data) {
 	char *data = ham_request_get_data(request);
+	printf("Request:\n    %s\n", data);
 	write(connection->fd, data, strlen(data));
 	free(data);
+
+	HandlerTuple *tuple = malloc(sizeof(HandlerTuple));
+	if (tuple == NULL)
+		return;
+
+	tuple->handler = handler;
+	tuple->ui_data = ui_data;
+	ham_list_insert_last(connection->handlers, tuple);
 }
 
-void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request) {
-	ham_connection_send(connection, request);
+void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data) {
+	ham_connection_send(connection, request, handler, ui_data);
 	ham_request_destroy(request);
 }
 

@@ -57,6 +57,7 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t bytes) 
 
 	bool parsed = m_requestParser.parse(m_req, m_buffer.begin(), m_buffer.begin() + bytes);
 	if (!parsed) {
+		std::cout << "PARSING ERROR\n";
 		// TODO: send Error
 		stop();
 	}
