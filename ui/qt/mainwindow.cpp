@@ -21,20 +21,28 @@
 #include "mainwindow.h"
 #include "qteventloop.h"
 #include "qtconnection.h"
+#include "qtaccount.h"
 
 MainWindow::MainWindow()
 	: m_eventLoop(QtEventLoop::getInstance()),
 	m_connection(QtConnection::getInstance()),
-	m_conn(0) {
+	m_account(QtAccount::getInstance()),
+	m_conn(0),
+	m_register(0) {
 	ui.setupUi(this);
 
 	connect(m_connection, SIGNAL(onConnected(HAMConnection *)), this, SLOT(handleConnected(HAMConnection *)));
 	connect(m_connection, SIGNAL(onDisconnected(HAMConnection *, const QString &)), this, SLOT(handleDisconnected(HAMConnection *, const QString &)));
 
+	connect(m_account, SIGNAL(onLoggedIn(HAMConnection *)), this, SLOT(handleLoggedIn(HAMConnection *)));
+	connect(m_account, SIGNAL(onLoginFailed(HAMConnection *, const QString &)), this, SLOT(handleLoginFailed(HAMConnection *, const QString &)));
+
 	connect(ui.connectServer, SIGNAL(clicked()), this, SLOT(connectServer()));
+	connect(ui.registerAccount, SIGNAL(clicked()), this, SLOT(registerAccount()));
 }
 
 void MainWindow::connectServer() {
+	m_register = false;
 	if (m_conn) {
 		ham_connection_destroy(m_conn);
 	}
@@ -47,11 +55,31 @@ void MainWindow::connectServer() {
 	ui.statusbar->showMessage("Connection in progress");
 }
 
+void MainWindow::registerAccount() {
+	connectServer();
+	m_register = true;
+}
+
 void MainWindow::handleConnected(HAMConnection *connection) {
-	ui.statusbar->showMessage("Connected");
+	if (m_register) {
+		ham_account_register(connection);
+		ui.statusbar->showMessage("Registering account");
+	}
+	else {
+		ui.statusbar->showMessage("Logging in");
+		ham_account_login(connection);
+	}
 }
 
 void MainWindow::handleDisconnected(HAMConnection *connection, const QString &reason) {
 	ui.statusbar->showMessage(QString("Connection error: ") + reason);
+}
+
+void MainWindow::handleLoggedIn(HAMConnection *connection) {
+	ui.statusbar->showMessage("Logged in!");
+}
+
+void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {
+	ui.statusbar->showMessage(QString("Login failed: ") + reason);
 }
 

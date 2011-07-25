@@ -27,6 +27,7 @@
 
 class QtConnection;
 class QtEventLoop;
+class QtAccount;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -36,14 +37,20 @@ class MainWindow : public QMainWindow {
 
 	public slots:
 		void connectServer();
+		void registerAccount();
 
 	private slots:
 		void handleConnected(HAMConnection *connection);
 		void handleDisconnected(HAMConnection *connection, const QString &reason);
 
+		void handleLoggedIn(HAMConnection *connection);
+		void handleLoginFailed(HAMConnection *connection, const QString &reason);
+
 	private:
 		Ui_MainWindow ui;
 		QtEventLoop *m_eventLoop;
 		QtConnection *m_connection;
+		QtAccount *m_account;
 		HAMConnection *m_conn;
+		bool m_register;
 };

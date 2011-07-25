@@ -24,6 +24,7 @@
 #include "reply.h"
 #include "responders/root.h"
 #include "responders/login.h"
+#include "responders/register.h"
 #include "session.h"
 
 namespace HamLog {
@@ -32,6 +33,7 @@ RequestHandler::RequestHandler(Session *session)
 	: m_session(session) {
 	addResponder(RequestResponder::ref(new Responder::Root()));
 	addResponder(RequestResponder::ref(new Responder::Login()));
+	addResponder(RequestResponder::ref(new Responder::Register()));
 }
 
 RequestHandler::~RequestHandler() {
@@ -55,16 +57,15 @@ Reply::ref RequestHandler::handleRequest(Request::ref req) {
 		return reply;
 	}
 
- 	Reply::ref reply(new Reply(Reply::ok));
+	Reply::ref reply(new Reply(Reply::ok));
 	if (m_responders[req->getURI()]->handleRequest(m_session, req, reply)) {
 		return reply;
 	}
 
 	reply->setStatus(Reply::bad_request);
 	reply->setContent("Bad request");
-	
 
-	return Reply::ref();
+	return reply;
 }
 
 }

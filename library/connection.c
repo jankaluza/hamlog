@@ -111,18 +111,8 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	}
 }
 
-static void ham_login_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
-	printf("login_handle_response: handling reply\n");
-
-	if (ham_reply_get_status(reply) == 401) {
-		// TODO: compute authorization here
-		HAMRequest *request = ham_request_new("/login", "GET", NULL, NULL);
-		ham_request_add_header(request, "Authorization", "Something....");
-		ham_connection_send_destroy(connection, request, ham_login_handle_response, NULL);
-	}
-	else {
-		ui_callbacks->connected(connection);
-	}
+static void ham_connect_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
+	ui_callbacks->connected(connection);
 }
 
 void ham_connection_connect(HAMConnection *connection) {
@@ -158,8 +148,8 @@ void ham_connection_connect(HAMConnection *connection) {
 
 	connection->input_handle = ham_input_add(connection->fd, ham_connection_read_data, connection);
 
-	HAMRequest *request = ham_request_new("/login", "GET", NULL, NULL);
-	ham_connection_send_destroy(connection, request, ham_login_handle_response, NULL);
+	HAMRequest *request = ham_request_new("/", "GET", NULL, NULL);
+	ham_connection_send_destroy(connection, request, ham_connect_handle_response, NULL);
 }
 
 void ham_connection_disconnect(HAMConnection *connection) {

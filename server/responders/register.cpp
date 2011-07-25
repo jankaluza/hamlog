@@ -18,38 +18,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#pragma once
-
-#include <string>
-#include <map>
+#include "register.h"
+#include <boost/bind.hpp>
+#include <iostream>
+#include "reply.h"
+#include "session.h"
+#include "storagebackend.h"
 
 namespace HamLog {
+namespace Responder {
+	
+Register::Register() : RequestResponder("/register", false) {
+	
+}
 
-/// Abstract class defining storage backends.
-class StorageBackend {
-	public:
-		StorageBackend() {
-			m_instance = this;
-		}
+bool Register::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+	if (request->getMethod() != "POST") {
+		return false;
+	}
 
-		/// Virtual desctructor.
-		virtual ~StorageBackend() {}
+// 	std::cout << "BACKEND:" << StorageBackend::getInstance() << "\n";
+	reply->setContent("Registered");
 
-		static StorageBackend *getInstance() {
-			return m_instance;
-		}
+	return true;
+}
 
-		/// connect
-		virtual bool connect() = 0;
-
-		/// createDatabase
-		virtual bool createDatabase() = 0;
-
-		virtual void beginTransaction() = 0;
-		virtual void commitTransaction() = 0;
-
-	private:
-		static StorageBackend *m_instance;
-};
-
+}
 }

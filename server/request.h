@@ -51,6 +51,10 @@ class Request : public boost::enable_shared_from_this<Request> {
 			return m_uri;
 		}
 
+		const std::string &getMethod() {
+			return m_method;
+		}
+
 		bool hasHeader(const std::string &name);
 
 	private:

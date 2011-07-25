@@ -18,44 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#ifndef _HAMLOG_REPLY_H
-#define _HAMLOG_REPLY_H
+#ifndef _HAMLOG_ACCOUNT_H
+#define _HAMLOG_ACCOUNT_H
+
+#include "connection.h"
+#include "parser.h"
+#include "reply.h"
+#include "request.h"
+#include "list.h"
 
 #ifdef __cplusplus                                                                                                                                                      
 extern "C" {
 #endif
 
-#define MAX_REPLY_SIZE 8192
+typedef struct _HAMAccountUICallbacks {
+	void (*registered) (HAMConnection *connection);
+	void (*registration_failed) (HAMConnection *connection, const char *reason);
+	void (*logged_in) (HAMConnection *connection);
+	void (*login_failed) (HAMConnection *connection, const char *reason);
+} HAMAccountUICallbacks;
 
-typedef struct _Header {
-	char *name;
-	char *value;
-} HAMReplyHeader;
+void ham_account_set_ui_callbacks(HAMAccountUICallbacks *callbacks);
 
-typedef struct _Reply {
-	unsigned int status;
-	char *content;
-	HAMReplyHeader **headers;
-	unsigned int headers_count;
-	int finished;
-} HAMReply;
+void ham_account_register(HAMConnection *connection);
+void ham_account_unregister(HAMConnection *connection);
 
-HAMReplyHeader *ham_reply_header_new(const char *name, const char *value);
-void ham_reply_header_destroy(HAMReplyHeader *header);
-
-const char *ham_reply_header_get_name(HAMReplyHeader *header);
-const char *ham_reply_header_get_value(HAMReplyHeader *header);
-
-
-HAMReply *ham_reply_new();
-void ham_reply_dump(HAMReply *reply);
-void ham_reply_destroy(HAMReply *reply);
-
-void ham_reply_add_header(HAMReply *reply, HAMReplyHeader *header);
-int ham_reply_get_status(HAMReply *reply);
-const char *ham_reply_get_content(HAMReply *reply);
-const char *ham_reply_get_header(HAMReply *reply, const char *name);
-
+void ham_account_login(HAMConnection *connection);
 
 #ifdef __cplusplus                                                                                                                                                      
 }

@@ -20,36 +20,26 @@
 
 #pragma once
 
-#include <string>
-#include <map>
+#include <QtCore>
+#include <QApplication>
+#include "account.h"
 
-namespace HamLog {
+class QtAccount : public QObject {
+	Q_OBJECT
 
-/// Abstract class defining storage backends.
-class StorageBackend {
 	public:
-		StorageBackend() {
-			m_instance = this;
-		}
+		static QtAccount *getInstance();
 
-		/// Virtual desctructor.
-		virtual ~StorageBackend() {}
+		void handleLoggedIn(HAMConnection *connection);
+		void handleLoginFailed(HAMConnection *connection, const char *reason);
 
-		static StorageBackend *getInstance() {
-			return m_instance;
-		}
-
-		/// connect
-		virtual bool connect() = 0;
-
-		/// createDatabase
-		virtual bool createDatabase() = 0;
-
-		virtual void beginTransaction() = 0;
-		virtual void commitTransaction() = 0;
+	signals:
+		void onLoggedIn(HAMConnection *connection);
+		void onLoginFailed(HAMConnection *connection, const QString &reason);
 
 	private:
-		static StorageBackend *m_instance;
-};
+		QtAccount();
 
-}
+		HAMAccountUICallbacks m_uiCallbacks;
+		static QtAccount* m_instance;
+};

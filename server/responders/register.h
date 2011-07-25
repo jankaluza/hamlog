@@ -20,36 +20,31 @@
 
 #pragma once
 
+#include <boost/array.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/asio.hpp>
+#include <boost/signal.hpp>
+#include <boost/tuple/tuple.hpp>
 #include <string>
-#include <map>
+#include "requestresponder.h"
+#include "request.h"
+#include "reply.h"
 
 namespace HamLog {
 
-/// Abstract class defining storage backends.
-class StorageBackend {
+class Session;
+
+namespace Responder {
+
+class Register : public boost::enable_shared_from_this<Register>, public RequestResponder {
 	public:
-		StorageBackend() {
-			m_instance = this;
-		}
+		typedef boost::shared_ptr<Register> ref;
 
-		/// Virtual desctructor.
-		virtual ~StorageBackend() {}
+		Register();
 
-		static StorageBackend *getInstance() {
-			return m_instance;
-		}
-
-		/// connect
-		virtual bool connect() = 0;
-
-		/// createDatabase
-		virtual bool createDatabase() = 0;
-
-		virtual void beginTransaction() = 0;
-		virtual void commitTransaction() = 0;
-
-	private:
-		static StorageBackend *m_instance;
+		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
 };
 
+}
 }

@@ -128,6 +128,10 @@ const char *ham_reply_get_header(HAMReply *reply, const char *name) {
 	return NULL;
 }
 
+const char *ham_reply_get_content(HAMReply *reply) {
+	return reply->content;
+}
+
 int ham_reply_get_status(HAMReply *reply) {
 	return reply->status;
 }
