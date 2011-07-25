@@ -10,3 +10,5 @@ core*
 *.cxx
 ui_*.h
 parser_test
+list_test
+*.sql

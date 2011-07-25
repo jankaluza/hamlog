@@ -21,6 +21,7 @@
 #include <iostream>
 #include "config.h"
 #include "server.h"
+#include "storagebackends/sqlite3backend.h"
 #include "boost/lexical_cast.hpp"
 
 using namespace HamLog;
@@ -66,10 +67,19 @@ int main(int argc, char **argv) {
 		return 2;
 	}
 
+	StorageBackend *storage = NULL;
+
+	if (CONFIG_STRING(&config, "database.type") == "sqlite3") {
+		storage = new Storage::SQLite3(&config);
+		storage->connect();
+	}
+
 	Server server(CONFIG_STRING(&config, "server.hostname"),
 				  CONFIG_INT(&config, "server.port"));
 
 	server.start();
+
+	delete storage;
 
 	return 0;
 }

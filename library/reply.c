@@ -127,3 +127,7 @@ const char *ham_reply_get_header(HAMReply *reply, const char *name) {
 
 	return NULL;
 }
+
+int ham_reply_get_status(HAMReply *reply) {
+	return reply->status;
+}
