@@ -45,6 +45,7 @@ void ham_list_insert_last(HAMList *list, void *data);
 void ham_list_remove(HAMList *list, void *data);
 
 void *ham_list_get_first(HAMList *list);
+void *ham_list_pop_first(HAMList *list);
 void *ham_list_get_last(HAMList *list);
 
 

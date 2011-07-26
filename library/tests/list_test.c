@@ -45,16 +45,19 @@ int main(int argc, char **argv) {
 
 	printf("remove 'ahoj_last'\n");
 	ham_list_remove(list, ahoj_last);
+	free(ahoj_last);
 	printf("first element: %s\n", (char *) ham_list_get_first(list));
 	printf("last  element: %s\n", (char *) ham_list_get_last(list));
 
 	printf("remove 'ahoj_first'\n");
 	ham_list_remove(list, ahoj_first);
+	free(ahoj_first);
 	printf("first element: %s\n", (char *) ham_list_get_first(list));
 	printf("last  element: %s\n", (char *) ham_list_get_last(list));
 
 	printf("remove 'ahoj'\n");
 	ham_list_remove(list, ahoj);
+	free(ahoj);
 	printf("first element: %p\n", ham_list_get_first(list));
 	printf("last  element: %p\n", ham_list_get_last(list));
 	

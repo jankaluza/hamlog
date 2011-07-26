@@ -96,6 +96,7 @@ static void ham_connection_read_data(void * user_data, int fd) {
 				HAMReplyHandler handler = tuple->handler;
 				void *ui_data = tuple->ui_data;
 				ham_list_remove(connection->handlers, tuple);
+				free(tuple);
 				if (handler) {
 					handler(connection, connection->reply, ui_data);
 				}

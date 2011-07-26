@@ -34,6 +34,8 @@ static void login_failed(HAMConnection *connection, const char *reason) {
 QtAccount::QtAccount() {
 	m_uiCallbacks.logged_in = logged_in;
 	m_uiCallbacks.login_failed = login_failed;
+	m_uiCallbacks.registered = NULL;
+	m_uiCallbacks.registration_failed = NULL;
 	ham_account_set_ui_callbacks(&m_uiCallbacks);
 }
 

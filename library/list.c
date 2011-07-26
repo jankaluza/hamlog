@@ -116,9 +116,15 @@ void ham_list_remove(HAMList *list, void *data) {
 	else {
 		act->rptr->lptr = act->lptr;
 	}
-
-	free(act->data);
 	free(act);
+}
+
+void *ham_list_pop_first(HAMList *list) {
+	if (list->first == NULL)
+		return NULL;
+	void *data = list->first->data;
+	ham_list_remove(list, data);
+	return data;
 }
 
 void *ham_list_get_first(HAMList *list) {
