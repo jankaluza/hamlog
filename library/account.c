@@ -68,6 +68,7 @@ static void ham_login_handle_get_response2(HAMConnection *connection, HAMReply *
 	}
 }
 
+/* Inspiration taken from libgsasl */
 static HAMList* ham_login_digest_md5_parse(const char *digest) {
 	const char *token_start, *val_start, *val_end, *cur;
 
@@ -136,6 +137,7 @@ static void ham_login_handle_get_response1(HAMConnection *connection, HAMReply *
 		const char *auth = ham_reply_get_header(reply, "WWW-Authenticate");
 		HAMRequest *request = ham_request_new("/login", "GET", NULL, NULL);
 
+		/* Parse digest-md5 into HAMList */
 		HAMList *list = ham_login_digest_md5_parse(auth + 7);
 		while ((name = ham_list_pop_first(list)) != NULL &&
 				(value = ham_list_pop_first(list)) != NULL) {
@@ -153,12 +155,14 @@ static void ham_login_handle_get_response1(HAMConnection *connection, HAMReply *
 		}
 		ham_list_destroy(list);
 
+		/* Stop if server does not send everything we need */
 		if (!qop || !realm || !nonce || !opaque) {
 			free(nonce); free(opaque); free(realm); free(qop);
 			ham_request_destroy(request);
 			return;
 		}
 
+		/* Compute "response" */
 		char *a1 = malloc(sizeof(char) * (strlen(connection->username) + strlen(connection->password) + strlen(realm) + 1 + 2)); // twice ':'
 		sprintf(a1, "%s:%s:%s", connection->username, connection->password, realm);
 		char *ha1 = md5_get_hash_hex(a1);
@@ -168,9 +172,9 @@ static void ham_login_handle_get_response1(HAMConnection *connection, HAMReply *
 		sprintf(a3, "%s:%s:%s", ha1, nonce, ha2);
 		char *response = md5_get_hash_hex(a3);
 
+		/* Generate Authorization header*/
 		char authorization[512];
-
-		sprintf(authorization, 	"Digest username=\"%s\","
+		snprintf(authorization, 512, "Digest username=\"%s\","
 								"realm=\"%s\","
 								"nonce=\"dcd98b7102dd2f0e8b11d0f600bfb0c093\","
 								"uri=\"/login\","
@@ -185,6 +189,7 @@ static void ham_login_handle_get_response1(HAMConnection *connection, HAMReply *
 		free(nonce); free(opaque); free(realm); free(qop);
 		free(a1); free(ha1); free(ha2); free(a3); free(response);
 
+		/* fire this bastard */
 		ham_request_add_header(request, "Authorization", authorization);
 		ham_connection_send_destroy(connection, request, ham_login_handle_get_response2, NULL);
 	}

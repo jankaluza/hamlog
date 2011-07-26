@@ -76,6 +76,8 @@ class Reply : public boost::enable_shared_from_this<Reply> {
 
 		bool hasHeader(const std::string &name);
 
+		std::string getHeader(const std::string &name);
+
 	private:
 		Status m_status;
 		std::vector<Header> m_headers;

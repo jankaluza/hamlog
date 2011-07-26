@@ -43,6 +43,15 @@ bool Reply::hasHeader(const std::string &name) {
 	return false;
 }
 
+std::string Reply::getHeader(const std::string &name) {
+	BOOST_FOREACH(Header &header, m_headers) {
+		if (header.name == name) {
+			return header.value;
+		}
+	}
+	return "";
+}
+
 void Reply::dump() {
 	std::cout << toString();
 }

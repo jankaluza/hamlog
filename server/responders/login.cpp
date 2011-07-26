@@ -51,6 +51,7 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 		createAuthorizationRequest(reply);
 	}
 	else {
+		std::string auth = reply->getHeader("Authorization");
 		session->setAuthenticated(true);
 		reply->setContent("Authorized");
 		reply->setContentType("text/html");
