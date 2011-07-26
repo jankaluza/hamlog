@@ -384,8 +384,6 @@ std::string MD5::getHashHEX(const std::string &str) {
 	char ret[33];
 	int i;
 
-	return ret;
-
 	md5_state_t state;
 	md5_init(&state);
 	md5_append(&state, reinterpret_cast<const md5_byte_t*>(str.c_str()), str.size());

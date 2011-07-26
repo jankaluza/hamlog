@@ -24,6 +24,7 @@
 #include "reply.h"
 #include "session.h"
 #include "storagebackend.h"
+#include "../md5.h"
 
 namespace HamLog {
 namespace Responder {
@@ -33,12 +34,20 @@ Register::Register() : RequestResponder("/register", false) {
 }
 
 bool Register::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
-	if (request->getMethod() != "POST") {
+	if (request->getMethod() != "GET") {
 		return false;
 	}
 
-// 	std::cout << "BACKEND:" << StorageBackend::getInstance() << "\n";
-	reply->setContent("Registered");
+	std::string username = request->getHeader("username");
+	std::string password = MD5::getHashHEX(username + ":realm@hamlog:" + request->getHeader("password"));
+
+	if (StorageBackend::getInstance()->addUser(username, password)) {
+		reply->setContent("Registered");
+	}
+	else {
+		reply->setStatus(Reply::bad_request);
+		reply->setContent("This user name is already taken.");
+	}
 
 	return true;
 }

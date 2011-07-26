@@ -41,6 +41,8 @@ class SQLite3 : public StorageBackend {
 
 		bool createDatabase();
 
+		bool addUser(const std::string &username, const std::string &password);
+
 		void beginTransaction();
 		void commitTransaction();
 
@@ -52,7 +54,7 @@ class SQLite3 : public StorageBackend {
 		std::string m_prefix;
 
 		// statements
-// 		sqlite3_stmt *m_setUser;
+		sqlite3_stmt *m_addUser;
 // 		sqlite3_stmt *m_getUser;
 // 		sqlite3_stmt *m_getUserSetting;
 // 		sqlite3_stmt *m_setUserSetting;

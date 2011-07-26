@@ -45,6 +45,8 @@ class StorageBackend {
 		/// createDatabase
 		virtual bool createDatabase() = 0;
 
+		virtual bool addUser(const std::string &username, const std::string &password) = 0;
+
 		virtual void beginTransaction() = 0;
 		virtual void commitTransaction() = 0;
 

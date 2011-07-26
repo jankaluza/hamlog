@@ -40,6 +40,15 @@ bool Request::hasHeader(const std::string &name) {
 	return false;
 }
 
+std::string Request::getHeader(const std::string &name) {
+	BOOST_FOREACH(Header &header, m_headers) {
+		if (header.name == name) {
+			return header.value;
+		}
+	}
+	return "";
+}
+
 void Request::dump() {
 	std::cout << "Method: " << m_method << "\n";
 	std::cout << "HTTP major version: " << m_majorVersion << "\n";

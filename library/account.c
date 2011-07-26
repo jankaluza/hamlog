@@ -48,7 +48,9 @@ static void ham_register_handle_response(HAMConnection *connection, HAMReply *re
 }
 
 void ham_account_register(HAMConnection *connection) {
-	HAMRequest *request = ham_request_new("/register", "POST", NULL, NULL);
+	HAMRequest *request = ham_request_new("/register", "GET", NULL, NULL);
+	ham_request_add_header(request, "username", connection->username);
+	ham_request_add_header(request, "password", connection->password);
 	ham_connection_send_destroy(connection, request, ham_register_handle_response, NULL);
 }
 

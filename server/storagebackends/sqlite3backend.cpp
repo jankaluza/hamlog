@@ -33,7 +33,7 @@
 // Prepare the SQL statement
 #define PREP_STMT(sql, str) \
 	if(sqlite3_prepare_v2(m_db, std::string(str).c_str(), -1, &sql, NULL)) { \
-		LOG4CXX_ERROR(logger, str<< (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db))); \
+		std::cout << str<< (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db)); \
 		return false; \
 	}
 
@@ -54,7 +54,8 @@
 #define GET_INT(STATEMENT)	sqlite3_column_int(STATEMENT, STATEMENT##_id_get++)
 #define GET_STR(STATEMENT)	(const char *) sqlite3_column_text(STATEMENT, STATEMENT##_id_get++)
 #define EXECUTE_STATEMENT(STATEMENT, NAME) 	if(sqlite3_step(STATEMENT) != SQLITE_DONE) {\
-		LOG4CXX_ERROR(logger, NAME<< (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db)));\
+		std::cout << NAME << (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db));\
+			return false; \
 			}
 
 namespace HamLog {
@@ -77,6 +78,7 @@ SQLite3::~SQLite3(){
 		//   }
 		//
 		// But requires SQLite3 >= 3.6.0 beta
+		FINALIZE_STMT(m_addUser);
 
 		sqlite3_close(m_db);
 	}
@@ -90,6 +92,8 @@ bool SQLite3::connect() {
 
 	if (createDatabase() == false)
 		return false;
+
+	PREP_STMT(m_addUser, "INSERT INTO " + m_prefix + "users (name, password, last_login) VALUES (?, ?, DATETIME('NOW'))");
 
 	return true;
 }
@@ -120,6 +124,15 @@ void SQLite3::beginTransaction() {
 
 void SQLite3::commitTransaction() {
 	exec("COMMIT TRANSACTION;");
+}
+
+bool SQLite3::addUser(const std::string &username, const std::string &password) {
+	BEGIN(m_addUser);
+	BIND_STR(m_addUser, username);
+	BIND_STR(m_addUser, password);
+
+	EXECUTE_STATEMENT(m_addUser, "add user");
+	return true;
 }
 
 bool SQLite3::exec(const std::string &query) {
