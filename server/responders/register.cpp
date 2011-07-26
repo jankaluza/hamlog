@@ -46,7 +46,7 @@ bool Register::handleRequest(Session *session, Request::ref request, Reply::ref 
 	}
 	else {
 		reply->setStatus(Reply::bad_request);
-		reply->setContent("This user name is already taken.");
+		reply->setContent("This username is already taken.");
 	}
 
 	return true;

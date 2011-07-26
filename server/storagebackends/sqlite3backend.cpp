@@ -79,6 +79,7 @@ SQLite3::~SQLite3(){
 		//
 		// But requires SQLite3 >= 3.6.0 beta
 		FINALIZE_STMT(m_addUser);
+		FINALIZE_STMT(m_getUser);
 
 		sqlite3_close(m_db);
 	}
@@ -94,6 +95,7 @@ bool SQLite3::connect() {
 		return false;
 
 	PREP_STMT(m_addUser, "INSERT INTO " + m_prefix + "users (name, password, last_login) VALUES (?, ?, DATETIME('NOW'))");
+	PREP_STMT(m_getUser, "SELECT id, name, password FROM " + m_prefix + "users WHERE name=?");
 
 	return true;
 }
@@ -133,6 +135,24 @@ bool SQLite3::addUser(const std::string &username, const std::string &password) 
 
 	EXECUTE_STATEMENT(m_addUser, "add user");
 	return true;
+}
+
+StorageBackend::User SQLite3::getUser(const std::string &username) {
+	StorageBackend::User user;
+	user.id = -1;
+
+	BEGIN(m_getUser);
+	BIND_STR(m_getUser, username);
+
+	if(sqlite3_step(m_getUser) != SQLITE_ROW) {
+		return user;
+	}
+
+	user.id = GET_INT(m_getUser);
+	user.name = GET_STR(m_getUser);
+	user.password = GET_STR(m_getUser);
+
+	return user;
 }
 
 bool SQLite3::exec(const std::string &query) {

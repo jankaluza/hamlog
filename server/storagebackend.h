@@ -28,6 +28,13 @@ namespace HamLog {
 /// Abstract class defining storage backends.
 class StorageBackend {
 	public:
+
+		struct User {
+			unsigned long id;
+			std::string name;
+			std::string password;
+		};
+
 		StorageBackend() {
 			m_instance = this;
 		}
@@ -46,6 +53,7 @@ class StorageBackend {
 		virtual bool createDatabase() = 0;
 
 		virtual bool addUser(const std::string &username, const std::string &password) = 0;
+		virtual StorageBackend::User getUser(const std::string &username) = 0;
 
 		virtual void beginTransaction() = 0;
 		virtual void commitTransaction() = 0;

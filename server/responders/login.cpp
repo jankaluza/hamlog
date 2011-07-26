@@ -51,6 +51,7 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 		createAuthorizationRequest(reply);
 	}
 	else {
+		StorageBackend::User user = StorageBackend::getInstance()->getUser("test");
 		std::string auth = reply->getHeader("Authorization");
 		session->setAuthenticated(true);
 		reply->setContent("Authorized");
