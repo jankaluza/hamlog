@@ -99,7 +99,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 /**
  * Connects the server. Calls "connected" or "disconnected" UI callbacks when done.
  * @code
- * /* ham_account_register has to be called when the connection is connected */
+ * // ham_account_register has to be called when the connection is connected
  * static void handle_connection_connected(HAMConnection *connection) {
  * 	printf("connected\n");
  * }
@@ -108,13 +108,13 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
  * 	printf("disconnected: %s\n", reason);
  * }
  * 
- * /* register UI callbacks */
+ * // register UI callbacks
  * HAMConnectionUICallbacks callbacks;
  * callbacks.connected = handle_connection_connected;
  * callbacks.disconnected = handle_connection_disconnected;
  * ham_connection_set_ui_callbacks(callbacks);
  * 
- * /* create connection and connect it */
+ * // create connection and connect it
  * HAMConnection *connection = ham_connection_new("localhost", 8888, "user", "password");
  * ham_connection_connect(connection);
  * @endcode

@@ -68,17 +68,17 @@ void ham_account_set_ui_callbacks(HAMAccountUICallbacks *callbacks);
  * Registers new account on remote server. Calls "registered" or
  * "registration_failed" UI callback when done.
  * @code
- * /* ham_account_register has to be called when the connection is connected */
+ * // ham_account_register has to be called when the connection is connected
  * static void handle_connection_connected(HAMConnection *connection) {
  * 	ham_account_register(connection);
  * }
  * 
- * /* register handle_connection_connected callback */
+ * // register handle_connection_connected callback
  * HAMConnectionUICallbacks callbacks;
  * callbacks.connected = handle_connection_connected;
  * ham_connection_set_ui_callbacks(callbacks);
  * 
- * /* create connection and connect it */
+ * // create connection and connect it
  * HAMConnection *connection = ham_connection_new("localhost", 8888, "user", "password");
  * ham_connection_connect(connection);
  * @endcode
@@ -92,17 +92,17 @@ void ham_account_unregister(HAMConnection *connection);
  * Logins user associated with the conection once the connection is connected.
  * Calls "logged_in" or "login_failed" UI callback when done.
  * @code
- * /* ham_account_login has to be called when the connection is connected */
+ * // ham_account_login has to be called when the connection is connected 
  * static void handle_connection_connected(HAMConnection *connection) {
  * 	ham_account_login(connection);
  * }
  * 
- * /* register handle_connection_connected callback */
+ * // register handle_connection_connected callback
  * HAMConnectionUICallbacks callbacks;
  * callbacks.connected = handle_connection_connected;
  * ham_connection_set_ui_callbacks(callbacks);
  * 
- * /* create connection and connect it */
+ * // create connection and connect it
  * HAMConnection *connection = ham_connection_new("localhost", 8888, "user", "password");
  * ham_connection_connect(connection);
  * @endcode

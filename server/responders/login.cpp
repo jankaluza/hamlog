@@ -23,6 +23,7 @@
 #include <iostream>
 #include "reply.h"
 #include "session.h"
+#include "storagebackend.h"
 
 namespace HamLog {
 namespace Responder {
