@@ -1,4 +1,9 @@
 /**
+ * @file md5.h MD5 API
+ * @ingroup core
+ */
+
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>
@@ -21,7 +26,26 @@
 #ifndef _HAMLOG_MD5_H
 #define _HAMLOG_MD5_H
 
+#ifdef __cplusplus                                                                                                                                                      
+extern "C" {
+#endif
+
+/**
+ * Computes MD5 hash from string ended by zero.
+ * @param str String.
+ * @return MD5 hash, size is always 16 bytes. This has to be freed by free().
+ */
 char *md5_get_hash(const char *str);
+
+/**
+ * Computes MD5 hash from string ended by zero and returns hexified hash.
+ * @param str String.
+ * @return Hexified MD5 hash ended by zero. This has to be freed by free().
+ */
 char *md5_get_hash_hex(const char *str);
+
+#ifdef __cplusplus                                                                                                                                                      
+}
+#endif
 
 #endif

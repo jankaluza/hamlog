@@ -1,4 +1,9 @@
 /**
+ * @file request.h Request API
+ * @ingroup core
+ */
+
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>

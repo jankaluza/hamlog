@@ -1,4 +1,9 @@
 /**
+ * @file list.h List API
+ * @ingroup core
+ */
+
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>
@@ -36,18 +41,59 @@ typedef struct _HAMList {
 	HAMListItem *last;
 } HAMList;
 
+/**
+ * Creates new empy list.
+ * @return Empty list which has to be destroyed by ham_list_destroy() method.
+ */
 HAMList *ham_list_new();
+
+/**
+ * Destroys the list and also frees the data.
+ * @param list List.
+ */
 void ham_list_destroy(HAMList *list);
 
+/**
+ * Inserts new data as first element in list.
+ * @param list List.
+ * @param data Data.
+ */
 void ham_list_insert_first(HAMList *list, void *data);
+
+/**
+ * Inserts new data as last element in list.
+ * @param list List.
+ * @param data Data.
+ */
 void ham_list_insert_last(HAMList *list, void *data);
 
+/**
+ * Removes data, but does not free it.
+ * @param list List.
+ * @param data Data.
+ */
 void ham_list_remove(HAMList *list, void *data);
 
+/**
+ * Returns data of first element in list.
+ * @param list List.
+ * @return Data.
+ */
 void *ham_list_get_first(HAMList *list);
-void *ham_list_pop_first(HAMList *list);
-void *ham_list_get_last(HAMList *list);
 
+/**
+ * Returns data of free element in list and removes it from list.
+ * @param list List.
+ * @return Data.
+ */
+void *ham_list_pop_first(HAMList *list);
+
+/**
+ * Returns data of last element in list.
+ * @param list List.
+ * @return Data.
+ */
+void *ham_list_get_last(HAMList *list);
 
 #ifdef __cplusplus                                                                                                                                                      
 }

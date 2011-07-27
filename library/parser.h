@@ -1,4 +1,9 @@
 /**
+ * @file parser.h HTTP Parser API
+ * @ingroup core
+ */
+
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>
@@ -22,6 +27,10 @@
 #define _HAMLOG_PARSER_H
 
 #include "reply.h"
+
+#ifdef __cplusplus                                                                                                                                                      
+extern "C" {
+#endif
 
 // TODO: better namespace
 typedef enum _HAMParserState {
@@ -58,9 +67,37 @@ typedef struct _HAMParser {
 	char *ptr;
 } HAMParser;
 
+/**
+ * Creates new HTTP parser.
+ * @return HTTP parser. Use ham_parser_destroy to destroy it.
+ */
 HAMParser *ham_parser_new();
-int ham_parser_parse(HAMParser *parser, HAMReply *response, const char *data, unsigned long size);
-void ham_parser_reset(HAMParser *parser);
+
+/**
+ * Destroyes HTTP parser.
+ * @param parser HTTP parser.
+ */
 void ham_parser_destroy(HAMParser *parser);
+
+/**
+ * Parses data. Data are stored into reply and once whole reply has been parsed,
+ * ham_reply_is_finished(reply) returns 1.
+ * @param parser HTTP parser.
+ * @param reply Reply which contains parsed data.
+ * @param data Data received from server.
+ * @param size Size of received data.
+ * @return 0 if there was error in the parsed packet.
+ */
+int ham_parser_parse(HAMParser *parser, HAMReply *reply, const char *data, unsigned long size);
+
+/**
+ * Resets the parser and starts with empty data.
+ * @param parser HTTP parser.
+ */
+void ham_parser_reset(HAMParser *parser);
+
+#ifdef __cplusplus                                                                                                                                                      
+}
+#endif
 
 #endif

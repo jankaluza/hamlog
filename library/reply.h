@@ -1,4 +1,9 @@
 /**
+ * @file md5.h Reply API
+ * @ingroup core
+ */
+
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>
@@ -46,10 +51,11 @@ void ham_reply_header_destroy(HAMReplyHeader *header);
 const char *ham_reply_header_get_name(HAMReplyHeader *header);
 const char *ham_reply_header_get_value(HAMReplyHeader *header);
 
-
 HAMReply *ham_reply_new();
 void ham_reply_dump(HAMReply *reply);
 void ham_reply_destroy(HAMReply *reply);
+
+int ham_reply_is_finished(HAMReply *reply);
 
 void ham_reply_add_header(HAMReply *reply, HAMReplyHeader *header);
 int ham_reply_get_status(HAMReply *reply);

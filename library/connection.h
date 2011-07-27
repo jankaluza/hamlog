@@ -1,4 +1,9 @@
 /**
+ * @file connection.h Connection API
+ * @ingroup core
+ */
+
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>
@@ -30,6 +35,9 @@
 extern "C" {
 #endif
 
+/** 
+ * Represents one Connection to server.
+ */
 typedef struct _HAMConnection {
 	int fd;
 	void *input_handle;
@@ -46,20 +54,102 @@ typedef struct _HAMConnection {
 	HAMList *handlers;
 } HAMConnection;
 
+/** 
+ * Handler for incoming replies.
+ */
 typedef void (*HAMReplyHandler) (HAMConnection *connection, HAMReply *reply, void *data);
 
+/**
+ * HAMConnection related UI callbacks.
+ */
 typedef struct _HAMConnectionUICallbacks {
+	/**
+	 * Called when the connection is connected to server.
+	 */
 	void (*connected) (HAMConnection *connection);
+
+	/**
+	 * Called when the connection is disconnected.
+	 */
 	void (*disconnected) (HAMConnection *connection, const char *reason);
+
+	/**
+	 * Called when the reply from server is received and there was no handler
+	 * to handle it.
+	 */
 	void (*reply_received) (HAMConnection *connection, HAMReply *reply);
 } HAMConnectionUICallbacks;
 
+/**
+ * Sets UI callbacks which are then called for particular events.
+ * @param callbacks UI Callbacks.
+ */
 void ham_connection_set_ui_callbacks(HAMConnectionUICallbacks *callbacks);
+
+/**
+ * Creates new connection. You have to use ham_connection_connect in order to connect the server.
+ * @param hostname Hostname of server.
+ * @param port Port.
+ * @param username Username.
+ * @param password Password.
+ * @return Newly created connection. The connection has to be destroyed by ham_connection_destroy later.
+ */
 HAMConnection *ham_connection_new(const char *hostname, int port, const char *username, const char *password);
+
+/**
+ * Connects the server. Calls "connected" or "disconnected" UI callbacks when done.
+ * @code
+ * /* ham_account_register has to be called when the connection is connected */
+ * static void handle_connection_connected(HAMConnection *connection) {
+ * 	printf("connected\n");
+ * }
+ * 
+ * static void handle_connection_disconnected(HAMConnection *connection, const char *reason) {
+ * 	printf("disconnected: %s\n", reason);
+ * }
+ * 
+ * /* register UI callbacks */
+ * HAMConnectionUICallbacks callbacks;
+ * callbacks.connected = handle_connection_connected;
+ * callbacks.disconnected = handle_connection_disconnected;
+ * ham_connection_set_ui_callbacks(callbacks);
+ * 
+ * /* create connection and connect it */
+ * HAMConnection *connection = ham_connection_new("localhost", 8888, "user", "password");
+ * ham_connection_connect(connection);
+ * @endcode
+ * @param connection Connection.
+ */
 void ham_connection_connect(HAMConnection *connection);
+
+/**
+ * Disconnects the server.
+ * @param connection Connection.
+ */
 void ham_connection_disconnect(HAMConnection *connection);
+
+/**
+ * Sends request over connected connection and calls callback when reply is received.
+ * @param connection Connection.
+ * @param request Request.
+ * @param handler Handler called once reply for this request is received.
+ * @param ui_data Data passed to handler.
+ */
 void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
+
+/**
+ * Sends request over connected connection, destroys the request, and calls callback when reply is received.
+ * @param connection Connection.
+ * @param request Request.
+ * @param handler Handler called once reply for this request is received.
+ * @param ui_data Data passed to handler.
+ */
 void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
+
+/**
+ * Destroys the connection.
+ * @param connection Connection.
+ */
 void ham_connection_destroy(HAMConnection *connection);
 
 #ifdef __cplusplus                                                                                                                                                      
