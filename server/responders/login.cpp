@@ -109,7 +109,6 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 		createAuthorizationRequest(reply);
 	}
 	else {
-		StorageBackend::User user = StorageBackend::getInstance()->getUser("test");
 		std::string auth = request->getHeader("Authorization");
 		std::map<std::string, std::string> fields;
 		digest_md5_parse(fields, auth.substr(7).c_str());
@@ -124,11 +123,13 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 
 #undef HAS
 
+		StorageBackend::User user = StorageBackend::getInstance()->getUser(fields["username"]);
 		std::string ha1 = user.password;
 		std::string ha2 = MD5::getHashHEX("GET:/login");
 		std::string a3 = ha1 + ":" + "dcd98b7102dd2f0e8b11d0f600bfb0c093" + ":" + ha2;
 		std::string response = MD5::getHashHEX(a3);
 
+		// TODO: check nonce and opaque
 		if (response == fields["response"]) {
 			session->setAuthenticated(true);
 			reply->setContent("Authorized");

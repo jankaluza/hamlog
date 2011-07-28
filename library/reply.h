@@ -1,5 +1,5 @@
 /**
- * @file md5.h Reply API
+ * @file reply.h Reply API
  * @ingroup core
  */
 
