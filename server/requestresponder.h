@@ -29,22 +29,21 @@
 #include <string>
 #include "request.h"
 #include "reply.h"
+#include "module.h"
 
 namespace HamLog {
 
 class Session;
 
-class RequestResponder : public boost::enable_shared_from_this<RequestResponder> {
+class RequestResponder : public Module {
 	public:
-		typedef boost::shared_ptr<RequestResponder> ref;
+		RequestResponder(const std::string &name, const std::string &uri, bool needAuthentication = true);
 
-		RequestResponder(const std::string &uri, bool needAuthentication = true);
-
-		const std::string &getURI() {
+		virtual const std::string &getURI() {
 			return m_uri;
 		}
 
-		bool needAuthentication() {
+		virtual bool needAuthentication() {
 			return m_authentication;
 		}
 
@@ -53,7 +52,6 @@ class RequestResponder : public boost::enable_shared_from_this<RequestResponder>
 	private:
 		std::string m_uri;
 		bool m_authentication;
-
 };
 
 }

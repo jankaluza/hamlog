@@ -30,6 +30,7 @@
 #include "requestresponder.h"
 #include "request.h"
 #include "reply.h"
+#include "module.h"
 
 namespace HamLog {
 
@@ -37,10 +38,8 @@ class Session;
 
 namespace Responder {
 
-class Login : public boost::enable_shared_from_this<Login>, public RequestResponder {
+class Login : public RequestResponder {
 	public:
-		typedef boost::shared_ptr<Login> ref;
-
 		Login();
 
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);

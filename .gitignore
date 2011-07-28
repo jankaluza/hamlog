@@ -12,3 +12,7 @@ ui_*.h
 parser_test
 list_test
 *.sql
+libmod*.so*
+*.kate-swp
+docs/html
+docs/xml

@@ -25,8 +25,9 @@
 
 namespace HamLog {
 	
-RequestResponder::RequestResponder(const std::string &uri, bool needAuthentication)
-	: m_uri(uri),
+RequestResponder::RequestResponder(const std::string &name, const std::string &uri, bool needAuthentication)
+	: Module(name, 0),
+	m_uri(uri),
 	m_authentication(needAuthentication) {
 	
 }

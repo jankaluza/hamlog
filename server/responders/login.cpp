@@ -25,6 +25,7 @@
 #include "session.h"
 #include "storagebackend.h"
 #include "../md5.h"
+#include "module.h"
 
 namespace HamLog {
 namespace Responder {
@@ -85,7 +86,7 @@ static void digest_md5_parse(std::map<std::string, std::string> &ret, const char
 
 }
 	
-Login::Login() : RequestResponder("/login", false) {
+Login::Login() : RequestResponder("Login module","/login", false) {
 	
 }
 
@@ -141,6 +142,13 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 		}
 	}
 	return true;
+}
+
+extern "C" {
+	Module *module_init();
+    Module *module_init() {
+		return new Login();
+    }
 }
 
 }

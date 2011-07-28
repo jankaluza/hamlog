@@ -31,16 +31,16 @@ namespace HamLog {
 	
 RequestHandler::RequestHandler(Session *session)
 	: m_session(session) {
-	addResponder(RequestResponder::ref(new Responder::Root()));
-	addResponder(RequestResponder::ref(new Responder::Login()));
-	addResponder(RequestResponder::ref(new Responder::Register()));
+// 	addResponder(RequestResponder::ref(new Responder::Root()));
+// 	addResponder(RequestResponder::ref(new Responder::Login()));
+// 	addResponder(RequestResponder::ref(new Responder::Register()));
 }
 
 RequestHandler::~RequestHandler() {
 	m_responders.clear();
 }
 
-void RequestHandler::addResponder(RequestResponder::ref responder) {
+void RequestHandler::addResponder(RequestResponder *responder) {
 	m_responders[responder->getURI()] = responder;
 }
 

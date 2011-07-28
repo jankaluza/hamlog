@@ -24,32 +24,34 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
-#include <boost/signal.hpp>
-#include <boost/tuple/tuple.hpp>
-#include <string>
-#include "request.h"
-#include "requestresponder.h"
-#include "reply.h"
+#include "session.h"
+#include <list>
 
 namespace HamLog {
 
-class Session;
+typedef Module* (*module_init)(void);
 
-class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
+class SharedLibrary;
+
+class ModuleManager {
 	public:
-		typedef boost::shared_ptr<RequestHandler> ref;
+		static ModuleManager *getInstance();
 
-		RequestHandler(Session *session);
-		~RequestHandler();
+		void loadModules(const std::string &path);
 
-		void addResponder(RequestResponder *responder);
-
-		Reply::ref handleRequest(Request::ref req);
-
+		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+	
 	private:
-		std::map<std::string, RequestResponder *> m_responders;
-		Session *m_session;
+        struct ModuleInfo {
+			SharedLibrary *library;
+			std::string libraryNname;
+			Module *module;
+		};
 
+		ModuleManager();
+		static ModuleManager *m_instance;
+		std::map<std::string, ModuleInfo *> m_modules;
+	
 };
 
 }

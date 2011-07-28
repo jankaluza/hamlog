@@ -29,7 +29,7 @@
 namespace HamLog {
 namespace Responder {
 	
-Register::Register() : RequestResponder("/register", false) {
+Register::Register() : RequestResponder("Register module", "/register", false) {
 	
 }
 
@@ -50,6 +50,13 @@ bool Register::handleRequest(Session *session, Request::ref request, Reply::ref 
 	}
 
 	return true;
+}
+
+extern "C" {
+	Module *module_init();
+    Module *module_init() {
+		return new Register();
+    }
 }
 
 }

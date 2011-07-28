@@ -20,36 +20,25 @@
 
 #pragma once
 
-#include <boost/array.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
-#include <boost/asio.hpp>
-#include <boost/signal.hpp>
-#include <boost/tuple/tuple.hpp>
 #include <string>
-#include "request.h"
-#include "requestresponder.h"
-#include "reply.h"
 
 namespace HamLog {
 
-class Session;
-
-class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
+class Module {
 	public:
-		typedef boost::shared_ptr<RequestHandler> ref;
+		Module(const std::string &name, int type) : m_name(name), m_type(type) {}
 
-		RequestHandler(Session *session);
-		~RequestHandler();
+		virtual const std::string &getName() {
+			return m_name;
+		}
 
-		void addResponder(RequestResponder *responder);
-
-		Reply::ref handleRequest(Request::ref req);
+		virtual int getType() {
+			return m_type;
+		}
 
 	private:
-		std::map<std::string, RequestResponder *> m_responders;
-		Session *m_session;
-
+		std::string m_name;
+		int m_type;
 };
 
 }

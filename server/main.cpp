@@ -21,6 +21,7 @@
 #include <iostream>
 #include "config.h"
 #include "server.h"
+#include "modulemanager.h"
 #include "storagebackends/sqlite3backend.h"
 #include "boost/lexical_cast.hpp"
 
@@ -77,8 +78,12 @@ int main(int argc, char **argv) {
 	Server server(CONFIG_STRING(&config, "server.hostname"),
 				  CONFIG_INT(&config, "server.port"));
 
+	ModuleManager *moduleManager = ModuleManager::getInstance();
+	moduleManager->loadModules(CONFIG_STRING(&config, "modules.path"));
+
 	server.start();
 
+	delete moduleManager;
 	delete storage;
 
 	return 0;
