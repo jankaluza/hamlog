@@ -166,7 +166,7 @@ static void ham_login_handle_get_response1(HAMConnection *connection, HAMReply *
 
 		/* Compute "response" */
 		char *a1 = malloc(sizeof(char) * (strlen(connection->username) + strlen(connection->password) + strlen(realm) + 1 + 2)); // twice ':'
-		sprintf(a1, "%s:%s:%s", connection->username, connection->password, realm);
+		sprintf(a1, "%s:%s:%s", connection->username, realm, connection->password);
 		char *ha1 = md5_get_hash_hex(a1);
 		char *ha2 = md5_get_hash_hex("GET:/login");
 

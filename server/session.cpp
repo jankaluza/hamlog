@@ -63,11 +63,11 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t bytes) 
 	}
 
 	if (m_req->isFinished()) {
-		m_req->dump();
+// 		m_req->dump();
 		Reply::ref reply = m_requestHandler.handleRequest(m_req);
 		m_req.reset(new Request());
 
-		reply->dump();
+// 		reply->dump();
 
 		boost::asio::async_write(m_socket, boost::asio::buffer(reply->toString()),
 								 boost::bind(&Session::handleWrite, shared_from_this(), boost::asio::placeholders::error));

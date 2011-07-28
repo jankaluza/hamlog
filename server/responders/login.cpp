@@ -124,19 +124,20 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 
 #undef HAS
 
-
-
 		std::string ha1 = user.password;
 		std::string ha2 = MD5::getHashHEX("GET:/login");
-
 		std::string a3 = ha1 + ":" + "dcd98b7102dd2f0e8b11d0f600bfb0c093" + ":" + ha2;
 		std::string response = MD5::getHashHEX(a3);
 
-		std::cout << "RESPONSE=" << response << "\n";
-
-		session->setAuthenticated(true);
-		reply->setContent("Authorized");
-		reply->setContentType("text/html");
+		if (response == fields["response"]) {
+			session->setAuthenticated(true);
+			reply->setContent("Authorized");
+			reply->setContentType("text/html");
+		}
+		else {
+			session->setAuthenticated(false);
+			createAuthorizationRequest(reply);
+		}
 	}
 	return true;
 }
