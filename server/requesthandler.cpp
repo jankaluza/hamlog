@@ -26,6 +26,7 @@
 #include "responders/login.h"
 #include "responders/register.h"
 #include "session.h"
+#include "modulemanager.h"
 
 namespace HamLog {
 	
@@ -45,20 +46,21 @@ void RequestHandler::addResponder(RequestResponder *responder) {
 }
 
 Reply::ref RequestHandler::handleRequest(Request::ref req) {
-	if (m_responders.find(req->getURI()) == m_responders.end()) {
-		Reply::ref reply(new Reply(Reply::not_found, "text/html"));
-		reply->setContent("<html><head></head><body>440 - This page does not exist</body></html>");
-		return reply;
-	}
-
-	if (m_responders[req->getURI()]->needAuthentication() && !m_session->isAuthenticated()) {
-		Reply::ref reply(new Reply(Reply::unauthorized, "text/html"));
-		reply->setContent("401 - Unauthorized");
-		return reply;
-	}
+// 	if (m_responders.find(req->getURI()) == m_responders.end()) {
+// 		Reply::ref reply(new Reply(Reply::not_found, "text/html"));
+// 		reply->setContent("<html><head></head><body>440 - This page does not exist</body></html>");
+// 		return reply;
+// 	}
+// 
+// 	if (m_responders[req->getURI()]->needAuthentication() && !m_session->isAuthenticated()) {
+// 		Reply::ref reply(new Reply(Reply::unauthorized, "text/html"));
+// 		reply->setContent("401 - Unauthorized");
+// 		return reply;
+// 	}
 
 	Reply::ref reply(new Reply(Reply::ok));
-	if (m_responders[req->getURI()]->handleRequest(m_session, req, reply)) {
+	
+	if (ModuleManager::getInstance()->handleRequest(m_session, req, reply)) {
 		return reply;
 	}
 

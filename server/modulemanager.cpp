@@ -24,6 +24,8 @@
 #include <string>
 #include <dlfcn.h>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
+#include "requestresponder.h"
 
 namespace HamLog {
 
@@ -71,13 +73,12 @@ ModuleManager* ModuleManager::getInstance() {
 }
 
 bool ModuleManager::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
-	BOOST_FOREACH(ModuleInfo *info, m_modules) {
-		Module *m = info->module;
-		if (m->getType() == 0) {
-			RosterResponder *responder = dynamic_cast<RosterResponder *>(m);
-			
-		}
+	if (m_modules.find(request->getURI()) != m_modules.end()) {
+		ModuleInfo *info = m_modules[request->getURI()];
+		RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
+		return responder->handleRequest(session, request, reply);
 	}
+	return false;
 }
 
 void ModuleManager::loadModules(const std::string &path) {
@@ -115,7 +116,15 @@ void ModuleManager::loadModules(const std::string &path) {
 			}
 
 			std::cout << "Module loaded\n";
-			m_modules[info->module->getName()] = info;
+			if (info->module->getType() == 0) {
+				RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
+				m_modules[responder->getURI()] = info;
+			}
+			else {
+				delete info->module;
+				delete info->library;
+				delete info;
+			}
 		}
 	}
 }
