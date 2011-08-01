@@ -31,6 +31,7 @@
 #include "request.h"
 #include "reply.h"
 #include "module.h"
+#include "storagebackend.h"
 
 namespace HamLog {
 
@@ -45,6 +46,7 @@ class Login : public RequestResponder {
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
 
 	private:
+		StorageBackend::Select m_getUser;
 		void createAuthorizationRequest(Reply::ref);
 };
 

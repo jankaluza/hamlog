@@ -78,8 +78,8 @@ SQLite3::~SQLite3(){
 		//   }
 		//
 		// But requires SQLite3 >= 3.6.0 beta
-		FINALIZE_STMT(m_addUser);
-		FINALIZE_STMT(m_getUser);
+// 		FINALIZE_STMT(m_addUser);
+// 		FINALIZE_STMT(m_getUser);
 
 		sqlite3_close(m_db);
 	}
@@ -94,27 +94,98 @@ bool SQLite3::connect() {
 	if (createDatabase() == false)
 		return false;
 
-	PREP_STMT(m_addUser, "INSERT INTO " + m_prefix + "users (name, password, last_login) VALUES (?, ?, DATETIME('NOW'))");
-	PREP_STMT(m_getUser, "SELECT id, name, password FROM " + m_prefix + "users WHERE name=?");
+// 	PREP_STMT(m_addUser, "INSERT INTO " + m_prefix + "users (name, password, last_login) VALUES (?, ?, DATETIME('NOW'))");
+// 	PREP_STMT(m_getUser, "SELECT id, name, password FROM " + m_prefix + "users WHERE name=?");
 
 	return true;
 }
 
+bool SQLite3::createTable(const std::string &name, const std::list<Column> &columns) {
+	std::string sql = "CREATE TABLE IF NOT EXISTS " + m_prefix + name + "(";
+
+	BOOST_FOREACH(Column c, columns) {
+		sql += "  ";
+		sql += c.m_name + " ";
+		switch(c.m_type) {
+			case Column::Integer:
+				sql += "INTEGER ";
+				break;
+			case Column::String:
+				sql += "VARCHAR(" + boost::lexical_cast<std::string>(c.m_size) + ") ";
+				break;
+			case Column::Datetime:
+				sql += "datetime ";
+				break;
+			default:
+				continue;
+		}
+		if (c.m_primary_key)
+			sql += "PRIMARY KEY ";
+		if (c.m_not_null)
+			sql += "NOT NULL ";
+		sql += ",";
+	}
+
+	// remove last ','
+	sql.erase(sql.end() - 1);
+
+	sql += ");";
+	return exec(sql);
+}
+
+bool SQLite3::select(Select &query) {
+	std::string sql = "SELECT ";
+
+	if (query.m_what.empty()) {
+		sql += "* ";
+	}
+	else {
+		BOOST_FOREACH(const std::string &what, query.m_what) {
+			sql += what +",";
+		}
+		sql.erase(sql.end() - 1);
+	}
+
+	sql += " FROM " + m_prefix + query.m_table;
+
+	if (query.m_where.empty()) {
+		sql += ";";
+	}
+	else {
+		for(std::map<std::string, std::string>::const_iterator it = query.m_where.begin(); it != query.m_where.end(); it++) {
+			sql += (*it).first + "=? &&";
+		}
+		sql += " 1;";
+	}
+
+	sqlite3_stmt *stmt;
+	PREP_STMT(stmt, sql.c_str());
+	BEGIN(stmt);
+
+	if (!query.m_where.empty()) {
+		for(std::map<std::string, std::string>::const_iterator it = query.m_where.begin(); it != query.m_where.end(); it++) {
+			BIND_STR(stmt, (*it).second);
+		}
+	}
+
+	if (sqlite3_step(m_getUser) == SQLITE_ROW) {
+		BOOST_FOREACH(const std::string &what, query.m_what) {
+			query.m_row->push_back(GET_STR(stmt));
+		}
+		FINALIZE_STMT(stmt);
+		return true;
+	}
+
+	FINALIZE_STMT(stmt);
+	return false;
+}
+
 bool SQLite3::createDatabase() {
-	int not_exist = exec("CREATE TABLE IF NOT EXISTS " + m_prefix + "users ("
-					"  id INTEGER PRIMARY KEY NOT NULL,"
-					"  name varchar(255) NOT NULL,"
-					"  password varchar(255) NOT NULL,"
-					"  last_login datetime"
-					");");
-
-	if (not_exist) {
-		exec("CREATE UNIQUE INDEX IF NOT EXISTS jid ON " + m_prefix + "users (name);");
-
-		exec("CREATE TABLE IF NOT EXISTS " + m_prefix + "db_version ("
+	int not_exist =	exec("CREATE TABLE IF NOT EXISTS " + m_prefix + "db_version ("
 			"  ver INTEGER NOT NULL DEFAULT '" + boost::lexical_cast<std::string>(SQLITE_DB_VERSION) + "'"
 			");");
 
+	if (not_exist) {
 		exec("REPLACE INTO " + m_prefix + "db_version (ver) values(" + boost::lexical_cast<std::string>(SQLITE_DB_VERSION) + ")");
 	}
 	return true;

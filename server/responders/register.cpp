@@ -25,12 +25,13 @@
 #include "session.h"
 #include "storagebackend.h"
 #include "../md5.h"
+#include "users_table.h"
 
 namespace HamLog {
 namespace Responder {
 	
 Register::Register() : RequestResponder("Register module", "/register", false) {
-	
+	CREATE_USERS_TABLE();
 }
 
 bool Register::handleRequest(Session *session, Request::ref request, Reply::ref reply) {

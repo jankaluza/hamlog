@@ -26,6 +26,7 @@
 #include "storagebackend.h"
 #include "../md5.h"
 #include "module.h"
+#include "users_table.h"
 
 namespace HamLog {
 namespace Responder {
@@ -86,8 +87,11 @@ static void digest_md5_parse(std::map<std::string, std::string> &ret, const char
 
 }
 	
-Login::Login() : RequestResponder("Login module","/login", false) {
-	
+Login::Login() : RequestResponder("Login module","/login", false),
+	m_getUser("users") {
+	CREATE_USERS_TABLE();
+
+	m_getUser.what("password");
 }
 
 void Login::createAuthorizationRequest(Reply::ref reply) {
@@ -124,8 +128,17 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 
 #undef HAS
 
-		StorageBackend::User user = StorageBackend::getInstance()->getUser(fields["username"]);
-		std::string ha1 = user.password;
+		m_getUser.where("name", fields["username"]);
+		std::list<std::string> user;
+		m_getUser.into(&user);
+
+		if (user.empty()) {
+			session->setAuthenticated(false);
+			createAuthorizationRequest(reply);
+			return true;
+		}
+
+		std::string ha1 = user.front();
 		std::string ha2 = MD5::getHashHEX("GET:/login");
 		std::string a3 = ha1 + ":" + "dcd98b7102dd2f0e8b11d0f600bfb0c093" + ":" + ha2;
 		std::string response = MD5::getHashHEX(a3);

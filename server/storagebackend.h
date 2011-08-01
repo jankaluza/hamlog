@@ -22,6 +22,7 @@
 
 #include <string>
 #include <map>
+#include <list>
 
 namespace HamLog {
 
@@ -33,6 +34,37 @@ class StorageBackend {
 			unsigned long id;
 			std::string name;
 			std::string password;
+		};
+
+		class Column {
+			public:
+				enum {
+					Integer,
+					String,
+					Datetime,
+				};
+
+				Column(const std::string &name, int type, int size, bool not_null = false, bool primary_key = false)
+				: m_name(name), m_type(type), m_not_null(not_null), m_primary_key(primary_key), m_size(size) {
+				}
+
+				std::string m_name;
+				int m_type;
+				bool m_not_null;
+				bool m_primary_key;
+				int m_size;
+		};
+
+		class Select {
+			public:
+				Select(const std::string &table) : m_table(table), m_row(0) {}
+				void into(std::list<std::string> *row) { m_row = row; }
+				void where(const std::string &name, const std::string &value) { m_where[name] = value; }
+				void what(const std::string &name) { m_what.push_back(name); }
+			std::string m_table;
+			std::list<std::string> *m_row;
+			std::list<std::string> m_what;
+			std::map<std::string, std::string> m_where;
 		};
 
 		StorageBackend() {
@@ -51,6 +83,9 @@ class StorageBackend {
 
 		/// createDatabase
 		virtual bool createDatabase() = 0;
+		virtual bool createTable(const std::string &name, const std::list<Column> &columns) = 0;
+
+		virtual bool select(Select &query) = 0;
 
 		virtual bool addUser(const std::string &username, const std::string &password) = 0;
 		virtual StorageBackend::User getUser(const std::string &username) = 0;

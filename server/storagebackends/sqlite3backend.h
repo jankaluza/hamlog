@@ -43,7 +43,9 @@ class SQLite3 : public StorageBackend {
 
 		bool addUser(const std::string &username, const std::string &password);
 		StorageBackend::User getUser(const std::string &username);
-		
+
+		bool createTable(const std::string &name, const std::list<Column> &columns);
+		bool select(Select &query);
 
 		void beginTransaction();
 		void commitTransaction();
