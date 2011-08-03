@@ -20,20 +20,15 @@
 
 #pragma once
 
-// 	exec("CREATE TABLE IF NOT EXISTS " + m_prefix + "users ("
-// 					"  id INTEGER PRIMARY KEY NOT NULL,"
-// 					"  name varchar(255) NOT NULL,"
-// 					"  password varchar(255) NOT NULL,"
-// 					"  last_login datetime"
-// 					");");
-
-#define CREATE_USERS_TABLE() {\
+#define CREATE_LOGBOOK_TABLE() {\
 	std::list<StorageBackend::Column> columns;\
 	\
 	columns.push_back(StorageBackend::Column("id", StorageBackend::Column::Integer, -1, true, true));\
-	columns.push_back(StorageBackend::Column("name", StorageBackend::Column::String, 255, true));\
-	columns.back().m_unique = true;\
-	columns.push_back(StorageBackend::Column("password", StorageBackend::Column::String, 255, true));\
+	columns.push_back(StorageBackend::Column("user_id", StorageBackend::Column::Integer, -1, true));\
+	columns.push_back(StorageBackend::Column("callsign", StorageBackend::Column::String, 20, true));\
+	columns.push_back(StorageBackend::Column("date", StorageBackend::Column::Datetime, -1, true));\
+	columns.push_back(StorageBackend::Column("qth", StorageBackend::Column::String, 60, false));\
+	columns.push_back(StorageBackend::Column("loc", StorageBackend::Column::String, 10, false));\
 	\
 	StorageBackend::getInstance()->createTable("users", columns);\
 	}

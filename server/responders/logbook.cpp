@@ -30,7 +30,8 @@
 namespace HamLog {
 namespace Responder {
 	
-LogBook::LogBook() : RequestResponder("LogBook module", "/register", false) {
+LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", false) {
+	CREATE_LOGBOOK_TABLE();
 }
 
 bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
