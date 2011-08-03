@@ -30,8 +30,10 @@
 namespace HamLog {
 namespace Responder {
 	
-Register::Register() : RequestResponder("Register module", "/register", false) {
+Register::Register() : RequestResponder("Register module", "/register", false),
+	m_addUser("users") {
 	CREATE_USERS_TABLE();
+	m_addUser.what(&m);
 }
 
 bool Register::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
@@ -42,7 +44,11 @@ bool Register::handleRequest(Session *session, Request::ref request, Reply::ref 
 	std::string username = request->getHeader("username");
 	std::string password = MD5::getHashHEX(username + ":realm@hamlog:" + request->getHeader("password"));
 
-	if (StorageBackend::getInstance()->addUser(username, password)) {
+
+	m["name"] = username;
+	m["password"] = password;
+
+	if (StorageBackend::getInstance()->insert(m_addUser)) {
 		reply->setContent("Registered");
 	}
 	else {

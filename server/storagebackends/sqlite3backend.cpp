@@ -54,7 +54,7 @@
 #define GET_INT(STATEMENT)	sqlite3_column_int(STATEMENT, STATEMENT##_id_get++)
 #define GET_STR(STATEMENT)	(const char *) sqlite3_column_text(STATEMENT, STATEMENT##_id_get++)
 #define EXECUTE_STATEMENT(STATEMENT, NAME) 	if(sqlite3_step(STATEMENT) != SQLITE_DONE) {\
-		std::cout << NAME << (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db));\
+		std::cout << NAME << (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db)) << "\n";\
 			return false; \
 			}
 
@@ -123,6 +123,8 @@ bool SQLite3::createTable(const std::string &name, const std::list<Column> &colu
 			sql += "PRIMARY KEY ";
 		if (c.m_not_null)
 			sql += "NOT NULL ";
+		if (c.m_unique)
+			sql += "UNIQUE ";
 		sql += ",";
 	}
 
@@ -152,8 +154,9 @@ bool SQLite3::select(Select &query) {
 		sql += ";";
 	}
 	else {
+		sql += " WHERE";
 		for(std::map<std::string, std::string>::const_iterator it = query.m_where.begin(); it != query.m_where.end(); it++) {
-			sql += (*it).first + "=? &&";
+			sql += " " + (*it).first + "=? AND";
 		}
 		sql += " 1;";
 	}
@@ -168,7 +171,7 @@ bool SQLite3::select(Select &query) {
 		}
 	}
 
-	if (sqlite3_step(m_getUser) == SQLITE_ROW) {
+	if (sqlite3_step(stmt) == SQLITE_ROW) {
 		BOOST_FOREACH(const std::string &what, query.m_what) {
 			query.m_row->push_back(GET_STR(stmt));
 		}
@@ -178,6 +181,34 @@ bool SQLite3::select(Select &query) {
 
 	FINALIZE_STMT(stmt);
 	return false;
+}
+
+bool SQLite3::insert(Insert &query) {
+	std::string sql = "INSERT INTO " + m_prefix + query.m_table + " (";
+
+	for(std::map<std::string, std::string>::const_iterator it = query.m_row->begin(); it != query.m_row->end(); it++) {
+		sql += (*it).first + ",";
+	}
+	sql.erase(sql.end() - 1);
+	sql += ") VALUES (";
+
+	for(std::map<std::string, std::string>::const_iterator it = query.m_row->begin(); it != query.m_row->end(); it++) {
+		sql += "?,";
+	}
+	sql.erase(sql.end() - 1);
+	sql += ");";
+
+	sqlite3_stmt *stmt;
+	PREP_STMT(stmt, sql.c_str());
+	BEGIN(stmt);
+
+	for(std::map<std::string, std::string>::const_iterator it = query.m_row->begin(); it != query.m_row->end(); it++) {
+		BIND_STR(stmt, (*it).second);
+	}
+
+	EXECUTE_STATEMENT(stmt, sql);
+	FINALIZE_STMT(stmt);
+	return true;
 }
 
 bool SQLite3::createDatabase() {

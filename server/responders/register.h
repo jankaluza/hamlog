@@ -30,6 +30,7 @@
 #include "requestresponder.h"
 #include "request.h"
 #include "reply.h"
+#include "storagebackend.h"
 
 namespace HamLog {
 
@@ -44,6 +45,10 @@ class Register : public boost::enable_shared_from_this<Register>, public Request
 		Register();
 
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+
+	private:
+		StorageBackend::Insert m_addUser;
+		std::map<std::string, std::string> m;
 };
 
 }

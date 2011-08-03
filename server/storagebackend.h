@@ -52,6 +52,7 @@ class StorageBackend {
 				int m_type;
 				bool m_not_null;
 				bool m_primary_key;
+				bool m_unique;
 				int m_size;
 		};
 
@@ -64,6 +65,16 @@ class StorageBackend {
 			std::string m_table;
 			std::list<std::string> *m_row;
 			std::list<std::string> m_what;
+			std::map<std::string, std::string> m_where;
+		};
+
+		class Insert {
+			public:
+				Insert(const std::string &table) : m_table(table), m_row(0) {}
+				void where(const std::string &name, const std::string &value) { m_where[name] = value; }
+				void what(std::map<std::string, std::string> *row) { m_row = row; }
+			std::string m_table;
+			std::map<std::string, std::string> *m_row;
 			std::map<std::string, std::string> m_where;
 		};
 
@@ -86,6 +97,7 @@ class StorageBackend {
 		virtual bool createTable(const std::string &name, const std::list<Column> &columns) = 0;
 
 		virtual bool select(Select &query) = 0;
+		virtual bool insert(Insert &query) = 0;
 
 		virtual bool addUser(const std::string &username, const std::string &password) = 0;
 		virtual StorageBackend::User getUser(const std::string &username) = 0;

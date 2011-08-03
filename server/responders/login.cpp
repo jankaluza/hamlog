@@ -131,12 +131,16 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 		m_getUser.where("name", fields["username"]);
 		std::list<std::string> user;
 		m_getUser.into(&user);
+		StorageBackend::getInstance()->select(m_getUser);
 
 		if (user.empty()) {
+			std::cout << "user empty\n";
 			session->setAuthenticated(false);
 			createAuthorizationRequest(reply);
 			return true;
 		}
+
+		std::cout << "password=" << user.front() << "\n";
 
 		std::string ha1 = user.front();
 		std::string ha2 = MD5::getHashHEX("GET:/login");
