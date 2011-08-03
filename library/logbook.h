@@ -36,6 +36,17 @@
 extern "C" {
 #endif
 
+/**
+ * LogBook related UI callbacks.
+ */
+typedef struct _HAMLogBookUICallbacks {
+	/** Called when logbook is succesfully fetched from HAMLog server
+	 */
+	void (*fetched) (HAMConnection *connection, const char *logbook);
+} HAMLogBookUICallbacks;
+
+void ham_logbook_set_ui_callbacks(HAMLogBookUICallbacks *callbacks);
+
 void ham_logbook_fetch(HAMConnection *connection);
 
 #ifdef __cplusplus                                                                                                                                                      

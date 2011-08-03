@@ -28,6 +28,7 @@
 class QtConnection;
 class QtEventLoop;
 class QtAccount;
+class QtLogBook;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -46,11 +47,14 @@ class MainWindow : public QMainWindow {
 		void handleLoggedIn(HAMConnection *connection);
 		void handleLoginFailed(HAMConnection *connection, const QString &reason);
 
+		void handleLogBookFetched(HAMConnection *connection, const QString &logbook);
+
 	private:
 		Ui_MainWindow ui;
 		QtEventLoop *m_eventLoop;
 		QtConnection *m_connection;
 		QtAccount *m_account;
+		QtLogBook *m_logbook;
 		HAMConnection *m_conn;
 		bool m_register;
 };

@@ -18,31 +18,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
+#pragma once
+
+#include <QtCore>
+#include <QApplication>
 #include "logbook.h"
-#include "eventloop.h"
-#include "parser.h"
-#include "request.h"
-#include "md5.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <string.h>
-#include <errno.h>
+class QtLogBook : public QObject {
+	Q_OBJECT
 
-static HAMLogBookUICallbacks *ui_callbacks = NULL;
+	public:
+		static QtLogBook *getInstance();
 
-void ham_logbook_set_ui_callbacks(HAMLogBookUICallbacks *callbacks) {
-	ui_callbacks = callbacks;
-}
+		void handleFetched(HAMConnection *connection, const char *logbook);
 
-static void ham_logbook_fetch_response(HAMConnection *connection, HAMReply *reply, void *unused) {
-	const char *data = ham_reply_get_content(reply);
-	if (ui_callbacks && ui_callbacks->fetched)
-		ui_callbacks->fetched(connection, data);
-}
+		static std::vector<QStringList> tokenize(const QString &str);
 
-void ham_logbook_fetch(HAMConnection *connection) {
-	HAMRequest *request = ham_request_new("/logbook", "GET", NULL, NULL);
-	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, NULL);
-}
+	signals:
+		void onLogBookFetched(HAMConnection *connection, const QString &logbook);
+
+	private:
+		QtLogBook();
+
+		HAMLogBookUICallbacks m_uiCallbacks;
+		static QtLogBook* m_instance;
+};

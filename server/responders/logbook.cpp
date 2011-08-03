@@ -49,7 +49,7 @@ bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref r
 	m_getLogs.into(&logbook);
 	StorageBackend::getInstance()->select(m_getLogs);
 
-	std::string data;
+	std::string data = "ID;USER_ID;CALL;DATE;QTH;LOC\n";
 	BOOST_FOREACH(std::list<std::string> &entry, logbook) {
 		BOOST_FOREACH(std::string &col, entry) {
 			data += col + ";";

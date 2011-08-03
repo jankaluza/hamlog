@@ -22,12 +22,14 @@
 #include "qteventloop.h"
 #include "qtconnection.h"
 #include "qtaccount.h"
-#include "logbook.h"
+#include "qtlogbook.h"
+#include "iostream"
 
 MainWindow::MainWindow()
 	: m_eventLoop(QtEventLoop::getInstance()),
 	m_connection(QtConnection::getInstance()),
 	m_account(QtAccount::getInstance()),
+	m_logbook(QtLogBook::getInstance()),
 	m_conn(0),
 	m_register(0) {
 	ui.setupUi(this);
@@ -37,6 +39,8 @@ MainWindow::MainWindow()
 
 	connect(m_account, SIGNAL(onLoggedIn(HAMConnection *)), this, SLOT(handleLoggedIn(HAMConnection *)));
 	connect(m_account, SIGNAL(onLoginFailed(HAMConnection *, const QString &)), this, SLOT(handleLoginFailed(HAMConnection *, const QString &)));
+
+	connect(m_logbook, SIGNAL(onLogBookFetched(HAMConnection *, const QString &)), this, SLOT(handleLogBookFetched(HAMConnection *, const QString &)));
 
 	connect(ui.connectServer, SIGNAL(clicked()), this, SLOT(connectServer()));
 	connect(ui.registerAccount, SIGNAL(clicked()), this, SLOT(registerAccount()));
@@ -84,5 +88,25 @@ void MainWindow::handleLoggedIn(HAMConnection *connection) {
 
 void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {
 	ui.statusbar->showMessage(QString("Login failed: ") + reason);
+}
+
+void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &logbook) {
+	std::vector<QStringList > tokens = QtLogBook::tokenize(logbook);
+
+	ui.logbook->setHeaderLabels(tokens.front());
+	tokens.erase(tokens.begin());
+
+	Q_FOREACH(const QStringList &row, tokens) {
+		if (row.size() > 1) {
+			new QTreeWidgetItem(ui.logbook, row);
+		}
+	}
+
+	for (int i = 0; i < ui.logbook->columnCount(); i++) {
+		ui.logbook->resizeColumnToContents(i);
+	}
+
+	ui.stackedWidget->setCurrentIndex(1);
+	ui.statusbar->showMessage("Logbook fetched!");
 }
 
