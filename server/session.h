@@ -45,8 +45,13 @@ class Session : public boost::enable_shared_from_this<Session> {
 
 		boost::signal<void ()> onStopped;
 
-		void setAuthenticated(bool authenticated) {
+		void setAuthenticated(bool authenticated, unsigned long id) {
 			m_authenticated = authenticated;
+			m_id = id;
+		}
+
+		unsigned long getId() {
+			return m_id;
 		}
 
 		bool isAuthenticated() {
@@ -63,6 +68,7 @@ class Session : public boost::enable_shared_from_this<Session> {
 		RequestHandler m_requestHandler;
 		Request::ref m_req;
 		boost::array<char, 8192> m_buffer;
+		unsigned long m_id;
 };
 
 }

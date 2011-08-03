@@ -47,8 +47,8 @@ class LogBook : public boost::enable_shared_from_this<LogBook>, public RequestRe
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
 
 	private:
-// 		StorageBackend::Insert m_addUser;
-// 		std::map<std::string, std::string> m;
+		StorageBackend::Select m_getLogs;
+
 };
 
 }

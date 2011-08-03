@@ -174,7 +174,7 @@ static void ham_login_handle_get_response1(HAMConnection *connection, HAMReply *
 		sprintf(a3, "%s:%s:%s", ha1, nonce, ha2);
 		char *response = md5_get_hash_hex(a3);
 
-		/* Generate Authorization header*/
+		/* Generate Authorization header */
 		char authorization[512];
 		snprintf(authorization, 512, "Digest username=\"%s\","
 								"realm=\"%s\","

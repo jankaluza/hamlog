@@ -59,11 +59,11 @@ class StorageBackend {
 		class Select {
 			public:
 				Select(const std::string &table) : m_table(table), m_row(0) {}
-				void into(std::list<std::string> *row) { m_row = row; }
+				void into(std::list<std::list<std::string> > *row) { m_row = row; }
 				void where(const std::string &name, const std::string &value) { m_where[name] = value; }
 				void what(const std::string &name) { m_what.push_back(name); }
 			std::string m_table;
-			std::list<std::string> *m_row;
+			std::list<std::list<std::string> > *m_row;
 			std::list<std::string> m_what;
 			std::map<std::string, std::string> m_where;
 		};

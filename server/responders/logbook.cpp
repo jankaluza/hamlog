@@ -26,11 +26,14 @@
 #include "storagebackend.h"
 #include "../md5.h"
 #include "logbook_table.h"
+#include "boost/lexical_cast.hpp"
+#include "boost/foreach.hpp"
 
 namespace HamLog {
 namespace Responder {
 	
-LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", false) {
+LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", false),
+	m_getLogs("logbook") {
 	CREATE_LOGBOOK_TABLE();
 }
 
@@ -38,6 +41,23 @@ bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref r
 	if (request->getMethod() != "GET") {
 		return false;
 	}
+
+	m_getLogs.where("user_id", boost::lexical_cast<std::string>(session->getId()));
+
+	std::cout << "ID=" << boost::lexical_cast<std::string>(session->getId()) << "\n";
+	std::list<std::list<std::string> > logbook;
+	m_getLogs.into(&logbook);
+	StorageBackend::getInstance()->select(m_getLogs);
+
+	std::string data;
+	BOOST_FOREACH(std::list<std::string> &entry, logbook) {
+		BOOST_FOREACH(std::string &col, entry) {
+			data += col + ";";
+		}
+		data += "\n";
+	}
+
+	reply->setContent(data);
 
 	return true;
 }

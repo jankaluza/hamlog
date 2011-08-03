@@ -161,6 +161,7 @@ bool SQLite3::select(Select &query) {
 		sql += " 1;";
 	}
 
+	std::cout << sql << "\n";
 	sqlite3_stmt *stmt;
 	PREP_STMT(stmt, sql.c_str());
 	BEGIN(stmt);
@@ -171,16 +172,18 @@ bool SQLite3::select(Select &query) {
 		}
 	}
 
-	if (sqlite3_step(stmt) == SQLITE_ROW) {
-		BOOST_FOREACH(const std::string &what, query.m_what) {
-			query.m_row->push_back(GET_STR(stmt));
+	int ret;
+	while ((ret = sqlite3_step(stmt)) == SQLITE_ROW) {
+		query.m_row->resize(query.m_row->size() + 1);
+		for (int i = sqlite3_column_count(stmt); i != 0; i--) {
+			const char *ret = GET_STR(stmt);
+			query.m_row->back().push_back(ret ? ret : "");
 		}
-		FINALIZE_STMT(stmt);
 		return true;
 	}
 
 	FINALIZE_STMT(stmt);
-	return false;
+	return ret == SQLITE_DONE;
 }
 
 bool SQLite3::insert(Insert &query) {

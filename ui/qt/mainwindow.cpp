@@ -22,6 +22,7 @@
 #include "qteventloop.h"
 #include "qtconnection.h"
 #include "qtaccount.h"
+#include "logbook.h"
 
 MainWindow::MainWindow()
 	: m_eventLoop(QtEventLoop::getInstance()),
@@ -77,6 +78,8 @@ void MainWindow::handleDisconnected(HAMConnection *connection, const QString &re
 
 void MainWindow::handleLoggedIn(HAMConnection *connection) {
 	ui.statusbar->showMessage("Logged in!");
+	ui.statusbar->showMessage("Fetching logbook");
+	ham_logbook_fetch(connection);
 }
 
 void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {

@@ -1,3 +1,4 @@
+
 /**
  * Hamlog
  *
@@ -27,6 +28,7 @@
 #include "../md5.h"
 #include "module.h"
 #include "users_table.h"
+#include "boost/lexical_cast.hpp"
 
 namespace HamLog {
 namespace Responder {
@@ -92,6 +94,7 @@ Login::Login() : RequestResponder("Login module","/login", false),
 	CREATE_USERS_TABLE();
 
 	m_getUser.what("password");
+	m_getUser.what("id");
 }
 
 void Login::createAuthorizationRequest(Reply::ref reply) {
@@ -129,32 +132,30 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 #undef HAS
 
 		m_getUser.where("name", fields["username"]);
-		std::list<std::string> user;
+		std::list<std::list<std::string> > user;
 		m_getUser.into(&user);
 		StorageBackend::getInstance()->select(m_getUser);
 
 		if (user.empty()) {
-			std::cout << "user empty\n";
-			session->setAuthenticated(false);
+			session->setAuthenticated(false, 0);
 			createAuthorizationRequest(reply);
 			return true;
 		}
 
-		std::cout << "password=" << user.front() << "\n";
-
-		std::string ha1 = user.front();
+		std::string ha1 = user.front().front();
 		std::string ha2 = MD5::getHashHEX("GET:/login");
 		std::string a3 = ha1 + ":" + "dcd98b7102dd2f0e8b11d0f600bfb0c093" + ":" + ha2;
 		std::string response = MD5::getHashHEX(a3);
 
 		// TODO: check nonce and opaque
 		if (response == fields["response"]) {
-			session->setAuthenticated(true);
+			unsigned long id = boost::lexical_cast<unsigned long>(user.front().back());
+			session->setAuthenticated(true, id);
 			reply->setContent("Authorized");
 			reply->setContentType("text/html");
 		}
 		else {
-			session->setAuthenticated(false);
+			session->setAuthenticated(false, 0);
 			createAuthorizationRequest(reply);
 		}
 	}

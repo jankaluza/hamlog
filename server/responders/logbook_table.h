@@ -30,6 +30,6 @@
 	columns.push_back(StorageBackend::Column("qth", StorageBackend::Column::String, 60, false));\
 	columns.push_back(StorageBackend::Column("loc", StorageBackend::Column::String, 10, false));\
 	\
-	StorageBackend::getInstance()->createTable("users", columns);\
+	StorageBackend::getInstance()->createTable("logbook", columns);\
 	}
 

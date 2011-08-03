@@ -30,7 +30,12 @@
 #include <string.h>
 #include <errno.h>
 
+static void ham_logbook_fetch_response(HAMConnection *connection, HAMReply *reply, void *unused) {
+	const char *data = ham_reply_get_content(reply);
+	
+}
+
 void ham_logbook_fetch(HAMConnection *connection) {
 	HAMRequest *request = ham_request_new("/logbook", "GET", NULL, NULL);
-	ham_connection_send_destroy(connection, request, NULL, NULL);
+	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, NULL);
 }
