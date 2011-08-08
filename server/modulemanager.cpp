@@ -78,8 +78,8 @@ bool ModuleManager::handleRequest(Session *session, Request::ref request, Reply:
 		uri = uri.substr(0, uri.find("/", 1));
 	}
 	std::cout << "looking for handler for URI=" << uri << "\n";
-	if (m_modules.find(request->getURI()) != m_modules.end()) {
-		ModuleInfo *info = m_modules[request->getURI()];
+	if (m_modules.find(uri) != m_modules.end()) {
+		ModuleInfo *info = m_modules[uri];
 		RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
 		return responder->handleRequest(session, request, reply);
 	}

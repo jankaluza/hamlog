@@ -45,7 +45,7 @@ class StorageBackend {
 				};
 
 				Column(const std::string &name, int type, int size, bool not_null = false, bool primary_key = false)
-				: m_name(name), m_type(type), m_not_null(not_null), m_primary_key(primary_key), m_size(size) {
+				: m_name(name), m_type(type), m_not_null(not_null), m_primary_key(primary_key), m_unique(false), m_size(size) {
 				}
 
 				std::string m_name;
@@ -98,6 +98,7 @@ class StorageBackend {
 
 		virtual bool select(Select &query) = 0;
 		virtual bool insert(Insert &query) = 0;
+		virtual bool update(Insert &query) = 0;
 
 		virtual bool addUser(const std::string &username, const std::string &password) = 0;
 		virtual StorageBackend::User getUser(const std::string &username) = 0;

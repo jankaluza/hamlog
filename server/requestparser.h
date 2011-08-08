@@ -77,7 +77,10 @@ class RequestParser : public boost::enable_shared_from_this<RequestParser> {
 			space_before_header_value,
 			header_value,
 			expecting_newline_2,
-			expecting_newline_3
+			expecting_newline_3,
+			content_start,
+			content,
+			expecting_newline_4
 		} m_state;
 };
 

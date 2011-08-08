@@ -175,11 +175,11 @@ bool SQLite3::select(Select &query) {
 	int ret;
 	while ((ret = sqlite3_step(stmt)) == SQLITE_ROW) {
 		query.m_row->resize(query.m_row->size() + 1);
+		RESET_GET_COUNTER(stmt);
 		for (int i = sqlite3_column_count(stmt); i != 0; i--) {
 			const char *ret = GET_STR(stmt);
 			query.m_row->back().push_back(ret ? ret : "");
 		}
-		return true;
 	}
 
 	FINALIZE_STMT(stmt);
@@ -208,6 +208,41 @@ bool SQLite3::insert(Insert &query) {
 	for(std::map<std::string, std::string>::const_iterator it = query.m_row->begin(); it != query.m_row->end(); it++) {
 		BIND_STR(stmt, (*it).second);
 	}
+
+	std::cout << "EXECUTING " << sql << "\n";
+
+	EXECUTE_STATEMENT(stmt, sql);
+	FINALIZE_STMT(stmt);
+	return true;
+}
+
+bool SQLite3::update(Insert &query) {
+	std::string sql = "UPDATE " + m_prefix + query.m_table + " SET ";
+
+	for(std::map<std::string, std::string>::const_iterator it = query.m_row->begin(); it != query.m_row->end(); it++) {
+		sql += (*it).first + "=?,";
+	}
+	sql.erase(sql.end() - 1);
+
+	sql += " WHERE";
+	for(std::map<std::string, std::string>::const_iterator it = query.m_where.begin(); it != query.m_where.end(); it++) {
+		sql += " " + (*it).first + "=? AND";
+	}
+	sql += " 1;";
+
+	sqlite3_stmt *stmt;
+	PREP_STMT(stmt, sql.c_str());
+	BEGIN(stmt);
+
+	for(std::map<std::string, std::string>::const_iterator it = query.m_row->begin(); it != query.m_row->end(); it++) {
+		BIND_STR(stmt, (*it).second);
+	}
+
+	for(std::map<std::string, std::string>::const_iterator it = query.m_where.begin(); it != query.m_where.end(); it++) {
+		BIND_STR(stmt, (*it).second);
+	}
+
+	std::cout << "EXECUTING " << sql << "\n";
 
 	EXECUTE_STATEMENT(stmt, sql);
 	FINALIZE_STMT(stmt);

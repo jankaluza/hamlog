@@ -238,6 +238,38 @@ bool RequestParser::handleChar(Request::ref req, char input) {
 			}
 		case expecting_newline_3:
 			if (input == '\n') {
+				if (req->hasHeader("Content-Length")) {
+// 					req->m_content.resize(boost::lexical_cast<int>(req->getHeader("Content-Length")));
+					m_state = content_start;
+				}
+				else {
+					req->m_finished = true;
+					reset();
+				}
+				return true;
+			}
+			return false;
+		case content_start:
+			if (input == '\r') {
+				m_state = expecting_newline_3;
+				return true;
+			}
+			else {
+				m_state = content;
+				req->m_content.push_back(input);
+				return true;
+			}
+		case content:
+			if (input == '\r') {
+				m_state = expecting_newline_4;
+				return true;
+			}
+			else {
+ 				req->m_content.push_back(input);
+				return true;
+			}
+		case expecting_newline_4:
+			if (input == '\n') {
 				req->m_finished = true;
 				reset();
 				return true;

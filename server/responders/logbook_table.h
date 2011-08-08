@@ -25,8 +25,8 @@
 	\
 	columns.push_back(StorageBackend::Column("id", StorageBackend::Column::Integer, -1, true, true));\
 	columns.push_back(StorageBackend::Column("user_id", StorageBackend::Column::Integer, -1, true));\
-	columns.push_back(StorageBackend::Column("callsign", StorageBackend::Column::String, 20, true));\
-	columns.push_back(StorageBackend::Column("date", StorageBackend::Column::Datetime, -1, true));\
+	columns.push_back(StorageBackend::Column("callsign", StorageBackend::Column::String, 20, false));\
+	columns.push_back(StorageBackend::Column("date", StorageBackend::Column::Datetime, -1, false));\
 	columns.push_back(StorageBackend::Column("qth", StorageBackend::Column::String, 60, false));\
 	columns.push_back(StorageBackend::Column("loc", StorageBackend::Column::String, 10, false));\
 	\

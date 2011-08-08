@@ -41,9 +41,16 @@ MainWindow::MainWindow()
 	connect(m_account, SIGNAL(onLoginFailed(HAMConnection *, const QString &)), this, SLOT(handleLoginFailed(HAMConnection *, const QString &)));
 
 	connect(m_logbook, SIGNAL(onLogBookFetched(HAMConnection *, const QString &)), this, SLOT(handleLogBookFetched(HAMConnection *, const QString &)));
+	connect(m_logbook, SIGNAL(onLogBookUpdated(HAMConnection *)), this, SLOT(handleLogBookUpdated(HAMConnection *)));
+	connect(m_logbook, SIGNAL(onLogBookUpdateFailed(HAMConnection *, const QString &)), this, SLOT(handleLogBookUpdateFailed(HAMConnection *, const QString &)));
 
 	connect(ui.connectServer, SIGNAL(clicked()), this, SLOT(connectServer()));
 	connect(ui.registerAccount, SIGNAL(clicked()), this, SLOT(registerAccount()));
+	connect(ui.addRecord, SIGNAL(clicked()), this, SLOT(addRecord()));
+
+	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	ui.stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::connectServer() {
@@ -63,6 +70,28 @@ void MainWindow::connectServer() {
 void MainWindow::registerAccount() {
 	connectServer();
 	m_register = true;
+}
+
+void MainWindow::addRecord() {
+	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+	QTreeWidgetItem *item = new QTreeWidgetItem(ui.logbook);
+	item->setText(2, "NEW");
+	item->setFlags(item->flags() | Qt::ItemIsEditable);
+	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+}
+
+void MainWindow::handleItemChanged(QTreeWidgetItem *item, int col) {
+	std::string data = "id;" + ui.logbook->headerItem()->text(col).toStdString() + "\n";
+	if (item->text(0).isEmpty()) {
+		data += "-1;" + item->text(col).toStdString();
+	}
+	else {
+		data += item->text(0).toStdString() + ";" + item->text(col).toStdString();
+	}
+	data += "\n";
+
+	ui.statusbar->showMessage("Updating record");
+	ham_logbook_add(m_conn, data.c_str());
 }
 
 void MainWindow::handleConnected(HAMConnection *connection) {
@@ -96,9 +125,12 @@ void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &
 	ui.logbook->setHeaderLabels(tokens.front());
 	tokens.erase(tokens.begin());
 
+	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
 	Q_FOREACH(const QStringList &row, tokens) {
 		if (row.size() > 1) {
-			new QTreeWidgetItem(ui.logbook, row);
+			QTreeWidgetItem *item = new QTreeWidgetItem(ui.logbook, row);
+			item->setFlags(item->flags() | Qt::ItemIsEditable);
 		}
 	}
 
@@ -106,7 +138,20 @@ void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &
 		ui.logbook->resizeColumnToContents(i);
 	}
 
+	ui.logbook->setColumnHidden(0, true);
+	ui.logbook->setColumnHidden(1, true);
+
 	ui.stackedWidget->setCurrentIndex(1);
 	ui.statusbar->showMessage("Logbook fetched!");
+
+	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+}
+
+void MainWindow::handleLogBookUpdated(HAMConnection *connection) {
+	ui.statusbar->showMessage("Record updated");
+}
+
+void MainWindow::handleLogBookUpdateFailed(HAMConnection *connection, const QString &reason) {
+	ui.statusbar->showMessage(QString("Record updating error: ") + reason);
 }
 

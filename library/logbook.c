@@ -46,3 +46,20 @@ void ham_logbook_fetch(HAMConnection *connection) {
 	HAMRequest *request = ham_request_new("/logbook", "GET", NULL, NULL);
 	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, NULL);
 }
+
+static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, void *unused) {
+	if (ham_reply_get_status(reply) == 200) {
+		if (ui_callbacks && ui_callbacks->updated)
+			ui_callbacks->updated(connection);
+	}
+	else {
+		const char *error = ham_reply_get_content(reply);
+		if (ui_callbacks && ui_callbacks->update_failed)
+			ui_callbacks->update_failed(connection, error);
+	}
+}
+
+void ham_logbook_add(HAMConnection *connection, const char *data) {
+	HAMRequest *request = ham_request_new("/logbook/add", "POST", data, "hamlog");
+	ham_connection_send_destroy(connection, request, ham_logbook_add_response, NULL);
+}

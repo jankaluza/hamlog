@@ -43,11 +43,16 @@ typedef struct _HAMLogBookUICallbacks {
 	/** Called when logbook is succesfully fetched from HAMLog server
 	 */
 	void (*fetched) (HAMConnection *connection, const char *logbook);
+
+	void (*updated) (HAMConnection *connection);	
+	void (*update_failed) (HAMConnection *connection, const char *reason);
 } HAMLogBookUICallbacks;
 
 void ham_logbook_set_ui_callbacks(HAMLogBookUICallbacks *callbacks);
 
 void ham_logbook_fetch(HAMConnection *connection);
+
+void ham_logbook_add(HAMConnection *connection, const char *data);
 
 #ifdef __cplusplus                                                                                                                                                      
 }

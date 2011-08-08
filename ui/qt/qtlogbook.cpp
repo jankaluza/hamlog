@@ -27,8 +27,18 @@ static void fetched(HAMConnection *connection, const char *data) {
 	QtLogBook::getInstance()->handleFetched(connection, data);
 }
 
+static void updated(HAMConnection *connection) {
+	QtLogBook::getInstance()->handleUpdated(connection);
+}
+
+static void update_failed(HAMConnection *connection, const char *data) {
+	QtLogBook::getInstance()->handleUpdateFailed(connection, data);
+}
+
 QtLogBook::QtLogBook() {
 	m_uiCallbacks.fetched = fetched;
+	m_uiCallbacks.updated = updated;
+	m_uiCallbacks.update_failed = update_failed;
 	ham_logbook_set_ui_callbacks(&m_uiCallbacks);
 }
 
@@ -43,6 +53,15 @@ QtLogBook *QtLogBook::getInstance() {
 void QtLogBook::handleFetched(HAMConnection *connection, const char *data) {
 	QString data_(data);
 	onLogBookFetched(connection, data_);
+}
+
+void QtLogBook::handleUpdated(HAMConnection *connection) {
+	onLogBookUpdated(connection);
+}
+
+void QtLogBook::handleUpdateFailed(HAMConnection *connection, const char *reason) {
+	QString data(reason);
+	onLogBookUpdateFailed(connection, data);
 }
 
 std::vector<QStringList> QtLogBook::tokenize(const QString &str) {

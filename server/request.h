@@ -26,6 +26,7 @@
 #include <boost/asio.hpp>
 #include <boost/signal.hpp>
 #include <boost/tuple/tuple.hpp>
+#include <boost/lexical_cast.hpp>
 #include <string>
 
 namespace HamLog {
@@ -55,6 +56,10 @@ class Request : public boost::enable_shared_from_this<Request> {
 			return m_method;
 		}
 
+		const std::string &getContent() {
+			return m_content;
+		}
+
 		bool hasHeader(const std::string &name);
 
 		std::string getHeader(const std::string &name);
@@ -66,6 +71,7 @@ class Request : public boost::enable_shared_from_this<Request> {
 		unsigned int m_minorVersion;
 		bool m_finished;
 		std::list<Header> m_headers;
+		std::string m_content;
 		friend class RequestParser;
 };
 

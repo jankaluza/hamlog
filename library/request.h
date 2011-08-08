@@ -50,6 +50,7 @@ typedef struct _Request {
 HAMRequest *ham_request_new(const char *uri, const char *method, const char *content, const char *content_type);
 void ham_request_dump(HAMRequest *request);
 void ham_request_destroy(HAMRequest *request);
+void ham_request_set_content(HAMRequest *request, const char *content);
 char *ham_request_get_data(HAMRequest *request);
 
 void ham_request_add_header(HAMRequest *request, const char *name, const char *value);

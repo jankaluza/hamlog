@@ -40,7 +40,11 @@ class MainWindow : public QMainWindow {
 		void connectServer();
 		void registerAccount();
 
+		void addRecord();
+
 	private slots:
+		void handleItemChanged(QTreeWidgetItem *item, int col);
+
 		void handleConnected(HAMConnection *connection);
 		void handleDisconnected(HAMConnection *connection, const QString &reason);
 
@@ -48,6 +52,8 @@ class MainWindow : public QMainWindow {
 		void handleLoginFailed(HAMConnection *connection, const QString &reason);
 
 		void handleLogBookFetched(HAMConnection *connection, const QString &logbook);
+		void handleLogBookUpdateFailed(HAMConnection *connection, const QString &logbook);
+		void handleLogBookUpdated(HAMConnection *connection);
 
 	private:
 		Ui_MainWindow ui;

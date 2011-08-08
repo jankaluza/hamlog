@@ -82,6 +82,12 @@ char *ham_request_get_data(HAMRequest *request) {
 		size += strlen(request->headers[i]->name) + strlen(request->headers[i]->value) + 2 + 2; // ": " + "\r\n"
 	}
 
+	if (request->content) {
+		size += strlen(request->content);
+		size += strlen("Content-Length: ") + 5;
+		size += 6;
+	}
+
 	size += 2; // "\r\n"
 
 	char *data = malloc(sizeof(char) * size);
@@ -94,9 +100,21 @@ char *ham_request_get_data(HAMRequest *request) {
 		ptr += end;
 	}
 
+	if (request->content) {
+		end = sprintf(ptr, "Content-Length: %d\r\n\r\n%s", (int) strlen(request->content), request->content);
+		ptr += end;
+	}
+
 	end = sprintf(ptr, "\r\n");
 
 	return data;
+}
+
+void ham_request_set_content(HAMRequest *request, const char *content) {
+	if (request->content) {
+		free(request->content);
+	}
+	request->content = strdup(content);
 }
 
 void ham_request_add_header(HAMRequest *request, const char *name, const char *value) {

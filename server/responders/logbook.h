@@ -46,8 +46,15 @@ class LogBook : public boost::enable_shared_from_this<LogBook>, public RequestRe
 
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
 
+		void sendLogs(Session *session, Reply::ref reply);
+		void addLog(Session *session, Request::ref request, Reply::ref reply);
+
 	private:
+		std::vector<std::vector<std::string> > parse(const std::string &data);
+
 		StorageBackend::Select m_getLogs;
+		StorageBackend::Insert m_addLog;
+		std::map<std::string, std::string> m_record;
 
 };
 
