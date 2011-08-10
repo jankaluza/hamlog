@@ -99,6 +99,7 @@ class StorageBackend {
 		virtual bool select(Select &query) = 0;
 		virtual bool insert(Insert &query) = 0;
 		virtual bool update(Insert &query) = 0;
+		virtual bool remove(Select &query) = 0;
 
 		virtual bool addUser(const std::string &username, const std::string &password) = 0;
 		virtual StorageBackend::User getUser(const std::string &username) = 0;

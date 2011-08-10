@@ -31,7 +31,8 @@ MainWindow::MainWindow()
 	m_account(QtAccount::getInstance()),
 	m_logbook(QtLogBook::getInstance()),
 	m_conn(0),
-	m_register(0) {
+	m_register(0),
+	m_refetch(0) {
 	ui.setupUi(this);
 
 	connect(m_connection, SIGNAL(onConnected(HAMConnection *)), this, SLOT(handleConnected(HAMConnection *)));
@@ -48,7 +49,10 @@ MainWindow::MainWindow()
 	connect(ui.registerAccount, SIGNAL(clicked()), this, SLOT(registerAccount()));
 	connect(ui.addRecord, SIGNAL(clicked()), this, SLOT(addRecord()));
 
+	ui.logbook->setContextMenuPolicy(Qt::CustomContextMenu);  
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+	connect(ui.logbook, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(handleContextMenu(const QPoint &)));
+
 
 	ui.stackedWidget->setCurrentIndex(0);
 }
@@ -80,18 +84,45 @@ void MainWindow::addRecord() {
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 }
 
+void MainWindow::removeRecord() {
+	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	QTreeWidgetItem *item = ui.logbook->currentItem();
+	std::string data = item->text(0).toStdString() + "\n";
+	ui.statusbar->showMessage("Removing record");
+
+	ham_logbook_remove(m_conn, data.c_str());
+
+	item = ui.logbook->takeTopLevelItem(ui.logbook->indexOfTopLevelItem(item));
+	delete item;
+
+	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+}
+
 void MainWindow::handleItemChanged(QTreeWidgetItem *item, int col) {
 	std::string data = "id;" + ui.logbook->headerItem()->text(col).toStdString() + "\n";
 	if (item->text(0).isEmpty()) {
 		data += "-1;" + item->text(col).toStdString();
+		m_refetch = true;
 	}
 	else {
 		data += item->text(0).toStdString() + ";" + item->text(col).toStdString();
+		m_refetch = false;
 	}
 	data += "\n";
 
 	ui.statusbar->showMessage("Updating record");
 	ham_logbook_add(m_conn, data.c_str());
+}
+
+void MainWindow::handleContextMenu(const QPoint &p) {
+	QTreeWidgetItem *item = ui.logbook->itemAt(p);
+	if (!item)
+		return;
+
+    QMenu *menu = new QMenu;
+    menu->addAction(QString("Remove"), this, SLOT(removeRecord()));
+    menu->exec(ui.logbook->mapToGlobal(p));
 }
 
 void MainWindow::handleConnected(HAMConnection *connection) {
@@ -122,6 +153,7 @@ void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &rea
 void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &logbook) {
 	std::vector<QStringList > tokens = QtLogBook::tokenize(logbook);
 
+	ui.logbook->clear();
 	ui.logbook->setHeaderLabels(tokens.front());
 	tokens.erase(tokens.begin());
 
@@ -149,6 +181,14 @@ void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &
 
 void MainWindow::handleLogBookUpdated(HAMConnection *connection) {
 	ui.statusbar->showMessage("Record updated");
+	if (m_refetch) {
+		ham_logbook_fetch(connection);
+	}
+	else {
+		for (int i = 0; i < ui.logbook->columnCount(); i++) {
+			ui.logbook->resizeColumnToContents(i);
+		}
+	}
 }
 
 void MainWindow::handleLogBookUpdateFailed(HAMConnection *connection, const QString &reason) {

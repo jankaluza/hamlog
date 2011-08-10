@@ -34,7 +34,8 @@ namespace Responder {
 	
 LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", false),
 	m_getLogs("logbook"),
-	m_addLog("logbook") {
+	m_addLog("logbook"),
+	m_removeLog("logbook") {
 	CREATE_LOGBOOK_TABLE();
 	m_addLog.what(&m_record);
 }
@@ -149,6 +150,19 @@ void LogBook::addLog(Session *session, Request::ref request, Reply::ref reply) {
 	reply->setContent("Added.");
 }
 
+void LogBook::removeLog(Session *session, Request::ref request, Reply::ref reply) {
+	std::vector<std::vector<std::string> > data = parse(request->getContent());
+	std::vector<std::string> ids = data.front();
+	data.erase(data.begin());
+
+	BOOST_FOREACH(std::string &id, ids) {
+		m_removeLog.where("id", id);
+		m_removeLog.where("user_id", boost::lexical_cast<std::string>(session->getId()));
+		StorageBackend::getInstance()->remove(m_removeLog);
+	}
+	reply->setContent("Removed.");
+}
+
 bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
 	std::cout << "LogBook::handleRequest " << uri << "\n";
@@ -158,6 +172,9 @@ bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref r
 	}
 	else if (uri == "/logbook/add") {
 		addLog(session, request, reply);
+	}
+	else if (uri == "/logbook/remove") {
+		removeLog(session, request, reply);
 	}
 	else {
 		return false;

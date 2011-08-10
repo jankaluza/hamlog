@@ -48,12 +48,14 @@ class LogBook : public boost::enable_shared_from_this<LogBook>, public RequestRe
 
 		void sendLogs(Session *session, Reply::ref reply);
 		void addLog(Session *session, Request::ref request, Reply::ref reply);
+		void removeLog(Session *session, Request::ref request, Reply::ref reply);
 
 	private:
 		std::vector<std::vector<std::string> > parse(const std::string &data);
 
 		StorageBackend::Select m_getLogs;
 		StorageBackend::Insert m_addLog;
+		StorageBackend::Select m_removeLog;
 		std::map<std::string, std::string> m_record;
 
 };

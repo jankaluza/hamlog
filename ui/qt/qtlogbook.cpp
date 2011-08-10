@@ -39,6 +39,8 @@ QtLogBook::QtLogBook() {
 	m_uiCallbacks.fetched = fetched;
 	m_uiCallbacks.updated = updated;
 	m_uiCallbacks.update_failed = update_failed;
+	m_uiCallbacks.removed = NULL;
+	m_uiCallbacks.remove_failed = NULL;
 	ham_logbook_set_ui_callbacks(&m_uiCallbacks);
 }
 

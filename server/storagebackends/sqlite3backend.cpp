@@ -186,6 +186,29 @@ bool SQLite3::select(Select &query) {
 	return ret == SQLITE_DONE;
 }
 
+bool SQLite3::remove(Select &query) {
+	std::string sql = "DELETE FROM " + m_prefix + query.m_table;
+
+	sql += " WHERE";
+	for(std::map<std::string, std::string>::const_iterator it = query.m_where.begin(); it != query.m_where.end(); it++) {
+		sql += " " + (*it).first + "=? AND";
+	}
+	sql += " 1;";
+
+	std::cout << sql << "\n";
+	sqlite3_stmt *stmt;
+	PREP_STMT(stmt, sql.c_str());
+	BEGIN(stmt);
+
+	for(std::map<std::string, std::string>::const_iterator it = query.m_where.begin(); it != query.m_where.end(); it++) {
+		BIND_STR(stmt, (*it).second);
+	}
+
+	EXECUTE_STATEMENT(stmt, sql);
+	FINALIZE_STMT(stmt);
+	return true;
+}
+
 bool SQLite3::insert(Insert &query) {
 	std::string sql = "INSERT INTO " + m_prefix + query.m_table + " (";
 

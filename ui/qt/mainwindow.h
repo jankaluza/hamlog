@@ -41,9 +41,11 @@ class MainWindow : public QMainWindow {
 		void registerAccount();
 
 		void addRecord();
+		void removeRecord();
 
 	private slots:
 		void handleItemChanged(QTreeWidgetItem *item, int col);
+		void handleContextMenu(const QPoint &p);
 
 		void handleConnected(HAMConnection *connection);
 		void handleDisconnected(HAMConnection *connection, const QString &reason);
@@ -63,4 +65,5 @@ class MainWindow : public QMainWindow {
 		QtLogBook *m_logbook;
 		HAMConnection *m_conn;
 		bool m_register;
+		bool m_refetch;
 };
