@@ -84,11 +84,16 @@ void DXCC::sendDXCC(Session *session, Request::ref request, Reply::ref reply) {
 	// TODO: rewrite me once I will fully understand dxcc :-P
 	while (call.size() != 0) {
 		if (m_prefixes.find(call) != m_prefixes.end()) {
-			std::cout << "FOUND\n";
+			Entity e = m_prefixes[call];
+
+			std::string data = e.name + ";" + e.continent + "\n";
+			reply->setContent(data);
 			return;
 		}
 		call.erase(call.end() - 1);
 	}
+	reply->setStatus(Reply::bad_request);
+	reply->setContent("Not found.");
 }
 
 bool DXCC::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
