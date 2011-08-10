@@ -47,36 +47,38 @@ void ham_logbook_fetch(HAMConnection *connection) {
 	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, NULL);
 }
 
-static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, void *unused) {
+static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, char *data) {
 	if (ham_reply_get_status(reply) == 200) {
 		if (ui_callbacks && ui_callbacks->updated)
-			ui_callbacks->updated(connection);
+			ui_callbacks->updated(connection, data);
 	}
 	else {
 		const char *error = ham_reply_get_content(reply);
 		if (ui_callbacks && ui_callbacks->update_failed)
-			ui_callbacks->update_failed(connection, error);
+			ui_callbacks->update_failed(connection, data, error);
 	}
+	free(data);
 }
 
 void ham_logbook_add(HAMConnection *connection, const char *data) {
 	HAMRequest *request = ham_request_new("/logbook/add", "POST", data, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_logbook_add_response, NULL);
+	ham_connection_send_destroy(connection, request, ham_logbook_add_response, strdup(data));
 }
 
-static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, void *unused) {
+static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, char *data) {
 	if (ham_reply_get_status(reply) == 200) {
 		if (ui_callbacks && ui_callbacks->removed)
-			ui_callbacks->removed(connection);
+			ui_callbacks->removed(connection, data);
 	}
 	else {
 		const char *error = ham_reply_get_content(reply);
 		if (ui_callbacks && ui_callbacks->remove_failed)
-			ui_callbacks->remove_failed(connection, error);
+			ui_callbacks->remove_failed(connection, data, error);
 	}
+	free(data);
 }
 
 void ham_logbook_remove(HAMConnection *connection, const char *data) {
 	HAMRequest *request = ham_request_new("/logbook/remove", "POST", data, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_logbook_remove_response, NULL);
+	ham_connection_send_destroy(connection, request, ham_logbook_remove_response, strdup(data));
 }

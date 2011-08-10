@@ -42,8 +42,8 @@ MainWindow::MainWindow()
 	connect(m_account, SIGNAL(onLoginFailed(HAMConnection *, const QString &)), this, SLOT(handleLoginFailed(HAMConnection *, const QString &)));
 
 	connect(m_logbook, SIGNAL(onLogBookFetched(HAMConnection *, const QString &)), this, SLOT(handleLogBookFetched(HAMConnection *, const QString &)));
-	connect(m_logbook, SIGNAL(onLogBookUpdated(HAMConnection *)), this, SLOT(handleLogBookUpdated(HAMConnection *)));
-	connect(m_logbook, SIGNAL(onLogBookUpdateFailed(HAMConnection *, const QString &)), this, SLOT(handleLogBookUpdateFailed(HAMConnection *, const QString &)));
+	connect(m_logbook, SIGNAL(onLogBookUpdated(HAMConnection *, const QString &)), this, SLOT(handleLogBookUpdated(HAMConnection *, const QString &)));
+	connect(m_logbook, SIGNAL(onLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)), this, SLOT(handleLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)));
 
 	connect(ui.connectServer, SIGNAL(clicked()), this, SLOT(connectServer()));
 	connect(ui.registerAccount, SIGNAL(clicked()), this, SLOT(registerAccount()));
@@ -179,7 +179,7 @@ void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 }
 
-void MainWindow::handleLogBookUpdated(HAMConnection *connection) {
+void MainWindow::handleLogBookUpdated(HAMConnection *connection, const QString &data) {
 	ui.statusbar->showMessage("Record updated");
 	if (m_refetch) {
 		ham_logbook_fetch(connection);
@@ -191,7 +191,7 @@ void MainWindow::handleLogBookUpdated(HAMConnection *connection) {
 	}
 }
 
-void MainWindow::handleLogBookUpdateFailed(HAMConnection *connection, const QString &reason) {
+void MainWindow::handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason) {
 	ui.statusbar->showMessage(QString("Record updating error: ") + reason);
 }
 

@@ -27,12 +27,12 @@ static void fetched(HAMConnection *connection, const char *data) {
 	QtLogBook::getInstance()->handleFetched(connection, data);
 }
 
-static void updated(HAMConnection *connection) {
-	QtLogBook::getInstance()->handleUpdated(connection);
+static void updated(HAMConnection *connection, const char *data) {
+	QtLogBook::getInstance()->handleUpdated(connection, data);
 }
 
-static void update_failed(HAMConnection *connection, const char *data) {
-	QtLogBook::getInstance()->handleUpdateFailed(connection, data);
+static void update_failed(HAMConnection *connection, const char *data, const char *reason) {
+	QtLogBook::getInstance()->handleUpdateFailed(connection, data, reason);
 }
 
 QtLogBook::QtLogBook() {
@@ -57,13 +57,15 @@ void QtLogBook::handleFetched(HAMConnection *connection, const char *data) {
 	onLogBookFetched(connection, data_);
 }
 
-void QtLogBook::handleUpdated(HAMConnection *connection) {
-	onLogBookUpdated(connection);
+void QtLogBook::handleUpdated(HAMConnection *connection, const char *data) {
+	QString d(data);
+	onLogBookUpdated(connection, d);
 }
 
-void QtLogBook::handleUpdateFailed(HAMConnection *connection, const char *reason) {
-	QString data(reason);
-	onLogBookUpdateFailed(connection, data);
+void QtLogBook::handleUpdateFailed(HAMConnection *connection, const char *data, const char *reason) {
+	QString r(reason);
+	QString d(data);
+	onLogBookUpdateFailed(connection, d, r);
 }
 
 std::vector<QStringList> QtLogBook::tokenize(const QString &str) {
