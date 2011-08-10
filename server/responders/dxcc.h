@@ -45,9 +45,9 @@ class DXCC : public boost::enable_shared_from_this<DXCC>, public RequestResponde
 		typedef struct {
 			std::string name;
 			std::string continent;
-			double tz;
-			double lon;
-			double lat;
+			float tz;
+			float lon;
+			float lat;
 			int cq;
 			int itu;
 		} Entity;

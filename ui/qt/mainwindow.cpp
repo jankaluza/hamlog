@@ -23,6 +23,7 @@
 #include "qtconnection.h"
 #include "qtaccount.h"
 #include "qtlogbook.h"
+#include "dxcc.h"
 #include "iostream"
 
 MainWindow::MainWindow()
@@ -177,6 +178,8 @@ void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &
 	ui.statusbar->showMessage("Logbook fetched!");
 
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	ham_dxcc_fetch(connection, "OK40");
 }
 
 void MainWindow::handleLogBookUpdated(HAMConnection *connection, const QString &data) {

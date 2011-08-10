@@ -23,8 +23,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#ifndef _HAMLOG_DCXX_H
-#define _HAMLOG_DCXX_H
+#ifndef _HAMLOG_DXCC_H
+#define _HAMLOG_DXCC_H
 
 #include "connection.h"
 #include "parser.h"
@@ -37,12 +37,12 @@ extern "C" {
 #endif
 
 /**
- * DCXX related UI callbacks.
+ * DXCC related UI callbacks.
  */
 typedef struct _HAMDXCCUICallbacks {
 	/** Called when DXCC data is succesfully fetched from HAMLog server
 	 */
-	void (*fetched) (HAMConnection *connection, const char *data);
+	void (*fetched) (HAMConnection *connection, const char *call, const char *data);
 } HAMDXCCUICallbacks;
 
 void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks);

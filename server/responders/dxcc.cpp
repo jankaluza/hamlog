@@ -57,14 +57,14 @@ DXCC::DXCC() : RequestResponder("DXCC module", "/dxcc", false) {
 		e.continent = fields[3];
 		e.cq = boost::lexical_cast<int>(fields[4]);
 		e.itu = boost::lexical_cast<int>(fields[5]);
-		e.lat = boost::lexical_cast<double>(fields[6]);
-		e.lon = boost::lexical_cast<double>(fields[7]);
-		e.tz =  boost::lexical_cast<double>(fields[8]);
+		e.lat = boost::lexical_cast<float>(fields[6]);
+		e.lon = boost::lexical_cast<float>(fields[7]);
+		e.tz =  boost::lexical_cast<float>(fields[8]);
 
-		std::string data = fields[9].substr(0, fields[9].size() - 1);
+		std::string data = fields[9].substr(0, fields[9].size() - 2);
 
 		std::vector<std::string> prefixes;
-		boost::split(prefixes, data, boost::is_any_of(","));
+		boost::split(prefixes, data, boost::is_any_of(" "));
 		BOOST_FOREACH(std::string prefix, prefixes) {
 			if (prefix.find("=") == 0) {
 				prefix.erase(prefix.begin());
@@ -86,14 +86,21 @@ void DXCC::sendDXCC(Session *session, Request::ref request, Reply::ref reply) {
 		if (m_prefixes.find(call) != m_prefixes.end()) {
 			Entity e = m_prefixes[call];
 
-			std::string data = e.name + ";" + e.continent + "\n";
+			std::string data;
+			data += e.name + ";";
+			data += e.continent + ";";
+			data += boost::lexical_cast<std::string>(e.cq) + ";";
+			data += boost::lexical_cast<std::string>(e.itu) + ";";
+			data += boost::lexical_cast<std::string>(e.lat) + ";";
+			data += boost::lexical_cast<std::string>(e.lon) + ";";
+			data += boost::lexical_cast<std::string>(e.tz);
 			reply->setContent(data);
 			return;
 		}
 		call.erase(call.end() - 1);
 	}
 	reply->setStatus(Reply::bad_request);
-	reply->setContent("Not found.");
+	reply->setContent("unknown");
 }
 
 bool DXCC::handleRequest(Session *session, Request::ref request, Reply::ref reply) {

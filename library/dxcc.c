@@ -36,6 +36,19 @@ void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks) {
 	ui_callbacks = callbacks;
 }
 
+static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *data) {
+	if (ham_reply_get_status(reply) == 200) {
+		if (ui_callbacks && ui_callbacks->fetched)
+			ui_callbacks->fetched(connection, data, ham_reply_get_content(reply));
+	}
+	else {
+		if (ui_callbacks && ui_callbacks->fetched)
+			ui_callbacks->fetched(connection, data, "unknown");
+	}
+	free(data);
+}
+
 void ham_dxcc_fetch(HAMConnection *connection, const char *call) {
-	
+	HAMRequest *request = ham_request_new("/dxcc", "POST", call, "hamlog");
+	ham_connection_send_destroy(connection, request, ham_dxcc_response, strdup(call));
 }
