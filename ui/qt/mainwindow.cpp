@@ -23,17 +23,22 @@
 #include "qtconnection.h"
 #include "qtaccount.h"
 #include "qtlogbook.h"
-#include "dxcc.h"
+#include "qtdxcc.h"
 #include "iostream"
+#include "connectdialog.h"
+
+#include <QMessageBox>
 
 MainWindow::MainWindow()
 	: m_eventLoop(QtEventLoop::getInstance()),
 	m_connection(QtConnection::getInstance()),
 	m_account(QtAccount::getInstance()),
 	m_logbook(QtLogBook::getInstance()),
+	m_dxcc(QtDXCC::getInstance()),
 	m_conn(0),
 	m_register(0),
-	m_refetch(0) {
+	m_refetch(0),
+	m_connectDialog(0) {
 	ui.setupUi(this);
 
 	connect(m_connection, SIGNAL(onConnected(HAMConnection *)), this, SLOT(handleConnected(HAMConnection *)));
@@ -46,8 +51,8 @@ MainWindow::MainWindow()
 	connect(m_logbook, SIGNAL(onLogBookUpdated(HAMConnection *, const QString &)), this, SLOT(handleLogBookUpdated(HAMConnection *, const QString &)));
 	connect(m_logbook, SIGNAL(onLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)), this, SLOT(handleLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)));
 
-	connect(ui.connectServer, SIGNAL(clicked()), this, SLOT(connectServer()));
-	connect(ui.registerAccount, SIGNAL(clicked()), this, SLOT(registerAccount()));
+	connect(m_dxcc, SIGNAL(onDXCCFetched(HAMConnection *, const QString &, const QString &)), this, SLOT(handleDXCCFetched(HAMConnection *, const QString &, const QString &)));
+
 	connect(ui.addRecord, SIGNAL(clicked()), this, SLOT(addRecord()));
 
 	ui.logbook->setContextMenuPolicy(Qt::CustomContextMenu);  
@@ -55,34 +60,57 @@ MainWindow::MainWindow()
 	connect(ui.logbook, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(handleContextMenu(const QPoint &)));
 
 
-	ui.stackedWidget->setCurrentIndex(0);
+	ui.stackedWidget->setCurrentIndex(1);
+	showConnectDialog();
 }
 
-void MainWindow::connectServer() {
+MainWindow::~MainWindow() {
+	if (m_connectDialog) {
+		m_connectDialog->deleteLater();
+	}
+}
+
+void MainWindow::showConnectDialog() {
+	if (m_connectDialog) {
+		m_connectDialog->reject();
+		m_connectDialog->deleteLater();
+	}
+	m_connectDialog = new ConnectDialog(this);
+	connect(m_connectDialog, SIGNAL(onConnectServer(const QString &, int, const QString &, const QString&)),
+			this, SLOT(connectServer(const QString &, int, const QString &, const QString&)));
+	connect(m_connectDialog, SIGNAL(onRegisterAccount(const QString &, int, const QString &, const QString&)),
+			this, SLOT(registerAccount(const QString &, int, const QString &, const QString&)));
+	m_connectDialog->setModal(true);
+	m_connectDialog->show();
+}
+
+void MainWindow::connectServer(const QString &server, int port, const QString &username, const QString &password) {
 	m_register = false;
 	if (m_conn) {
 		ham_connection_destroy(m_conn);
 	}
 
-	m_conn = ham_connection_new(ui.server->text().toStdString().c_str(),
-								ui.port->value(),
-								ui.username->text().toStdString().c_str(),
-								ui.password->text().toStdString().c_str());
+	m_conn = ham_connection_new(server.toStdString().c_str(),
+								port,
+								username.toStdString().c_str(),
+								password.toStdString().c_str());
 	ham_connection_connect(m_conn);
 	ui.statusbar->showMessage("Connection in progress");
 }
 
-void MainWindow::registerAccount() {
-	connectServer();
+void MainWindow::registerAccount(const QString &server, int port, const QString &username, const QString &password) {
+	connectServer(server, port, username, password);
 	m_register = true;
 }
 
 void MainWindow::addRecord() {
 	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 	QTreeWidgetItem *item = new QTreeWidgetItem(ui.logbook);
-	item->setText(2, "NEW");
+	item->setText(2, "UNNAMED");
 	item->setFlags(item->flags() | Qt::ItemIsEditable);
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	ui.logbook->editItem(item, 2);
 }
 
 void MainWindow::removeRecord() {
@@ -114,6 +142,11 @@ void MainWindow::handleItemChanged(QTreeWidgetItem *item, int col) {
 
 	ui.statusbar->showMessage("Updating record");
 	ham_logbook_add(m_conn, data.c_str());
+
+	// CALL, so do dxcc
+	if (col == 2) {
+		ham_dxcc_fetch(m_conn, item->text(col).toStdString().c_str());
+	}
 }
 
 void MainWindow::handleContextMenu(const QPoint &p) {
@@ -149,6 +182,7 @@ void MainWindow::handleLoggedIn(HAMConnection *connection) {
 
 void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {
 	ui.statusbar->showMessage(QString("Login failed: ") + reason);
+	QMessageBox::critical(this, "Login failed!", reason);
 }
 
 void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &logbook) {
@@ -178,8 +212,6 @@ void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &
 	ui.statusbar->showMessage("Logbook fetched!");
 
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
-	ham_dxcc_fetch(connection, "OK40");
 }
 
 void MainWindow::handleLogBookUpdated(HAMConnection *connection, const QString &data) {
@@ -196,5 +228,26 @@ void MainWindow::handleLogBookUpdated(HAMConnection *connection, const QString &
 
 void MainWindow::handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason) {
 	ui.statusbar->showMessage(QString("Record updating error: ") + reason);
+}
+
+void MainWindow::handleDXCCFetched(HAMConnection *connection, const QString &call, const QString &data) {
+	std::vector<QStringList > tokens = QtLogBook::tokenize(data);
+
+	if (tokens[0].size() < 4)
+		return;
+
+	QString text = "Do you want to use following DXCC data for this record?<br/>";
+	text += "<i>";
+	text += "State: " + tokens[0][0] + "<br/>";
+	text += "Region: " + tokens[0][1] + "<br/>";
+	text += "Lat: " + tokens[0][3] + "<br/>";
+	text += "Lon: " + tokens[0][4] + "<br/>";
+	text += "</i>";
+
+	QMessageBox::StandardButton b = QMessageBox::question(this, "Use DXCC data?", text,
+											 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+	if (b == QMessageBox::Yes) {
+		
+	}
 }
 

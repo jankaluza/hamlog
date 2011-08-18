@@ -37,6 +37,7 @@ void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks) {
 }
 
 static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *data) {
+	printf("RESPONSE\n");
 	if (ham_reply_get_status(reply) == 200) {
 		if (ui_callbacks && ui_callbacks->fetched)
 			ui_callbacks->fetched(connection, data, ham_reply_get_content(reply));

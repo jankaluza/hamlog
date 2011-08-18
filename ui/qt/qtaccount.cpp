@@ -31,11 +31,19 @@ static void login_failed(HAMConnection *connection, const char *reason) {
 	QtAccount::getInstance()->handleLoginFailed(connection, reason);
 }
 
+static void registered(HAMConnection *connection) {
+	QtAccount::getInstance()->handleRegistered(connection);
+}
+
+static void registration_failed(HAMConnection *connection, const char *reason) {
+	QtAccount::getInstance()->handleRegistrationFailed(connection, reason);
+}
+
 QtAccount::QtAccount() {
 	m_uiCallbacks.logged_in = logged_in;
 	m_uiCallbacks.login_failed = login_failed;
-	m_uiCallbacks.registered = NULL;
-	m_uiCallbacks.registration_failed = NULL;
+	m_uiCallbacks.registered = registered;
+	m_uiCallbacks.registration_failed = registration_failed;
 	ham_account_set_ui_callbacks(&m_uiCallbacks);
 }
 
@@ -54,5 +62,14 @@ void QtAccount::handleLoggedIn(HAMConnection *connection) {
 void QtAccount::handleLoginFailed(HAMConnection *connection, const char *reason) {
 	QString reason_(reason);
 	onLoginFailed(connection, reason_);
+}
+
+void QtAccount::handleRegistered(HAMConnection *connection) {
+	onRegistered(connection);
+}
+
+void QtAccount::handleRegistrationFailed(HAMConnection *connection, const char *reason) {
+	QString reason_(reason);
+	onRegistrationFailed(connection, reason_);
 }
 

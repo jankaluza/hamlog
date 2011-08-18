@@ -86,9 +86,9 @@ void ham_parser_destroy(HAMParser *parser);
  * @param reply Reply which contains parsed data.
  * @param data Data received from server.
  * @param size Size of received data.
- * @return 0 if there was error in the parsed packet.
+ * @return size
  */
-int ham_parser_parse(HAMParser *parser, HAMReply *reply, const char *data, unsigned long size);
+unsigned long ham_parser_parse(HAMParser *parser, HAMReply *reply, const char *data, unsigned long size);
 
 /**
  * Resets the parser and starts with empty data.

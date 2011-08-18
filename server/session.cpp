@@ -55,23 +55,31 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t bytes) 
 
 	std::cout << "data received. size = " << bytes << "\n";
 
-	bool parsed = m_requestParser.parse(m_req, m_buffer.begin(), m_buffer.begin() + bytes);
-	if (!parsed) {
-		std::cout << "PARSING ERROR\n";
-		// TODO: send Error
-		stop();
+	std::size_t parsed = 0;
+	std::size_t parsed_total = 0;
+
+	while (parsed_total != bytes) {
+
+		parsed = m_requestParser.parse(m_req, m_buffer.begin() + parsed_total, m_buffer.begin() + bytes);
+		if (parsed == 0) {
+			std::cout << "PARSING ERROR\n";
+			// TODO: send Error
+			stop();
+			break;
+		}
+		parsed_total += parsed;
+
+		if (m_req->isFinished()) {
+	// 		m_req->dump();
+			Reply::ref reply = m_requestHandler.handleRequest(m_req);
+			m_req.reset(new Request());
+
+	// 		reply->dump();
+
+			boost::asio::async_write(m_socket, boost::asio::buffer(reply->toString()),
+									boost::bind(&Session::handleWrite, shared_from_this(), boost::asio::placeholders::error));
+		}
 	}
-
-	if (m_req->isFinished()) {
-// 		m_req->dump();
-		Reply::ref reply = m_requestHandler.handleRequest(m_req);
-		m_req.reset(new Request());
-
-// 		reply->dump();
-
-		boost::asio::async_write(m_socket, boost::asio::buffer(reply->toString()),
-								 boost::bind(&Session::handleWrite, shared_from_this(), boost::asio::placeholders::error));
-    }
 
 	m_socket.async_read_some(boost::asio::buffer(m_buffer),
 							 boost::bind(&Session::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));

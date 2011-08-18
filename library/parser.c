@@ -81,6 +81,10 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 				parser->state = http_version_t_1;
 				return 1;
 			}
+			/*HACK: FIX ME*/
+			else if (input == 10) {
+				return 1;
+			}
 			else {
 				return 0;
 			}
@@ -320,13 +324,17 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 	}
 }
 
-int ham_parser_parse(HAMParser *parser, HAMReply *response, const char *data, unsigned long size) {
+unsigned long ham_parser_parse(HAMParser *parser, HAMReply *response, const char *data, unsigned long size) {
+	unsigned long old_size = size;
 	for (;size > 0; size--) {
 		if (ham_parser_consume(parser, response, *data++) == 0) {
-			return 0;
+			ham_parser_reset(parser);
+			return old_size - size;
 		}
+		if (response->finished)
+			return old_size - size;
 	}
-	return 1;
+	return old_size - size;
 }
 
 void ham_parser_reset(HAMParser *parser) {

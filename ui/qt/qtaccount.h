@@ -33,9 +33,15 @@ class QtAccount : public QObject {
 		void handleLoggedIn(HAMConnection *connection);
 		void handleLoginFailed(HAMConnection *connection, const char *reason);
 
+		void handleRegistered(HAMConnection *connection);
+		void handleRegistrationFailed(HAMConnection *connection, const char *reason);
+
 	signals:
 		void onLoggedIn(HAMConnection *connection);
 		void onLoginFailed(HAMConnection *connection, const QString &reason);
+
+		void onRegistered(HAMConnection *connection);
+		void onRegistrationFailed(HAMConnection *connection, const QString &reason);
 
 	private:
 		QtAccount();

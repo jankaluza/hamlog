@@ -40,13 +40,16 @@ class RequestParser : public boost::enable_shared_from_this<RequestParser> {
 		void reset();
 
 		template <typename Iterator>
-		bool parse(Request::ref req, Iterator begin, Iterator end) {
+		std::size_t parse(Request::ref req, Iterator begin, Iterator end) {
+			Iterator old_b = begin;
 			while (begin != end) {
 				if (handleChar(req, *begin++) == false) {
-					return false;
+					return 0;
 				}
+				if (req->isFinished())
+					return begin - old_b;
 			}
-			return true;
+			return begin - old_b;
 		}
 
 	private:

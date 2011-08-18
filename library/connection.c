@@ -78,7 +78,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 static void ham_connection_read_data(void * user_data, int fd) {
 	HAMConnection *connection = user_data;
 	int len = read(connection->fd, connection->read_buffer, 8192);
-
+	
 	if (len == 0) {
 		ui_callbacks->disconnected(connection, "Server closed the connection");
 		ham_connection_disconnect(connection);
@@ -86,29 +86,37 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	}
 
 	connection->read_buffer[len] = 0;
+	unsigned long parsed = 0;
+	unsigned long parsed_total = 0;
 
-	if (ham_parser_parse(connection->parser, connection->reply, connection->read_buffer, len)) {
-		if (connection->reply->finished) {
-			ham_reply_dump(connection->reply);
 
-			HandlerTuple *tuple = ham_list_get_first(connection->handlers);
-			if (tuple) {
-				HAMReplyHandler handler = tuple->handler;
-				void *ui_data = tuple->ui_data;
-				ham_list_remove(connection->handlers, tuple);
-				free(tuple);
-				if (handler) {
-					handler(connection, connection->reply, ui_data);
+	while (parsed_total != len - 1) {
+		parsed = ham_parser_parse(connection->parser, connection->reply, connection->read_buffer + parsed_total, len - parsed_total);
+
+		if (parsed) {
+			parsed_total += parsed;
+			if (connection->reply->finished) {
+				ham_reply_dump(connection->reply);
+
+				HandlerTuple *tuple = ham_list_get_first(connection->handlers);
+				if (tuple) {
+					HAMReplyHandler handler = tuple->handler;
+					void *ui_data = tuple->ui_data;
+					ham_list_remove(connection->handlers, tuple);
+					free(tuple);
+					if (handler) {
+						handler(connection, connection->reply, ui_data);
+					}
+					
 				}
-				
-			}
 
-			ham_reply_destroy(connection->reply);
-			connection->reply = ham_reply_new();
+				ham_reply_destroy(connection->reply);
+				connection->reply = ham_reply_new();
+			}
 		}
-	}
-	else {
-		// TODO: ERROR	
+		else {
+			// TODO: ERROR	
+		}
 	}
 }
 

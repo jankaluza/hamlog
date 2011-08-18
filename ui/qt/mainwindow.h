@@ -29,16 +29,21 @@ class QtConnection;
 class QtEventLoop;
 class QtAccount;
 class QtLogBook;
+class QtDXCC;
+class ConnectDialog;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 
 	public:
 		MainWindow();
+		virtual ~MainWindow();
 
 	public slots:
-		void connectServer();
-		void registerAccount();
+		void showConnectDialog();
+
+		void connectServer(const QString &server, int port, const QString &username, const QString &password);
+		void registerAccount(const QString &server, int port, const QString &username, const QString &password);
 
 		void addRecord();
 		void removeRecord();
@@ -57,13 +62,17 @@ class MainWindow : public QMainWindow {
 		void handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason);
 		void handleLogBookUpdated(HAMConnection *connection, const QString &data);
 
+		void handleDXCCFetched(HAMConnection *connection, const QString &data, const QString &logbook);
+
 	private:
 		Ui_MainWindow ui;
 		QtEventLoop *m_eventLoop;
 		QtConnection *m_connection;
 		QtAccount *m_account;
 		QtLogBook *m_logbook;
+		QtDXCC *m_dxcc;
 		HAMConnection *m_conn;
 		bool m_register;
 		bool m_refetch;
+		ConnectDialog *m_connectDialog;
 };
