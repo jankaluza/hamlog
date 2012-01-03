@@ -50,6 +50,7 @@ class MainWindow : public QMainWindow {
 
 	private slots:
 		void handleItemChanged(QTreeWidgetItem *item, int col);
+		void handleItemChanged(QTreeWidgetItem *item);
 		void handleContextMenu(const QPoint &p);
 
 		void handleConnected(HAMConnection *connection);

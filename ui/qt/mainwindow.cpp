@@ -149,6 +149,32 @@ void MainWindow::handleItemChanged(QTreeWidgetItem *item, int col) {
 	}
 }
 
+void MainWindow::handleItemChanged(QTreeWidgetItem *item) {
+	std::string data;
+	for (int i = 0; i < ui.logbook->headerItem()->columnCount(); i++) {
+		data += ui.logbook->headerItem()->text(i).toStdString() + ";";
+	}
+
+	data.erase(data.end() - 1);
+	data += "\n";
+
+	for (int i = 0; i < ui.logbook->headerItem()->columnCount(); i++) {
+		if (i == 0 && item->text(0).isEmpty()) {
+			data += "-1;";
+			m_refetch = true;
+			continue;
+		}
+
+		data += item->text(i).toStdString() + ";";
+	}
+
+	data.erase(data.end() - 1);
+	data += "\n";
+
+	ui.statusbar->showMessage("Updating record");
+	ham_logbook_add(m_conn, data.c_str());
+}
+
 void MainWindow::handleContextMenu(const QPoint &p) {
 	QTreeWidgetItem *item = ui.logbook->itemAt(p);
 	if (!item)
@@ -237,17 +263,23 @@ void MainWindow::handleDXCCFetched(HAMConnection *connection, const QString &cal
 		return;
 
 	QString text = "Do you want to use following DXCC data for this record?<br/>";
-	text += "<i>";
+// 	text += "<i>";
 	text += "State: " + tokens[0][0] + "<br/>";
 	text += "Region: " + tokens[0][1] + "<br/>";
 	text += "Lat: " + tokens[0][3] + "<br/>";
 	text += "Lon: " + tokens[0][4] + "<br/>";
-	text += "</i>";
+// 	text += "</i>";
 
 	QMessageBox::StandardButton b = QMessageBox::question(this, "Use DXCC data?", text,
 											 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 	if (b == QMessageBox::Yes) {
-		
+		disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+		QTreeWidgetItem *item = ui.logbook->currentItem();
+		item->setText(3, tokens[0][0]);
+		handleItemChanged(item);
+
+		connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 	}
 }
 
