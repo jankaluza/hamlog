@@ -31,14 +31,14 @@ class QtLogBook : public QObject {
 		static QtLogBook *getInstance();
 
 		void handleFetched(HAMConnection *connection, const char *logbook);
-		void handleUpdated(HAMConnection *connection, const char *data);
+		void handleUpdated(HAMConnection *connection, const char *data, const char *response);
 		void handleUpdateFailed(HAMConnection *connection, const char *data, const char *reason);
 
 		static std::vector<QStringList> tokenize(const QString &str);
 
 	signals:
 		void onLogBookFetched(HAMConnection *connection, const QString &logbook);
-		void onLogBookUpdated(HAMConnection *connection, const QString &data);
+		void onLogBookUpdated(HAMConnection *connection, const QString &data, const QString &response);
 		void onLogBookUpdateFailed(HAMConnection *connection,  const QString &data, const QString &reason);
 
 	private:

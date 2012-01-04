@@ -29,6 +29,12 @@
 	columns.push_back(StorageBackend::Column("date", StorageBackend::Column::Datetime, -1, false));\
 	columns.push_back(StorageBackend::Column("qth", StorageBackend::Column::String, 60, false));\
 	columns.push_back(StorageBackend::Column("loc", StorageBackend::Column::String, 10, false));\
+	columns.push_back(StorageBackend::Column("latitude", StorageBackend::Column::String, 10, false));\
+	columns.push_back(StorageBackend::Column("longitude", StorageBackend::Column::String, 10, false));\
+	columns.push_back(StorageBackend::Column("country", StorageBackend::Column::String, 50, false));\
+	columns.push_back(StorageBackend::Column("continent", StorageBackend::Column::String, 3, false));\
+	columns.push_back(StorageBackend::Column("itu", StorageBackend::Column::Integer, -1, false));\
+	columns.push_back(StorageBackend::Column("cq", StorageBackend::Column::Integer, -1, false));\
 	\
 	StorageBackend::getInstance()->createTable("logbook", columns);\
 	}

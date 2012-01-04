@@ -49,6 +49,7 @@ class SQLite3 : public StorageBackend {
 		bool insert(Insert &query);
 		bool update(Insert &query);
 		bool remove(Select &query);
+		long lastInsertedID();
 
 		void beginTransaction();
 		void commitTransaction();

@@ -50,7 +50,7 @@ void ham_logbook_fetch(HAMConnection *connection) {
 static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, char *data) {
 	if (ham_reply_get_status(reply) == 200) {
 		if (ui_callbacks && ui_callbacks->updated)
-			ui_callbacks->updated(connection, data);
+			ui_callbacks->updated(connection, data, ham_reply_get_content(reply));
 	}
 	else {
 		const char *error = ham_reply_get_content(reply);

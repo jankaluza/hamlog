@@ -61,7 +61,7 @@ class MainWindow : public QMainWindow {
 
 		void handleLogBookFetched(HAMConnection *connection, const QString &logbook);
 		void handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason);
-		void handleLogBookUpdated(HAMConnection *connection, const QString &data);
+		void handleLogBookUpdated(HAMConnection *connection, const QString &data, const QString &response);
 
 		void handleDXCCFetched(HAMConnection *connection, const QString &data, const QString &logbook);
 
@@ -75,5 +75,6 @@ class MainWindow : public QMainWindow {
 		HAMConnection *m_conn;
 		bool m_register;
 		bool m_refetch;
+		bool m_askDXCC;
 		ConnectDialog *m_connectDialog;
 };

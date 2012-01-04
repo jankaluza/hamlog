@@ -27,8 +27,8 @@ static void fetched(HAMConnection *connection, const char *data) {
 	QtLogBook::getInstance()->handleFetched(connection, data);
 }
 
-static void updated(HAMConnection *connection, const char *data) {
-	QtLogBook::getInstance()->handleUpdated(connection, data);
+static void updated(HAMConnection *connection, const char *data, const char *response) {
+	QtLogBook::getInstance()->handleUpdated(connection, data, response);
 }
 
 static void update_failed(HAMConnection *connection, const char *data, const char *reason) {
@@ -57,9 +57,10 @@ void QtLogBook::handleFetched(HAMConnection *connection, const char *data) {
 	onLogBookFetched(connection, data_);
 }
 
-void QtLogBook::handleUpdated(HAMConnection *connection, const char *data) {
+void QtLogBook::handleUpdated(HAMConnection *connection, const char *data, const char *response) {
 	QString d(data);
-	onLogBookUpdated(connection, d);
+	QString r(response);
+	onLogBookUpdated(connection, d, r);
 }
 
 void QtLogBook::handleUpdateFailed(HAMConnection *connection, const char *data, const char *reason) {
@@ -104,6 +105,10 @@ std::vector<QStringList> QtLogBook::tokenize(const QString &str) {
 			field.push_back(c);
 		}
 		pos++;
+	}
+
+	if (!field.isEmpty()) {
+		tokens.back().push_back(field);
 	}
 
 	return tokens;

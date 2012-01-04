@@ -44,7 +44,7 @@ typedef struct _HAMLogBookUICallbacks {
 	 */
 	void (*fetched) (HAMConnection *connection, const char *logbook);
 
-	void (*updated) (HAMConnection *connection, const char *data);
+	void (*updated) (HAMConnection *connection, const char *data, const char *response);
 	void (*update_failed) (HAMConnection *connection, const char *data, const char *reason);
 
 	void (*removed) (HAMConnection *connection, const char *data);

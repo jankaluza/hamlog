@@ -49,7 +49,7 @@ void LogBook::sendLogs(Session *session, Reply::ref reply) {
 	StorageBackend::getInstance()->select(m_getLogs);
 	std::cout << "LOGBOOK SIZE=" << logbook.size() << "\n";
 
-	std::string data = "id;user_id;callsign;date;qth;loc\n";
+	std::string data = "id;user_id;callsign;date;qth;loc;latitude;longitude;country;continent;itu;cq\n";
 	BOOST_FOREACH(std::list<std::string> &entry, logbook) {
 		BOOST_FOREACH(std::string &col, entry) {
 			data += col + ";";
@@ -133,21 +133,25 @@ void LogBook::addLog(Session *session, Request::ref request, Reply::ref reply) {
 				reply->setStatus(Reply::bad_request);
 				return;
 			}
+			reply->setContent(boost::lexical_cast<std::string>(StorageBackend::getInstance()->lastInsertedID()) + ";" + boost::lexical_cast<std::string>(session->getId()));
 		}
 		else {
 			m_addLog.where("user_id", boost::lexical_cast<std::string>(session->getId()));
 			m_addLog.where("id", m_record["id"]);
 			m_record.erase("user_id");
+			std::string id = m_record["id"];
 			m_record.erase("id");
 			if (!StorageBackend::getInstance()->update(m_addLog)) {
 				reply->setContent("Bad input data or database error.");
 				reply->setStatus(Reply::bad_request);
 				return;
 			}
+			reply->setContent(id + ";" + boost::lexical_cast<std::string>(session->getId()));
 		}
 		
 	}
-	reply->setContent("Added.");
+
+	
 }
 
 void LogBook::removeLog(Session *session, Request::ref request, Reply::ref reply) {

@@ -318,6 +318,10 @@ StorageBackend::User SQLite3::getUser(const std::string &username) {
 	return user;
 }
 
+long SQLite3::lastInsertedID() {
+	return sqlite3_last_insert_rowid(m_db);
+}
+
 bool SQLite3::exec(const std::string &query) {
 	char *errMsg = 0;
 	int rc = sqlite3_exec(m_db, query.c_str(), NULL, 0, &errMsg);
