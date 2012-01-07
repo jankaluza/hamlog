@@ -62,7 +62,7 @@ static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply,
 
 void ham_logbook_add(HAMConnection *connection, const char *data) {
 	HAMRequest *request = ham_request_new("/logbook/add", "POST", data, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_logbook_add_response, strdup(data));
+	ham_connection_send_destroy(connection, request, ham_logbook_add_response, (void *) strdup(data));
 }
 
 static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, char *data) {
@@ -80,5 +80,5 @@ static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *rep
 
 void ham_logbook_remove(HAMConnection *connection, const char *data) {
 	HAMRequest *request = ham_request_new("/logbook/remove", "POST", data, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_logbook_remove_response, strdup(data));
+	ham_connection_send_destroy(connection, request, ham_logbook_remove_response, (void *) strdup(data));
 }

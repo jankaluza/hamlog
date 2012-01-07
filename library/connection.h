@@ -31,7 +31,7 @@
 #include "request.h"
 #include "list.h"
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
 
