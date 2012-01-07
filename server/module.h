@@ -26,10 +26,14 @@ namespace HamLog {
 
 class Module {
 	public:
-		Module(const std::string &name, int type) : m_name(name), m_type(type) {}
+		Module(const std::string &name, int type, const std::string &description = "") : m_name(name), m_type(type), m_description(description) {}
 
 		virtual const std::string &getName() {
 			return m_name;
+		}
+
+		virtual const std::string &getDescription() {
+			return m_description;
 		}
 
 		virtual int getType() {
@@ -39,6 +43,7 @@ class Module {
 	private:
 		std::string m_name;
 		int m_type;
+		std::string m_description;
 };
 
 }

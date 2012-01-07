@@ -40,11 +40,12 @@ class ModuleManager {
 		void loadModules(const std::string &path);
 
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+
+		void sendModulesList(Session *session, Request::ref request, Reply::ref reply);
 	
 	private:
         struct ModuleInfo {
 			SharedLibrary *library;
-			std::string libraryNname;
 			Module *module;
 		};
 

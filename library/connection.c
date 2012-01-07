@@ -59,6 +59,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 	connection->parser = ham_parser_new();
 	connection->reply = ham_reply_new();
 	connection->handlers = ham_list_new();
+	connection->modules = NULL;
 
 	if (connection->hostname == NULL || connection->username == NULL ||
 		connection->password == NULL || connection->read_buffer == NULL) {
@@ -121,7 +122,13 @@ static void ham_connection_read_data(void * user_data, int fd) {
 }
 
 static void ham_connect_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
-	ui_callbacks->connected(connection);
+	if (ham_reply_get_status(reply) == 200) {
+		connection->modules = strdup(ham_reply_get_content(reply));
+		ui_callbacks->connected(connection);
+	}
+	else {
+		ui_callbacks->disconnected(connection, "Error response from server");
+	}
 }
 
 void ham_connection_connect(HAMConnection *connection) {
@@ -157,8 +164,7 @@ void ham_connection_connect(HAMConnection *connection) {
 
 	connection->input_handle = ham_input_add(connection->fd, ham_connection_read_data, connection);
 
-	HAMRequest *request = ham_request_new("/", "GET", NULL, NULL);
-	ham_connection_send_destroy(connection, request, ham_connect_handle_response, NULL);
+	ham_connection_get_available_modules(connection, ham_connect_handle_response, NULL);
 }
 
 void ham_connection_disconnect(HAMConnection *connection) {
@@ -189,6 +195,12 @@ void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request,
 	ham_request_destroy(request);
 }
 
+void ham_connection_get_available_modules(HAMConnection *connection, HAMReplyHandler handler, void *ui_data) {
+	HAMRequest *request = ham_request_new("/modules", "GET", NULL, NULL);
+	ham_connection_send(connection, request, handler, ui_data);
+	ham_request_destroy(request);
+}
+
 void ham_connection_destroy(HAMConnection *connection) {
 	if (connection == NULL)
 		return;
@@ -200,6 +212,7 @@ void ham_connection_destroy(HAMConnection *connection) {
 	free(connection->username);
 	free(connection->password);
 	free(connection->read_buffer);
+	free(connection->modules);
 	ham_parser_destroy(connection->parser);
 	free(connection);
 }

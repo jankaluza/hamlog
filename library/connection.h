@@ -52,6 +52,7 @@ typedef struct _HAMConnection {
 	char *read_buffer;
 
 	HAMList *handlers;
+	char *modules;
 } HAMConnection;
 
 /** 
@@ -145,6 +146,8 @@ void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMRepl
  * @param ui_data Data passed to handler.
  */
 void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
+
+void ham_connection_get_available_modules(HAMConnection *connection, HAMReplyHandler handler, void *ui_data);
 
 /**
  * Destroys the connection.
