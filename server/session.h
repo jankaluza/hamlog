@@ -35,7 +35,13 @@ class Session : public boost::enable_shared_from_this<Session> {
 	public:
 		typedef boost::shared_ptr<Session> ref;
 
+		class ModuleData {
+			public:
+				virtual ~ModuleData();
+		};
+
 		Session(boost::asio::io_service& ioService);
+		~Session();
 
 		boost::asio::ip::tcp::socket& getSocket();
 
@@ -58,6 +64,14 @@ class Session : public boost::enable_shared_from_this<Session> {
 			return m_authenticated;
 		}
 
+		void setModuleData(std::string module, ModuleData *data) {
+			m_modulesData[module] = data;
+		}
+
+		ModuleData *getModuleData(std::string module) {
+			return m_modulesData[module];
+		}
+
 	private:
 		void handleRead(const boost::system::error_code& e, std::size_t bytes);
 		void handleWrite(const boost::system::error_code& e);
@@ -69,6 +83,7 @@ class Session : public boost::enable_shared_from_this<Session> {
 		Request::ref m_req;
 		boost::array<char, 8192> m_buffer;
 		unsigned long m_id;
+		std::map<std::string, ModuleData *> m_modulesData;
 };
 
 }

@@ -33,6 +33,14 @@ Session::Session(boost::asio::io_service& ioService)
 	m_req(new Request()) {
 }
 
+Session::~Session() {
+	for(std::map<std::string, ModuleData *>::iterator it = m_modulesData.begin(); it != m_modulesData.end(); it++) {
+		if (it->second) {
+			delete it->second;
+		}
+	}
+}
+
 boost::asio::ip::tcp::socket& Session::getSocket() {
 	return m_socket;
 }
