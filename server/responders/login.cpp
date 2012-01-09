@@ -29,6 +29,7 @@
 #include "module.h"
 #include "users_table.h"
 #include "boost/lexical_cast.hpp"
+#include "server.h"
 
 namespace HamLog {
 namespace Responder {
@@ -163,8 +164,8 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 }
 
 extern "C" {
-	Module *module_init();
-    Module *module_init() {
+	Module *module_init(Server *);
+    Module *module_init(Server *) {
 		return new Login();
     }
 }

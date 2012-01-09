@@ -26,6 +26,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include "requestresponder.h"
+#include "server.h"
 
 namespace HamLog {
 
@@ -109,7 +110,7 @@ bool ModuleManager::handleRequest(Session *session, Request::ref request, Reply:
 	return false;
 }
 
-void ModuleManager::loadModules(const std::string &path) {
+void ModuleManager::loadModules(Server *server, const std::string &path) {
 	boost::filesystem::directory_iterator end_itr;
 	for (boost::filesystem::directory_iterator itr(path); itr != end_itr; ++itr ) {
 		if (boost::filesystem::extension(itr->path()) == ".so") {
@@ -135,7 +136,7 @@ void ModuleManager::loadModules(const std::string &path) {
 				continue;
 			}
 
-			info->module = (*init)();
+			info->module = (*init)(server);
 			if (info->module == NULL) {
 				std::cout << "Module was not created by module_init function\n";
 				delete info->library;

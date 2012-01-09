@@ -28,6 +28,7 @@
 #include "logbook_table.h"
 #include "boost/lexical_cast.hpp"
 #include "boost/foreach.hpp"
+#include "server.h"
 
 namespace HamLog {
 namespace Responder {
@@ -188,8 +189,8 @@ bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref r
 }
 
 extern "C" {
-	Module *module_init();
-    Module *module_init() {
+	Module *module_init(Server *);
+    Module *module_init(Server *) {
 		return new LogBook();
     }
 }

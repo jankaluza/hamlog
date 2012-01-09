@@ -29,15 +29,16 @@
 
 namespace HamLog {
 
-typedef Module* (*module_init)(void);
-
 class SharedLibrary;
+class Server;
+
+typedef Module* (*module_init)(Server *);
 
 class ModuleManager {
 	public:
 		static ModuleManager *getInstance();
 
-		void loadModules(const std::string &path);
+		void loadModules(Server *server, const std::string &path);
 
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
 

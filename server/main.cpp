@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 				  CONFIG_INT(&config, "server.port"));
 
 	ModuleManager *moduleManager = ModuleManager::getInstance();
-	moduleManager->loadModules(CONFIG_STRING(&config, "modules.path"));
+	moduleManager->loadModules(&server, CONFIG_STRING(&config, "modules.path"));
 
 	server.start();
 

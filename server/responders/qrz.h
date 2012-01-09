@@ -32,9 +32,13 @@
 #include "reply.h"
 #include "storagebackend.h"
 
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+
 namespace HamLog {
 
 class Session;
+class Server;
 
 namespace Responder {
 
@@ -42,12 +46,17 @@ class QRZ : public boost::enable_shared_from_this<QRZ>, public RequestResponder 
 	public:
 		typedef boost::shared_ptr<QRZ> ref;
 
-		QRZ();
+		QRZ(Server *server);
 
 		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
 
 	private:
+		void handleResolve(const boost::system::error_code& err, boost::asio::ip::tcp::tcp::resolver::iterator endpoint_iterator);
 		void sendQRZ(Session *session, Request::ref request, Reply::ref reply);
+
+		Server *m_server;
+		boost::asio::ip::tcp::tcp::resolver m_resolver;
+		boost::asio::ip::tcp::tcp::endpoint m_endpoint;
 };
 
 }

@@ -23,6 +23,7 @@
 #include <iostream>
 #include "reply.h"
 #include "session.h"
+#include "server.h"
 
 namespace HamLog {
 namespace Responder {
@@ -38,8 +39,8 @@ bool Root::handleRequest(Session *session, Request::ref request, Reply::ref repl
 }
 
 extern "C" {
-	Module *module_init();
-    Module *module_init() {
+	Module *module_init(Server *);
+    Module *module_init(Server *) {
 		return new Root();
     }
 }

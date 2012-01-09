@@ -31,13 +31,32 @@
 #include "boost/lexical_cast.hpp"
 #include "boost/foreach.hpp"
 #include <boost/algorithm/string.hpp>
+#include "server.h"
+
 
 
 namespace HamLog {
 namespace Responder {
-	
-QRZ::QRZ() : RequestResponder("QRZ module", "/qrz", false) {
 
+using boost::asio::ip::tcp;
+
+QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", false), m_server(server), m_resolver(server->getIOService()) {
+	tcp::resolver::query query("qrz.com", "http");
+	m_resolver.async_resolve(query, boost::bind(&QRZ::handleResolve, this, boost::asio::placeholders::error, boost::asio::placeholders::iterator));
+}
+
+void QRZ::handleResolve(const boost::system::error_code& err, tcp::resolver::iterator endpoint_iterator) {
+	if (!err) {
+		m_endpoint = *endpoint_iterator;
+		boost::system::error_code ec;
+		std::string address = m_endpoint.address().to_string(ec);
+		std::cout << "QRZ: qrz.com resolved to " << address << "\n";
+
+// 		socket_.async_connect(endpoint, boost::bind(&client::handle_connect, this, boost::asio::placeholders::error, ++endpoint_iterator));
+	}
+	else {
+		std::cout << "Error resolving QRZ.com: " << err.message() << "\n";
+	}
 }
 
 void QRZ::sendQRZ(Session *session, Request::ref request, Reply::ref reply) {
@@ -59,9 +78,9 @@ bool QRZ::handleRequest(Session *session, Request::ref request, Reply::ref reply
 }
 
 extern "C" {
-	Module *module_init();
-    Module *module_init() {
-		return new QRZ();
+	Module *module_init(Server *);
+    Module *module_init(Server *server) {
+		return new QRZ(server);
     }
 }
 

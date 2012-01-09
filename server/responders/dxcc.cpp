@@ -31,6 +31,7 @@
 #include "boost/lexical_cast.hpp"
 #include "boost/foreach.hpp"
 #include <boost/algorithm/string.hpp>
+#include "server.h"
 
 
 namespace HamLog {
@@ -117,8 +118,8 @@ bool DXCC::handleRequest(Session *session, Request::ref request, Reply::ref repl
 }
 
 extern "C" {
-	Module *module_init();
-    Module *module_init() {
+	Module *module_init(Server *);
+    Module *module_init(Server *) {
 		return new DXCC();
     }
 }

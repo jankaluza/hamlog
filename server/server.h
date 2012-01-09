@@ -35,6 +35,10 @@ class Server {
 
 		void stop();
 
+		boost::asio::io_service &getIOService() {
+			return m_ioService;
+		}
+
 	private:
 		void handleAccept(const boost::system::error_code &e);
 
