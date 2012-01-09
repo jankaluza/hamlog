@@ -66,6 +66,8 @@ class MainWindow : public QMainWindow {
 		void handleDXCCFetched(HAMConnection *connection, const QString &data, const QString &logbook);
 
 	private:
+		int findColumnWithName(const std::string &name);
+
 		Ui_MainWindow ui;
 		QtEventLoop *m_eventLoop;
 		QtConnection *m_connection;

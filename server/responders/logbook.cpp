@@ -50,7 +50,7 @@ void LogBook::sendLogs(Session *session, Reply::ref reply) {
 	StorageBackend::getInstance()->select(m_getLogs);
 	std::cout << "LOGBOOK SIZE=" << logbook.size() << "\n";
 
-	std::string data = "id;user_id;callsign;date;qth;loc;latitude;longitude;country;continent;itu;cq\n";
+	std::string data = "id;user_id;qsodate;time_on;callsign;freq;mode;qth;name;loc;latitude;longitude;county;continent;itu;cq;rst_rx;rst_tx;qsl;qsl_sent;qsl_received;qsl_via\n";
 	BOOST_FOREACH(std::list<std::string> &entry, logbook) {
 		BOOST_FOREACH(std::string &col, entry) {
 			data += col + ";";

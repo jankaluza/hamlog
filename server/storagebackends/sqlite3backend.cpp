@@ -110,6 +110,9 @@ bool SQLite3::createTable(const std::string &name, const std::list<Column> &colu
 			case Column::Integer:
 				sql += "INTEGER ";
 				break;
+			case Column::Real:
+				sql += "REAL ";
+				break;
 			case Column::String:
 				sql += "VARCHAR(" + boost::lexical_cast<std::string>(c.m_size) + ") ";
 				break;
@@ -223,6 +226,8 @@ bool SQLite3::insert(Insert &query) {
 	}
 	sql.erase(sql.end() - 1);
 	sql += ");";
+
+	std::cout << "PREPARING " << sql << "\n";
 
 	sqlite3_stmt *stmt;
 	PREP_STMT(stmt, sql.c_str());

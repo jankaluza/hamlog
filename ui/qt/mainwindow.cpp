@@ -71,6 +71,17 @@ MainWindow::~MainWindow() {
 	}
 }
 
+int MainWindow::findColumnWithName(const std::string &name) {
+	QTreeWidgetItem *item = ui.logbook->headerItem();
+	for (int i = 0; i < item->columnCount(); i++) {
+		if (item->text(i).toStdString() == name) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 void MainWindow::showConnectDialog() {
 	if (m_connectDialog) {
 		m_connectDialog->reject();
@@ -107,12 +118,12 @@ void MainWindow::registerAccount(const QString &server, int port, const QString 
 void MainWindow::addRecord() {
 	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 	QTreeWidgetItem *item = new QTreeWidgetItem(ui.logbook);
-	item->setText(2, "UNNAMED");
+	item->setText(findColumnWithName("callsign"), "UNNAMED");
 	item->setFlags(item->flags() | Qt::ItemIsEditable);
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 
 	ui.logbook->setCurrentItem(item);
-	ui.logbook->editItem(item, 2);
+	ui.logbook->editItem(item, findColumnWithName("callsign"));
 }
 
 void MainWindow::removeRecord() {
@@ -148,7 +159,7 @@ void MainWindow::handleItemChanged(QTreeWidgetItem *item, int col) {
 	ham_logbook_add(m_conn, data.c_str());
 
 	// CALL changed, so ask dxcc
-	if (col == 2) {
+	if (col == findColumnWithName("callsign")) {
 		m_askDXCC = true;
 	}
 }
@@ -253,7 +264,7 @@ void MainWindow::handleLogBookUpdated(HAMConnection *connection, const QString &
 
 	if (m_askDXCC) {
 		m_askDXCC = false;
-		ham_dxcc_fetch(m_conn, item->text(2).toStdString().c_str());
+		ham_dxcc_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
 	}
 
 	for (int i = 0; i < ui.logbook->columnCount(); i++) {
@@ -288,12 +299,12 @@ void MainWindow::handleDXCCFetched(HAMConnection *connection, const QString &cal
 
 		disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 
-		item->setText(8, tokens[0][0]);
-		item->setText(9, tokens[0][1]);
-		item->setText(11, tokens[0][2]);
-		item->setText(10, tokens[0][3]);
-		item->setText(6, tokens[0][4]);
-		item->setText(7, tokens[0][5]);
+		item->setText(findColumnWithName("qth"), tokens[0][0]);
+		item->setText(findColumnWithName("continent"), tokens[0][1]);
+		item->setText(findColumnWithName("latitude"), tokens[0][2]);
+		item->setText(findColumnWithName("longitude"), tokens[0][3]);
+		item->setText(findColumnWithName("cq"), tokens[0][4]);
+		item->setText(findColumnWithName("itu"), tokens[0][5]);
 		handleItemChanged(item);
 
 		connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));

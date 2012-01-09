@@ -42,6 +42,7 @@ class StorageBackend {
 					Integer,
 					String,
 					Datetime,
+					Real,
 				};
 
 				Column(const std::string &name, int type, int size, bool not_null = false, bool primary_key = false)
