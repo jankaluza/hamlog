@@ -219,6 +219,7 @@ void MainWindow::handleDisconnected(HAMConnection *connection, const QString &re
 void MainWindow::handleLoggedIn(HAMConnection *connection) {
 	ui.statusbar->showMessage("Logged in!");
 	ui.statusbar->showMessage("Fetching logbook");
+	ui.infoLabel->setText(QString("Username: ") + connection->username + "     ");
 	ham_logbook_fetch(connection);
 }
 
@@ -297,7 +298,7 @@ void MainWindow::handleDXCCFetched(HAMConnection *connection, const QString &cal
 
 	QString text = "Do you want to use following DXCC data for this record?<br/>";
 	text += "<i>";
-	text += "Country: " + tokens[0][0] + "<br/>";
+	text += "QTH: " + tokens[0][0] + "<br/>";
 	text += "Continent: " + tokens[0][1] + "<br/>";
 	text += "Lat: " + tokens[0][4] + "<br/>";
 	text += "Lon: " + tokens[0][5] + "<br/>";
@@ -314,10 +315,10 @@ void MainWindow::handleDXCCFetched(HAMConnection *connection, const QString &cal
 
 		item->setText(findColumnWithName("qth"), tokens[0][0]);
 		item->setText(findColumnWithName("continent"), tokens[0][1]);
-		item->setText(findColumnWithName("latitude"), tokens[0][2]);
-		item->setText(findColumnWithName("longitude"), tokens[0][3]);
-		item->setText(findColumnWithName("cq"), tokens[0][4]);
-		item->setText(findColumnWithName("itu"), tokens[0][5]);
+		item->setText(findColumnWithName("cq"), tokens[0][2]);
+		item->setText(findColumnWithName("itu"), tokens[0][3]);
+		item->setText(findColumnWithName("latitude"), tokens[0][4]);
+		item->setText(findColumnWithName("longitude"), tokens[0][5]);
 		handleItemChanged(item);
 
 		connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
