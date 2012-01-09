@@ -33,7 +33,7 @@
 namespace HamLog {
 namespace Responder {
 	
-LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", false),
+LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", true),
 	m_getLogs("logbook"),
 	m_addLog("logbook"),
 	m_removeLog("logbook") {

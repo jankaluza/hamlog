@@ -58,6 +58,8 @@ class MainWindow : public QMainWindow {
 
 		void handleLoggedIn(HAMConnection *connection);
 		void handleLoginFailed(HAMConnection *connection, const QString &reason);
+		void handleRegistered(HAMConnection *connection);
+		void handleRegistrationFailed(HAMConnection *connection, const QString &reason);
 
 		void handleLogBookFetched(HAMConnection *connection, const QString &logbook);
 		void handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason);

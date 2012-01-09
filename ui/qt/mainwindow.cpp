@@ -47,6 +47,8 @@ MainWindow::MainWindow()
 
 	connect(m_account, SIGNAL(onLoggedIn(HAMConnection *)), this, SLOT(handleLoggedIn(HAMConnection *)));
 	connect(m_account, SIGNAL(onLoginFailed(HAMConnection *, const QString &)), this, SLOT(handleLoginFailed(HAMConnection *, const QString &)));
+	connect(m_account, SIGNAL(onRegistered(HAMConnection *)), this, SLOT(handleRegistered(HAMConnection *)));
+	connect(m_account, SIGNAL(onRegistrationFailed(HAMConnection *, const QString &)), this, SLOT(handleRegistrationFailed(HAMConnection *, const QString &)));
 
 	connect(m_logbook, SIGNAL(onLogBookFetched(HAMConnection *, const QString &)), this, SLOT(handleLogBookFetched(HAMConnection *, const QString &)));
 	connect(m_logbook, SIGNAL(onLogBookUpdated(HAMConnection *, const QString &, const QString &)), this, SLOT(handleLogBookUpdated(HAMConnection *, const QString &, const QString &)));
@@ -223,6 +225,17 @@ void MainWindow::handleLoggedIn(HAMConnection *connection) {
 void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {
 	ui.statusbar->showMessage(QString("Login failed: ") + reason);
 	QMessageBox::critical(this, "Login failed!", reason);
+}
+
+void MainWindow::handleRegistered(HAMConnection *connection) {
+	ui.statusbar->showMessage("Registered!");
+	ui.statusbar->showMessage("Logging in");
+	ham_account_login(connection);
+}
+
+void MainWindow::handleRegistrationFailed(HAMConnection *connection, const QString &reason) {
+	ui.statusbar->showMessage(QString("Registration failed: ") + reason);
+	QMessageBox::critical(this, "Registration failed!", reason);
 }
 
 void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &logbook) {
