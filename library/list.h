@@ -30,6 +30,8 @@
 extern "C" {
 #endif
 
+typedef void (*HAMListItemDataFree) (void *data);
+
 typedef struct _HAMListItem {
 	void *data;
 	struct _HAMListItem *lptr;
@@ -39,6 +41,7 @@ typedef struct _HAMListItem {
 typedef struct _HAMList {
 	HAMListItem *first;
 	HAMListItem *last;
+	HAMListItemDataFree free_func;
 } HAMList;
 
 /**
@@ -52,6 +55,8 @@ HAMList *ham_list_new();
  * @param list List.
  */
 void ham_list_destroy(HAMList *list);
+
+void ham_list_set_free_func(HAMList *list, HAMListItemDataFree func);
 
 /**
  * Inserts new data as first element in list.
@@ -80,6 +85,10 @@ void ham_list_remove(HAMList *list, void *data);
  * @return Data.
  */
 void *ham_list_get_first(HAMList *list);
+
+HAMListItem *ham_list_get_first_item(HAMList *list);
+HAMListItem *ham_list_get_next_item(HAMListItem *item);
+void *ham_list_item_get_data(HAMListItem *item);
 
 /**
  * Returns data of free element in list and removes it from list.

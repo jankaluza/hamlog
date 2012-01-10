@@ -348,3 +348,62 @@ void ham_parser_destroy(HAMParser *parser) {
 
 	free(parser);
 }
+
+HAMList *ham_parse_csv(const char *str) {
+	HAMList *tokens = ham_list_new();
+	ham_list_set_free_func(tokens, ham_list_destroy);
+
+	unsigned int pos = 0;
+	int quotes = 0;
+	char field[8192];
+	char *ptr = field;
+
+	HAMList *line = ham_list_new();
+	ham_list_set_free_func(line, free);
+     
+    while(pos < strlen(str) && str[pos] != 0) {
+		char c = str[pos];
+		if (!quotes && c == '"' ) {
+			quotes = 1;
+		}
+		else if (quotes && c== '"' ) {
+			if (pos + 1 < strlen(str) && str[pos+1]== '"' ) {
+				*ptr++ = c;
+				pos++;
+			}
+			else {
+				quotes = 0;
+			}
+		}
+		else if (!quotes && c == ';') {
+			*ptr++ = 0;
+			ham_list_insert_last(line, strdup(field));
+			ptr = field;
+			*ptr = 0;
+		}
+		else if (!quotes && ( c == '\n' || c == '\r' )) {
+			*ptr++ = 0;
+			ham_list_insert_last(line, strdup(field));
+			ptr = field;
+			*ptr = 0;
+
+			ham_list_insert_last(tokens, line);
+			line = ham_list_new();
+			ham_list_set_free_func(line, free);
+		}
+		else {
+			*ptr++ = c;
+		}
+		pos++;
+	}
+
+	if (strlen(field) != 0) {
+		ham_list_insert_last(line, strdup(field));
+		ham_list_insert_last(tokens, line);
+	}
+	else {
+		ham_list_destroy(line);
+	}
+
+	return tokens;
+}

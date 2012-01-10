@@ -27,6 +27,7 @@
 #define _HAMLOG_PARSER_H
 
 #include "reply.h"
+#include "list.h"
 
 #ifdef __cplusplus                                                                                                                                                      
 extern "C" {
@@ -95,6 +96,8 @@ unsigned long ham_parser_parse(HAMParser *parser, HAMReply *reply, const char *d
  * @param parser HTTP parser.
  */
 void ham_parser_reset(HAMParser *parser);
+
+HAMList *ham_parse_csv(const char *str);
 
 #ifdef __cplusplus                                                                                                                                                      
 }

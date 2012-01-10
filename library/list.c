@@ -33,6 +33,7 @@ HAMList *ham_list_new() {
 
 	list->first = NULL;
 	list->last = NULL;
+	list->free_func = NULL;
 	return list;
 }
 
@@ -45,12 +46,18 @@ void ham_list_destroy(HAMList *list) {
 
 	while (ptr) {
 		ptr2 = ptr->rptr;
-		free(ptr->data);
+		if (list->free_func) {
+			list->free_func(ptr->data);
+		}
 		free(ptr);
 		ptr = ptr2;
 	}
 
 	free(list);
+}
+
+void ham_list_set_free_func(HAMList *list, HAMListItemDataFree func) {
+	list->free_func = func;
 }
 
 void ham_list_insert_first(HAMList *list, void *data) {
@@ -137,4 +144,16 @@ void *ham_list_get_last(HAMList *list) {
 	if (list->last == NULL)
 		return NULL;
 	return list->last->data;
+}
+
+HAMListItem *ham_list_get_first_item(HAMList *list) {
+	return list->first;
+}
+
+HAMListItem *ham_list_get_next_item(HAMListItem *item) {
+	return item->rptr;
+}
+
+void *ham_list_item_get_data(HAMListItem *item) {
+	return item->data;
 }

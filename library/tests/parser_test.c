@@ -54,5 +54,24 @@ int main(int argc, char **argv) {
 
 	ham_reply_destroy(reply);
 	ham_parser_destroy(parser);
+
+	printf("parsing csv:\n1;2;3\na;b;c\n");
+
+	HAMList *lines = ham_parse_csv("1;2;3\na;b;c\n");
+
+	printf("parsed:\n");
+	HAMListItem *line = ham_list_get_first_item(lines);
+	while (line) {
+		HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(line));
+		while (field) {
+			printf("%s;", (char *) ham_list_item_get_data(field));
+			field = ham_list_get_next_item(field);
+		}
+		printf("\n");
+		line = ham_list_get_next_item(line);
+	}
+
+	ham_list_destroy(lines);
+
 	return 0;
 }
