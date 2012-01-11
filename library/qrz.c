@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#include "dxcc.h"
+#include "qrz.h"
 #include "eventloop.h"
 #include "parser.h"
 #include "request.h"
@@ -30,13 +30,13 @@
 #include <string.h>
 #include <errno.h>
 
-static HAMDXCCUICallbacks *ui_callbacks = NULL;
+static HAMQRZUICallbacks *ui_callbacks = NULL;
 
-void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks) {
+void ham_qrz_set_ui_callbacks(HAMQRZUICallbacks *callbacks) {
 	ui_callbacks = callbacks;
 }
 
-static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *data) {
+static void ham_qrz_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	if (ham_reply_get_status(reply) == 200) {
 		if (ui_callbacks && ui_callbacks->fetched)
 			ui_callbacks->fetched(connection, data, ham_reply_get_content(reply));
@@ -48,11 +48,11 @@ static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *
 	free(data);
 }
 
-void ham_dxcc_fetch(HAMConnection *connection, const char *call) {
-	if (ham_connection_get_module(connection, "/dxcc") == NULL) {
+void ham_qrz_fetch(HAMConnection *connection, const char *call) {
+	if (ham_connection_get_module(connection, "/qrz") == NULL) {
 		return;
 	}
 
-	HAMRequest *request = ham_request_new("/dxcc", "POST", call, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_dxcc_response, strdup(call));
+	HAMRequest *request = ham_request_new("/qrz", "POST", call, "hamlog");
+	ham_connection_send_destroy(connection, request, ham_qrz_response, strdup(call));
 }

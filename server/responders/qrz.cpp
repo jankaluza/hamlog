@@ -32,7 +32,7 @@
 #include "boost/foreach.hpp"
 #include <boost/algorithm/string.hpp>
 #include "server.h"
-
+#include "qrz_users_table.h"
 
 
 namespace HamLog {
@@ -40,7 +40,11 @@ namespace Responder {
 
 using boost::asio::ip::tcp;
 
-QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", false), m_server(server), m_resolver(server->getIOService()) {
+QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", true), m_server(server), m_resolver(server->getIOService()), m_addUser("qrz_users") {
+	CREATE_QRZ_USERS_TABLE();
+
+	m_addUser.what(&m_addData);
+
 	tcp::resolver::query query("qrz.com", "http");
 	m_resolver.async_resolve(query, boost::bind(&QRZ::handleResolve, this, boost::asio::placeholders::error, boost::asio::placeholders::iterator));
 }
@@ -64,11 +68,37 @@ void QRZ::sendQRZ(Session *session, Request::ref request, Reply::ref reply) {
 	reply->setContent("unknown");
 }
 
+void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {
+	std::string username = request->getHeader("username");
+	std::string password = request->getHeader("password");
+
+
+	m_addData["name"] = username;
+	m_addData["password"] = password;
+	m_addData["user_id"] = boost::lexical_cast<std::string>(session->getId());
+
+	if (StorageBackend::getInstance()->insert(m_addUser)) {
+		reply->setContent("Registered");
+	}
+	else {
+		if (StorageBackend::getInstance()->update(m_addUser)) {
+			reply->setContent("Updated");
+		}
+		else {
+			reply->setStatus(Reply::bad_request);
+			reply->setContent("Bad data or SQL error");
+		}
+	}
+}
+
 bool QRZ::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
 
 	if (uri == "/qrz") {
 		sendQRZ(session, request, reply);
+	}
+	else if (uri == "/qrz/register") {
+		addUser(session, request, reply);
 	}
 	else {
 		return false;
