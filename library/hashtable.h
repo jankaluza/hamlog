@@ -26,6 +26,8 @@
 #ifndef _HAMLOG_HASHTABLE_H
 #define _HAMLOG_HASHTABLE_H
 
+#include "list.h"
+
 #ifdef __cplusplus                                                                                                                                                      
 extern "C" {
 #endif
@@ -93,6 +95,12 @@ int ham_hash_table_add(HAMHashTable *table, void *key, long key_len, void *value
 int ham_hash_table_remove(HAMHashTable *table, void *key, long key_len);
 
 void *ham_hash_table_lookup(HAMHashTable *table, void *key, long key_len);
+
+unsigned long ham_hash_table_get_size(HAMHashTable *table);
+
+int ham_hash_table_get_keys(HAMHashTable *table, void **keys[]);
+
+HAMList *ham_hash_table_to_list(HAMHashTable *table);
 
 #ifdef __cplusplus                                                                                                                                                      
 }

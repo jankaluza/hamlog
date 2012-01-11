@@ -59,7 +59,8 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 	connection->parser = ham_parser_new();
 	connection->reply = ham_reply_new();
 	connection->handlers = ham_list_new();
-	connection->modules = NULL;
+	connection->modules = ham_hash_table_new();
+	ham_hash_table_set_free_func(connection->modules, free);
 
 	if (connection->hostname == NULL || connection->username == NULL ||
 		connection->password == NULL || connection->read_buffer == NULL) {
@@ -121,9 +122,46 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	}
 }
 
+static void ham_connection_parse_modules(HAMHashTable *table, const char *modules) {
+	HAMModule *module = NULL;
+	HAMList *lines = ham_parse_csv(modules);
+	HAMListItem *line = ham_list_get_first_item(lines);
+	while (line) {
+		module = calloc(1, sizeof(HAMModule));
+		
+		int i = 0;
+		HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(line));
+		while (field) {
+// 			uri;name;desc;need_auth
+			if (i == 0) {
+				module->uri = strdup((char *) ham_list_item_get_data(field));
+			}
+			else if (i == 1) {
+				module->name = strdup((char *) ham_list_item_get_data(field));
+			}
+			else if (i == 2) {
+				module->desc = strdup((char *) ham_list_item_get_data(field));
+			}
+			else if (i == 3) {
+				module->need_auth = *((char *) ham_list_item_get_data(field)) == '1';
+			}
+			i++;
+			field = ham_list_get_next_item(field);
+		}
+
+		ham_hash_table_add(table, module->uri, -1, (void *) module);
+
+		line = ham_list_get_next_item(line);
+	}
+
+	ham_list_destroy(lines);
+}
+
 static void ham_connect_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	if (ham_reply_get_status(reply) == 200) {
-		connection->modules = strdup(ham_reply_get_content(reply));
+		// parse modules
+		ham_connection_parse_modules(connection->modules, ham_reply_get_content(reply));
+
 		ui_callbacks->connected(connection);
 	}
 	else {
@@ -164,7 +202,7 @@ void ham_connection_connect(HAMConnection *connection) {
 
 	connection->input_handle = ham_input_add(connection->fd, ham_connection_read_data, connection);
 
-	ham_connection_get_available_modules(connection, ham_connect_handle_response, NULL);
+	ham_connection_fetch_available_modules(connection, ham_connect_handle_response, NULL);
 }
 
 void ham_connection_disconnect(HAMConnection *connection) {
@@ -195,7 +233,7 @@ void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request,
 	ham_request_destroy(request);
 }
 
-void ham_connection_get_available_modules(HAMConnection *connection, HAMReplyHandler handler, void *ui_data) {
+void ham_connection_fetch_available_modules(HAMConnection *connection, HAMReplyHandler handler, void *ui_data) {
 	HAMRequest *request = ham_request_new("/modules", "GET", NULL, NULL);
 	ham_connection_send(connection, request, handler, ui_data);
 	ham_request_destroy(request);
@@ -215,4 +253,12 @@ void ham_connection_destroy(HAMConnection *connection) {
 	free(connection->modules);
 	ham_parser_destroy(connection->parser);
 	free(connection);
+}
+
+HAMList *ham_connection_get_modules(HAMConnection *connection) {
+	return ham_hash_table_to_list(connection->modules);
+}
+
+HAMModule *ham_connection_get_module(HAMConnection *connection, char *name) {
+	return (HAMModule *) ham_hash_table_lookup(connection->modules, name, -1);
 }

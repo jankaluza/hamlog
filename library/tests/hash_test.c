@@ -33,13 +33,21 @@ int main(int argc, char **argv) {
 	printf("    lookup 'ahoj1': %s\n", (char *) ham_hash_table_lookup(table, "ahoj1", -1));
 	printf("    lookup 'ahoj': %d\n", (int) ham_hash_table_lookup(table, "ahoj", -1));
 
-	printf("remoev 'ahoj'\n");
+	printf("get_keys:\n");
+	void **keys = NULL;
+	unsigned long count = ham_hash_table_get_keys(table, &keys);
+	unsigned long i;
+	for (i = 0; i < count; i++) {
+		printf("   %s\n", (char *) keys[i]);
+	}
+	free(keys);
+
+	printf("remove 'ahoj'\n");
 	ham_hash_table_remove(table, "ahoj", -1);
 	printf("    lookup 'ahoj': %s\n", (char *) ham_hash_table_lookup(table, "ahoj", -1));
 
 	ham_hash_table_set_free_func(table, free);
 	ham_hash_table_add(table, "ahoj", -1, (void *) strdup("this must be freed"));
-
 	
 	ham_hash_table_destroy(table);
 	return 0;

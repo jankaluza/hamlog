@@ -30,6 +30,7 @@
 #include "reply.h"
 #include "request.h"
 #include "list.h"
+#include "hashtable.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,8 +53,15 @@ typedef struct _HAMConnection {
 	char *read_buffer;
 
 	HAMList *handlers;
-	char *modules;
+	HAMHashTable *modules;
 } HAMConnection;
+
+typedef struct _HAMModule {
+	char *uri;
+	char *name;
+	char *desc;
+	int need_auth;
+} HAMModule;
 
 /** 
  * Handler for incoming replies.
@@ -147,7 +155,11 @@ void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMRepl
  */
 void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
 
-void ham_connection_get_available_modules(HAMConnection *connection, HAMReplyHandler handler, void *ui_data);
+void ham_connection_fetch_available_modules(HAMConnection *connection, HAMReplyHandler handler, void *ui_data);
+
+HAMList *ham_connection_get_modules(HAMConnection *connection);
+
+HAMModule *ham_connection_get_module(HAMConnection *connection, char *name);
 
 /**
  * Destroys the connection.

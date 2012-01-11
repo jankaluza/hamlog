@@ -193,3 +193,40 @@ void *ham_hash_table_lookup(HAMHashTable *table, void *key, long key_len) {
 	}
 	return NULL;
 }
+
+unsigned long ham_hash_table_get_size(HAMHashTable *table) {
+	return table->count;
+}
+
+int ham_hash_table_get_keys(HAMHashTable *table, void **keys[]) {
+	unsigned long i = 0;
+	unsigned long count = 0;
+	*keys = calloc(table->count, sizeof(void *));
+	for(i = 0; i < HAM_HASH_LEN; i++) {
+		if (table->items[i]) {
+			*keys[count++] = table->items[i]->key;
+			HAMHashTableItem *tmp = table->items[i];
+			while(tmp->next) {
+				*keys[count++] = tmp->next->key;
+				tmp = tmp->next;
+			}
+		}
+	}
+	return count;
+}
+
+HAMList *ham_hash_table_to_list(HAMHashTable *table) {
+	HAMList *list = ham_list_new();
+	unsigned long i = 0;
+	for(i = 0; i < HAM_HASH_LEN; i++) {
+		if (table->items[i]) {
+			ham_list_insert_last(list, table->items[i]->data);
+			HAMHashTableItem *tmp = table->items[i];
+			while(tmp->next) {
+				ham_list_insert_last(list, tmp->next->data);
+				tmp = tmp->next;
+			}
+		}
+	}
+	return list;
+}
