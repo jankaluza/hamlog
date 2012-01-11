@@ -41,6 +41,7 @@ class MainWindow : public QMainWindow {
 
 	public slots:
 		void showConnectDialog();
+		void showAvailableModules(bool checked = false);
 
 		void connectServer(const QString &server, int port, const QString &username, const QString &password);
 		void registerAccount(const QString &server, int port, const QString &username, const QString &password);

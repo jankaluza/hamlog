@@ -77,7 +77,13 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="4">
-         <widget class="QTreeWidget" name="logbook"/>
+         <widget class="QTreeWidget" name="logbook">
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -91,13 +97,14 @@
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHAMLog">
     <property name="title">
      <string>HAMLog</string>
     </property>
+    <addaction name="actionAvailable_modules"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -112,6 +119,11 @@
   <action name="actionQuick_Connect">
    <property name="text">
     <string>Quick Connect</string>
+   </property>
+  </action>
+  <action name="actionAvailable_modules">
+   <property name="text">
+    <string>Available modules</string>
    </property>
   </action>
  </widget>

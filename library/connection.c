@@ -126,23 +126,52 @@ static void ham_connection_parse_modules(HAMHashTable *table, const char *module
 	HAMModule *module = NULL;
 	HAMList *lines = ham_parse_csv(modules);
 	HAMListItem *line = ham_list_get_first_item(lines);
+
+	// header
+	int uri = -1;
+	int name = -1;
+	int desc = -1;
+	int need_auth = -1;
+	int i = 0;
+
+	// 1st line is header
+	HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(line));
+	while (field) {
+		if (strcmp((char *) field->data, "uri") == 0) {
+			uri = i;
+		}
+		else if (strcmp((char *) field->data, "name") == 0) {
+			name = i;
+		}
+		else if (strcmp((char *) field->data, "desc") == 0) {
+			desc = i;
+		}
+		else if (strcmp((char *) field->data, "need_auth") == 0) {
+			need_auth = i;
+		}
+		
+		i++;
+		field = ham_list_get_next_item(field);
+	}
+
+	// 2nd line
+	line = ham_list_get_next_item(line);
 	while (line) {
 		module = calloc(1, sizeof(HAMModule));
 		
 		int i = 0;
-		HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(line));
+		field = ham_list_get_first_item(ham_list_item_get_data(line));
 		while (field) {
-// 			uri;name;desc;need_auth
-			if (i == 0) {
+			if (i == uri) {
 				module->uri = strdup((char *) ham_list_item_get_data(field));
 			}
-			else if (i == 1) {
+			else if (i == name) {
 				module->name = strdup((char *) ham_list_item_get_data(field));
 			}
-			else if (i == 2) {
+			else if (i == desc) {
 				module->desc = strdup((char *) ham_list_item_get_data(field));
 			}
-			else if (i == 3) {
+			else if (i == need_auth) {
 				module->need_auth = *((char *) ham_list_item_get_data(field)) == '1';
 			}
 			i++;

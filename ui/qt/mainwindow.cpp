@@ -26,6 +26,7 @@
 #include "qtdxcc.h"
 #include "iostream"
 #include "connectdialog.h"
+#include "modulesdialog.h"
 
 #include <QMessageBox>
 
@@ -57,6 +58,8 @@ MainWindow::MainWindow()
 	connect(m_dxcc, SIGNAL(onDXCCFetched(HAMConnection *, const QString &, const QString &)), this, SLOT(handleDXCCFetched(HAMConnection *, const QString &, const QString &)));
 
 	connect(ui.addRecord, SIGNAL(clicked()), this, SLOT(addRecord()));
+
+	connect(ui.actionAvailable_modules, SIGNAL(triggered(bool)), this, SLOT(showAvailableModules(bool)));
 
 	ui.logbook->setContextMenuPolicy(Qt::CustomContextMenu);  
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
@@ -96,6 +99,11 @@ void MainWindow::showConnectDialog() {
 			this, SLOT(registerAccount(const QString &, int, const QString &, const QString&)));
 	m_connectDialog->setModal(true);
 	m_connectDialog->show();
+}
+
+void MainWindow::showAvailableModules(bool checked) {
+	ModulesDialog dialog(m_conn, this);
+	dialog.exec();
 }
 
 void MainWindow::connectServer(const QString &server, int port, const QString &username, const QString &password) {
