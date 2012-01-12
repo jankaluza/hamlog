@@ -43,11 +43,22 @@ typedef struct _HAMQRZUICallbacks {
 	/** Called when QRZ data is succesfully fetched from HAMLog server
 	 */
 	void (*fetched) (HAMConnection *connection, const char *call, const char *data);
+
+	/** Called when user associated with this connection has been
+	 *  succesfully registered.
+	 */
+	void (*registered) (HAMConnection *connection);
+
+	/** Called when registration failed for some reason.
+	 */
+	void (*registration_failed) (HAMConnection *connection, const char *reason);
 } HAMQRZUICallbacks;
 
 void ham_qrz_set_ui_callbacks(HAMQRZUICallbacks *callbacks);
 
 void ham_qrz_fetch(HAMConnection *connection, const char *call);
+
+void ham_qrz_register(HAMConnection *connection, const char *username, const char *password);
 
 #ifdef __cplusplus                                                                                                                                                      
 }

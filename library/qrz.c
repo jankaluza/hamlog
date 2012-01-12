@@ -56,3 +56,21 @@ void ham_qrz_fetch(HAMConnection *connection, const char *call) {
 	HAMRequest *request = ham_request_new("/qrz", "POST", call, "hamlog");
 	ham_connection_send_destroy(connection, request, ham_qrz_response, strdup(call));
 }
+
+static void ham_register_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
+	if (ham_reply_get_status(reply) == 200) {
+		if (ui_callbacks && ui_callbacks->registered)
+			ui_callbacks->registered(connection);
+	}
+	else {
+		if (ui_callbacks && ui_callbacks->registration_failed)
+			ui_callbacks->registration_failed(connection, ham_reply_get_content(reply));
+	}
+}
+
+void ham_qrz_register(HAMConnection *connection, const char *username, const char *password) {
+	HAMRequest *request = ham_request_new("/qrz/register", "GET", NULL, NULL);
+	ham_request_add_header(request, "username", username);
+	ham_request_add_header(request, "password", password);
+	ham_connection_send_destroy(connection, request, ham_register_handle_response, NULL);
+}
