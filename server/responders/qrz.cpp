@@ -40,6 +40,18 @@ namespace Responder {
 
 using boost::asio::ip::tcp;
 
+class QRZModuleData : public Session::ModuleData {
+	public:
+		QRZModuleData(Server *server) : socket(server->getIOService()) {}
+		virtual ~QRZModuleData() {}
+
+		std::string key;
+		tcp::socket socket;
+		std::string call;
+		boost::asio::streambuf request;
+		boost::asio::streambuf response;
+};
+
 QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", true), m_server(server), m_resolver(server->getIOService()), m_addUser("qrz_users"), m_getUser("qrz_users") {
 	CREATE_QRZ_USERS_TABLE();
 
@@ -58,17 +70,87 @@ void QRZ::handleResolve(const boost::system::error_code& err, tcp::resolver::ite
 		boost::system::error_code ec;
 		std::string address = m_endpoint.address().to_string(ec);
 		std::cout << "QRZ: qrz.com resolved to " << address << "\n";
-
-// 		socket_.async_connect(endpoint, boost::bind(&client::handle_connect, this, boost::asio::placeholders::error, ++endpoint_iterator));
 	}
 	else {
 		std::cout << "Error resolving QRZ.com: " << err.message() << "\n";
 	}
 }
 
+void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& err) {
+	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
+	if (err) {
+		data->call = "";
+		// TODO
+		return;
+	}
+
+	const char* d = boost::asio::buffer_cast<const char*>(data->response.data());
+
+	std::cout << "RECEIVED FROM QRZ: " << d << "\n";
+}
+
+void QRZ::handleQRZWriteRequest(Session *session, const boost::system::error_code& err) {
+	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
+	if (err) {
+		data->call = "";
+		// TODO
+		return;
+	}
+
+	boost::asio::async_read_until(data->socket, data->response, "</QRZDatabase>", boost::bind(&QRZ::handleQRZReadKey, this, session, boost::asio::placeholders::error));
+}
+
+void QRZ::handleQRZConnected(Session *session, const boost::system::error_code& err) {
+	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
+	if (err) {
+		data->call = "";
+		// TODO
+		return;
+	}
+	
+	boost::asio::async_write(data->socket, data->request, boost::bind(&QRZ::handleQRZWriteRequest, this, session, boost::asio::placeholders::error));
+}
+
+bool QRZ::askQRZ(Session *session, const std::string &call) {
+	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
+	if (data != NULL && !data->key.empty()) {
+		// TODO: ask qrz with data->key
+	}
+	else {
+		if (data == NULL) {
+			data = new QRZModuleData(m_server);
+			session->setModuleData("/qrz", data);
+		}
+
+		std::list<std::list<std::string> > user;
+		m_getUser.into(&user);
+		m_getUser.where("user_id", boost::lexical_cast<std::string>(session->getId()));
+		StorageBackend::getInstance()->select(m_getUser);
+
+		if (user.empty()) {
+			return false;
+		}
+
+		std::string username = user.front().front();
+		std::string password = user.front().back();
+
+		std::ostream request_stream(&data->request);
+		request_stream << "GET http://www.qrz.com/xml?username=" << username << ";password=" << password << ";agent=hamlog HTTP/1.0\r\n";
+		request_stream << "Host: www.qrz.com\r\n";
+		request_stream << "Accept: */*\r\n";
+		request_stream << "Connection: close\r\n\r\n";
+
+		data->call = call;
+		data->socket.async_connect(m_endpoint, boost::bind(&QRZ::handleQRZConnected, this, session, boost::asio::placeholders::error));
+	}
+
+	return true;
+}
+
 void QRZ::sendQRZ(Session *session, Request::ref request, Reply::ref reply) {
 	reply->setStatus(Reply::bad_request);
 	reply->setContent("unknown");
+	askQRZ(session, "test");
 }
 
 void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {

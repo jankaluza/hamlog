@@ -32,11 +32,12 @@ namespace HamLog {
 
 class SharedLibrary {
 	public:
-		~SharedLibrary() { dlclose(m_handle); }
+		~SharedLibrary() { if (m_handle) { dlclose(m_handle); } }
 
 		static SharedLibrary* openSharedLibrary(const std::string &name) {
 			SharedLibrary *lib = new SharedLibrary(name);
 			if (!lib->isLoaded()) {
+				std::cout << dlerror() << "\n";
 				delete lib;
 				lib = NULL;
 			}

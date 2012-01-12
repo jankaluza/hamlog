@@ -37,7 +37,7 @@ class Session : public boost::enable_shared_from_this<Session> {
 
 		class ModuleData {
 			public:
-				virtual ~ModuleData();
+				virtual ~ModuleData() {}
 		};
 
 		Session(boost::asio::io_service& ioService);
