@@ -29,6 +29,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <errno.h>
+#include "qrz.h"
 
 static HAMAccountUICallbacks *ui_callbacks = NULL;
 
@@ -65,6 +66,10 @@ static void ham_login_handle_get_response2(HAMConnection *connection, HAMReply *
 			ui_callbacks->login_failed(connection, "Bad username or password");
 	}
 	else {
+		if (ham_connection_get_module(connection, "/qrz") != NULL) {
+			ham_qrz_fetch_username(connection);
+		}
+
 		if (ui_callbacks && ui_callbacks->logged_in)
 			ui_callbacks->logged_in(connection);
 	}

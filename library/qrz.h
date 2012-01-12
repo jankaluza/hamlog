@@ -58,6 +58,8 @@ void ham_qrz_set_ui_callbacks(HAMQRZUICallbacks *callbacks);
 
 void ham_qrz_fetch(HAMConnection *connection, const char *call);
 
+void ham_qrz_fetch_username(HAMConnection *connection);
+
 void ham_qrz_register(HAMConnection *connection, const char *username, const char *password);
 
 #ifdef __cplusplus                                                                                                                                                      

@@ -308,7 +308,14 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 			}
 		case expecting_newline_3:
 			if (input == '\n') {
-				parser->state = content_start;
+				if (ham_reply_get_header(reply, "Content-Length") && strcmp(ham_reply_get_header(reply, "Content-Length"), "0") != 0) {
+					parser->state = content_start;
+				}
+				else {
+					*reply->content = 0;
+					reply->finished = 1;
+					ham_parser_reset(parser);
+				}
 				return 1;
 			}
 			return 0;

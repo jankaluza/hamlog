@@ -27,6 +27,7 @@
 #include "iostream"
 #include "connectdialog.h"
 #include "modulesdialog.h"
+#include "qrzregisterdialog.h"
 
 #include <QMessageBox>
 
@@ -60,6 +61,8 @@ MainWindow::MainWindow()
 	connect(ui.addRecord, SIGNAL(clicked()), this, SLOT(addRecord()));
 
 	connect(ui.actionAvailable_modules, SIGNAL(triggered(bool)), this, SLOT(showAvailableModules(bool)));
+	connect(ui.actionRegister_QRZ_account, SIGNAL(triggered(bool)), this, SLOT(showQRZRegisterDialog(bool)));
+	
 
 	ui.logbook->setContextMenuPolicy(Qt::CustomContextMenu);  
 	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
@@ -103,6 +106,11 @@ void MainWindow::showConnectDialog() {
 
 void MainWindow::showAvailableModules(bool checked) {
 	ModulesDialog dialog(m_conn, this);
+	dialog.exec();
+}
+
+void MainWindow::showQRZRegisterDialog(bool checked) {
+	QRZRegisterDialog dialog(m_conn, this);
 	dialog.exec();
 }
 

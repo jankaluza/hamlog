@@ -57,6 +57,21 @@ void ham_qrz_fetch(HAMConnection *connection, const char *call) {
 	ham_connection_send_destroy(connection, request, ham_qrz_response, strdup(call));
 }
 
+static void ham_username_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
+	if (ham_reply_get_status(reply) == 200) {
+		HAMModule *module = ham_connection_get_module(connection, "/qrz");
+		if (module != NULL) {
+			free(module->data);
+			module->data = strdup(ham_reply_get_content(reply));
+		}
+	}
+}
+
+void ham_qrz_fetch_username(HAMConnection *connection) {
+	HAMRequest *request = ham_request_new("/qrz/username", "GET", NULL, NULL);
+	ham_connection_send_destroy(connection, request, ham_username_handle_response, NULL);
+}
+
 static void ham_register_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	if (ham_reply_get_status(reply) == 200) {
 		if (ui_callbacks && ui_callbacks->registered)

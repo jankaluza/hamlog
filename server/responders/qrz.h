@@ -54,12 +54,14 @@ class QRZ : public boost::enable_shared_from_this<QRZ>, public RequestResponder 
 		void handleResolve(const boost::system::error_code& err, boost::asio::ip::tcp::tcp::resolver::iterator endpoint_iterator);
 		void sendQRZ(Session *session, Request::ref request, Reply::ref reply);
 		void addUser(Session *session, Request::ref request, Reply::ref reply);
+		void sendUsername(Session *session, Request::ref request, Reply::ref reply);
 
 		Server *m_server;
 		boost::asio::ip::tcp::tcp::resolver m_resolver;
 		boost::asio::ip::tcp::tcp::endpoint m_endpoint;
 		std::map<std::string, std::string> m_addData;
 		StorageBackend::Insert m_addUser;
+		StorageBackend::Select m_getUser;
 };
 
 }

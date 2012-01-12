@@ -40,10 +40,13 @@ namespace Responder {
 
 using boost::asio::ip::tcp;
 
-QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", true), m_server(server), m_resolver(server->getIOService()), m_addUser("qrz_users") {
+QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", true), m_server(server), m_resolver(server->getIOService()), m_addUser("qrz_users"), m_getUser("qrz_users") {
 	CREATE_QRZ_USERS_TABLE();
 
 	m_addUser.what(&m_addData);
+
+	m_getUser.what("name");
+	m_getUser.what("password");
 
 	tcp::resolver::query query("qrz.com", "http");
 	m_resolver.async_resolve(query, boost::bind(&QRZ::handleResolve, this, boost::asio::placeholders::error, boost::asio::placeholders::iterator));
@@ -91,6 +94,20 @@ void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {
 	}
 }
 
+void QRZ::sendUsername(Session *session, Request::ref request, Reply::ref reply) {
+	m_getUser.where("user_id", boost::lexical_cast<std::string>(session->getId()));
+	std::list<std::list<std::string> > user;
+	m_getUser.into(&user);
+	StorageBackend::getInstance()->select(m_getUser);
+
+	if (user.empty()) {
+		reply->setContent("");
+		return;
+	}
+
+	reply->setContent(user.front().front());
+}
+
 bool QRZ::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
 
@@ -99,6 +116,9 @@ bool QRZ::handleRequest(Session *session, Request::ref request, Reply::ref reply
 	}
 	else if (uri == "/qrz/register") {
 		addUser(session, request, reply);
+	}
+	else if (uri == "/qrz/username") {
+		sendUsername(session, request, reply);
 	}
 	else {
 		return false;

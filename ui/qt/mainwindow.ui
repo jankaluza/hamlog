@@ -108,7 +108,14 @@
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menuQRZ">
+    <property name="title">
+     <string>QRZ</string>
+    </property>
+    <addaction name="actionRegister_QRZ_account"/>
+   </widget>
    <addaction name="menuHAMLog"/>
+   <addaction name="menuQRZ"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuit">
@@ -124,6 +131,11 @@
   <action name="actionAvailable_modules">
    <property name="text">
     <string>Available modules</string>
+   </property>
+  </action>
+  <action name="actionRegister_QRZ_account">
+   <property name="text">
+    <string>Register account</string>
    </property>
   </action>
  </widget>

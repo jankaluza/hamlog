@@ -23,7 +23,6 @@
 #define CREATE_QRZ_USERS_TABLE() {\
 	std::list<StorageBackend::Column> columns;\
 	\
-	columns.push_back(StorageBackend::Column("id", StorageBackend::Column::Integer, -1, true, true));\
 	columns.push_back(StorageBackend::Column("user_id", StorageBackend::Column::Integer, -1, 255, true));\
 	columns.back().m_unique = true;\
 	columns.push_back(StorageBackend::Column("name", StorageBackend::Column::String, 255, true));\

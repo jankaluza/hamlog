@@ -101,8 +101,10 @@ std::string Reply::toString() {
 	}
 
 	buffers += ("\r\n");
-	buffers += (m_content);
-	buffers += ("\r\n");
+	if (!m_content.empty()) {
+		buffers += (m_content);
+		buffers += ("\r\n");
+	}
 
 	return buffers;
 }
