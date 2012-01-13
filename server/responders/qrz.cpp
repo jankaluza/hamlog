@@ -36,6 +36,10 @@
 
 #include "tinyxml.h"
 
+#define CREATE_QRZ_FIELD(X) 	TiXmlHandle X##Handle(&d); \
+	TiXmlElement *X##Element = X##Handle.FirstChild("QRZDatabase").FirstChild("Callsign").FirstChild(#X).ToElement(); \
+	std::string X = X##Element ? X##Element->GetText() : "";
+
 
 namespace HamLog {
 namespace Responder {
@@ -83,40 +87,81 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (err) {
 		data->call = "";
-		// TODO
+		data->reply->setStatus(Reply::bad_request);
+		data->reply->setContent("Error receiving data from QRZ.com server");
+		session->sendAsyncReply();
+		data->reply.reset();
 		return;
 	}
 
+	// get the data and skip HTTP header
 	std::string xml(boost::asio::buffer_cast<const char*>(data->response.data()));
 	xml = xml.substr(xml.find("\r\n\r\n") + 4);
 
+	data->response.consume(data->response.size());
+	data->socket.close();
+
 	std::cout << "RECEIVED FROM QRZ: " << xml << "\n";
 
+	// parse XML
 	TiXmlDocument d;
 	d.Parse(xml.c_str());
 
-	TiXmlHandle keyHandle(&d);
-	TiXmlElement *key = keyHandle.FirstChild("QRZDatabase").FirstChild("Session").Child("Key", 0).ToElement();
-	if (key) {
-		data->key = key->GetText();
-		
-	}
-
+	// handle error
 	TiXmlHandle errorHandle(&d);
 	TiXmlElement *error = errorHandle.FirstChild("QRZDatabase").FirstChild("Session").Child("Error", 0).ToElement();
 	if (error) {
+		data->call = "";
 		data->reply->setStatus(Reply::unauthorized);
 		data->reply->setContent(error->GetText());
 		session->sendAsyncReply();
 		data->reply.reset();
+		return;
 	}
+
+	// get the key
+	TiXmlHandle keyHandle(&d);
+	TiXmlElement *key = keyHandle.FirstChild("QRZDatabase").FirstChild("Session").Child("Key", 0).ToElement();
+	if (key) {
+		data->key = key->GetText();
+	}
+
+	// handle Callsign
+	TiXmlHandle callsignHandle(&d);
+	TiXmlElement *callsign = callsignHandle.FirstChild("QRZDatabase").FirstChild("Callsign").ToElement();
+	if (callsign) {
+		CREATE_QRZ_FIELD(fname);
+		CREATE_QRZ_FIELD(name);
+
+		std::string res = "fname;name\n";
+		res += fname + ";";
+		res += name;
+
+		data->call = "";
+		data->reply->setContent(res);
+		session->sendAsyncReply();
+		data->reply.reset();
+	}
+	else {
+		// we haven't received callsign yet, so ask for the data->call
+		std::ostream request_stream(&data->request);
+		request_stream << "GET http://www.qrz.com/xml?s=" << data->key << ";callsign=aa7bq HTTP/1.0\r\n";
+		request_stream << "Host: www.qrz.com\r\n";
+		request_stream << "Accept: */*\r\n";
+		request_stream << "Connection: close\r\n\r\n";
+		data->socket.async_connect(m_endpoint, boost::bind(&QRZ::handleQRZConnected, this, session, boost::asio::placeholders::error));
+	}
+
 }
 
 void QRZ::handleQRZWriteRequest(Session *session, const boost::system::error_code& err) {
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (err) {
 		data->call = "";
-		// TODO
+		data->reply->setStatus(Reply::bad_request);
+		data->reply->setContent("Can't send data to QRZ.com server");
+		session->sendAsyncReply();
+		data->reply.reset();
 		return;
 	}
 
@@ -127,10 +172,13 @@ void QRZ::handleQRZConnected(Session *session, const boost::system::error_code& 
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (err) {
 		data->call = "";
-		// TODO
+		data->reply->setStatus(Reply::bad_request);
+		data->reply->setContent("Can't connect QRZ.com server");
+		session->sendAsyncReply();
+		data->reply.reset();
 		return;
 	}
-	
+
 	boost::asio::async_write(data->socket, data->request, boost::bind(&QRZ::handleQRZWriteRequest, this, session, boost::asio::placeholders::error));
 }
 
@@ -140,31 +188,39 @@ bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 		// TODO: ask qrz with data->key
 	}
 	else {
+		// We haven't created our module data for this user yet, so create it now
 		if (data == NULL) {
 			data = new QRZModuleData(m_server);
 			session->setModuleData("/qrz", data);
 		}
 
+		// Get the QRZ username/password from database
 		std::list<std::list<std::string> > user;
 		m_getUser.into(&user);
 		m_getUser.where("user_id", boost::lexical_cast<std::string>(session->getId()));
 		StorageBackend::getInstance()->select(m_getUser);
 
 		if (user.empty()) {
+			reply->setStatus(Reply::unauthorized);
+			reply->setContent("Register your QRZ account before querying the database");
 			return false;
 		}
 
+		// Since now it's clear we will ask the server and won't be able to answer just now,
+		// so switch to async reply mode
 		reply->setAsync();
 
 		std::string username = user.front().front();
 		std::string password = user.front().back();
 
+		// generate the request to get the key
 		std::ostream request_stream(&data->request);
 		request_stream << "GET http://www.qrz.com/xml?username=" << username << ";password=" << password << ";agent=hamlog HTTP/1.0\r\n";
 		request_stream << "Host: www.qrz.com\r\n";
 		request_stream << "Accept: */*\r\n";
 		request_stream << "Connection: close\r\n\r\n";
 
+		// store the data for this request and send the request
 		data->call = call;
 		data->reply = reply;
 		data->socket.async_connect(m_endpoint, boost::bind(&QRZ::handleQRZConnected, this, session, boost::asio::placeholders::error));
@@ -174,8 +230,6 @@ bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 }
 
 void QRZ::sendQRZ(Session *session, Request::ref request, Reply::ref reply) {
-	reply->setStatus(Reply::bad_request);
-	reply->setContent("unknown");
 	askQRZ(session, reply, "test");
 }
 
@@ -244,3 +298,4 @@ extern "C" {
 
 }
 }
+
