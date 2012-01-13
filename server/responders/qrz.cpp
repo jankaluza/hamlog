@@ -34,6 +34,8 @@
 #include "server.h"
 #include "qrz_users_table.h"
 
+#include "tinyxml.h"
+
 
 namespace HamLog {
 namespace Responder {
@@ -84,9 +86,26 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 		return;
 	}
 
-	const char* d = boost::asio::buffer_cast<const char*>(data->response.data());
+	std::string xml(boost::asio::buffer_cast<const char*>(data->response.data()));
+	xml = xml.substr(xml.find("\r\n\r\n") + 4);
 
-	std::cout << "RECEIVED FROM QRZ: " << d << "\n";
+	std::cout << "RECEIVED FROM QRZ: " << xml << "\n";
+
+	TiXmlDocument d;
+	d.Parse(xml.c_str());
+
+	TiXmlHandle keyHandle(&d);
+	TiXmlElement *key = keyHandle.FirstChild("QRZDatabase").FirstChild("Session").Child("Key", 0).ToElement();
+	if (key) {
+		data->key = key->GetText();
+		
+	}
+
+	TiXmlHandle errorHandle(&d);
+	TiXmlElement *error = errorHandle.FirstChild("QRZDatabase").FirstChild("Session").Child("Error", 0).ToElement();
+	if (error) {
+		// TODO
+	}
 }
 
 void QRZ::handleQRZWriteRequest(Session *session, const boost::system::error_code& err) {
