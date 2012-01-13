@@ -7,7 +7,10 @@ set(sqlite3_DIR "${CMAKE_SOURCE_DIR}/cmake_modules")
 find_package(sqlite3)
 
 set(Boost_DIR "${CMAKE_SOURCE_DIR}/cmake_modules")
-find_package(Boost COMPONENTS date_time system filesystem program_options regex thread signals REQUIRED)
+find_package(Boost COMPONENTS date_time system filesystem program_options regex signals REQUIRED)
+
+set(tinyxml_DIR "${CMAKE_SOURCE_DIR}/cmake_modules")
+find_package(tinyxml)
 
 find_package(Doxygen)
 
@@ -46,6 +49,15 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
 else(CMAKE_BUILD_TYPE MATCHES Debug)
 	message("Debug             : no (run \"cmake . -DCMAKE_BUILD_TYPE=Debug\")")
 endif(CMAKE_BUILD_TYPE MATCHES Debug)
+
+if (TINYXML_FOUND)
+	ADD_DEFINITIONS(-DWITH_TINYXML)
+	include_directories(TINYXML_INCLUDE_DIR)
+	message("QRZ support       : yes")
+else (TINYXML_FOUND)
+	set(TINYXML_LIBRARIES "")
+	message("QRZ support       : no (install tinyxml-devel)")
+endif (TINYXML_FOUND)
 
 
 SET(HAMLOG_VERSION 1.0)
