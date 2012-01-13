@@ -72,6 +72,8 @@ class Session : public boost::enable_shared_from_this<Session> {
 			return m_modulesData[module];
 		}
 
+		void sendAsyncReply();
+
 	private:
 		void handleRead(const boost::system::error_code& e, std::size_t bytes);
 		void handleWrite(const boost::system::error_code& e);
@@ -84,6 +86,9 @@ class Session : public boost::enable_shared_from_this<Session> {
 		boost::array<char, 8192> m_buffer;
 		unsigned long m_id;
 		std::map<std::string, ModuleData *> m_modulesData;
+		Reply::ref m_currentReply;
+		size_t parsed_total;
+		size_t bytes;
 };
 
 }

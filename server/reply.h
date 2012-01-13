@@ -58,6 +58,14 @@ class Reply : public boost::enable_shared_from_this<Reply> {
 
 		std::string toString();
 
+		void setAsync(bool async = true) {
+			m_async = async;
+		}
+
+		bool isAsync() {
+			return m_async;
+		}
+
 		void setStatus(const Status &status) {
 			m_status = status;
 		}
@@ -82,6 +90,7 @@ class Reply : public boost::enable_shared_from_this<Reply> {
 		Status m_status;
 		std::vector<Header> m_headers;
 		std::string m_content;
+		bool m_async;
 };
 
 }

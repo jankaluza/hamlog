@@ -27,7 +27,7 @@
 namespace HamLog {
 
 Reply::Reply(Status status, const std::string &content_type)
-	: m_status(status) {
+	: m_status(status), m_async(false) {
 	m_headers.resize(2);
 	m_headers[0].name = "Content-Type";
 	m_headers[0].value = content_type;

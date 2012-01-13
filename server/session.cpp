@@ -30,7 +30,9 @@ Session::Session(boost::asio::io_service& ioService)
 	: m_socket(ioService),
 	m_authenticated(false),
 	m_requestHandler(this),
-	m_req(new Request()) {
+	m_req(new Request()),
+	parsed_total(0),
+	bytes(0){
 }
 
 Session::~Session() {
@@ -55,16 +57,30 @@ void Session::stop() {
 	onStopped();
 }
 
-void Session::handleRead(const boost::system::error_code& e, std::size_t bytes) {
+void Session::sendAsyncReply() {
+	// send the reply
+	boost::asio::async_write(m_socket, boost::asio::buffer(m_currentReply->toString()),
+							boost::bind(&Session::handleWrite, shared_from_this(), boost::asio::placeholders::error));
+	// remove it from memory
+	m_currentReply.reset();
+	// continue parsing data in buffer;
+	boost::system::error_code e;
+	handleRead(e, 0);
+}
+
+void Session::handleRead(const boost::system::error_code& e, std::size_t b) {
 	if (e) {
 		stop();
 		return;
 	}
 
+	if (b != 0) {
+		bytes = b;
+	}
+
 	std::cout << "data received. size = " << bytes << "\n";
 
 	std::size_t parsed = 0;
-	std::size_t parsed_total = 0;
 
 	while (parsed_total != bytes) {
 
@@ -83,12 +99,21 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t bytes) 
 			m_req.reset(new Request());
 
 	// 		reply->dump();
-
-			boost::asio::async_write(m_socket, boost::asio::buffer(reply->toString()),
-									boost::bind(&Session::handleWrite, shared_from_this(), boost::asio::placeholders::error));
+			// Async replies are send by the module itself and we should not parse
+			// more replies until this one is fully handled to keep proper order
+			// of responses
+			if (reply->isAsync()) {
+				m_currentReply = reply;
+				return;
+			}
+			else {
+				boost::asio::async_write(m_socket, boost::asio::buffer(reply->toString()),
+										boost::bind(&Session::handleWrite, shared_from_this(), boost::asio::placeholders::error));
+			}
 		}
 	}
 
+	parsed_total = 0;
 	m_socket.async_read_some(boost::asio::buffer(m_buffer),
 							 boost::bind(&Session::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }

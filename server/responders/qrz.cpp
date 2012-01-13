@@ -52,6 +52,7 @@ class QRZModuleData : public Session::ModuleData {
 		std::string call;
 		boost::asio::streambuf request;
 		boost::asio::streambuf response;
+		Reply::ref reply;
 };
 
 QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", true), m_server(server), m_resolver(server->getIOService()), m_addUser("qrz_users"), m_getUser("qrz_users") {
@@ -104,7 +105,10 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 	TiXmlHandle errorHandle(&d);
 	TiXmlElement *error = errorHandle.FirstChild("QRZDatabase").FirstChild("Session").Child("Error", 0).ToElement();
 	if (error) {
-		// TODO
+		data->reply->setStatus(Reply::unauthorized);
+		data->reply->setContent(error->GetText());
+		session->sendAsyncReply();
+		data->reply.reset();
 	}
 }
 
@@ -130,7 +134,7 @@ void QRZ::handleQRZConnected(Session *session, const boost::system::error_code& 
 	boost::asio::async_write(data->socket, data->request, boost::bind(&QRZ::handleQRZWriteRequest, this, session, boost::asio::placeholders::error));
 }
 
-bool QRZ::askQRZ(Session *session, const std::string &call) {
+bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (data != NULL && !data->key.empty()) {
 		// TODO: ask qrz with data->key
@@ -150,6 +154,8 @@ bool QRZ::askQRZ(Session *session, const std::string &call) {
 			return false;
 		}
 
+		reply->setAsync();
+
 		std::string username = user.front().front();
 		std::string password = user.front().back();
 
@@ -160,6 +166,7 @@ bool QRZ::askQRZ(Session *session, const std::string &call) {
 		request_stream << "Connection: close\r\n\r\n";
 
 		data->call = call;
+		data->reply = reply;
 		data->socket.async_connect(m_endpoint, boost::bind(&QRZ::handleQRZConnected, this, session, boost::asio::placeholders::error));
 	}
 
@@ -169,7 +176,7 @@ bool QRZ::askQRZ(Session *session, const std::string &call) {
 void QRZ::sendQRZ(Session *session, Request::ref request, Reply::ref reply) {
 	reply->setStatus(Reply::bad_request);
 	reply->setContent("unknown");
-	askQRZ(session, "test");
+	askQRZ(session, reply, "test");
 }
 
 void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {

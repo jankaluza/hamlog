@@ -59,7 +59,7 @@ class QRZ : public boost::enable_shared_from_this<QRZ>, public RequestResponder 
 		void handleQRZConnected(Session *session, const boost::system::error_code& err);
 		void handleQRZWriteRequest(Session *session, const boost::system::error_code& err);
 		void handleQRZReadKey(Session *session, const boost::system::error_code& err);
-		bool askQRZ(Session *session, const std::string &call);
+		bool askQRZ(Session *session, Reply::ref reply, const std::string &call);
 
 		Server *m_server;
 		boost::asio::ip::tcp::tcp::resolver m_resolver;

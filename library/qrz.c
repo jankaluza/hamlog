@@ -68,7 +68,7 @@ static void ham_username_handle_response(HAMConnection *connection, HAMReply *re
 }
 
 void ham_qrz_fetch_username(HAMConnection *connection) {
-	HAMRequest *request = ham_request_new("/qrz", "GET", NULL, NULL);
+	HAMRequest *request = ham_request_new("/qrz/username", "GET", NULL, NULL);
 	ham_connection_send_destroy(connection, request, ham_username_handle_response, NULL);
 }
 
