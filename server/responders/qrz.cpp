@@ -145,7 +145,7 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 	else {
 		// we haven't received callsign yet, so ask for the data->call
 		std::ostream request_stream(&data->request);
-		request_stream << "GET http://www.qrz.com/xml?s=" << data->key << ";callsign=aa7bq HTTP/1.0\r\n";
+		request_stream << "GET http://www.qrz.com/xml?s=" << data->key << ";callsign=" << data->call << " HTTP/1.0\r\n";
 		request_stream << "Host: www.qrz.com\r\n";
 		request_stream << "Accept: */*\r\n";
 		request_stream << "Connection: close\r\n\r\n";
@@ -230,7 +230,8 @@ bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 }
 
 void QRZ::sendQRZ(Session *session, Request::ref request, Reply::ref reply) {
-	askQRZ(session, reply, "test");
+	std::string call = request->getContent();
+	askQRZ(session, reply, call);
 }
 
 void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {

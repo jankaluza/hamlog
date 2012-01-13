@@ -42,8 +42,8 @@ static void ham_qrz_response(HAMConnection *connection, HAMReply *reply, void *d
 			ui_callbacks->fetched(connection, data, ham_reply_get_content(reply));
 	}
 	else {
-		if (ui_callbacks && ui_callbacks->fetched)
-			ui_callbacks->fetched(connection, data, "unknown");
+		if (ui_callbacks && ui_callbacks->fetching_failed)
+			ui_callbacks->fetching_failed(connection, data, ham_reply_get_content(reply));
 	}
 	free(data);
 }
