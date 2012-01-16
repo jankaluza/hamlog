@@ -91,7 +91,6 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	unsigned long parsed = 0;
 	unsigned long parsed_total = 0;
 
-
 	while (parsed_total != len - 1) {
 		parsed = ham_parser_parse(connection->parser, connection->reply, connection->read_buffer + parsed_total, len - parsed_total);
 
@@ -112,13 +111,14 @@ static void ham_connection_read_data(void * user_data, int fd) {
 					
 				}
 
-				ham_reply_destroy(connection->reply);
-				connection->reply = ham_reply_new();
 			}
 		}
 		else {
 			// TODO: ERROR	
 		}
+
+		ham_reply_destroy(connection->reply);
+		connection->reply = ham_reply_new();
 	}
 }
 

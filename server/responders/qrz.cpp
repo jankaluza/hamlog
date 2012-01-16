@@ -115,6 +115,7 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 		data->reply->setStatus(Reply::unauthorized);
 		data->reply->setContent(error->GetText());
 		session->sendAsyncReply();
+		std::cout << "Sending async reply \n";
 		data->reply.reset();
 		return;
 	}

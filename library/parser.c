@@ -82,7 +82,7 @@ static int ham_parser_consume(HAMParser *parser, HAMReply *reply, char input) {
 				return 1;
 			}
 			/*HACK: FIX ME*/
-			else if (input == 10) {
+			else if (input == 10 || input == 13) {
 				return 1;
 			}
 			else {
