@@ -55,7 +55,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 	connection->port = port;
 	connection->username = strdup(username);
 	connection->password = strdup(password);
-	connection->read_buffer = malloc(sizeof(char) * 8192);
+	connection->read_buffer = malloc(sizeof(char) * 65535);
 	connection->parser = ham_parser_new();
 	connection->reply = ham_reply_new();
 	connection->handlers = ham_list_new();
@@ -79,7 +79,7 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 
 static void ham_connection_read_data(void * user_data, int fd) {
 	HAMConnection *connection = user_data;
-	int len = read(connection->fd, connection->read_buffer, 8192);
+	int len = read(connection->fd, connection->read_buffer, 65535);
 	
 	if (len == 0) {
 		ui_callbacks->disconnected(connection, "Server closed the connection");

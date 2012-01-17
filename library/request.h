@@ -30,7 +30,7 @@
 extern "C" {
 #endif
 
-#define MAX_REPLY_SIZE 8192
+#define MAX_REPLY_SIZE 65535
 
 typedef struct _RequestHeader {
 	char *name;

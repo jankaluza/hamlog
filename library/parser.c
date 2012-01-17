@@ -362,7 +362,7 @@ HAMList *ham_parse_csv(const char *str) {
 
 	unsigned int pos = 0;
 	int quotes = 0;
-	char field[8192];
+	char field[65535];
 	char *ptr = field;
 
 	HAMList *line = ham_list_new();
