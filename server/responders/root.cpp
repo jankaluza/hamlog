@@ -28,7 +28,7 @@
 namespace HamLog {
 namespace Responder {
 	
-Root::Root() : RequestResponder("Root responder module", "/", false) {
+Root::Root() : RequestResponder("Root responder module", "/", Module::UNKNOWN, false) {
 	
 }
 

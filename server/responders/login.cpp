@@ -90,7 +90,7 @@ static void digest_md5_parse(std::map<std::string, std::string> &ret, const char
 
 }
 	
-Login::Login() : RequestResponder("Login module","/login", false),
+Login::Login() : RequestResponder("Login module", "/login", Module::UNKNOWN, false),
 	m_getUser("users") {
 	CREATE_USERS_TABLE();
 

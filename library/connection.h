@@ -61,6 +61,7 @@ typedef struct _HAMModule {
 	char *name;
 	char *desc;
 	int need_auth;
+	int type;
 	char *data;
 } HAMModule;
 

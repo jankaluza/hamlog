@@ -37,7 +37,7 @@
 namespace HamLog {
 namespace Responder {
 	
-DXCC::DXCC() : RequestResponder("DXCC module", "/dxcc", false) {
+DXCC::DXCC() : RequestResponder("DXCC module", "/dxcc", Module::CALLINFO, false) {
 	std::string line;
 	std::ifstream f("cty.csv");
 	if (!f.is_open()) {

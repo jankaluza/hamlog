@@ -75,7 +75,7 @@ ModuleManager* ModuleManager::getInstance() {
 }
 
 void ModuleManager::sendModulesList(Session *session, Request::ref request, Reply::ref reply) {
-	std::string data = "uri;name;desc;need_auth\n";
+	std::string data = "uri;name;desc;type;need_auth\n";
 	for (std::map<std::string, ModuleInfo *>::const_iterator it = m_modules.begin(); it != m_modules.end(); it++) {
 		ModuleInfo *info = it->second;
 		RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
@@ -83,6 +83,7 @@ void ModuleManager::sendModulesList(Session *session, Request::ref request, Repl
 		data += responder->getURI() + ";";
 		data += responder->getName() + ";";
 		data += responder->getDescription() + ";";
+		data += boost::lexical_cast<std::string>((int) responder->getType()) + ";";
 		data += responder->needAuthentication() ? "1;" : "0;";
 		data += "\n";
 	}
@@ -145,16 +146,10 @@ void ModuleManager::loadModules(Server *server, const std::string &path) {
 				continue;
 			}
 
+			RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
+			m_modules[responder->getURI()] = info;
 			std::cout << "Module loaded\n";
-			if (info->module->getType() == 0) {
-				RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
-				m_modules[responder->getURI()] = info;
-			}
-			else {
-				delete info->module;
-				delete info->library;
-				delete info;
-			}
+
 		}
 	}
 }

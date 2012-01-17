@@ -37,7 +37,7 @@ class Session;
 
 class RequestResponder : public Module {
 	public:
-		RequestResponder(const std::string &name, const std::string &uri, bool needAuthentication = true);
+		RequestResponder(const std::string &name, const std::string &uri, Module::Type type, bool needAuthentication = true);
 
 		virtual const std::string &getURI() {
 			return m_uri;

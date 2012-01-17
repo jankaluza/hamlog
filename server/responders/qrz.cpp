@@ -59,7 +59,7 @@ class QRZModuleData : public Session::ModuleData {
 		Reply::ref reply;
 };
 
-QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", true), m_server(server), m_resolver(server->getIOService()), m_addUser("qrz_users"), m_getUser("qrz_users") {
+QRZ::QRZ(Server *server) : RequestResponder("QRZ module", "/qrz", Module::CALLINFO, true), m_server(server), m_resolver(server->getIOService()), m_addUser("qrz_users"), m_getUser("qrz_users") {
 	CREATE_QRZ_USERS_TABLE();
 
 	m_addUser.what(&m_addData);

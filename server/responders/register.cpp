@@ -30,7 +30,7 @@
 namespace HamLog {
 namespace Responder {
 	
-Register::Register() : RequestResponder("Register module", "/register", false),
+Register::Register() : RequestResponder("Register module", "/register", Module::UNKNOWN, false),
 	m_addUser("users") {
 	CREATE_USERS_TABLE();
 	m_addUser.what(&m);

@@ -132,6 +132,7 @@ static void ham_connection_parse_modules(HAMHashTable *table, const char *module
 	int name = -1;
 	int desc = -1;
 	int need_auth = -1;
+	int type = -1;
 	int i = 0;
 
 	// 1st line is header
@@ -148,6 +149,9 @@ static void ham_connection_parse_modules(HAMHashTable *table, const char *module
 		}
 		else if (strcmp((char *) field->data, "need_auth") == 0) {
 			need_auth = i;
+		}
+		else if (strcmp((char *) field->data, "type") == 0) {
+			type = i;
 		}
 		
 		i++;
@@ -173,6 +177,9 @@ static void ham_connection_parse_modules(HAMHashTable *table, const char *module
 			}
 			else if (i == need_auth) {
 				module->need_auth = *((char *) ham_list_item_get_data(field)) == '1';
+			}
+			else if (i == type) {
+				module->type = atoi((char *) ham_list_item_get_data(field));
 			}
 			i++;
 			field = ham_list_get_next_item(field);

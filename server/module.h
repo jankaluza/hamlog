@@ -26,7 +26,12 @@ namespace HamLog {
 
 class Module {
 	public:
-		Module(const std::string &name, int type, const std::string &description = "") : m_name(name), m_type(type), m_description(description) {}
+		typedef enum {
+			UNKNOWN,
+			CALLINFO,
+		} Type;
+		
+		Module(const std::string &name, Type type, const std::string &description = "") : m_name(name), m_type(type), m_description(description) {}
 
 		virtual const std::string &getName() {
 			return m_name;
@@ -36,13 +41,13 @@ class Module {
 			return m_description;
 		}
 
-		virtual int getType() {
+		virtual Type getType() {
 			return m_type;
 		}
 
 	private:
 		std::string m_name;
-		int m_type;
+		Type m_type;
 		std::string m_description;
 };
 
