@@ -186,7 +186,19 @@ void QRZ::handleQRZConnected(Session *session, const boost::system::error_code& 
 bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (data != NULL && !data->key.empty()) {
-		// TODO: ask qrz with data->key
+		// Since now it's clear we will ask the server and won't be able to answer just now,
+		// so switch to async reply mode
+		reply->setAsync();
+
+		// we have the key already, so ask for call ID right now
+		data->call = call;
+		data->reply = reply;
+		std::ostream request_stream(&data->request);
+		request_stream << "GET http://www.qrz.com/xml?s=" << data->key << ";callsign=" << data->call << " HTTP/1.0\r\n";
+		request_stream << "Host: www.qrz.com\r\n";
+		request_stream << "Accept: */*\r\n";
+		request_stream << "Connection: close\r\n\r\n";
+		data->socket.async_connect(m_endpoint, boost::bind(&QRZ::handleQRZConnected, this, session, boost::asio::placeholders::error));
 	}
 	else {
 		// We haven't created our module data for this user yet, so create it now
