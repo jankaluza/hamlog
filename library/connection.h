@@ -56,12 +56,17 @@ typedef struct _HAMConnection {
 	HAMHashTable *modules;
 } HAMConnection;
 
+typedef enum {
+	UNKNOWN,
+	CALLINFO,
+} ModuleType;
+
 typedef struct _HAMModule {
 	char *uri;
 	char *name;
 	char *desc;
 	int need_auth;
-	int type;
+	ModuleType type;
 	char *data;
 } HAMModule;
 

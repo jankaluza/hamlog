@@ -29,6 +29,7 @@
 #include "modulesdialog.h"
 #include "qrzregisterdialog.h"
 #include "qtqrz.h"
+#include "callinfo.h"
 
 #include <QMessageBox>
 
@@ -295,8 +296,9 @@ void MainWindow::handleLogBookUpdated(HAMConnection *connection, const QString &
 
 	if (m_askDXCC) {
 		m_askDXCC = false;
-		ham_dxcc_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
-		ham_qrz_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
+		ham_callinfo_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
+// 		ham_dxcc_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
+// 		ham_qrz_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
 	}
 
 	for (int i = 0; i < ui.logbook->columnCount(); i++) {
