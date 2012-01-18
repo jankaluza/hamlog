@@ -59,6 +59,9 @@ static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, vo
 	// last reply received, fire the event
 	if (info->requests == 0) {
 		printf("Everything received\n%s\n", info->data);
+		free(info->call);
+		free(info->data);
+		free(info);
 	}
 }
 
@@ -82,6 +85,4 @@ void ham_callinfo_fetch(HAMConnection *connection, const char *call) {
 		item = ham_list_get_next_item(item);
 	}
 	ham_list_destroy(modules);
-
-
 }
