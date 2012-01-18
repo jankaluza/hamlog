@@ -24,6 +24,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <errno.h>
+#include "list.h"
 
 HAMParser *ham_parser_new() {
 	HAMParser *parser = malloc(sizeof(HAMParser));
@@ -356,9 +357,9 @@ void ham_parser_destroy(HAMParser *parser) {
 	free(parser);
 }
 
-HAMList *ham_parse_csv(const char *str) {
+HAMList *ham_csv_parse(const char *str) {
 	HAMList *tokens = ham_list_new();
-	ham_list_set_free_func(tokens, ham_list_destroy);
+	ham_list_set_free_func(tokens, (HAMListItemDataFree) ham_list_destroy);
 
 	unsigned int pos = 0;
 	int quotes = 0;
@@ -413,4 +414,69 @@ HAMList *ham_parse_csv(const char *str) {
 	}
 
 	return tokens;
+}
+
+char *ham_csv_from_list(HAMList *parsed) {
+	unsigned long length = 0;
+	
+	// Count the output size
+	HAMListItem *line = ham_list_get_first_item(parsed);
+	while (line) {
+		HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(line));
+		while (field) {
+			length += strlen(ham_list_item_get_data(field)) + 1; // ';'
+			field = ham_list_get_next_item(field);
+		}
+		length += 1; // '\n'
+		line = ham_list_get_next_item(line);
+	}
+
+	length += 1; // '\0'
+
+	// Generate the output string
+	char *res = malloc(sizeof(char) * length);
+	char *ptr = res;
+	line = ham_list_get_first_item(parsed);
+	while (line) {
+		HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(line));
+		while (field) {
+			strcpy(ptr, (char *) ham_list_item_get_data(field));
+			ptr += strlen(ham_list_item_get_data(field));
+			*ptr++ = ';';
+			field = ham_list_get_next_item(field);
+		}
+		*ptr++ = '\n';
+		line = ham_list_get_next_item(line);
+	}
+	*ptr++ = 0;
+
+	return res;
+}
+
+char *ham_csv_merge(const char *first, const char *second) {
+	// get the header line from "first"
+	HAMList *first_lines = ham_csv_parse(first);
+	HAMList *parsed = first_lines;
+	HAMListItem *first_line = ham_list_get_first_item(first_lines);
+
+	// get the header line from "second"
+	HAMList *second_lines = ham_csv_parse(second);
+	HAMListItem *second_line = ham_list_get_first_item(second_lines);
+
+	while(first_line && second_line) {
+		// add everything from "second" line to "first" line
+		HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(second_line));
+		while (field) {
+			ham_list_insert_last(ham_list_item_get_data(first_line), ham_list_item_get_data(field));
+			field = ham_list_get_next_item(field);
+		}
+
+		first_line = ham_list_get_next_item(first_line);
+		second_line = ham_list_get_next_item(second_line);
+	}
+
+	char *csv = ham_csv_from_list(parsed);
+	ham_list_destroy(parsed);
+	
+	return csv;
 }

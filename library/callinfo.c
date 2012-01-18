@@ -37,68 +37,6 @@ typedef struct _callInfo {
 	char *call;
 } callInfo;
 
-static char *merge_responses(const char *first, const char *second) {
-	// TODO: Create merge_csv() from this
-	// get the first line from "first"
-	HAMList *first_lines = ham_parse_csv(first);
-	HAMList *parsed = first_lines;
-	HAMListItem *first_line = ham_list_get_first_item(first_lines);
-
-	// get the first line from "second"
-	HAMList *second_lines = ham_parse_csv(second);
-	HAMListItem *second_line = ham_list_get_first_item(second_lines);
-
-	// add everything from "second" line to "first" line
-	HAMListItem *field = ham_list_get_first_item(ham_list_item_get_data(second_line));
-	while (field) {
-		ham_list_insert_last(ham_list_item_get_data(first_line), ham_list_item_get_data(field));
-		field = ham_list_get_next_item(field);
-	}
-
-	first_line = ham_list_get_next_item(first_line);
-	second_line = ham_list_get_next_item(second_line);
-
-	field = ham_list_get_first_item(ham_list_item_get_data(second_line));
-	while (field) {
-		ham_list_insert_last(ham_list_item_get_data(first_line), ham_list_item_get_data(field));
-		field = ham_list_get_next_item(field);
-	}
-
-	// TODO: create ham_list_to_csv() from this
-	unsigned long length = 0;
-	HAMListItem *line = ham_list_get_first_item(parsed);
-	while (line) {
-		field = ham_list_get_first_item(ham_list_item_get_data(line));
-		while (field) {
-			length += strlen(ham_list_item_get_data(field)) + 1; // ';'
-			field = ham_list_get_next_item(field);
-		}
-		length += 1; // '\n'
-		line = ham_list_get_next_item(line);
-	}
-
-	length += 1; // '\0'
-
-	char *res = malloc(sizeof(char) * length);
-	char *ptr = res;
-	line = ham_list_get_first_item(parsed);
-	while (line) {
-		field = ham_list_get_first_item(ham_list_item_get_data(line));
-		while (field) {
-			strcpy(ptr, (char *) ham_list_item_get_data(field));
-			ptr += strlen(ham_list_item_get_data(field));
-			*ptr++ = ';';
-			field = ham_list_get_next_item(field);
-		}
-		*ptr++ = '\n';
-		line = ham_list_get_next_item(line);
-	}
-	*ptr++ = 0;
-
-	ham_list_destroy(parsed);
-
-	return res;
-}
 
 static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	callInfo *info = (callInfo *) data;
@@ -109,7 +47,7 @@ static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, vo
 			info->data = strdup(ham_reply_get_content(reply));
 		}
 		else {
-			char *new_data = merge_responses(info->data, ham_reply_get_content(reply));
+			char *new_data = ham_csv_merge(info->data, ham_reply_get_content(reply));
 			free(info->data);
 			info->data = new_data;
 		}

@@ -97,7 +97,13 @@ unsigned long ham_parser_parse(HAMParser *parser, HAMReply *reply, const char *d
  */
 void ham_parser_reset(HAMParser *parser);
 
-HAMList *ham_parse_csv(const char *str);
+HAMList *ham_csv_parse(const char *str);
+
+char *ham_csv_from_list(HAMList *list);
+
+char *ham_csv_merge(const char *first, const char *second);
+
+
 
 #ifdef __cplusplus                                                                                                                                                      
 }

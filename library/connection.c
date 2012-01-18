@@ -124,7 +124,7 @@ static void ham_connection_read_data(void * user_data, int fd) {
 
 static void ham_connection_parse_modules(HAMHashTable *table, const char *modules) {
 	HAMModule *module = NULL;
-	HAMList *lines = ham_parse_csv(modules);
+	HAMList *lines = ham_csv_parse(modules);
 	HAMListItem *line = ham_list_get_first_item(lines);
 
 	// header
