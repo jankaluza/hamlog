@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
 
 	printf("parsing csv:\n1;2;3\na;b;c\n");
 
-	HAMList *lines = ham_parse_csv("1;2;3\na;b;c\n");
+	HAMList *lines = ham_csv_parse("1;2;3\na;b;c\n");
 
 	printf("parsed:\n");
 	HAMListItem *line = ham_list_get_first_item(lines);

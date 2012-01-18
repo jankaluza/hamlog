@@ -29,6 +29,7 @@
 #include "modulesdialog.h"
 #include "qrzregisterdialog.h"
 #include "qtqrz.h"
+#include "qtcallinfo.h"
 #include "callinfo.h"
 
 #include <QMessageBox>
@@ -58,7 +59,7 @@ MainWindow::MainWindow()
 	connect(m_logbook, SIGNAL(onLogBookUpdated(HAMConnection *, const QString &, const QString &)), this, SLOT(handleLogBookUpdated(HAMConnection *, const QString &, const QString &)));
 	connect(m_logbook, SIGNAL(onLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)), this, SLOT(handleLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)));
 
-	connect(m_dxcc, SIGNAL(onDXCCFetched(HAMConnection *, const QString &, const QString &)), this, SLOT(handleDXCCFetched(HAMConnection *, const QString &, const QString &)));
+	connect(QtCallInfo::getInstance(), SIGNAL(onCallInfoFetched(HAMConnection *, const QString &, const QString &)), this, SLOT(handleCallInfoFetched(HAMConnection *, const QString &, const QString &)));
 
 	connect(ui.addRecord, SIGNAL(clicked()), this, SLOT(addRecord()));
 
@@ -310,20 +311,33 @@ void MainWindow::handleLogBookUpdateFailed(HAMConnection *connection, const QStr
 	ui.statusbar->showMessage(QString("Record updating error: ") + reason);
 }
 
-void MainWindow::handleDXCCFetched(HAMConnection *connection, const QString &call, const QString &data) {
+void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString &call, const QString &data) {
 	std::vector<QStringList > tokens = QtLogBook::tokenize(data);
 
 	if (tokens[0].size() < 4)
 		return;
 
+	std::map<std::string, int> indexes;
+	int i = 0;
+	Q_FOREACH(const QString &header, tokens[0]) {
+		indexes[header.toStdString()] = i++;
+	}
+
 	QString text = "Do you want to use following DXCC data for this record?<br/>";
 	text += "<i>";
-	text += "QTH: " + tokens[0][0] + "<br/>";
-	text += "Continent: " + tokens[0][1] + "<br/>";
-	text += "Lat: " + tokens[0][4] + "<br/>";
-	text += "Lon: " + tokens[0][5] + "<br/>";
-	text += "CQ: " + tokens[0][2] + "<br/>";
-	text += "ITU: " + tokens[0][3] + "<br/>";
+	text += "QTH: " + tokens[1][indexes["country"]] + "<br/>";
+	text += "Continent: " + tokens[1][indexes["continent"]] + "<br/>";
+	text += "Lat: " + tokens[1][indexes["lat"]] + "<br/>";
+	text += "Lon: " + tokens[1][indexes["lon"]] + "<br/>";
+	text += "CQ: " + tokens[1][indexes["cq"]] + "<br/>";
+	text += "ITU: " + tokens[1][indexes["itu"]] + "<br/>";
+
+	if (indexes.find("name") != indexes.end()) {
+		text += "Name: " + tokens[1][indexes["name"]] + "<br/>";
+	}
+	if (indexes.find("fname") != indexes.end()) {
+		text += "First name: " + tokens[1][indexes["fname"]] + "<br/>";
+	}
 	text += "</i>";
 
 	QMessageBox::StandardButton b = QMessageBox::question(this, "Use DXCC data?", text,
@@ -333,12 +347,12 @@ void MainWindow::handleDXCCFetched(HAMConnection *connection, const QString &cal
 
 		disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 
-		item->setText(findColumnWithName("qth"), tokens[0][0]);
-		item->setText(findColumnWithName("continent"), tokens[0][1]);
-		item->setText(findColumnWithName("cq"), tokens[0][2]);
-		item->setText(findColumnWithName("itu"), tokens[0][3]);
-		item->setText(findColumnWithName("latitude"), tokens[0][4]);
-		item->setText(findColumnWithName("longitude"), tokens[0][5]);
+		item->setText(findColumnWithName("qth"), tokens[1][indexes["country"]]);
+		item->setText(findColumnWithName("continent"), tokens[1][indexes["continent"]]);
+		item->setText(findColumnWithName("cq"), tokens[1][indexes["cq"]]);
+		item->setText(findColumnWithName("itu"), tokens[1][indexes["itu"]]);
+		item->setText(findColumnWithName("latitude"), tokens[1][indexes["lat"]]);
+		item->setText(findColumnWithName("longitude"), tokens[1][indexes["lon"]]);
 		handleItemChanged(item);
 
 		connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
