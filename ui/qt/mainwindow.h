@@ -67,7 +67,7 @@ class MainWindow : public QMainWindow {
 		void handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason);
 		void handleLogBookUpdated(HAMConnection *connection, const QString &data, const QString &response);
 
-		void handleDXCCFetched(HAMConnection *connection, const QString &data, const QString &logbook);
+		void handleCallInfoFetched(HAMConnection *connection, const QString &data, const QString &logbook);
 
 	private:
 		int findColumnWithName(const std::string &name);

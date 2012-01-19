@@ -36,6 +36,14 @@
 extern "C" {
 #endif
 
+typedef struct _HAMCallInfoUICallbacks {
+	/** Called when Call info data is succesfully fetched from HAMLog server
+	 */
+	void (*fetched) (HAMConnection *connection, const char *call, const char *data);
+} HAMCallInfoUICallbacks;
+
+void ham_callinfo_set_ui_callbacks(HAMCallInfoUICallbacks *callbacks);
+
 void ham_callinfo_fetch(HAMConnection *connection, const char *call);
 
 #ifdef __cplusplus                                                                                                                                                      
