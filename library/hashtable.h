@@ -28,7 +28,7 @@
 
 #include "list.h"
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -56,8 +56,9 @@ typedef struct _HAMHashTable {
 HAMHashTableItem *ham_hash_table_item_new();
 
 /**
- * Destroys the Hash table item and also frees the data.
+ * Destroys the Hash table item and also frees the data if the hash table has set Free function.
  * @param table Hash Table.
+ * @param item Hash Table Item to be freed.
  */
 void ham_hash_table_item_destroy(HAMHashTable *table, HAMHashTableItem *item);
 
@@ -68,11 +69,18 @@ void ham_hash_table_item_destroy(HAMHashTable *table, HAMHashTableItem *item);
 HAMHashTable *ham_hash_table_new();
 
 /**
- * Destroys the Hash table and also frees the data.
+ * Destroys the Hash table and also frees the data if there is Free function set.
  * @param table Hash Table.
  */
 void ham_hash_table_destroy(HAMHashTable *table);
 
+/**
+ * Sets the function called for every item in Hash Table to free its data. The data
+ * are not freed when the Free function is not set.
+ * @param table Hash Table.
+ * @param func Function to be called for every data stored in Hash table
+ * when the Hash Table Item is removed.
+ */
 void ham_hash_table_set_free_func(HAMHashTable *table, HAMHashTableItemDataFree func);
 
 /**
@@ -94,12 +102,36 @@ int ham_hash_table_add(HAMHashTable *table, void *key, long key_len, void *value
  */
 int ham_hash_table_remove(HAMHashTable *table, void *key, long key_len);
 
+/**
+ * Finds the item with particular key in Hash Table and returns pointer to its data.
+ * @param table Hash table.
+ * @param key Key.
+ * @param key_len Key length or -1 when the key is string.
+ * @return Pointer to the data associated with the key.
+ */
 void *ham_hash_table_lookup(HAMHashTable *table, void *key, long key_len);
 
+/**
+ * Returns the number of items stored in hash table.
+ * @param table Hash table.
+ * @return Number of items stored in the hash table.
+ */
 unsigned long ham_hash_table_get_size(HAMHashTable *table);
 
+/**
+ * Stores all keys in array and returns the number of keys.
+ * @param table Hash table.
+ * @param keys pointer to array where the keys are stored. Array is allocated by this function
+ * and has to be freed later.
+ * @return Number of keys stored in the hash table.
+ */
 int ham_hash_table_get_keys(HAMHashTable *table, void **keys[]);
 
+/**
+ * Returns the list of HAMHashTableItems.
+ * @param table Hash table.
+ * @return List of HAMHashTableItems. This list has to be freed later.
+ */
 HAMList *ham_hash_table_to_list(HAMHashTable *table);
 
 #ifdef __cplusplus                                                                                                                                                      

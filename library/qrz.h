@@ -1,5 +1,5 @@
 /**
- * @file logbook.h LogBook API
+ * @file qrz.h QRZ API
  * @ingroup core
  */
 

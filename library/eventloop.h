@@ -26,7 +26,7 @@
 #ifndef _HAMLOG_EVENTLOOP_H
 #define _HAMLOG_EVENTLOOP_H
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
 
