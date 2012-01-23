@@ -29,9 +29,12 @@
 #include "boost/lexical_cast.hpp"
 #include "boost/foreach.hpp"
 #include "server.h"
+#include "log.h"
 
 namespace HamLog {
 namespace Responder {
+	
+DEFINE_LOGGER(logger, "LogBook");
 	
 LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", Module::UNKNOWN, true),
 	m_getLogs("logbook"),
@@ -44,11 +47,12 @@ LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", Module::UNKN
 void LogBook::sendLogs(Session *session, Reply::ref reply) {
 	m_getLogs.where("user_id", boost::lexical_cast<std::string>(session->getId()));
 
-	std::cout << "ID=" << boost::lexical_cast<std::string>(session->getId()) << "\n";
+	
 	std::list<std::list<std::string> > logbook;
 	m_getLogs.into(&logbook);
 	StorageBackend::getInstance()->select(m_getLogs);
-	std::cout << "LOGBOOK SIZE=" << logbook.size() << "\n";
+	
+	LOG_INFO(logger, session->getUsername() << ": Sending " << logbook.size() << " log records");
 
 	std::string data = "id;user_id;qsodate;time_on;callsign;freq;mode;qth;name;loc;latitude;longitude;county;continent;itu;cq;rst_rx;rst_tx;qsl;qsl_sent;qsl_received;qsl_via\n";
 	BOOST_FOREACH(std::list<std::string> &entry, logbook) {
@@ -91,7 +95,6 @@ std::vector<std::vector<std::string> > LogBook::parse(const std::string &str) {
 		}
 		else if (!quotes && ( c == '\n' || c == '\r' )) {
 			tokens.back().push_back(field);
-			std::cout << "'" << field << "'\n";
 			field.clear();
 			tokens.resize(tokens.size() + 1);
 		}
@@ -106,7 +109,6 @@ std::vector<std::vector<std::string> > LogBook::parse(const std::string &str) {
 
 void LogBook::addLog(Session *session, Request::ref request, Reply::ref reply) {
 	std::vector<std::vector<std::string> > data = parse(request->getContent());
-	std::cout << "DATA=" << request->getContent() << "\n";
 	std::vector<std::string> header = data.front();
 	data.erase(data.begin());
 
@@ -170,7 +172,6 @@ void LogBook::removeLog(Session *session, Request::ref request, Reply::ref reply
 
 bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
-	std::cout << "LogBook::handleRequest " << uri << "\n";
 
 	if (uri == "/logbook") {
 		sendLogs(session, reply);

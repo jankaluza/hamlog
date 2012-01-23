@@ -22,6 +22,9 @@
 #include "session.h"
 #include "config.h"
 #include "boost/lexical_cast.hpp"
+#include "log.h"
+
+DEFINE_LOGGER(logger, "SQLite3")
 
 #define SQLITE_DB_VERSION 1
 #define CHECK_DB_RESPONSE(stmt) \
@@ -33,7 +36,7 @@
 // Prepare the SQL statement
 #define PREP_STMT(sql, str) \
 	if(sqlite3_prepare_v2(m_db, std::string(str).c_str(), -1, &sql, NULL)) { \
-		std::cout << str<< (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db)); \
+		LOG_ERROR(logger, str << (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db))); \
 		return false; \
 	}
 
@@ -54,7 +57,7 @@
 #define GET_INT(STATEMENT)	sqlite3_column_int(STATEMENT, STATEMENT##_id_get++)
 #define GET_STR(STATEMENT)	(const char *) sqlite3_column_text(STATEMENT, STATEMENT##_id_get++)
 #define EXECUTE_STATEMENT(STATEMENT, NAME) 	if(sqlite3_step(STATEMENT) != SQLITE_DONE) {\
-		std::cout << NAME << (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db)) << "\n";\
+		LOG_ERROR(logger, NAME << (sqlite3_errmsg(m_db) == NULL ? "" : sqlite3_errmsg(m_db)));\
 			return false; \
 			}
 
@@ -164,7 +167,7 @@ bool SQLite3::select(Select &query) {
 		sql += " 1;";
 	}
 
-	std::cout << sql << "\n";
+// 	std::cout << sql << "\n";
 	sqlite3_stmt *stmt;
 	PREP_STMT(stmt, sql.c_str());
 	BEGIN(stmt);
@@ -198,7 +201,7 @@ bool SQLite3::remove(Select &query) {
 	}
 	sql += " 1;";
 
-	std::cout << sql << "\n";
+// 	std::cout << sql << "\n";
 	sqlite3_stmt *stmt;
 	PREP_STMT(stmt, sql.c_str());
 	BEGIN(stmt);
@@ -227,7 +230,7 @@ bool SQLite3::insert(Insert &query) {
 	sql.erase(sql.end() - 1);
 	sql += ");";
 
-	std::cout << "PREPARING " << sql << "\n";
+// 	std::cout << "PREPARING " << sql << "\n";
 
 	sqlite3_stmt *stmt;
 	PREP_STMT(stmt, sql.c_str());
@@ -237,7 +240,7 @@ bool SQLite3::insert(Insert &query) {
 		BIND_STR(stmt, (*it).second);
 	}
 
-	std::cout << "EXECUTING " << sql << "\n";
+// 	std::cout << "EXECUTING " << sql << "\n";
 
 	EXECUTE_STATEMENT(stmt, sql);
 	FINALIZE_STMT(stmt);
@@ -270,7 +273,7 @@ bool SQLite3::update(Insert &query) {
 		BIND_STR(stmt, (*it).second);
 	}
 
-	std::cout << "EXECUTING " << sql << "\n";
+// 	std::cout << "EXECUTING " << sql << "\n";
 
 	EXECUTE_STATEMENT(stmt, sql);
 	FINALIZE_STMT(stmt);

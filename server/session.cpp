@@ -37,7 +37,6 @@ Session::Session(boost::asio::io_service& ioService)
 	parsed_total(0),
 	bytes(0),
 	m_username("") {
-	LOG_INFO(logger, this << ": New Session created");
 }
 
 Session::~Session() {
@@ -84,7 +83,12 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t b) {
 		bytes = b;
 	}
 
-	LOG_INFO(logger, this << ": " << bytes << " received");
+	if (m_username.empty()) {
+		LOG_INFO(logger, this << ": " << bytes << " bytes received");
+	}
+	else {
+		LOG_INFO(logger, m_username << ": " << bytes << " bytes received");
+	}
 
 	std::size_t parsed = 0;
 

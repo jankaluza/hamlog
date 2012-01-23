@@ -34,7 +34,6 @@ void RequestParser::reset() {
 }
 
 bool RequestParser::handleChar(Request::ref req, char input) {
-	std::cout << input;
 	switch (m_state) {
 		case method_start:
 			if (!isChar(input) || isControl(input) || isSpecial(input)) {

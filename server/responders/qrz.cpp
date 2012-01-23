@@ -35,6 +35,7 @@
 #include "qrz_users_table.h"
 
 #include "tinyxml.h"
+#include "log.h"
 
 #define CREATE_QRZ_FIELD(X) 	TiXmlHandle X##Handle(&d); \
 	TiXmlElement *X##Element = X##Handle.FirstChild("QRZDatabase").FirstChild("Callsign").FirstChild(#X).ToElement(); \
@@ -43,6 +44,8 @@
 
 namespace HamLog {
 namespace Responder {
+
+DEFINE_LOGGER(logger, "QRZ");
 
 using boost::asio::ip::tcp;
 
@@ -76,10 +79,10 @@ void QRZ::handleResolve(const boost::system::error_code& err, tcp::resolver::ite
 		m_endpoint = *endpoint_iterator;
 		boost::system::error_code ec;
 		std::string address = m_endpoint.address().to_string(ec);
-		std::cout << "QRZ: qrz.com resolved to " << address << "\n";
+		LOG_INFO(logger, "qrz.com resolved to " << address);
 	}
 	else {
-		std::cout << "Error resolving QRZ.com: " << err.message() << "\n";
+		LOG_ERROR(logger, "Error resolving QRZ.com: " << err.message());
 	}
 }
 
@@ -101,8 +104,6 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 	data->response.consume(data->response.size());
 	data->socket.close();
 
-	std::cout << "RECEIVED FROM QRZ: " << xml << "\n";
-
 	// parse XML
 	TiXmlDocument d;
 	d.Parse(xml.c_str());
@@ -115,7 +116,6 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 		data->reply->setStatus(Reply::unauthorized);
 		data->reply->setContent(error->GetText());
 		session->sendAsyncReply();
-		std::cout << "Sending async reply \n";
 		data->reply.reset();
 		return;
 	}
@@ -144,6 +144,8 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 		data->reply.reset();
 	}
 	else {
+		LOG_INFO(logger, session->getUsername() << ": Querying QRZ database");
+
 		// we haven't received callsign yet, so ask for the data->call
 		std::ostream request_stream(&data->request);
 		request_stream << "GET http://www.qrz.com/xml?s=" << data->key << ";callsign=" << data->call << " HTTP/1.0\r\n";
@@ -190,6 +192,8 @@ bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 		// so switch to async reply mode
 		reply->setAsync();
 
+		LOG_INFO(logger, session->getUsername() << ": Querying QRZ database");
+
 		// we have the key already, so ask for call ID right now
 		data->call = call;
 		data->reply = reply;
@@ -218,6 +222,8 @@ bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 			reply->setContent("Register your QRZ account before querying the database");
 			return false;
 		}
+
+		LOG_INFO(logger, session->getUsername() << ": Fetching QRZ session key");
 
 		// Since now it's clear we will ask the server and won't be able to answer just now,
 		// so switch to async reply mode
@@ -255,6 +261,8 @@ void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {
 	m_addData["name"] = username;
 	m_addData["password"] = password;
 	m_addData["user_id"] = boost::lexical_cast<std::string>(session->getId());
+
+	LOG_INFO(logger, session->getUsername() << ": Registering QRZ username");
 
 	if (StorageBackend::getInstance()->insert(m_addUser)) {
 		reply->setContent("Registered");

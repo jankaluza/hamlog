@@ -32,16 +32,19 @@
 #include "boost/foreach.hpp"
 #include <boost/algorithm/string.hpp>
 #include "server.h"
+#include "log.h"
 
 
 namespace HamLog {
 namespace Responder {
+
+DEFINE_LOGGER(logger, "DXCC");
 	
 DXCC::DXCC() : RequestResponder("DXCC module", "/dxcc", Module::CALLINFO, false) {
 	std::string line;
 	std::ifstream f("cty.csv");
 	if (!f.is_open()) {
-		std::cout << "Unable to open cty.csv file! "; 
+		LOG_ERROR(logger, "Unable to open cty.csv file!"); 
 		return;
 	}
 
@@ -81,6 +84,8 @@ void DXCC::sendDXCC(Session *session, Request::ref request, Reply::ref reply) {
 	if (call.find("/") != std::string::npos) {
 		// TODO: handle special IDs
 	}
+
+	LOG_INFO(logger, "Answering DXCC request");
 
 	// TODO: rewrite me once I will fully understand dxcc :-P
 	while (call.size() != 0) {
