@@ -21,8 +21,11 @@
 #include "server.h"
 #include <boost/bind.hpp>
 #include <iostream>
+#include "log.h"
 
 namespace HamLog {
+
+DEFINE_LOGGER(logger, "Server");
 
 Server::Server(const std::string &hostname, int port)
 	: m_ioService(), m_acceptor(m_ioService), m_session(new Session(m_ioService)) {
@@ -40,11 +43,12 @@ Server::Server(const std::string &hostname, int port)
 }
 
 void Server::start() {
-	std::cout << "Starting server\n";
+	LOG_INFO(logger, "Starting the server");
 	m_ioService.run();
 }
 
 void Server::stop() {
+	LOG_INFO(logger, "Stopping the server");
 	m_ioService.post(boost::bind(&Server::handleStop, this));
 }
 
@@ -53,7 +57,7 @@ void Server::handleAccept(const boost::system::error_code& e) {
 		return;
 	}
 
-	std::cout << "New client connection\n";
+	LOG_INFO(logger, "Accepted new client connection");
 	m_sessionManager.start(m_session);
 
 	m_session.reset(new Session(m_ioService));

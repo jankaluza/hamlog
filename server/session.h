@@ -51,9 +51,10 @@ class Session : public boost::enable_shared_from_this<Session> {
 
 		boost::signal<void ()> onStopped;
 
-		void setAuthenticated(bool authenticated, unsigned long id) {
+		void setAuthenticated(bool authenticated, unsigned long id, const std::string &username) {
 			m_authenticated = authenticated;
 			m_id = id;
+			m_username = username;
 		}
 
 		unsigned long getId() {
@@ -62,6 +63,10 @@ class Session : public boost::enable_shared_from_this<Session> {
 
 		bool isAuthenticated() {
 			return m_authenticated;
+		}
+
+		const std::string &getUsername() {
+			return m_username;
 		}
 
 		void setModuleData(std::string module, ModuleData *data) {
@@ -89,6 +94,7 @@ class Session : public boost::enable_shared_from_this<Session> {
 		Reply::ref m_currentReply;
 		size_t parsed_total;
 		size_t bytes;
+		std::string m_username;
 };
 
 }

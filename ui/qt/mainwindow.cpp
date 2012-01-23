@@ -332,12 +332,14 @@ void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString 
 	text += "CQ: " + tokens[1][indexes["cq"]] + "<br/>";
 	text += "ITU: " + tokens[1][indexes["itu"]] + "<br/>";
 
-	if (indexes.find("name") != indexes.end()) {
-		text += "Name: " + tokens[1][indexes["name"]] + "<br/>";
-	}
 	if (indexes.find("fname") != indexes.end()) {
 		text += "First name: " + tokens[1][indexes["fname"]] + "<br/>";
 	}
+
+	if (indexes.find("name") != indexes.end()) {
+		text += "Name: " + tokens[1][indexes["name"]] + "<br/>";
+	}
+
 	text += "</i>";
 
 	QMessageBox::StandardButton b = QMessageBox::question(this, "Use DXCC data?", text,
@@ -353,6 +355,20 @@ void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString 
 		item->setText(findColumnWithName("itu"), tokens[1][indexes["itu"]]);
 		item->setText(findColumnWithName("latitude"), tokens[1][indexes["lat"]]);
 		item->setText(findColumnWithName("longitude"), tokens[1][indexes["lon"]]);
+		QString name;
+
+		if (indexes.find("fname") != indexes.end()) {
+			name += tokens[1][indexes["fname"]];
+		}
+
+		if (indexes.find("name") != indexes.end()) {
+			if (!name.isEmpty()) {
+				name += " ";
+			}
+			name += tokens[1][indexes["name"]];
+		}
+		
+		item->setText(findColumnWithName("qth"), name);
 		handleItemChanged(item);
 
 		connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));

@@ -32,7 +32,6 @@ void SessionManager::start(Session::ref session) {
 	m_sessions.push_back(session);
 	session->onStopped.connect(boost::bind(&SessionManager::handleStopped, this, session));
 	session->start();
-	std::cout << "Session " << session << " started\n";
 }
 
 void SessionManager::stop(Session::ref session) {
@@ -41,7 +40,6 @@ void SessionManager::stop(Session::ref session) {
 
 void SessionManager::handleStopped(Session::ref session) {
 	m_sessions.remove(session);
-	std::cout << "Session " << session << " finished\n";
 }
 
 }

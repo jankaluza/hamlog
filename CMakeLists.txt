@@ -12,6 +12,9 @@ find_package(Boost COMPONENTS date_time system filesystem program_options regex 
 set(tinyxml_DIR "${CMAKE_SOURCE_DIR}/cmake_modules")
 find_package(tinyxml)
 
+set(log4cxx_DIR "${CMAKE_SOURCE_DIR}/cmake_modules")
+find_package(log4cxx)
+
 find_package(Doxygen)
 
 INCLUDE(FindQt4)
@@ -58,6 +61,15 @@ else (TINYXML_FOUND)
 	set(TINYXML_LIBRARIES "")
 	message("QRZ support       : no (install tinyxml-devel)")
 endif (TINYXML_FOUND)
+
+if (LOG4CXX_FOUND)
+	ADD_DEFINITIONS(-DWITH_LOG4CXX)
+	include_directories(${LOG4CXX_INCLUDE_DIR})
+	message("Logging to file   : yes")
+else()
+	set(LOG4CXX_LIBRARIES "")
+	message("Logging to file   : no (install log4cxx-devel)")
+endif()
 
 
 SET(HAMLOG_VERSION 1.0)

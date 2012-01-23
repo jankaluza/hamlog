@@ -23,8 +23,11 @@
 #include <boost/tuple/tuple.hpp>
 #include <iostream>
 #include "request.h"
+#include "log.h"
 
 namespace HamLog {
+
+DEFINE_LOGGER(logger, "Session");
 	
 Session::Session(boost::asio::io_service& ioService)
 	: m_socket(ioService),
@@ -32,7 +35,9 @@ Session::Session(boost::asio::io_service& ioService)
 	m_requestHandler(this),
 	m_req(new Request()),
 	parsed_total(0),
-	bytes(0){
+	bytes(0),
+	m_username("") {
+	LOG_INFO(logger, this << ": New Session created");
 }
 
 Session::~Session() {
@@ -41,6 +46,7 @@ Session::~Session() {
 			delete it->second;
 		}
 	}
+	LOG_INFO(logger, this << ": Session destroyed");
 }
 
 boost::asio::ip::tcp::socket& Session::getSocket() {
@@ -78,7 +84,7 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t b) {
 		bytes = b;
 	}
 
-	std::cout << "data received. size = " << bytes << "\n";
+	LOG_INFO(logger, this << ": " << bytes << " received");
 
 	std::size_t parsed = 0;
 
@@ -86,7 +92,7 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t b) {
 
 		parsed = m_requestParser.parse(m_req, m_buffer.begin() + parsed_total, m_buffer.begin() + bytes);
 		if (parsed == 0) {
-			std::cout << "PARSING ERROR\n";
+			LOG_ERROR(logger, "Parsing error!");
 			// TODO: send Error
 			stop();
 			break;
@@ -94,11 +100,9 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t b) {
 		parsed_total += parsed;
 
 		if (m_req->isFinished()) {
-	// 		m_req->dump();
 			Reply::ref reply = m_requestHandler.handleRequest(m_req);
 			m_req.reset(new Request());
 
-	// 		reply->dump();
 			// Async replies are send by the module itself and we should not parse
 			// more replies until this one is fully handled to keep proper order
 			// of responses

@@ -30,9 +30,12 @@
 #include "users_table.h"
 #include "boost/lexical_cast.hpp"
 #include "server.h"
+#include "log.h"
 
 namespace HamLog {
 namespace Responder {
+
+DEFINE_LOGGER(logger, "Login Responder");
 	
 /* Inspiration taken from libgsasl */
 static void digest_md5_parse(std::map<std::string, std::string> &ret, const char *digest) {
@@ -138,7 +141,7 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 		StorageBackend::getInstance()->select(m_getUser);
 
 		if (user.empty()) {
-			session->setAuthenticated(false, 0);
+			session->setAuthenticated(false, 0, "");
 			createAuthorizationRequest(reply);
 			return true;
 		}
@@ -151,13 +154,16 @@ bool Login::handleRequest(Session *session, Request::ref request, Reply::ref rep
 		// TODO: check nonce and opaque
 		if (response == fields["response"]) {
 			unsigned long id = boost::lexical_cast<unsigned long>(user.front().back());
-			session->setAuthenticated(true, id);
+			session->setAuthenticated(true, id, fields["username"]);
 			reply->setContent("Authorized");
 			reply->setContentType("text/html");
+
+			LOG_INFO(logger, session << ": User '" << fields["username"] << "' authorized");
 		}
 		else {
-			session->setAuthenticated(false, 0);
+			session->setAuthenticated(false, 0, "");
 			createAuthorizationRequest(reply);
+			LOG_INFO(logger, session << ": User '" << fields["username"] << "' not authorized. Bad password or username");
 		}
 	}
 	return true;

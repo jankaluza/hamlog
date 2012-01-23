@@ -33,6 +33,7 @@ bool Config::load(const std::string &configfile, boost::program_options::options
 	opts.add_options()
 		("server.hostname", value<std::string>()->default_value("localhost"), "Hostname to bind server to")
 		("server.port", value<int>()->default_value(7531), "Port the server is listening on")
+		("logging.config", value<std::string>()->default_value(""), "Log4cxx config.")
 		("modules.path", value<std::string>()->default_value("./responders"), "Path to directory with modules.")
 		("database.type", value<std::string>()->default_value("none"), "Database type.")
 		("database.database", value<std::string>()->default_value(""), "Database used to store data")

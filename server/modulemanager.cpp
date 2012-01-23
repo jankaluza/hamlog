@@ -27,8 +27,11 @@
 #include <boost/foreach.hpp>
 #include "requestresponder.h"
 #include "server.h"
+#include "log.h"
 
 namespace HamLog {
+
+DEFINE_LOGGER(logger, "ModuleManager");
 
 class SharedLibrary {
 	public:
@@ -103,12 +106,13 @@ bool ModuleManager::handleRequest(Session *session, Request::ref request, Reply:
 		return true;
 	}
 
-	std::cout << "looking for handler for URI=" << uri << "\n";
 	if (m_modules.find(uri) != m_modules.end()) {
 		ModuleInfo *info = m_modules[uri];
 		RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
 		return responder->handleRequest(session, request, reply);
 	}
+
+	LOG_WARN(logger, "No module to handle uri='" << uri << "'");
 	return false;
 }
 
