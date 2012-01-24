@@ -35,6 +35,8 @@ typedef struct _callInfo {
 	int requests;
 	char *data;
 	char *call;
+	HAMCallInfoHandler handler;
+	void *ui_data;
 } callInfo;
 
 static HAMCallInfoUICallbacks *ui_callbacks;
@@ -63,19 +65,26 @@ static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, vo
 
 	// last reply received, fire the event
 	if (info->requests == 0) {
-		if (ui_callbacks && ui_callbacks->fetched)
+		if (info->handler) {
+			info->handler(connection, info->data, info->ui_data);
+		}
+		else if (ui_callbacks && ui_callbacks->fetched) {
 			ui_callbacks->fetched(connection, data, info->data);
+		}
+
 		free(info->call);
 		free(info->data);
 		free(info);
 	}
 }
 
-void ham_callinfo_fetch(HAMConnection *connection, const char *call) {
+void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMCallInfoHandler handler, void *ui_data) {
 	callInfo *data = malloc(sizeof(callInfo));
 	data->requests = 0;
 	data->data = 0;
 	data->call = strdup(call);
+	data->ui_data = ui_data;
+	data->handler = handler;
 
 	// iterate over all CALLINFO modules and ask for the CALL information
 	HAMList *modules = ham_connection_get_modules(connection);

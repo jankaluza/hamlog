@@ -59,8 +59,8 @@ void ham_logbook_fetch(HAMConnection *connection, HAMLoogbookHandler handler, vo
 
 void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HAMLoogbookHandler handler, void *ui_data);
 
-void ham_logbook_add(HAMConnection *connection, const char *data, HAMLoogbookHandler handler, void *ui_data);
-void ham_logbook_remove(HAMConnection *connection, const char *data, HAMLoogbookHandler handler, void *ui_data);
+void ham_logbook_add(HAMConnection *connection, const char *data);
+void ham_logbook_remove(HAMConnection *connection, const char *data);
 
 #ifdef __cplusplus                                                                                                                                                      
 }
