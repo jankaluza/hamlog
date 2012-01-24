@@ -368,7 +368,7 @@ void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString 
 			name += tokens[1][indexes["name"]];
 		}
 		
-		item->setText(findColumnWithName("qth"), name);
+		item->setText(findColumnWithName("name"), name);
 		handleItemChanged(item);
 
 		connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
