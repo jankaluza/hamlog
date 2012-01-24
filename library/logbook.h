@@ -36,6 +36,8 @@
 extern "C" {
 #endif
 
+typedef void (*HAMLoogbookHandler) (HAMConnection *connection, const char *logbook_data, void *ui_data);
+
 /**
  * LogBook related UI callbacks.
  */
@@ -53,10 +55,12 @@ typedef struct _HAMLogBookUICallbacks {
 
 void ham_logbook_set_ui_callbacks(HAMLogBookUICallbacks *callbacks);
 
-void ham_logbook_fetch(HAMConnection *connection);
+void ham_logbook_fetch(HAMConnection *connection, HAMLoogbookHandler handler, void *ui_data);
 
-void ham_logbook_add(HAMConnection *connection, const char *data);
-void ham_logbook_remove(HAMConnection *connection, const char *data);
+void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HAMLoogbookHandler handler, void *ui_data);
+
+void ham_logbook_add(HAMConnection *connection, const char *data, HAMLoogbookHandler handler, void *ui_data);
+void ham_logbook_remove(HAMConnection *connection, const char *data, HAMLoogbookHandler handler, void *ui_data);
 
 #ifdef __cplusplus                                                                                                                                                      
 }

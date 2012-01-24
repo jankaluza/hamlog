@@ -63,6 +63,7 @@ class StorageBackend {
 				void into(std::list<std::list<std::string> > *row) { m_row = row; }
 				void where(const std::string &name, const std::string &value) { m_where[name] = value; }
 				void what(const std::string &name) { m_what.push_back(name); }
+				void reset() { m_where.clear(); }
 			std::string m_table;
 			std::list<std::list<std::string> > *m_row;
 			std::list<std::string> m_what;

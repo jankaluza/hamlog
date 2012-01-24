@@ -30,21 +30,50 @@
 #include <string.h>
 #include <errno.h>
 
+typedef struct _logbookClosure {
+	HAMLoogbookHandler handler;
+	void *ui_data;
+} logbookClosure;
+
 static HAMLogBookUICallbacks *ui_callbacks = NULL;
 
 void ham_logbook_set_ui_callbacks(HAMLogBookUICallbacks *callbacks) {
 	ui_callbacks = callbacks;
 }
 
-static void ham_logbook_fetch_response(HAMConnection *connection, HAMReply *reply, void *unused) {
-	const char *data = ham_reply_get_content(reply);
-	if (ui_callbacks && ui_callbacks->fetched)
-		ui_callbacks->fetched(connection, data);
+static void ham_logbook_fetch_response(HAMConnection *connection, HAMReply *reply, void *_data) {
+	const char *content = ham_reply_get_content(reply);
+
+	logbookClosure *data = (logbookClosure *) _data;
+	if (data->handler) {
+		data->handler(connection, content, data->ui_data);
+	}
+	else {
+		if (ui_callbacks && ui_callbacks->fetched) {
+			ui_callbacks->fetched(connection, content);
+		}
+	}
+	free(data);
 }
 
-void ham_logbook_fetch(HAMConnection *connection) {
+void ham_logbook_fetch(HAMConnection *connection, HAMLoogbookHandler handler, void *ui_data) {
+	logbookClosure *data = malloc(sizeof(logbookClosure));
+	data->handler = handler;
+	data->ui_data = ui_data;
+
 	HAMRequest *request = ham_request_new("/logbook", "GET", NULL, NULL);
-	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, NULL);
+	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, data);
+}
+
+void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HAMLoogbookHandler handler, void *ui_data) {
+	logbookClosure *data = malloc(sizeof(logbookClosure));
+	data->handler = handler;
+	data->ui_data = ui_data;
+	
+	char uri[80] = "/logbook/call/";
+	strncpy(uri + 14, call, 40);
+	HAMRequest *request = ham_request_new(uri, "GET", NULL, NULL);
+	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, data);
 }
 
 static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, char *data) {

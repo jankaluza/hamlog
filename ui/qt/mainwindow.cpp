@@ -239,7 +239,7 @@ void MainWindow::handleLoggedIn(HAMConnection *connection) {
 	ui.statusbar->showMessage("Logged in!");
 	ui.statusbar->showMessage("Fetching logbook");
 	ui.infoLabel->setText(QString("Username: ") + connection->username + "     ");
-	ham_logbook_fetch(connection);
+	ham_logbook_fetch(connection, NULL, NULL);
 }
 
 void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {
@@ -323,7 +323,20 @@ void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString 
 		indexes[header.toStdString()] = i++;
 	}
 
-	QString text = "Do you want to use following DXCC data for this record?<br/>";
+	QString name;
+
+	if (indexes.find("fname") != indexes.end()) {
+		name += tokens[1][indexes["fname"]];
+	}
+
+	if (indexes.find("name") != indexes.end()) {
+		if (!name.isEmpty()) {
+			name += " ";
+		}
+		name += tokens[1][indexes["name"]];
+	}
+
+	QString text = "Do you want to use following Call Info data for this record?<br/>";
 	text += "<i>";
 	text += "QTH: " + tokens[1][indexes["country"]] + "<br/>";
 	text += "Continent: " + tokens[1][indexes["continent"]] + "<br/>";
@@ -332,17 +345,13 @@ void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString 
 	text += "CQ: " + tokens[1][indexes["cq"]] + "<br/>";
 	text += "ITU: " + tokens[1][indexes["itu"]] + "<br/>";
 
-	if (indexes.find("fname") != indexes.end()) {
-		text += "First name: " + tokens[1][indexes["fname"]] + "<br/>";
-	}
-
-	if (indexes.find("name") != indexes.end()) {
-		text += "Name: " + tokens[1][indexes["name"]] + "<br/>";
+	if (!name.isEmpty()) {
+		text += "Name: " + name + "<br/>";
 	}
 
 	text += "</i>";
 
-	QMessageBox::StandardButton b = QMessageBox::question(this, "Use DXCC data?", text,
+	QMessageBox::StandardButton b = QMessageBox::question(this, "Use Call Info data?", text,
 											 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
 	if (b == QMessageBox::Yes) {
 		QTreeWidgetItem *item = ui.logbook->currentItem();
@@ -355,19 +364,6 @@ void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString 
 		item->setText(findColumnWithName("itu"), tokens[1][indexes["itu"]]);
 		item->setText(findColumnWithName("latitude"), tokens[1][indexes["lat"]]);
 		item->setText(findColumnWithName("longitude"), tokens[1][indexes["lon"]]);
-		QString name;
-
-		if (indexes.find("fname") != indexes.end()) {
-			name += tokens[1][indexes["fname"]];
-		}
-
-		if (indexes.find("name") != indexes.end()) {
-			if (!name.isEmpty()) {
-				name += " ";
-			}
-			name += tokens[1][indexes["name"]];
-		}
-		
 		item->setText(findColumnWithName("name"), name);
 		handleItemChanged(item);
 

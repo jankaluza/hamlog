@@ -45,6 +45,7 @@
 	columns.push_back(StorageBackend::Column("qsl_sent", StorageBackend::Column::Datetime, -1, false));\
 	columns.push_back(StorageBackend::Column("qsl_received", StorageBackend::Column::Datetime, -1, false));\
 	columns.push_back(StorageBackend::Column("qsl_via", StorageBackend::Column::String, -1, false));\
+	columns.push_back(StorageBackend::Column("comments", StorageBackend::Column::String, 4096, false));\
 	\
 	StorageBackend::getInstance()->createTable("logbook", columns);\
 	}

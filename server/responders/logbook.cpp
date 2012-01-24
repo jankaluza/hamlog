@@ -47,7 +47,6 @@ LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", Module::UNKN
 void LogBook::sendLogs(Session *session, Reply::ref reply) {
 	m_getLogs.where("user_id", boost::lexical_cast<std::string>(session->getId()));
 
-	
 	std::list<std::list<std::string> > logbook;
 	m_getLogs.into(&logbook);
 	StorageBackend::getInstance()->select(m_getLogs);
@@ -64,6 +63,8 @@ void LogBook::sendLogs(Session *session, Reply::ref reply) {
 	}
 
 	reply->setContent(data);
+
+	m_getLogs.reset();
 }
 
 std::vector<std::vector<std::string> > LogBook::parse(const std::string &str) {
@@ -181,6 +182,11 @@ bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref r
 	}
 	else if (uri == "/logbook/remove") {
 		removeLog(session, request, reply);
+	}
+	else if (uri.find("/logbook/call/") == 0) {
+		std::string call = uri.substr(strlen("/logbook/call/"));
+		m_getLogs.where("callsign", call);
+		sendLogs(session, reply);
 	}
 	else {
 		return false;
