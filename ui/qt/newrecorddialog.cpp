@@ -18,39 +18,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#pragma once
+#include "newrecorddialog.h"
+#include "qteventloop.h"
+#include "qtconnection.h"
+#include "qtaccount.h"
+#include "qtlogbook.h"
+#include "dxcc.h"
+#include "iostream"
 
-#include <QtCore>
-#include <QApplication>
-#include <QTreeWidget>
-#include "ui_qrzregisterdialog.h"
-#include "connection.h"
+NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : QDialog(parent), m_conn(connection) {
+	ui.setupUi(this);
 
-class LogbookTreeWidget : public QTreeWidget {
-	Q_OBJECT
+	ui.logbook->setConnection(m_conn);
 
-	public:
-		LogbookTreeWidget(QWidget *parent);
-		~LogbookTreeWidget();
+	connect(ui.callLookUp, SIGNAL(clicked(bool)), this, SLOT(callLookUp(bool)));
+}
 
-		void setConnection(HAMConnection *connection);
-
-		int findColumnWithName(const std::string &name);
-		
-		void tryAskDXCC();
-
-	public slots:
-		void fetch();
-		void fetch(const std::string &call);
-		void addRecord();
-		void removeRecord();
-
-	private slots:
-		void handleItemChanged(QTreeWidgetItem *item, int col);
-		void handleItemChanged(QTreeWidgetItem *item);
-		void handleContextMenu(const QPoint &p);
-
-	private:
-		HAMConnection *m_conn;
-		bool m_askDXCC;
-};
+void NewRecordDialog::callLookUp(bool unused) {
+	std::string call = ui.call->text().toStdString();
+	ui.logbook->fetch(call);
+}

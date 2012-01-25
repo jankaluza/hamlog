@@ -44,6 +44,29 @@
     </property>
    </column>
   </widget>
+  <widget class="QLineEdit" name="call">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>210</y>
+     <width>113</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="callLookUp">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>210</y>
+     <width>81</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Look up</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

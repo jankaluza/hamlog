@@ -22,35 +22,19 @@
 
 #include <QtCore>
 #include <QApplication>
-#include <QTreeWidget>
-#include "ui_qrzregisterdialog.h"
+#include "ui_newrecorddialog.h"
 #include "connection.h"
 
-class LogbookTreeWidget : public QTreeWidget {
+class NewRecordDialog : public QDialog {
 	Q_OBJECT
 
 	public:
-		LogbookTreeWidget(QWidget *parent);
-		~LogbookTreeWidget();
-
-		void setConnection(HAMConnection *connection);
-
-		int findColumnWithName(const std::string &name);
-		
-		void tryAskDXCC();
+		NewRecordDialog(HAMConnection *connection, QWidget *parent);
 
 	public slots:
-		void fetch();
-		void fetch(const std::string &call);
-		void addRecord();
-		void removeRecord();
-
-	private slots:
-		void handleItemChanged(QTreeWidgetItem *item, int col);
-		void handleItemChanged(QTreeWidgetItem *item);
-		void handleContextMenu(const QPoint &p);
+		void callLookUp(bool unused = false);
 
 	private:
+		Ui_NewRecordDialog ui;
 		HAMConnection *m_conn;
-		bool m_askDXCC;
 };

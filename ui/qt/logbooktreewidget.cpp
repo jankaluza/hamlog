@@ -30,6 +30,8 @@
 #include "iostream"
 #include <QtGui>
 
+#include "newrecorddialog.h"
+
 static void fetch_handler(HAMConnection *connection, const char *logbook, int error, void *ui_data) {
 	LogbookTreeWidget *widget = static_cast<LogbookTreeWidget *>(ui_data);
 	if (!widget || error) {
@@ -167,6 +169,13 @@ void LogbookTreeWidget::fetch() {
 	ham_logbook_fetch(m_conn, fetch_handler, this);
 }
 
+void LogbookTreeWidget::fetch(const std::string &call) {
+	if (!m_conn)
+		return;
+
+	ham_logbook_fetch_with_call(m_conn, call.c_str(), fetch_handler, this);
+}
+
 void LogbookTreeWidget::tryAskDXCC() {
 	if (m_askDXCC) {
 		m_askDXCC = false;
@@ -233,14 +242,17 @@ void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item) {
 }
 
 void LogbookTreeWidget::addRecord() {
-	disconnect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-	QTreeWidgetItem *item = new QTreeWidgetItem(this);
-	item->setText(findColumnWithName("callsign"), "UNNAMED");
-	item->setFlags(item->flags() | Qt::ItemIsEditable);
-	connect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+	NewRecordDialog dialog(m_conn, this);
+	dialog.exec();
 
-	this->setCurrentItem(item);
-	this->editItem(item, findColumnWithName("callsign"));
+// 	disconnect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+// 	QTreeWidgetItem *item = new QTreeWidgetItem(this);
+// 	item->setText(findColumnWithName("callsign"), "UNNAMED");
+// 	item->setFlags(item->flags() | Qt::ItemIsEditable);
+// 	connect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+// 
+// 	this->setCurrentItem(item);
+// 	this->editItem(item, findColumnWithName("callsign"));
 }
 
 void LogbookTreeWidget::removeRecord() {
