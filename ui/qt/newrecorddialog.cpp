@@ -23,7 +23,7 @@
 #include "qtconnection.h"
 #include "qtaccount.h"
 #include "qtlogbook.h"
-#include "dxcc.h"
+#include "callinfo.h"
 #include "iostream"
 
 NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : QDialog(parent), m_conn(connection) {
@@ -37,4 +37,6 @@ NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : Q
 void NewRecordDialog::callLookUp(bool unused) {
 	std::string call = ui.call->text().toStdString();
 	ui.logbook->fetch(call);
+
+	ham_callinfo_fetch(m_conn, call.c_str(), callinfo_handler, this);
 }
