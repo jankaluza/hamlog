@@ -47,14 +47,7 @@ class MainWindow : public QMainWindow {
 		void connectServer(const QString &server, int port, const QString &username, const QString &password);
 		void registerAccount(const QString &server, int port, const QString &username, const QString &password);
 
-		void addRecord();
-		void removeRecord();
-
 	private slots:
-		void handleItemChanged(QTreeWidgetItem *item, int col);
-		void handleItemChanged(QTreeWidgetItem *item);
-		void handleContextMenu(const QPoint &p);
-
 		void handleConnected(HAMConnection *connection);
 		void handleDisconnected(HAMConnection *connection, const QString &reason);
 
@@ -62,12 +55,6 @@ class MainWindow : public QMainWindow {
 		void handleLoginFailed(HAMConnection *connection, const QString &reason);
 		void handleRegistered(HAMConnection *connection);
 		void handleRegistrationFailed(HAMConnection *connection, const QString &reason);
-
-		void handleLogBookFetched(HAMConnection *connection, const QString &logbook);
-		void handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason);
-		void handleLogBookUpdated(HAMConnection *connection, const QString &data, const QString &response);
-
-		void handleCallInfoFetched(HAMConnection *connection, const QString &data, const QString &logbook);
 
 	private:
 		int findColumnWithName(const std::string &name);

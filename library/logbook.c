@@ -46,7 +46,7 @@ static void ham_logbook_fetch_response(HAMConnection *connection, HAMReply *repl
 
 	logbookClosure *data = (logbookClosure *) _data;
 	if (data->handler) {
-		data->handler(connection, content, data->ui_data);
+		data->handler(connection, content, ham_reply_get_status(reply) != 200, data->ui_data);
 	}
 	else {
 		if (ui_callbacks && ui_callbacks->fetched) {
@@ -76,22 +76,23 @@ void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HA
 	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, data);
 }
 
-static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, char *data) {
-	if (ham_reply_get_status(reply) == 200) {
-		if (ui_callbacks && ui_callbacks->updated)
-			ui_callbacks->updated(connection, data, ham_reply_get_content(reply));
-	}
-	else {
-		const char *error = ham_reply_get_content(reply);
-		if (ui_callbacks && ui_callbacks->update_failed)
-			ui_callbacks->update_failed(connection, data, error);
+static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, char *_data) {
+	const char *content = ham_reply_get_content(reply);
+
+	logbookClosure *data = (logbookClosure *) _data;
+	if (data->handler) {
+		data->handler(connection, content, ham_reply_get_status(reply) != 200, data->ui_data);
 	}
 	free(data);
 }
 
-void ham_logbook_add(HAMConnection *connection, const char *data) {
-	HAMRequest *request = ham_request_new("/logbook/add", "POST", data, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_logbook_add_response, (void *) strdup(data));
+void ham_logbook_add(HAMConnection *connection, const char *payload, HAMLoogbookHandler handler, void *ui_data) {
+	logbookClosure *data = malloc(sizeof(logbookClosure));
+	data->handler = handler;
+	data->ui_data = ui_data;
+
+	HAMRequest *request = ham_request_new("/logbook/add", "POST", payload, "hamlog");
+	ham_connection_send_destroy(connection, request, ham_logbook_add_response, data);
 }
 
 static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, char *data) {

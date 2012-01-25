@@ -55,22 +55,10 @@ MainWindow::MainWindow()
 	connect(m_account, SIGNAL(onRegistered(HAMConnection *)), this, SLOT(handleRegistered(HAMConnection *)));
 	connect(m_account, SIGNAL(onRegistrationFailed(HAMConnection *, const QString &)), this, SLOT(handleRegistrationFailed(HAMConnection *, const QString &)));
 
-	connect(m_logbook, SIGNAL(onLogBookFetched(HAMConnection *, const QString &)), this, SLOT(handleLogBookFetched(HAMConnection *, const QString &)));
-	connect(m_logbook, SIGNAL(onLogBookUpdated(HAMConnection *, const QString &, const QString &)), this, SLOT(handleLogBookUpdated(HAMConnection *, const QString &, const QString &)));
-	connect(m_logbook, SIGNAL(onLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)), this, SLOT(handleLogBookUpdateFailed(HAMConnection *, const QString &, const QString &)));
-
-	connect(QtCallInfo::getInstance(), SIGNAL(onCallInfoFetched(HAMConnection *, const QString &, const QString &)), this, SLOT(handleCallInfoFetched(HAMConnection *, const QString &, const QString &)));
-
-	connect(ui.addRecord, SIGNAL(clicked()), this, SLOT(addRecord()));
+	connect(ui.addRecord, SIGNAL(clicked()), ui.logbook, SLOT(addRecord()));
 
 	connect(ui.actionAvailable_modules, SIGNAL(triggered(bool)), this, SLOT(showAvailableModules(bool)));
 	connect(ui.actionRegister_QRZ_account, SIGNAL(triggered(bool)), this, SLOT(showQRZRegisterDialog(bool)));
-	
-
-	ui.logbook->setContextMenuPolicy(Qt::CustomContextMenu);  
-	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-	connect(ui.logbook, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(handleContextMenu(const QPoint &)));
-
 
 	ui.stackedWidget->setCurrentIndex(1);
 	showConnectDialog();
@@ -136,90 +124,6 @@ void MainWindow::registerAccount(const QString &server, int port, const QString 
 	m_register = true;
 }
 
-void MainWindow::addRecord() {
-	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-	QTreeWidgetItem *item = new QTreeWidgetItem(ui.logbook);
-	item->setText(findColumnWithName("callsign"), "UNNAMED");
-	item->setFlags(item->flags() | Qt::ItemIsEditable);
-	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
-	ui.logbook->setCurrentItem(item);
-	ui.logbook->editItem(item, findColumnWithName("callsign"));
-}
-
-void MainWindow::removeRecord() {
-	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
-	QTreeWidgetItem *item = ui.logbook->currentItem();
-	std::string data = item->text(0).toStdString() + "\n";
-	ui.statusbar->showMessage("Removing record");
-
-	ham_logbook_remove(m_conn, data.c_str());
-
-	item = ui.logbook->takeTopLevelItem(ui.logbook->indexOfTopLevelItem(item));
-	delete item;
-
-	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-}
-
-void MainWindow::handleItemChanged(QTreeWidgetItem *item, int col) {
-	if (col < 2) {
-		return;
-	}
-
-	std::string data = "id;" + ui.logbook->headerItem()->text(col).toStdString() + "\n";
-	if (item->text(0).isEmpty()) {
-		data += "-1;" + item->text(col).toStdString();
-	}
-	else {
-		data += item->text(0).toStdString() + ";" + item->text(col).toStdString();
-	}
-	data += "\n";
-
-	ui.statusbar->showMessage("Updating record");
-	ham_logbook_add(m_conn, data.c_str());
-
-	// CALL changed, so ask dxcc
-	if (col == findColumnWithName("callsign")) {
-		m_askDXCC = true;
-	}
-}
-
-void MainWindow::handleItemChanged(QTreeWidgetItem *item) {
-	std::string data;
-	for (int i = 0; i < ui.logbook->headerItem()->columnCount(); i++) {
-		data += ui.logbook->headerItem()->text(i).toStdString() + ";";
-	}
-
-	data.erase(data.end() - 1);
-	data += "\n";
-
-	for (int i = 0; i < ui.logbook->headerItem()->columnCount(); i++) {
-		if (i == 0 && item->text(0).isEmpty()) {
-			data += "-1;";
-			continue;
-		}
-
-		data += item->text(i).toStdString() + ";";
-	}
-
-	data.erase(data.end() - 1);
-	data += "\n";
-
-	ui.statusbar->showMessage("Updating record");
-	ham_logbook_add(m_conn, data.c_str());
-}
-
-void MainWindow::handleContextMenu(const QPoint &p) {
-	QTreeWidgetItem *item = ui.logbook->itemAt(p);
-	if (!item)
-		return;
-
-    QMenu *menu = new QMenu;
-    menu->addAction(QString("Remove"), this, SLOT(removeRecord()));
-    menu->exec(ui.logbook->mapToGlobal(p));
-}
-
 void MainWindow::handleConnected(HAMConnection *connection) {
 	if (m_register) {
 		ham_account_register(connection);
@@ -239,7 +143,9 @@ void MainWindow::handleLoggedIn(HAMConnection *connection) {
 	ui.statusbar->showMessage("Logged in!");
 	ui.statusbar->showMessage("Fetching logbook");
 	ui.infoLabel->setText(QString("Username: ") + connection->username + "     ");
-	ham_logbook_fetch(connection, NULL, NULL);
+
+	ui.logbook->setConnection(connection);
+	ui.logbook->fetch();
 }
 
 void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {
@@ -258,116 +164,4 @@ void MainWindow::handleRegistrationFailed(HAMConnection *connection, const QStri
 	QMessageBox::critical(this, "Registration failed!", reason);
 }
 
-void MainWindow::handleLogBookFetched(HAMConnection *connection, const QString &logbook) {
-	std::vector<QStringList > tokens = QtLogBook::tokenize(logbook);
-
-	ui.logbook->clear();
-	ui.logbook->setHeaderLabels(tokens.front());
-	tokens.erase(tokens.begin());
-
-	disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
-	Q_FOREACH(const QStringList &row, tokens) {
-		if (row.size() > 1) {
-			QTreeWidgetItem *item = new QTreeWidgetItem(ui.logbook, row);
-			item->setFlags(item->flags() | Qt::ItemIsEditable);
-		}
-	}
-
-	for (int i = 0; i < ui.logbook->columnCount(); i++) {
-		ui.logbook->resizeColumnToContents(i);
-	}
-
-	ui.logbook->setColumnHidden(0, true);
-	ui.logbook->setColumnHidden(1, true);
-
-	ui.stackedWidget->setCurrentIndex(1);
-	ui.statusbar->showMessage("Logbook fetched!");
-
-	connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-}
-
-void MainWindow::handleLogBookUpdated(HAMConnection *connection, const QString &data, const QString &response) {
-	ui.statusbar->showMessage("Record updated");
-	std::vector<QStringList > tokens = QtLogBook::tokenize(response);
-
-	QTreeWidgetItem *item = ui.logbook->currentItem();
-	item->setText(0, tokens[0][0]);
-	item->setText(1, tokens[0][1]);
-
-	if (m_askDXCC) {
-		m_askDXCC = false;
-		ham_callinfo_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str(), NULL, NULL);
-// 		ham_dxcc_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
-// 		ham_qrz_fetch(m_conn, item->text(findColumnWithName("callsign")).toStdString().c_str());
-	}
-
-	for (int i = 0; i < ui.logbook->columnCount(); i++) {
-		ui.logbook->resizeColumnToContents(i);
-	}
-}
-
-void MainWindow::handleLogBookUpdateFailed(HAMConnection *connection, const QString &data, const QString &reason) {
-	ui.statusbar->showMessage(QString("Record updating error: ") + reason);
-}
-
-void MainWindow::handleCallInfoFetched(HAMConnection *connection, const QString &call, const QString &data) {
-	std::vector<QStringList > tokens = QtLogBook::tokenize(data);
-
-	if (tokens[0].size() < 4)
-		return;
-
-	std::map<std::string, int> indexes;
-	int i = 0;
-	Q_FOREACH(const QString &header, tokens[0]) {
-		indexes[header.toStdString()] = i++;
-	}
-
-	QString name;
-
-	if (indexes.find("fname") != indexes.end()) {
-		name += tokens[1][indexes["fname"]];
-	}
-
-	if (indexes.find("name") != indexes.end()) {
-		if (!name.isEmpty()) {
-			name += " ";
-		}
-		name += tokens[1][indexes["name"]];
-	}
-
-	QString text = "Do you want to use following Call Info data for this record?<br/>";
-	text += "<i>";
-	text += "QTH: " + tokens[1][indexes["country"]] + "<br/>";
-	text += "Continent: " + tokens[1][indexes["continent"]] + "<br/>";
-	text += "Lat: " + tokens[1][indexes["lat"]] + "<br/>";
-	text += "Lon: " + tokens[1][indexes["lon"]] + "<br/>";
-	text += "CQ: " + tokens[1][indexes["cq"]] + "<br/>";
-	text += "ITU: " + tokens[1][indexes["itu"]] + "<br/>";
-
-	if (!name.isEmpty()) {
-		text += "Name: " + name + "<br/>";
-	}
-
-	text += "</i>";
-
-	QMessageBox::StandardButton b = QMessageBox::question(this, "Use Call Info data?", text,
-											 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-	if (b == QMessageBox::Yes) {
-		QTreeWidgetItem *item = ui.logbook->currentItem();
-
-		disconnect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
-		item->setText(findColumnWithName("qth"), tokens[1][indexes["country"]]);
-		item->setText(findColumnWithName("continent"), tokens[1][indexes["continent"]]);
-		item->setText(findColumnWithName("cq"), tokens[1][indexes["cq"]]);
-		item->setText(findColumnWithName("itu"), tokens[1][indexes["itu"]]);
-		item->setText(findColumnWithName("latitude"), tokens[1][indexes["lat"]]);
-		item->setText(findColumnWithName("longitude"), tokens[1][indexes["lon"]]);
-		item->setText(findColumnWithName("name"), name);
-		handleItemChanged(item);
-
-		connect(ui.logbook, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-	}
-}
 

@@ -36,7 +36,7 @@
 extern "C" {
 #endif
 
-typedef void (*HAMCallInfoHandler) (HAMConnection *connection, const char *callinfo_data, void *ui_data);
+typedef void (*HAMCallInfoHandler) (HAMConnection *connection, const char *callinfo_data, int error, void *ui_data);
 
 typedef struct _HAMCallInfoUICallbacks {
 	/** Called when Call info data is succesfully fetched from HAMLog server
