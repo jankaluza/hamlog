@@ -45,7 +45,13 @@ Session::~Session() {
 			delete it->second;
 		}
 	}
-	LOG_INFO(logger, this << ": Session destroyed");
+	
+	if (m_username.empty()) {
+		LOG_INFO(logger, this << ": Session destroyed");
+	}
+	else {
+		LOG_INFO(logger, m_username << ": Session destroyed");
+	}
 }
 
 boost::asio::ip::tcp::socket& Session::getSocket() {
