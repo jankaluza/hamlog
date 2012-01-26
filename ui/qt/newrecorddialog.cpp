@@ -26,6 +26,16 @@
 #include "callinfo.h"
 #include "iostream"
 
+static void callinfo_handler(HAMConnection *connection, const char *data, int error, void *ui_data) {
+	NewRecordDialog *widget = static_cast<NewRecordDialog *>(ui_data);
+	if (!widget || error) {
+		return;
+	}
+
+	std::string d(data);
+	widget->setCSV(d);
+}
+
 NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : QDialog(parent), m_conn(connection) {
 	ui.setupUi(this);
 
@@ -38,5 +48,32 @@ void NewRecordDialog::callLookUp(bool unused) {
 	std::string call = ui.call->text().toStdString();
 	ui.logbook->fetch(call);
 
-// 	ham_callinfo_fetch(m_conn, call.c_str(), callinfo_handler, this);
+	ham_callinfo_fetch(m_conn, call.c_str(), callinfo_handler, this);
+}
+
+void NewRecordDialog::setCSV(const std::string &data) {
+	std::vector<QStringList > tokens = QtLogBook::tokenize(data.c_str());
+
+	if (tokens[0].size() < 4)
+		return;
+
+	std::map<std::string, int> indexes;
+	int i = 0;
+	Q_FOREACH(const QString &header, tokens[0]) {
+		indexes[header.toStdString()] = i++;
+	}
+
+	QString name;
+
+	if (indexes.find("fname") != indexes.end()) {
+		name += tokens[1][indexes["fname"]];
+	}
+
+	if (indexes.find("name") != indexes.end()) {
+		if (!name.isEmpty()) {
+			name += " ";
+		}
+		name += tokens[1][indexes["name"]];
+	}
+
 }
