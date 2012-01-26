@@ -38,5 +38,5 @@ void NewRecordDialog::callLookUp(bool unused) {
 	std::string call = ui.call->text().toStdString();
 	ui.logbook->fetch(call);
 
-	ham_callinfo_fetch(m_conn, call.c_str(), callinfo_handler, this);
+// 	ham_callinfo_fetch(m_conn, call.c_str(), callinfo_handler, this);
 }

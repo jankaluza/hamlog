@@ -39,6 +39,7 @@ void SessionManager::stop(Session::ref session) {
 }
 
 void SessionManager::handleStopped(Session::ref session) {
+	session->onStopped.disconnect(boost::bind(&SessionManager::handleStopped, this, session));
 	m_sessions.remove(session);
 }
 
