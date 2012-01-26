@@ -70,8 +70,12 @@ static void ham_login_handle_get_response2(HAMConnection *connection, HAMReply *
 			ham_qrz_fetch_username(connection);
 		}
 
-		if (ui_callbacks && ui_callbacks->logged_in)
+		/* Connect to DXCluster */
+		ham_dxcluster_fetch(connection, NULL, NULL);
+
+		if (ui_callbacks && ui_callbacks->logged_in) {
 			ui_callbacks->logged_in(connection);
+		}
 	}
 }
 

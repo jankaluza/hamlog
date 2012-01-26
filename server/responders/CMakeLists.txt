@@ -14,6 +14,7 @@ BUILD_MODULE(mod_register register.cpp register.h)
 BUILD_MODULE(mod_root root.cpp root.h)
 BUILD_MODULE(mod_logbook logbook.cpp logbook.h)
 BUILD_MODULE(mod_dxcc dxcc.cpp dxcc.h)
+BUILD_MODULE(mod_dxcluster dxcluster.cpp dxcluster.h)
 
 if (TINYXML_FOUND)
 	BUILD_MODULE(mod_qrz qrz.cpp qrz.h)

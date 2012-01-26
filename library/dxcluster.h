@@ -1,4 +1,9 @@
 /**
+ * @file callinfo.h CALLINFO module asker
+ * @ingroup core
+ */
+
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>
@@ -18,38 +23,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#pragma once
+#ifndef _HAMLOG_DXCLUSTER_H
+#define _HAMLOG_DXCLUSTER_H
 
-#include <string>
+#include "connection.h"
+#include "parser.h"
+#include "reply.h"
+#include "request.h"
+#include "list.h"
 
-namespace HamLog {
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-class Module {
-	public:
-		typedef enum {
-			UNKNOWN,
-			CALLINFO,
-			DXCLUSTER,
-		} Type;
-		
-		Module(const std::string &name, Type type, const std::string &description = "") : m_name(name), m_type(type), m_description(description) {}
+typedef void (*HAMDXClusterHandler) (HAMConnection *connection, const char *dxcluster_data, int error, void *ui_data);
 
-		virtual const std::string &getName() {
-			return m_name;
-		}
+void ham_dxcluster_fetch(HAMConnection *connection, HAMDXClusterHandler handler, void *ui_data);
 
-		virtual const std::string &getDescription() {
-			return m_description;
-		}
-
-		virtual Type getType() {
-			return m_type;
-		}
-
-	private:
-		std::string m_name;
-		Type m_type;
-		std::string m_description;
-};
-
+#ifdef __cplusplus
 }
+#endif
+
+#endif

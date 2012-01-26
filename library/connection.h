@@ -59,6 +59,7 @@ typedef struct _HAMConnection {
 typedef enum {
 	UNKNOWN,
 	CALLINFO,
+	DXCLUSTER,
 } ModuleType;
 
 typedef struct _HAMModule {
