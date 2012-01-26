@@ -32,6 +32,7 @@ class NewRecordDialog : public QDialog {
 		NewRecordDialog(HAMConnection *connection, QWidget *parent);
 
 		void setCSV(const std::string &data);
+		std::string getCSV();
 
 	public slots:
 		void callLookUp(bool unused = false);
@@ -39,4 +40,5 @@ class NewRecordDialog : public QDialog {
 	private:
 		Ui_NewRecordDialog ui;
 		HAMConnection *m_conn;
+		std::string m_id;
 };

@@ -36,8 +36,10 @@ static void callinfo_handler(HAMConnection *connection, const char *data, int er
 	widget->setCSV(d);
 }
 
-NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : QDialog(parent), m_conn(connection) {
+NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : QDialog(parent), m_conn(connection), m_id("-1") {
 	ui.setupUi(this);
+	ui.myRST->setText("599");
+	ui.hisRST->setText("599");
 
 	ui.logbook->setConnection(m_conn);
 
@@ -51,7 +53,25 @@ void NewRecordDialog::callLookUp(bool unused) {
 	ham_callinfo_fetch(m_conn, call.c_str(), callinfo_handler, this);
 }
 
+std::string NewRecordDialog::getCSV() {
+	std::string data = "id;qth;continent;cq;itu;latitude;longitude;name\n";
+
+	data += m_id + ";";
+	data += ui.qth->text().toStdString() + ";";
+	data += ui.continent->text().toStdString() + ";";
+	data += ui.cq->text().toStdString() + ";";
+	data += ui.itu->text().toStdString() + ";";
+	data += ui.latitude->text().toStdString() + ";";
+	data += ui.longitude->text().toStdString() + ";";
+	data += ui.name->text().toStdString() + "\n";
+
+	return data;
+}
+
 void NewRecordDialog::setCSV(const std::string &data) {
+	if (data.empty())
+		return;
+
 	std::vector<QStringList > tokens = QtLogBook::tokenize(data.c_str());
 
 	if (tokens[0].size() < 4)
@@ -76,4 +96,23 @@ void NewRecordDialog::setCSV(const std::string &data) {
 		name += tokens[1][indexes["name"]];
 	}
 
+	if (indexes.find("callsign") != indexes.end()) {
+		ui.logbook->fetch(tokens[1][indexes["callsign"]].toStdString());
+		ui.call->setText(tokens[1][indexes["callsign"]]);
+	}
+
+	if (indexes.find("id") != indexes.end()) {
+		m_id = tokens[1][indexes["id"]].toStdString();
+	}
+	else {
+		m_id = "-1";
+	}
+
+	ui.qth->setText(tokens[1][indexes["qth"]]);
+	ui.continent->setText(tokens[1][indexes["continent"]]);
+	ui.cq->setText(tokens[1][indexes["cq"]]);
+	ui.itu->setText(tokens[1][indexes["itu"]]);
+	ui.latitude->setText(tokens[1][indexes["latitude"]]);
+	ui.longitude->setText(tokens[1][indexes["longitude"]]);
+	ui.name->setText(name);
 }

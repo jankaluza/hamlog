@@ -39,6 +39,9 @@ class LogbookTreeWidget : public QTreeWidget {
 		
 		void tryAskDXCC();
 
+		std::string itemToCSV(QTreeWidgetItem *item);
+		QTreeWidgetItem *itemFromCSV(const std::string &csv);
+
 	public slots:
 		void fetch();
 		void fetch(const std::string &call);
@@ -49,6 +52,7 @@ class LogbookTreeWidget : public QTreeWidget {
 		void handleItemChanged(QTreeWidgetItem *item, int col);
 		void handleItemChanged(QTreeWidgetItem *item);
 		void handleContextMenu(const QPoint &p);
+		void handleItemDoubleClicked(QTreeWidgetItem *item, int col);
 
 	private:
 		HAMConnection *m_conn;

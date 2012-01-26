@@ -95,10 +95,10 @@ static void callinfo_handler(HAMConnection *connection, const char *data, int er
 
 	QString text = "Do you want to use following Call Info data for this record?<br/>";
 	text += "<i>";
-	text += "QTH: " + tokens[1][indexes["country"]] + "<br/>";
+	text += "QTH: " + tokens[1][indexes["qth"]] + "<br/>";
 	text += "Continent: " + tokens[1][indexes["continent"]] + "<br/>";
-	text += "Lat: " + tokens[1][indexes["lat"]] + "<br/>";
-	text += "Lon: " + tokens[1][indexes["lon"]] + "<br/>";
+	text += "Lat: " + tokens[1][indexes["latitude"]] + "<br/>";
+	text += "Lon: " + tokens[1][indexes["longitude"]] + "<br/>";
 	text += "CQ: " + tokens[1][indexes["cq"]] + "<br/>";
 	text += "ITU: " + tokens[1][indexes["itu"]] + "<br/>";
 
@@ -115,12 +115,12 @@ static void callinfo_handler(HAMConnection *connection, const char *data, int er
 
 		QObject::disconnect(widget, SIGNAL(itemChanged( QTreeWidgetItem *, int)), widget, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 
-		item->setText(widget->findColumnWithName("qth"), tokens[1][indexes["country"]]);
+		item->setText(widget->findColumnWithName("qth"), tokens[1][indexes["qth"]]);
 		item->setText(widget->findColumnWithName("continent"), tokens[1][indexes["continent"]]);
 		item->setText(widget->findColumnWithName("cq"), tokens[1][indexes["cq"]]);
 		item->setText(widget->findColumnWithName("itu"), tokens[1][indexes["itu"]]);
-		item->setText(widget->findColumnWithName("latitude"), tokens[1][indexes["lat"]]);
-		item->setText(widget->findColumnWithName("longitude"), tokens[1][indexes["lon"]]);
+		item->setText(widget->findColumnWithName("latitude"), tokens[1][indexes["latitude"]]);
+		item->setText(widget->findColumnWithName("longitude"), tokens[1][indexes["longitude"]]);
 		QObject::connect(widget, SIGNAL(itemChanged( QTreeWidgetItem *, int)), widget, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 
 		item->setText(widget->findColumnWithName("name"), name);
@@ -153,6 +153,7 @@ LogbookTreeWidget::LogbookTreeWidget(QWidget *parent) : QTreeWidget(parent), m_c
 
 	connect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(handleContextMenu(const QPoint &)));
+	connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(handleItemDoubleClicked(QTreeWidgetItem *, int)));
 }
 
 LogbookTreeWidget::~LogbookTreeWidget() {
@@ -217,7 +218,47 @@ void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item, int col) {
 	}
 }
 
-void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item) {
+QTreeWidgetItem *LogbookTreeWidget::itemFromCSV(const std::string &data) {
+	if (data.empty())
+		return NULL;
+
+	std::vector<QStringList > tokens = QtLogBook::tokenize(data.c_str());
+
+	std::map<std::string, int> indexes;
+	int i = 0;
+	Q_FOREACH(const QString &header, tokens[0]) {
+		indexes[header.toStdString()] = i++;
+	}
+
+	disconnect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	QTreeWidgetItem *item;
+
+	QList<QTreeWidgetItem *> items = findItems(tokens[1][indexes["id"]], Qt::MatchExactly);
+	if (items.empty()) {
+		item = new QTreeWidgetItem(this);
+		item->setFlags(item->flags() | Qt::ItemIsEditable);
+	}
+	else {
+		item = items.front();
+	}
+
+	setCurrentItem(item);
+
+	item->setText(findColumnWithName("qth"), tokens[1][indexes["qth"]]);
+	item->setText(findColumnWithName("continent"), tokens[1][indexes["continent"]]);
+	item->setText(findColumnWithName("cq"), tokens[1][indexes["cq"]]);
+	item->setText(findColumnWithName("itu"), tokens[1][indexes["itu"]]);
+	item->setText(findColumnWithName("latitude"), tokens[1][indexes["latitude"]]);
+	item->setText(findColumnWithName("longitude"), tokens[1][indexes["longitude"]]);
+	item->setText(findColumnWithName("name"), tokens[1][indexes["name"]]);
+
+	connect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	return item;
+}
+
+std::string LogbookTreeWidget::itemToCSV(QTreeWidgetItem *item) {
 	std::string data;
 	for (int i = 0; i < headerItem()->columnCount(); i++) {
 		data += headerItem()->text(i).toStdString() + ";";
@@ -238,12 +279,21 @@ void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item) {
 	data.erase(data.end() - 1);
 	data += "\n";
 
+	return data;
+}
+
+void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item) {
+	std::string data = itemToCSV(item);
 	ham_logbook_add(m_conn, data.c_str(), add_handler, this);
 }
 
 void LogbookTreeWidget::addRecord() {
 	NewRecordDialog dialog(m_conn, this);
-	dialog.exec();
+	if (dialog.exec()) {
+		std::string csv = dialog.getCSV();
+		itemFromCSV(csv);
+		ham_logbook_add(m_conn, csv.c_str(), add_handler, this);
+	}
 
 // 	disconnect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 // 	QTreeWidgetItem *item = new QTreeWidgetItem(this);
@@ -277,4 +327,13 @@ void LogbookTreeWidget::handleContextMenu(const QPoint &p) {
     QMenu *menu = new QMenu;
     menu->addAction(QString("Remove"), this, SLOT(removeRecord()));
     menu->exec(mapToGlobal(p));
+}
+
+void LogbookTreeWidget::handleItemDoubleClicked(QTreeWidgetItem *item, int col) {
+	NewRecordDialog dialog(m_conn, this);
+	dialog.setCSV(itemToCSV(item));
+	if (dialog.exec()) {
+		itemFromCSV(dialog.getCSV());
+		ham_logbook_add(m_conn, dialog.getCSV().c_str(), add_handler, this);
+	}
 }
