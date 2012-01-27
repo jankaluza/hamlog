@@ -44,11 +44,11 @@ class LogBook : public boost::enable_shared_from_this<LogBook>, public RequestRe
 
 		LogBook();
 
-		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 
-		void sendLogs(Session *session, Reply::ref reply);
-		void addLog(Session *session, Request::ref request, Reply::ref reply);
-		void removeLog(Session *session, Request::ref request, Reply::ref reply);
+		void sendLogs(Session::ref session, Reply::ref reply);
+		void addLog(Session::ref session, Request::ref request, Reply::ref reply);
+		void removeLog(Session::ref session, Request::ref request, Reply::ref reply);
 
 	private:
 		std::vector<std::vector<std::string> > parse(const std::string &data);

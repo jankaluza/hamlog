@@ -77,7 +77,7 @@ ModuleManager* ModuleManager::getInstance() {
 	return m_instance;
 }
 
-void ModuleManager::sendModulesList(Session *session, Request::ref request, Reply::ref reply) {
+void ModuleManager::sendModulesList(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string data = "uri;name;desc;type;need_auth\n";
 	for (std::map<std::string, ModuleInfo *>::const_iterator it = m_modules.begin(); it != m_modules.end(); it++) {
 		ModuleInfo *info = it->second;
@@ -95,7 +95,7 @@ void ModuleManager::sendModulesList(Session *session, Request::ref request, Repl
 	reply->setContent(data);
 }
 
-bool ModuleManager::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+bool ModuleManager::handleRequest(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
 	if (uri.find("/", 1) != std::string::npos) {
 		uri = uri.substr(0, uri.find("/", 1));
@@ -114,6 +114,15 @@ bool ModuleManager::handleRequest(Session *session, Request::ref request, Reply:
 
 	LOG_WARN(logger, "No module to handle uri='" << uri << "'");
 	return false;
+}
+
+void ModuleManager::handleSessionFinished(Session::ref session) {
+	for (std::map<std::string, ModuleInfo *>::const_iterator it = m_modules.begin(); it != m_modules.end(); it++) {
+		ModuleInfo *info = it->second;
+		RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
+
+		responder->handleSessionFinished(session);
+	}
 }
 
 void ModuleManager::loadModules(Server *server, const std::string &path) {

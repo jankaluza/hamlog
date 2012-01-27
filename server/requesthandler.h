@@ -39,7 +39,7 @@ class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
 	public:
 		typedef boost::shared_ptr<RequestHandler> ref;
 
-		RequestHandler(Session *session);
+		RequestHandler(Session::ref session);
 		~RequestHandler();
 
 		void addResponder(RequestResponder *responder);
@@ -48,7 +48,7 @@ class RequestHandler : public boost::enable_shared_from_this<RequestHandler> {
 
 	private:
 		std::map<std::string, RequestResponder *> m_responders;
-		Session *m_session;
+		Session::ref m_session;
 
 };
 

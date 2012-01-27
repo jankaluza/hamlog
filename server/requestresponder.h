@@ -30,10 +30,9 @@
 #include "request.h"
 #include "reply.h"
 #include "module.h"
+#include "session.h"
 
 namespace HamLog {
-
-class Session;
 
 class RequestResponder : public Module {
 	public:
@@ -47,7 +46,9 @@ class RequestResponder : public Module {
 			return m_authentication;
 		}
 
-		virtual bool handleRequest(Session *session, Request::ref request, Reply::ref reply) = 0;
+		virtual bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply) = 0;
+
+		virtual void handleSessionFinished(Session::ref) {}
 
 	private:
 		std::string m_uri;

@@ -36,7 +36,7 @@ Register::Register() : RequestResponder("Register module", "/register", Module::
 	m_addUser.what(&m);
 }
 
-bool Register::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+bool Register::handleRequest(Session::ref session, Request::ref request, Reply::ref reply) {
 	if (request->getMethod() != "GET") {
 		return false;
 	}

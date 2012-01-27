@@ -24,6 +24,9 @@
 #include <iostream>
 #include "request.h"
 #include "log.h"
+#include "requestparser.h"
+#include "requesthandler.h"
+#include "modulemanager.h"
 
 namespace HamLog {
 
@@ -32,7 +35,7 @@ DEFINE_LOGGER(logger, "Session");
 Session::Session(boost::asio::io_service& ioService)
 	: m_socket(ioService),
 	m_authenticated(false),
-	m_requestHandler(this),
+	m_requestParser(new RequestParser()),
 	m_req(new Request()),
 	parsed_total(0),
 	bytes(0),
@@ -45,7 +48,10 @@ Session::~Session() {
 			delete it->second;
 		}
 	}
-	
+
+	delete m_requestParser;
+	m_requestParser = NULL;
+
 	if (m_username.empty()) {
 		LOG_INFO(logger, this << ": Session destroyed");
 	}
@@ -61,10 +67,17 @@ boost::asio::ip::tcp::socket& Session::getSocket() {
 void Session::start() {
 	m_socket.async_read_some(boost::asio::buffer(m_buffer),
 							 boost::bind(&Session::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+	m_requestHandler = new RequestHandler(shared_from_this());
 }
 
 void Session::stop() {
 	m_socket.close();
+
+	ModuleManager::getInstance()->handleSessionFinished(shared_from_this());
+
+	delete m_requestHandler;
+	m_requestHandler = NULL;
+
 	onStopped();
 }
 
@@ -100,7 +113,7 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t b) {
 
 	while (parsed_total != bytes) {
 
-		parsed = m_requestParser.parse(m_req, m_buffer.begin() + parsed_total, m_buffer.begin() + bytes);
+		parsed = m_requestParser->parse(m_req, m_buffer.begin() + parsed_total, m_buffer.begin() + bytes);
 		if (parsed == 0) {
 			LOG_ERROR(logger, "Parsing error!");
 			// TODO: send Error
@@ -110,7 +123,7 @@ void Session::handleRead(const boost::system::error_code& e, std::size_t b) {
 		parsed_total += parsed;
 
 		if (m_req->isFinished()) {
-			Reply::ref reply = m_requestHandler.handleRequest(m_req);
+			Reply::ref reply = m_requestHandler->handleRequest(m_req);
 			m_req.reset(new Request());
 
 			// Async replies are send by the module itself and we should not parse

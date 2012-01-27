@@ -32,7 +32,7 @@ Root::Root() : RequestResponder("Root responder module", "/", Module::UNKNOWN, f
 	
 }
 
-bool Root::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+bool Root::handleRequest(Session::ref session, Request::ref request, Reply::ref reply) {
 	reply->setContentType("text/html");
 	reply->setContent("<html><head></head><body>This is HamLog server. Download HamLog and setup your username to connect it.</body></html>");
 	return true;

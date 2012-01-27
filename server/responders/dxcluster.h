@@ -48,16 +48,18 @@ class DXCluster : public boost::enable_shared_from_this<DXCluster>, public Reque
 
 		DXCluster(Server *server);
 
-		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
+
+		void handleSessionFinished(Session::ref);
 
 	private:
 		void handleResolve(const boost::system::error_code& err, boost::asio::ip::tcp::tcp::resolver::iterator endpoint_iterator);
-		void sendDXCluster(Session *session, Request::ref request, Reply::ref reply);
+		void sendDXCluster(Session::ref session, Request::ref request, Reply::ref reply);
 
-		void handleDXClusterConnected(Session *session, const boost::system::error_code& err);
-		void handleDXClusterRead(Session *session, const boost::system::error_code& err);
-		void handleDXClusterLogin(Session *session, const boost::system::error_code& err);
-		bool askDXCluster(Session *session, Reply::ref reply, const std::string &call);
+		void handleDXClusterConnected(Session::ref session, const boost::system::error_code& err);
+		void handleDXClusterRead(Session::ref session, const boost::system::error_code& err);
+		void handleDXClusterLogin(Session::ref session, const boost::system::error_code& err);
+		bool askDXCluster(Session::ref session, Reply::ref reply, const std::string &call);
 
 		Server *m_server;
 		boost::asio::ip::tcp::tcp::resolver m_resolver;

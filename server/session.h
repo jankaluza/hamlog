@@ -26,10 +26,13 @@
 #include <boost/asio.hpp>
 #include <boost/signal.hpp>
 #include <string>
-#include "requestparser.h"
-#include "requesthandler.h"
+#include "request.h"
+#include "reply.h"
 
 namespace HamLog {
+
+class RequestHandler;
+class RequestParser;
 
 class Session : public boost::enable_shared_from_this<Session> {
 	public:
@@ -85,8 +88,8 @@ class Session : public boost::enable_shared_from_this<Session> {
 
 		boost::asio::ip::tcp::socket m_socket;
 		bool m_authenticated;
-		RequestParser m_requestParser;
-		RequestHandler m_requestHandler;
+		RequestParser *m_requestParser;
+		RequestHandler *m_requestHandler;
 		Request::ref m_req;
 		boost::array<char, 8192> m_buffer;
 		unsigned long m_id;

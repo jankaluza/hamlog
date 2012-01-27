@@ -86,7 +86,7 @@ void QRZ::handleResolve(const boost::system::error_code& err, tcp::resolver::ite
 	}
 }
 
-void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& err) {
+void QRZ::handleQRZReadKey(Session::ref session, const boost::system::error_code& err) {
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (err) {
 		data->call = "";
@@ -157,7 +157,7 @@ void QRZ::handleQRZReadKey(Session *session, const boost::system::error_code& er
 
 }
 
-void QRZ::handleQRZWriteRequest(Session *session, const boost::system::error_code& err) {
+void QRZ::handleQRZWriteRequest(Session::ref session, const boost::system::error_code& err) {
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (err) {
 		data->call = "";
@@ -171,7 +171,7 @@ void QRZ::handleQRZWriteRequest(Session *session, const boost::system::error_cod
 	boost::asio::async_read_until(data->socket, data->response, "</QRZDatabase>", boost::bind(&QRZ::handleQRZReadKey, this, session, boost::asio::placeholders::error));
 }
 
-void QRZ::handleQRZConnected(Session *session, const boost::system::error_code& err) {
+void QRZ::handleQRZConnected(Session::ref session, const boost::system::error_code& err) {
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (err) {
 		data->call = "";
@@ -185,7 +185,7 @@ void QRZ::handleQRZConnected(Session *session, const boost::system::error_code& 
 	boost::asio::async_write(data->socket, data->request, boost::bind(&QRZ::handleQRZWriteRequest, this, session, boost::asio::placeholders::error));
 }
 
-bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
+bool QRZ::askQRZ(Session::ref session, Reply::ref reply, const std::string &call) {
 	QRZModuleData *data = dynamic_cast<QRZModuleData *>(session->getModuleData("/qrz"));
 	if (data != NULL && !data->key.empty()) {
 		// Since now it's clear we will ask the server and won't be able to answer just now,
@@ -248,12 +248,12 @@ bool QRZ::askQRZ(Session *session, Reply::ref reply, const std::string &call) {
 	return true;
 }
 
-void QRZ::sendQRZ(Session *session, Request::ref request, Reply::ref reply) {
+void QRZ::sendQRZ(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string call = request->getContent();
 	askQRZ(session, reply, call);
 }
 
-void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {
+void QRZ::addUser(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string username = request->getHeader("username");
 	std::string password = request->getHeader("password");
 
@@ -278,7 +278,7 @@ void QRZ::addUser(Session *session, Request::ref request, Reply::ref reply) {
 	}
 }
 
-void QRZ::sendUsername(Session *session, Request::ref request, Reply::ref reply) {
+void QRZ::sendUsername(Session::ref session, Request::ref request, Reply::ref reply) {
 	m_getUser.where("user_id", boost::lexical_cast<std::string>(session->getId()));
 	std::list<std::list<std::string> > user;
 	m_getUser.into(&user);
@@ -292,7 +292,7 @@ void QRZ::sendUsername(Session *session, Request::ref request, Reply::ref reply)
 	reply->setContent(user.front().front());
 }
 
-bool QRZ::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+bool QRZ::handleRequest(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
 
 	if (uri == "/qrz") {

@@ -54,10 +54,10 @@ class DXCC : public boost::enable_shared_from_this<DXCC>, public RequestResponde
 
 		DXCC();
 
-		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 
 	private:
-		void sendDXCC(Session *session, Request::ref request, Reply::ref reply);
+		void sendDXCC(Session::ref session, Request::ref request, Reply::ref reply);
 
 		std::map<std::string, Entity> m_prefixes;
 

@@ -44,7 +44,7 @@ LogBook::LogBook() : RequestResponder("LogBook module", "/logbook", Module::UNKN
 	m_addLog.what(&m_record);
 }
 
-void LogBook::sendLogs(Session *session, Reply::ref reply) {
+void LogBook::sendLogs(Session::ref session, Reply::ref reply) {
 	m_getLogs.where("user_id", boost::lexical_cast<std::string>(session->getId()));
 
 	std::list<std::list<std::string> > logbook;
@@ -108,7 +108,7 @@ std::vector<std::vector<std::string> > LogBook::parse(const std::string &str) {
 	return tokens;
 }
 
-void LogBook::addLog(Session *session, Request::ref request, Reply::ref reply) {
+void LogBook::addLog(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::vector<std::vector<std::string> > data = parse(request->getContent());
 	std::vector<std::string> header = data.front();
 	data.erase(data.begin());
@@ -158,7 +158,7 @@ void LogBook::addLog(Session *session, Request::ref request, Reply::ref reply) {
 	
 }
 
-void LogBook::removeLog(Session *session, Request::ref request, Reply::ref reply) {
+void LogBook::removeLog(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::vector<std::vector<std::string> > data = parse(request->getContent());
 	std::vector<std::string> ids = data.front();
 	data.erase(data.begin());
@@ -171,7 +171,7 @@ void LogBook::removeLog(Session *session, Request::ref request, Reply::ref reply
 	reply->setContent("Removed.");
 }
 
-bool LogBook::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+bool LogBook::handleRequest(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
 
 	if (uri == "/logbook") {

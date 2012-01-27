@@ -43,7 +43,7 @@ class Root : public boost::enable_shared_from_this<Root>, public RequestResponde
 
 		Root();
 
-		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 };
 
 }

@@ -30,7 +30,7 @@
 
 namespace HamLog {
 	
-RequestHandler::RequestHandler(Session *session)
+RequestHandler::RequestHandler(Session::ref session)
 	: m_session(session) {
 // 	addResponder(RequestResponder::ref(new Responder::Root()));
 // 	addResponder(RequestResponder::ref(new Responder::Login()));

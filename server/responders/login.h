@@ -43,7 +43,7 @@ class Login : public RequestResponder {
 	public:
 		Login();
 
-		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 
 	private:
 		StorageBackend::Select m_getUser;

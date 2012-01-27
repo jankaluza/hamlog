@@ -31,6 +31,7 @@ namespace HamLog {
 
 class SharedLibrary;
 class Server;
+class Module;
 
 typedef Module* (*module_init)(Server *);
 
@@ -40,9 +41,11 @@ class ModuleManager {
 
 		void loadModules(Server *server, const std::string &path);
 
-		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 
-		void sendModulesList(Session *session, Request::ref request, Reply::ref reply);
+		void handleSessionFinished(Session::ref session);
+
+		void sendModulesList(Session::ref session, Request::ref request, Reply::ref reply);
 	
 	private:
         struct ModuleInfo {

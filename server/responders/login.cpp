@@ -116,7 +116,7 @@ void Login::createAuthorizationRequest(Reply::ref reply) {
 	reply->setContentType("text/html");
 }
 
-bool Login::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+bool Login::handleRequest(Session::ref session, Request::ref request, Reply::ref reply) {
 	if (!request->hasHeader("Authorization")) {
 		createAuthorizationRequest(reply);
 	}

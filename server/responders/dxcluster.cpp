@@ -45,7 +45,9 @@ using boost::asio::ip::tcp;
 class DXClusterModuleData : public Session::ModuleData {
 	public:
 		DXClusterModuleData(Server *server) : socket(server->getIOService()) {}
-		virtual ~DXClusterModuleData() {}
+		virtual ~DXClusterModuleData() {
+			socket.close();
+		}
 
 		std::string pending_data;
 		tcp::socket socket;
@@ -56,6 +58,15 @@ class DXClusterModuleData : public Session::ModuleData {
 DXCluster::DXCluster(Server *server) : RequestResponder("DXCluster", "/dxcluster", Module::DXCLUSTER, true), m_server(server), m_resolver(server->getIOService()) {
 	tcp::resolver::query query("dxspots.com", "telnet");
 	m_resolver.async_resolve(query, boost::bind(&DXCluster::handleResolve, this, boost::asio::placeholders::error, boost::asio::placeholders::iterator));
+}
+
+void DXCluster::handleSessionFinished(Session::ref session) {
+	DXClusterModuleData *data = dynamic_cast<DXClusterModuleData *>(session->getModuleData("/dxcluster"));
+	if (!data) {
+		return;
+	}
+
+	data->socket.close();
 }
 
 void DXCluster::handleResolve(const boost::system::error_code& err, tcp::resolver::iterator endpoint_iterator) {
@@ -70,7 +81,7 @@ void DXCluster::handleResolve(const boost::system::error_code& err, tcp::resolve
 	}
 }
 
-void DXCluster::handleDXClusterRead(Session *session, const boost::system::error_code& err) {
+void DXCluster::handleDXClusterRead(Session::ref session, const boost::system::error_code& err) {
 	DXClusterModuleData *data = dynamic_cast<DXClusterModuleData *>(session->getModuleData("/dxcluster"));
 	if (err) {
 		LOG_ERROR(logger, session->getUsername() << ": Error receiving data form dxspots.com");
@@ -88,7 +99,7 @@ void DXCluster::handleDXClusterRead(Session *session, const boost::system::error
 	boost::asio::async_read(data->socket, data->response, boost::asio::transfer_at_least(1), boost::bind(&DXCluster::handleDXClusterRead, this, session, boost::asio::placeholders::error));
 }
 
-void DXCluster::handleDXClusterLogin(Session *session, const boost::system::error_code& err) {
+void DXCluster::handleDXClusterLogin(Session::ref session, const boost::system::error_code& err) {
 	DXClusterModuleData *data = dynamic_cast<DXClusterModuleData *>(session->getModuleData("/dxcluster"));
 	if (err) {
 		LOG_ERROR(logger, session->getUsername() << ": Can't login");
@@ -98,7 +109,7 @@ void DXCluster::handleDXClusterLogin(Session *session, const boost::system::erro
 	boost::asio::async_read(data->socket, data->response, boost::asio::transfer_at_least(1), boost::bind(&DXCluster::handleDXClusterRead, this, session, boost::asio::placeholders::error));
 }
 
-void DXCluster::handleDXClusterConnected(Session *session, const boost::system::error_code& err) {
+void DXCluster::handleDXClusterConnected(Session::ref session, const boost::system::error_code& err) {
 	DXClusterModuleData *data = dynamic_cast<DXClusterModuleData *>(session->getModuleData("/dxcluster"));
 	if (err) {
 		LOG_ERROR(logger, session->getUsername() << ": Can't connect to dxspots.com server");
@@ -108,11 +119,11 @@ void DXCluster::handleDXClusterConnected(Session *session, const boost::system::
 	LOG_INFO(logger, session->getUsername() << ": Connected to dxspots.com server");
 	
 	std::ostream request_stream(&data->request);
-	request_stream << "ok2jrq\n";
+	request_stream << session->getUsername() << "\n";
 	boost::asio::async_write(data->socket, data->request, boost::bind(&DXCluster::handleDXClusterLogin, this, session, boost::asio::placeholders::error));
 }
 
-bool DXCluster::askDXCluster(Session *session, Reply::ref reply, const std::string &call) {
+bool DXCluster::askDXCluster(Session::ref session, Reply::ref reply, const std::string &call) {
 	DXClusterModuleData *data = dynamic_cast<DXClusterModuleData *>(session->getModuleData("/dxcluster"));
 	if (data != NULL) {
 		LOG_INFO(logger, session->getUsername() << ": Forwarwding DXCluster data");
@@ -134,11 +145,11 @@ bool DXCluster::askDXCluster(Session *session, Reply::ref reply, const std::stri
 	return true;
 }
 
-void DXCluster::sendDXCluster(Session *session, Request::ref request, Reply::ref reply) {
+void DXCluster::sendDXCluster(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string call = request->getContent();
 	askDXCluster(session, reply, call);
 }
-bool DXCluster::handleRequest(Session *session, Request::ref request, Reply::ref reply) {
+bool DXCluster::handleRequest(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string uri = request->getURI();
 
 	if (uri == "/dxcluster") {

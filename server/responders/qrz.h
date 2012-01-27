@@ -48,18 +48,18 @@ class QRZ : public boost::enable_shared_from_this<QRZ>, public RequestResponder 
 
 		QRZ(Server *server);
 
-		bool handleRequest(Session *session, Request::ref request, Reply::ref reply);
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 
 	private:
 		void handleResolve(const boost::system::error_code& err, boost::asio::ip::tcp::tcp::resolver::iterator endpoint_iterator);
-		void sendQRZ(Session *session, Request::ref request, Reply::ref reply);
-		void addUser(Session *session, Request::ref request, Reply::ref reply);
-		void sendUsername(Session *session, Request::ref request, Reply::ref reply);
+		void sendQRZ(Session::ref session, Request::ref request, Reply::ref reply);
+		void addUser(Session::ref session, Request::ref request, Reply::ref reply);
+		void sendUsername(Session::ref session, Request::ref request, Reply::ref reply);
 
-		void handleQRZConnected(Session *session, const boost::system::error_code& err);
-		void handleQRZWriteRequest(Session *session, const boost::system::error_code& err);
-		void handleQRZReadKey(Session *session, const boost::system::error_code& err);
-		bool askQRZ(Session *session, Reply::ref reply, const std::string &call);
+		void handleQRZConnected(Session::ref session, const boost::system::error_code& err);
+		void handleQRZWriteRequest(Session::ref session, const boost::system::error_code& err);
+		void handleQRZReadKey(Session::ref session, const boost::system::error_code& err);
+		bool askQRZ(Session::ref session, Reply::ref reply, const std::string &call);
 
 		Server *m_server;
 		boost::asio::ip::tcp::tcp::resolver m_resolver;
