@@ -40,6 +40,10 @@ typedef void (*HAMDXClusterHandler) (HAMConnection *connection, const char *dxcl
 
 void ham_dxcluster_fetch(HAMConnection *connection, HAMDXClusterHandler handler, void *ui_data);
 
+void ham_dxcluster_add_handler(HAMDXClusterHandler handler, void *ui_data);
+
+void ham_dxcluster_handler(HAMConnection *connection, HAMReply *reply, void *data);
+
 #ifdef __cplusplus
 }
 #endif

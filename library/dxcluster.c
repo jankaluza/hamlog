@@ -37,6 +37,13 @@ typedef struct _dxclusterInfo {
 	void *ui_data;
 } dxclusterInfo;
 
+typedef struct _pair {
+	HAMDXClusterHandler handler;
+	void *ui_data;
+} pair;
+
+static HAMList *handlers;
+
 static void ham_dxcluster_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	dxclusterInfo *info = (dxclusterInfo *) data;
 	info->requests--;
@@ -84,4 +91,29 @@ void ham_dxcluster_fetch(HAMConnection *connection, HAMDXClusterHandler handler,
 		item = ham_list_get_next_item(item);
 	}
 	ham_list_destroy(modules);
+}
+
+void ham_dxcluster_handler(HAMConnection *connection, HAMReply *reply, void *data) {
+	if (ham_reply_get_status(reply) == 200) {
+		HAMListItem *item = ham_list_get_first_item(handlers);
+		while (item) {
+			pair *p = ham_list_item_get_data(item);
+			p->handler(connection, ham_reply_get_content(reply), 0, p->ui_data);
+			item = ham_list_get_next_item(item);
+		}
+	}
+}
+
+void ham_dxcluster_add_handler(HAMDXClusterHandler handler, void *ui_data) {
+	if (!handlers) {
+		handlers = ham_list_new();
+		ham_list_set_free_func(handlers, free);
+		// TODO: free atexit
+	}
+
+	pair *data = malloc(sizeof(pair));
+	data->handler = handler;
+	data->ui_data = ui_data;
+
+	ham_list_insert_last(handlers, data);
 }
