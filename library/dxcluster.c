@@ -38,7 +38,6 @@ typedef struct _dxclusterInfo {
 } dxclusterInfo;
 
 static void ham_dxcluster_response(HAMConnection *connection, HAMReply *reply, void *data) {
-	return;
 	dxclusterInfo *info = (dxclusterInfo *) data;
 	info->requests--;
 

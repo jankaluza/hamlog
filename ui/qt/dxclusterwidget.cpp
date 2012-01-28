@@ -40,10 +40,26 @@ static void fetch_handler(HAMConnection *connection, const char *data, int error
 		return;
 	}
 
-	std::vector<QStringList > tokens = QtLogBook::tokenize(data);
+	std::vector<QStringList> tokens = QtLogBook::tokenize(data);
 
-	std::cout << "DATA:" << data << "\n";
+	widget->setHeaderLabels(tokens.front());
+	tokens.erase(tokens.begin());
 
+	bool wasMax = widget->verticalScrollBar()->value() == widget->verticalScrollBar()->maximum();
+
+	Q_FOREACH(const QStringList &row, tokens) {
+		if (row.size() > 1) {
+			QTreeWidgetItem *item = new QTreeWidgetItem(widget, row);
+		}
+	}
+
+	for (int i = 0; i < widget->columnCount(); i++) {
+		widget->resizeColumnToContents(i);
+	}
+
+	if (wasMax) {
+		widget->verticalScrollBar()->setValue(widget->verticalScrollBar()->maximum());
+	}
 }
 
 
