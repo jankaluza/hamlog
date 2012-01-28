@@ -20,6 +20,7 @@
 
 #include "dxcluster.h"
 #include <boost/bind.hpp>
+#include <boost/tokenizer.hpp>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -95,7 +96,33 @@ void DXCluster::handleDXClusterRead(Session::ref session, const boost::system::e
 
 	while (s.find("\n") != std::string::npos) {
 		if (s.find("DX") == 0) {
-			data->pending_data += s.substr(0, s.find("\n")) + "\n";
+			s = s.substr(strlen("DX de "));
+			boost::char_separator<char> separator(" ");
+			boost::tokenizer<boost::char_separator<char> > tokens(s.substr(0, s.find("\r\n")), separator);
+
+			bool descDone = false;
+			int i = 0;
+			for(boost::tokenizer<boost::char_separator<char> >::iterator it = tokens.begin(); it != tokens.end(); ++it, ++i) {
+				if (i == 0) {
+					std::string d = *it;
+					d.erase(d.end() - 1);
+					data->pending_data += d + ";";
+				}
+				else if (i >= 3 && (std::distance(tokens.begin(), tokens.end()) - 1) != i) {
+					data->pending_data += *it + " ";
+				}
+				else {
+					if (i >= 3 && !descDone) {
+						descDone = true;
+						// description
+						data->pending_data += ";";
+					}
+					data->pending_data += *it + ";";
+				}
+			}
+
+			data->pending_data.erase(data->pending_data.end() - 1);
+			data->pending_data +=  + "\n";
 			LOG_INFO(logger, s.substr(0, s.find("\n")));
 		}
 		s = s.substr(s.find("\n") + 1);
@@ -133,8 +160,7 @@ bool DXCluster::askDXCluster(Session::ref session, Reply::ref reply, const std::
 	if (data != NULL) {
 		LOG_INFO(logger, session->getUsername() << ": Forwarwding DXCluster data");
 
-		std::string header = "something\n";
-
+		std::string header = "sender;frequency;call;description;time\n";
 		reply->setContent(header + data->pending_data);
 		data->pending_data = "";
 	}
