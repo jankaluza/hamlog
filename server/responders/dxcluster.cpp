@@ -93,10 +93,15 @@ void DXCluster::handleDXClusterRead(Session::ref session, const boost::system::e
 	ss << &data->response;
 	std::string s = ss.str();
 
-	data->pending_data += s;
-	LOG_INFO(logger, s);
+	while (s.find("\n") != std::string::npos) {
+		if (s.find("DX") == 0) {
+			data->pending_data += s.substr(0, s.find("\n")) + "\n";
+			LOG_INFO(logger, s.substr(0, s.find("\n")));
+		}
+		s = s.substr(s.find("\n") + 1);
+	}
 
-	boost::asio::async_read(data->socket, data->response, boost::asio::transfer_at_least(1), boost::bind(&DXCluster::handleDXClusterRead, this, session, boost::asio::placeholders::error));
+	boost::asio::async_read_until(data->socket, data->response, "\n", boost::bind(&DXCluster::handleDXClusterRead, this, session, boost::asio::placeholders::error));
 }
 
 void DXCluster::handleDXClusterLogin(Session::ref session, const boost::system::error_code& err) {
@@ -128,7 +133,9 @@ bool DXCluster::askDXCluster(Session::ref session, Reply::ref reply, const std::
 	if (data != NULL) {
 		LOG_INFO(logger, session->getUsername() << ": Forwarwding DXCluster data");
 
-		reply->setContent(data->pending_data);
+		std::string header = "something\n";
+
+		reply->setContent(header + data->pending_data);
 		data->pending_data = "";
 	}
 	else {

@@ -146,6 +146,9 @@ void MainWindow::handleLoggedIn(HAMConnection *connection) {
 
 	ui.logbook->setConnection(connection);
 	ui.logbook->fetch();
+
+	ui.dxcluster->setConnection(connection);
+	ui.dxcluster->fetch();
 }
 
 void MainWindow::handleLoginFailed(HAMConnection *connection, const QString &reason) {

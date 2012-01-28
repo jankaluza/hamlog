@@ -79,6 +79,10 @@ HAMConnection *ham_connection_new(const char *hostname, int port, const char *us
 
 static void ham_connection_read_data(void * user_data, int fd) {
 	HAMConnection *connection = user_data;
+	if (connection->fd == -1) {
+		return;
+	}
+
 	int len = read(connection->fd, connection->read_buffer, 65535);
 	
 	if (len == 0) {
@@ -114,7 +118,10 @@ static void ham_connection_read_data(void * user_data, int fd) {
 			}
 		}
 		else {
-			// TODO: ERROR	
+			ui_callbacks->disconnected(connection, "Server sent mallformed data");
+			printf("PARSING ERROR\nBUFFER_TO_PARSER='%s'\nCOMPLETE_BUFFER='%s'\n", connection->read_buffer + parsed_total, connection->read_buffer);
+			ham_connection_disconnect(connection);
+			return;
 		}
 
 		ham_reply_destroy(connection->reply);
@@ -242,14 +249,23 @@ void ham_connection_connect(HAMConnection *connection) {
 }
 
 void ham_connection_disconnect(HAMConnection *connection) {
+	if (connection->fd == -1) {
+		return;
+	}
+
+	connection->fd = -1;
+
 	ham_input_remove(connection->input_handle);
 	close(connection->fd);
 
-	connection->fd = -1;
 	connection->input_handle = NULL;
 }
 
 void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data) {
+	if (connection->fd == -1) {
+		return;
+	}
+
 	char *data = ham_request_get_data(request);
 	printf("Request:\n    %s\n", data);
 	write(connection->fd, data, strlen(data));

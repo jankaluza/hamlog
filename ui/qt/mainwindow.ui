@@ -77,12 +77,24 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="4">
-         <widget class="LogbookTreeWidget" name="logbook">
-          <column>
-           <property name="text">
-            <string notr="true">1</string>
-           </property>
-          </column>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="LogbookTreeWidget" name="logbook">
+           <column>
+            <property name="text">
+             <string notr="true">1</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="DXClusterWidget" name="dxcluster">
+           <column>
+            <property name="text">
+             <string notr="true">1</string>
+            </property>
+           </column>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -97,7 +109,7 @@
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHAMLog">
@@ -144,6 +156,11 @@
    <class>LogbookTreeWidget</class>
    <extends>QTreeWidget</extends>
    <header>logbooktreewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DXClusterWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>dxclusterwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

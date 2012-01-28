@@ -19,6 +19,7 @@
  */
 
 #include "qteventloop.h"
+#include "iostream"
 
 QtEventLoop* QtEventLoop::m_instance = NULL;  
 
@@ -74,6 +75,7 @@ void *QtEventLoop::handleInputAdd(int fd, HAMInputCallback callback, void *user_
 }
 
 void QtEventLoop::handleInputRemove(void *handle) {
+	std::cout << "notifier removed\n";
 	QSocketNotifier *notifier = (QSocketNotifier *) handle;
 	m_notifiers.erase(notifier);
 

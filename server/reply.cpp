@@ -23,6 +23,7 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 
 namespace HamLog {
 
@@ -102,6 +103,7 @@ std::string Reply::toString() {
 
 	buffers += ("\r\n");
 	if (!m_content.empty()) {
+		boost::replace_all(m_content, "\r", "");
 		buffers += (m_content);
 		buffers += ("\r\n");
 	}
