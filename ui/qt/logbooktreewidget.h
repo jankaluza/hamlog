@@ -46,6 +46,7 @@ class LogbookTreeWidget : public QTreeWidget {
 		void fetch();
 		void fetch(const std::string &call);
 		void addRecord();
+		void addRecord(const std::string &call);
 		void removeRecord();
 
 	private slots:

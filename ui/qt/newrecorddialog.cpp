@@ -74,9 +74,6 @@ void NewRecordDialog::setCSV(const std::string &data) {
 
 	std::vector<QStringList > tokens = QtLogBook::tokenize(data.c_str());
 
-	if (tokens[0].size() < 4)
-		return;
-
 	std::map<std::string, int> indexes;
 	int i = 0;
 	Q_FOREACH(const QString &header, tokens[0]) {
@@ -108,11 +105,16 @@ void NewRecordDialog::setCSV(const std::string &data) {
 		m_id = "-1";
 	}
 
-	ui.qth->setText(tokens[1][indexes["qth"]]);
-	ui.continent->setText(tokens[1][indexes["continent"]]);
-	ui.cq->setText(tokens[1][indexes["cq"]]);
-	ui.itu->setText(tokens[1][indexes["itu"]]);
-	ui.latitude->setText(tokens[1][indexes["latitude"]]);
-	ui.longitude->setText(tokens[1][indexes["longitude"]]);
+#define SET_TEXT(WHERE, KEY) if(indexes.find(KEY) != indexes.end()) { WHERE->setText(tokens[1][indexes[KEY]]); }
+
+	SET_TEXT(ui.qth, "qth");
+	SET_TEXT(ui.continent, "continent");
+	SET_TEXT(ui.cq, "cq");
+	SET_TEXT(ui.itu, "itu");
+	SET_TEXT(ui.latitude, "latitude");
+	SET_TEXT(ui.longitude, "longitude");
+	SET_TEXT(ui.longitude, "longitude");
 	ui.name->setText(name);
+
+#undef SET_TEXT
 }

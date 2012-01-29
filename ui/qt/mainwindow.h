@@ -56,6 +56,8 @@ class MainWindow : public QMainWindow {
 		void handleRegistered(HAMConnection *connection);
 		void handleRegistrationFailed(HAMConnection *connection, const QString &reason);
 
+		void handleDXClusterDoubleClicked(QTreeWidgetItem *item, int col);
+
 	private:
 		int findColumnWithName(const std::string &name);
 

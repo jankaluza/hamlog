@@ -305,6 +305,17 @@ void LogbookTreeWidget::addRecord() {
 // 	this->editItem(item, findColumnWithName("callsign"));
 }
 
+void LogbookTreeWidget::addRecord(const std::string &call) {
+	NewRecordDialog dialog(m_conn, this);
+	dialog.setCSV(std::string("callsign\n") + call);
+	dialog.callLookUp();
+	if (dialog.exec()) {
+		std::string csv = dialog.getCSV();
+		itemFromCSV(csv);
+		ham_logbook_add(m_conn, csv.c_str(), add_handler, this);
+	}
+}
+
 void LogbookTreeWidget::removeRecord() {
 	disconnect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 

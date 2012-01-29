@@ -67,7 +67,6 @@ DXClusterWidget::DXClusterWidget(QWidget *parent) : QTreeWidget(parent), m_conn(
 	setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(handleContextMenu(const QPoint &)));
-	connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(handleItemDoubleClicked(QTreeWidgetItem *, int)));
 
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(fetch()));
 }
@@ -85,6 +84,10 @@ void DXClusterWidget::setConnection(HAMConnection *connection) {
 	else {
 		m_timer->stop();
 	}
+}
+
+std::string DXClusterWidget::getItemCall(QTreeWidgetItem *item) {
+	return item->text(findColumnWithName("call")).toStdString();
 }
 
 void DXClusterWidget::fetch() {
@@ -115,6 +118,3 @@ void DXClusterWidget::handleContextMenu(const QPoint &p) {
 //     menu->exec(mapToGlobal(p));
 }
 
-void DXClusterWidget::handleItemDoubleClicked(QTreeWidgetItem *item, int col) {
-	
-}

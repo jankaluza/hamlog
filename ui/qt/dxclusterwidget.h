@@ -36,13 +36,14 @@ class DXClusterWidget : public QTreeWidget {
 		void setConnection(HAMConnection *connection);
 
 		int findColumnWithName(const std::string &name);
+
+		std::string getItemCall(QTreeWidgetItem *item);
 		
 	public slots:
 		void fetch();
 
 	private slots:
 		void handleContextMenu(const QPoint &p);
-		void handleItemDoubleClicked(QTreeWidgetItem *item, int col);
 
 	private:
 		HAMConnection *m_conn;

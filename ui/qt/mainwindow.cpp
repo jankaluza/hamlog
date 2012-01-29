@@ -57,6 +57,8 @@ MainWindow::MainWindow()
 
 	connect(ui.addRecord, SIGNAL(clicked()), ui.logbook, SLOT(addRecord()));
 
+	connect(ui.dxcluster, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(handleDXClusterDoubleClicked(QTreeWidgetItem *, int)));
+
 	connect(ui.actionAvailable_modules, SIGNAL(triggered(bool)), this, SLOT(showAvailableModules(bool)));
 	connect(ui.actionRegister_QRZ_account, SIGNAL(triggered(bool)), this, SLOT(showQRZRegisterDialog(bool)));
 
@@ -79,6 +81,10 @@ int MainWindow::findColumnWithName(const std::string &name) {
 	}
 
 	return -1;
+}
+
+void MainWindow::handleDXClusterDoubleClicked(QTreeWidgetItem *item, int col) {
+	ui.logbook->addRecord(ui.dxcluster->getItemCall(item));
 }
 
 void MainWindow::showConnectDialog() {
