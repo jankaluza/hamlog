@@ -157,8 +157,38 @@
      <item row="5" column="4" colspan="2">
       <widget class="QLineEdit" name="cq"/>
      </item>
-     <item row="5" column="6" colspan="2">
+     <item row="5" column="6">
       <widget class="QLineEdit" name="itu"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_13">
+       <property name="text">
+        <string>Date:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2" colspan="2">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>Start time:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="4" colspan="2">
+      <widget class="QLabel" name="label_15">
+       <property name="text">
+        <string>End time:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2" colspan="2">
+      <widget class="QTimeEdit" name="startTime"/>
+     </item>
+     <item row="7" column="0" colspan="2">
+      <widget class="QDateEdit" name="date"/>
+     </item>
+     <item row="7" column="4" colspan="2">
+      <widget class="QTimeEdit" name="endTime"/>
      </item>
     </layout>
    </item>

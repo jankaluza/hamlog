@@ -40,6 +40,9 @@ NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : Q
 	ui.setupUi(this);
 	ui.myRST->setText("599");
 	ui.hisRST->setText("599");
+	ui.date->setDate(QDate::currentDate());
+	ui.startTime->setTime(QTime::currentTime());
+	ui.endTime->setTime(QTime::currentTime());
 
 	ui.logbook->setConnection(m_conn);
 
