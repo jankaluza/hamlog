@@ -65,11 +65,13 @@ static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, vo
 
 	// last reply received, fire the event
 	if (info->requests == 0) {
-		if (info->handler) {
-			info->handler(connection, info->data, 0, info->ui_data);
-		}
-		else if (ui_callbacks && ui_callbacks->fetched) {
-			ui_callbacks->fetched(connection, data, info->data);
+		if (info->data) {
+			if (info->handler) {
+				info->handler(connection, info->data, 0, info->ui_data);
+			}
+			else if (ui_callbacks && ui_callbacks->fetched) {
+				ui_callbacks->fetched(connection, data, info->data);
+			}
 		}
 
 		free(info->call);
