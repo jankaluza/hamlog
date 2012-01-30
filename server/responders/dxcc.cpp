@@ -81,6 +81,7 @@ DXCC::DXCC() : RequestResponder("DXCC module", "/dxcc", Module::CALLINFO, false)
 
 void DXCC::sendDXCC(Session::ref session, Request::ref request, Reply::ref reply) {
 	std::string call = request->getContent();
+	boost::algorithm::to_upper(call);
 	if (call.find("/") != std::string::npos) {
 		// TODO: handle special IDs
 	}
