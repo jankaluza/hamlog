@@ -67,11 +67,14 @@ class EarthWidget : public QLabel {
 		void showCall(const std::string &call);
 		void showCall(const std::string &call, double lat, double lon);
 
+		void showEurope();
+
 	protected:
 		void paintEvent(QPaintEvent *event);
 
 	private slots:
 		void handleEarthReloaded(int exitcode, QProcess::ExitStatus status);
+		void handleContextMenu(const QPoint &p);
 
 	private:
 		void reloadEarth();

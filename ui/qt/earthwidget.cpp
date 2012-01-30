@@ -63,6 +63,10 @@ EarthWidget::EarthWidget(QWidget *parent) : QLabel(parent), m_conn(NULL), m_xpla
 		file.close();
 	}
 
+	setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(handleContextMenu(const QPoint &)));
+
 	reloadEarth();
 }
 
@@ -124,4 +128,18 @@ void EarthWidget::showCall(const std::string &call) {
 	if (m_conn) {
 		ham_dxcc_fetch(m_conn, call.c_str(), fetch_handler, this);
 	}
+}
+
+void EarthWidget::showEurope() {
+	m_latitude = 50;
+	m_longitude = 10;
+	m_zoom = 1;
+	m_radius = 150;
+	reloadEarth();
+}
+
+void EarthWidget::handleContextMenu(const QPoint &p) {
+    QMenu *menu = new QMenu;
+    menu->addAction(QString("Europe"), this, SLOT(showEurope()));
+    menu->exec(mapToGlobal(p));
 }
