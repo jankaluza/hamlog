@@ -67,6 +67,7 @@ MainWindow::MainWindow()
 	connect(ui.earthLat, SIGNAL(valueChanged(int)), ui.earth, SLOT(setLatitude(int)));
 	connect(ui.earthLon, SIGNAL(valueChanged(int)), ui.earth, SLOT(setLongitude(int)));
 	connect(ui.earthRadius, SIGNAL(valueChanged(int)), ui.earth, SLOT(setRadius(int)));
+	connect(ui.earth, SIGNAL(onLocationChanged(double, double, double)), this, SLOT(handleEarthLocationChanged(double, double, double)));
 
 	ui.stackedWidget->setCurrentIndex(1);
 	showConnectDialog();
@@ -87,6 +88,13 @@ int MainWindow::findColumnWithName(const std::string &name) {
 	}
 
 	return -1;
+}
+
+void MainWindow::handleEarthLocationChanged(double lat, double lon, double radius) {
+	ui.zoom->setChecked(true);
+	ui.earthLat->setValue((int)lat);
+	ui.earthLon->setValue((int)lon);
+	ui.earthRadius->setValue((int)radius);
 }
 
 void MainWindow::handleDXClusterDoubleClicked(QTreeWidgetItem *item, int col) {

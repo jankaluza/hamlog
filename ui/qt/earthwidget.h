@@ -69,6 +69,9 @@ class EarthWidget : public QLabel {
 
 		void showEurope();
 
+	signals:
+		void onLocationChanged(double lat, double lon, double radius);
+
 	protected:
 		void paintEvent(QPaintEvent *event);
 

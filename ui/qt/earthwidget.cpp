@@ -135,6 +135,7 @@ void EarthWidget::showEurope() {
 	m_longitude = 10;
 	m_zoom = 1;
 	m_radius = 150;
+	onLocationChanged(m_latitude, m_longitude, m_radius);
 	reloadEarth();
 }
 

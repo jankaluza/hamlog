@@ -57,6 +57,7 @@ class MainWindow : public QMainWindow {
 		void handleRegistrationFailed(HAMConnection *connection, const QString &reason);
 
 		void handleDXClusterDoubleClicked(QTreeWidgetItem *item, int col);
+		void handleEarthLocationChanged(double lat, double lon, double radius);
 
 	private:
 		int findColumnWithName(const std::string &name);
