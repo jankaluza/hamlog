@@ -46,6 +46,8 @@ NewRecordDialog::NewRecordDialog(HAMConnection *connection, QWidget *parent) : Q
 
 	ui.logbook->setConnection(m_conn);
 
+	ui.call->setFocus();
+
 	connect(ui.callLookUp, SIGNAL(clicked(bool)), this, SLOT(callLookUp(bool)));
 }
 
