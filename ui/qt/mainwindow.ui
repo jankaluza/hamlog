@@ -29,7 +29,7 @@
       </property>
       <widget class="QWidget" name="page"/>
       <widget class="QWidget" name="page_2">
-       <layout class="QGridLayout" name="gridLayout_2">
+       <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <widget class="QPushButton" name="addRecord">
           <property name="text">
@@ -77,7 +77,7 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="4">
-         <widget class="QSplitter" name="splitter">
+         <widget class="QSplitter" name="splitter_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -88,12 +88,86 @@
             </property>
            </column>
           </widget>
-          <widget class="DXClusterWidget" name="dxcluster">
-           <column>
-            <property name="text">
-             <string notr="true">1</string>
-            </property>
-           </column>
+          <widget class="QSplitter" name="splitter">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <widget class="DXClusterWidget" name="dxcluster">
+            <column>
+             <property name="text">
+              <string notr="true">1</string>
+             </property>
+            </column>
+           </widget>
+           <widget class="QWidget" name="">
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="EarthWidget" name="earth">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSlider" name="earthLat">
+               <property name="minimum">
+                <number>-90</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QSlider" name="earthRadius">
+               <property name="maximum">
+                <number>200</number>
+               </property>
+               <property name="value">
+                <number>40</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QSlider" name="earthLon">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" colspan="2">
+              <widget class="QToolButton" name="zoom">
+               <property name="text">
+                <string>Zoom</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -161,6 +235,11 @@
    <class>DXClusterWidget</class>
    <extends>QTreeWidget</extends>
    <header>dxclusterwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EarthWidget</class>
+   <extends>QLabel</extends>
+   <header>earthwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -58,9 +58,15 @@ MainWindow::MainWindow()
 	connect(ui.addRecord, SIGNAL(clicked()), ui.logbook, SLOT(addRecord()));
 
 	connect(ui.dxcluster, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(handleDXClusterDoubleClicked(QTreeWidgetItem *, int)));
+	connect(ui.dxcluster, SIGNAL(onItemAdded(const std::string &)), ui.earth, SLOT(showCall(const std::string &)));
 
 	connect(ui.actionAvailable_modules, SIGNAL(triggered(bool)), this, SLOT(showAvailableModules(bool)));
 	connect(ui.actionRegister_QRZ_account, SIGNAL(triggered(bool)), this, SLOT(showQRZRegisterDialog(bool)));
+
+	connect(ui.zoom, SIGNAL(toggled(bool)), ui.earth, SLOT(setZoom(bool)));
+	connect(ui.earthLat, SIGNAL(valueChanged(int)), ui.earth, SLOT(setLatitude(int)));
+	connect(ui.earthLon, SIGNAL(valueChanged(int)), ui.earth, SLOT(setLongitude(int)));
+	connect(ui.earthRadius, SIGNAL(valueChanged(int)), ui.earth, SLOT(setRadius(int)));
 
 	ui.stackedWidget->setCurrentIndex(1);
 	showConnectDialog();
@@ -152,6 +158,8 @@ void MainWindow::handleLoggedIn(HAMConnection *connection) {
 
 	ui.logbook->setConnection(connection);
 	ui.logbook->fetch();
+
+	ui.earth->setConnection(connection);
 
 	ui.dxcluster->setConnection(connection);
 	ui.dxcluster->fetch();

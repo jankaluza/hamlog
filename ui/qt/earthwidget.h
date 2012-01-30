@@ -23,34 +23,65 @@
 #include <QtCore>
 #include <QApplication>
 #include <QTreeWidget>
-#include "ui_qrzregisterdialog.h"
+#include <QLabel>
+#include <QString>
 #include "connection.h"
 
-class DXClusterWidget : public QTreeWidget {
+class EarthWidget : public QLabel {
 	Q_OBJECT
 
 	public:
-		DXClusterWidget(QWidget *parent);
-		~DXClusterWidget();
+		EarthWidget(QWidget *parent);
+		~EarthWidget();
 
 		void setConnection(HAMConnection *connection);
 
-		int findColumnWithName(const std::string &name);
+	public slots:
+		void setZoom(bool zoom) {
+			m_zoom = zoom;
+			reloadEarth();
+		}
 
-		std::string getItemCall(QTreeWidgetItem *item);
+		void setLatitude(double latitude) {
+			m_latitude = latitude;
+			reloadEarth();
+		}
 
-		void setCSV(const std::string &csv);
+		void setLatitude(int lat) { setLatitude((double)lat); }
 
-	signals:
-		void onItemAdded(const std::string &call);
+		void setLongitude(double longitude) {
+			m_longitude = longitude;
+			reloadEarth();
+		}
+
+		void setLongitude(int lat) { setLongitude((double)lat); }
+
+		void setRadius(double radius) {
+			m_radius = radius;
+			reloadEarth();
+		}
+
+		void setRadius(int radius) { setRadius((double)radius); }
 
 	public slots:
-		void fetch();
+		void showCall(const std::string &call);
+		void showCall(const std::string &call, double lat, double lon);
+
+	protected:
+		void paintEvent(QPaintEvent *event);
 
 	private slots:
-		void handleContextMenu(const QPoint &p);
+		void handleEarthReloaded(int exitcode, QProcess::ExitStatus status);
+
+	private:
+		void reloadEarth();
 
 	private:
 		HAMConnection *m_conn;
-		QTimer *m_timer;
+		QProcess *m_xplanet;
+		QString m_markers;
+		bool m_zoom;
+		double m_latitude;
+		double m_longitude;
+		double m_radius;
 };

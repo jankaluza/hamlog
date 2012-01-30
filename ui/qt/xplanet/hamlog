@@ -1,0 +1,15 @@
+[default]
+
+shade=30
+[earth]
+
+color=gray60
+
+marker_file=hamlog_marker
+
+marker_color=gray60
+
+
+
+
+min_radius_for_label=0

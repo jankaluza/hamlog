@@ -92,7 +92,8 @@ void DXCC::sendDXCC(Session::ref session, Request::ref request, Reply::ref reply
 		if (m_prefixes.find(call) != m_prefixes.end()) {
 			Entity e = m_prefixes[call];
 
-			std::string data = "qth;continent;cq;itu;latitude;longitude;tz\n";
+			std::string data = "call;qth;continent;cq;itu;latitude;longitude;tz\n";
+			data += request->getContent() + ";";
 			data += e.name + ";";
 			data += e.continent + ";";
 			data += boost::lexical_cast<std::string>(e.cq) + ";";

@@ -30,29 +30,35 @@
 #include <string.h>
 #include <errno.h>
 
+typedef struct _dxccInfo {
+	HAMDXCCHandler handler;
+	void *ui_data;
+} dxccInfo;
+
 static HAMDXCCUICallbacks *ui_callbacks = NULL;
 
 void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks) {
 	ui_callbacks = callbacks;
 }
 
-static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *data) {
-	if (ham_reply_get_status(reply) == 200) {
-		if (ui_callbacks && ui_callbacks->fetched)
-			ui_callbacks->fetched(connection, data, ham_reply_get_content(reply));
-	}
-	else {
-		if (ui_callbacks && ui_callbacks->fetched)
-			ui_callbacks->fetched(connection, data, "unknown");
+static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *_data) {
+	dxccInfo *data = (dxccInfo *) _data;
+	const char *content = ham_reply_get_content(reply);
+	if (data->handler) {
+		data->handler(connection, content, ham_reply_get_status(reply) != 200, data->ui_data);
 	}
 	free(data);
 }
 
-void ham_dxcc_fetch(HAMConnection *connection, const char *call) {
+void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMDXCCHandler handler, void *ui_data) {
 	if (ham_connection_get_module(connection, "/dxcc") == NULL) {
 		return;
 	}
 
+	dxccInfo *data = malloc(sizeof(dxccInfo));
+	data->handler = handler;
+	data->ui_data = ui_data;
+
 	HAMRequest *request = ham_request_new("/dxcc", "POST", call, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_dxcc_response, strdup(call));
+	ham_connection_send_destroy(connection, request, ham_dxcc_response, data);
 }

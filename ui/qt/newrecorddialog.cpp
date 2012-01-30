@@ -57,7 +57,7 @@ void NewRecordDialog::callLookUp(bool unused) {
 }
 
 std::string NewRecordDialog::getCSV() {
-	std::string data = "id;qth;continent;cq;itu;latitude;longitude;name\n";
+	std::string data = "id;qth;continent;cq;itu;latitude;longitude;name;qso_date;time_start;time_end\n";
 
 	data += m_id + ";";
 	data += ui.qth->text().toStdString() + ";";

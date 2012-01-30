@@ -35,31 +35,13 @@
 #include "newrecorddialog.h"
 
 static void fetch_handler(HAMConnection *connection, const char *data, int error, void *ui_data) {
-	LogbookTreeWidget *widget = static_cast<LogbookTreeWidget *>(ui_data);
+	DXClusterWidget *widget = static_cast<DXClusterWidget *>(ui_data);
 	if (!widget || error) {
 		return;
 	}
 
-	std::vector<QStringList> tokens = QtLogBook::tokenize(data);
-
-	widget->setHeaderLabels(tokens.front());
-	tokens.erase(tokens.begin());
-
-	bool wasMax = widget->verticalScrollBar()->value() == widget->verticalScrollBar()->maximum();
-
-	Q_FOREACH(const QStringList &row, tokens) {
-		if (row.size() > 1) {
-			QTreeWidgetItem *item = new QTreeWidgetItem(widget, row);
-		}
-	}
-
-	for (int i = 0; i < widget->columnCount(); i++) {
-		widget->resizeColumnToContents(i);
-	}
-
-	if (wasMax) {
-		widget->verticalScrollBar()->setValue(widget->verticalScrollBar()->maximum());
-	}
+	std::string csv(data);
+	widget->setCSV(data);
 }
 
 
@@ -73,6 +55,30 @@ DXClusterWidget::DXClusterWidget(QWidget *parent) : QTreeWidget(parent), m_conn(
 
 DXClusterWidget::~DXClusterWidget() {
 	m_timer->stop();
+}
+
+void DXClusterWidget::setCSV(const std::string &data) {
+	std::vector<QStringList> tokens = QtLogBook::tokenize(data.c_str());
+
+	setHeaderLabels(tokens.front());
+	tokens.erase(tokens.begin());
+
+	bool wasMax = verticalScrollBar()->value() == verticalScrollBar()->maximum();
+
+	Q_FOREACH(const QStringList &row, tokens) {
+		if (row.size() > 1) {
+			QTreeWidgetItem *item = new QTreeWidgetItem(this, row);
+			onItemAdded(getItemCall(item));
+		}
+	}
+
+	for (int i = 0; i < columnCount(); i++) {
+		resizeColumnToContents(i);
+	}
+
+	if (wasMax) {
+		verticalScrollBar()->setValue(verticalScrollBar()->maximum());
+	}
 }
 
 void DXClusterWidget::setConnection(HAMConnection *connection) {

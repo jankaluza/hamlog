@@ -36,6 +36,8 @@
 extern "C" {
 #endif
 
+typedef void (*HAMDXCCHandler) (HAMConnection *connection, const char *data, int error, void *ui_data);
+
 /**
  * DXCC related UI callbacks.
  */
@@ -47,7 +49,7 @@ typedef struct _HAMDXCCUICallbacks {
 
 void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks);
 
-void ham_dxcc_fetch(HAMConnection *connection, const char *call);
+void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMDXCCHandler handler, void *ui_data);
 
 #ifdef __cplusplus                                                                                                                                                      
 }
