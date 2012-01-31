@@ -377,7 +377,7 @@ char *md5_get_hash(const char *str) {
 char *md5_get_hash_hex(const char *str) {
 	int i;
 	char md5[16];
-	char *ret = malloc(sizeof(char) * 32);
+	char *ret = malloc(sizeof(char) * 33); // 32 + zero
 
 	md5_state_t state;
 	md5_init(&state);

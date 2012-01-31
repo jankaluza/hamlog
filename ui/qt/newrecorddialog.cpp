@@ -56,7 +56,7 @@ void NewRecordDialog::callLookUp(bool unused) {
 }
 
 std::string NewRecordDialog::getCSV() {
-	std::string data = "id;qth;continent;cq;itu;latitude;longitude;name;qso_date;time_start;time_end\n";
+	std::string data = "id;qth;continent;cq;itu;latitude;longitude;name;qsodate\n";
 
 	data += m_id + ";";
 	data += ui.qth->text().toStdString() + ";";
@@ -65,7 +65,13 @@ std::string NewRecordDialog::getCSV() {
 	data += ui.itu->text().toStdString() + ";";
 	data += ui.latitude->text().toStdString() + ";";
 	data += ui.longitude->text().toStdString() + ";";
-	data += ui.name->text().toStdString() + "\n";
+	data += ui.name->text().toStdString() + ";";
+
+	QDateTime dateTime;
+	dateTime.setDate(ui.date->date());
+	dateTime.setTime(ui.startTime->time());
+
+	data += QString::number(dateTime.toTime_t()).toStdString() + "\n";
 
 	return data;
 }

@@ -103,6 +103,8 @@ char *ham_reply_get_dump(HAMReply *reply) {
 		size += strlen("       : \n") + strlen(header->name) + strlen(header->value);
 	}
 
+	size += 1; // zero in the end
+
 	char *ret = malloc(sizeof(char) * size);
 	char *ptr = ret;
 

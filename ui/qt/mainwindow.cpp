@@ -37,7 +37,7 @@ static void handle_logged_in(HAMConnection *connection, const char *data, int er
 		return;
 	}
 
-	if (error) {
+	if (!error) {
 		window->handleLoggedIn(connection);
 	}
 	else {
@@ -52,7 +52,7 @@ static void handle_registered(HAMConnection *connection, const char *data, int e
 		return;
 	}
 
-	if (error) {
+	if (!error) {
 		window->handleRegistered(connection);
 	}
 	else {

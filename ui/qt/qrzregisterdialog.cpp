@@ -31,7 +31,7 @@ static void handle_qrz_registered(HAMConnection *connection, const char *data, i
 		return;
 	}
 
-	if (error) {
+	if (!error) {
 		window->handleRegistered(connection);
 	}
 	else {

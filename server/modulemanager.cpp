@@ -109,6 +109,9 @@ bool ModuleManager::handleRequest(Session::ref session, Request::ref request, Re
 	if (m_modules.find(uri) != m_modules.end()) {
 		ModuleInfo *info = m_modules[uri];
 		RequestResponder *responder = dynamic_cast<RequestResponder *>(info->module);
+		if (responder->needAuthentication() && !session->isAuthenticated()) {
+			return false;
+		}
 		return responder->handleRequest(session, request, reply);
 	}
 

@@ -97,7 +97,6 @@ static void ham_connection_read_data(void * user_data, int fd) {
 			parsed_total += parsed;
 			if (connection->reply->finished) {
 				char *dump = ham_reply_get_dump(connection->reply);
-				printf("%s", dump);
 				ham_signals_emit_signal("connection-reply-received", connection, dump, 0);
 				free(dump);
 
@@ -112,7 +111,8 @@ static void ham_connection_read_data(void * user_data, int fd) {
 					}
 					
 				}
-
+				ham_reply_destroy(connection->reply);
+				connection->reply = ham_reply_new();
 			}
 		}
 		else {
@@ -121,9 +121,6 @@ static void ham_connection_read_data(void * user_data, int fd) {
 			ham_connection_disconnect(connection);
 			return;
 		}
-
-		ham_reply_destroy(connection->reply);
-		connection->reply = ham_reply_new();
 	}
 }
 
@@ -265,7 +262,6 @@ void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMRepl
 	}
 
 	char *data = ham_request_get_data(request);
-	printf("%s\n", data);
 	ham_signals_emit_signal("connection-request-sent", connection, data, 0);
 	
 	write(connection->fd, data, strlen(data));
