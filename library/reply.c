@@ -92,6 +92,38 @@ void ham_reply_destroy(HAMReply *reply) {
 	free(reply);
 }
 
+char *ham_reply_get_dump(HAMReply *reply) {
+	int i;
+	unsigned long size = 0;
+
+	size += strlen("   status=\n   content=\n   Headers:\n");
+	size += 3 /* status */ + strlen(reply->content);
+	for (i = 0; i < reply->headers_count; i++) {
+		HAMReplyHeader *header = reply->headers[i];
+		size += strlen("       : \n") + strlen(header->name) + strlen(header->value);
+	}
+
+	char *ret = malloc(sizeof(char) * size);
+	char *ptr = ret;
+
+	int end = sprintf(ptr, "   status=%d\n", reply->status);
+	ptr += end;
+
+	end = sprintf(ptr, "   content=%s\n", reply->content);
+	ptr += end;
+
+	end = sprintf(ptr, "   Headers:\n");
+	ptr += end;
+
+	for (i = 0; i < reply->headers_count; i++) {
+		HAMReplyHeader *header = reply->headers[i];
+		end = sprintf(ptr, "       %s: %s\n", header->name, header->value);
+		ptr += end;
+	}
+
+	return ret;
+}
+
 void ham_reply_dump(HAMReply *reply) {
 	int i;
 	printf("reply dump:\n");

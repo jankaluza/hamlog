@@ -1,5 +1,5 @@
 /**
- * @file callinfo.h CALLINFO module asker
+ * @file connection.h Connection API
  * @ingroup core
  */
 
@@ -23,26 +23,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#ifndef _HAMLOG_DXCLUSTER_H
-#define _HAMLOG_DXCLUSTER_H
+#ifndef _HAMLOG_HAMLOG_H
+#define _HAMLOG_HAMLOG_H
 
+#include "account.h"
+#include "callinfo.h"
 #include "connection.h"
+#include "dxcc.h"
+#include "dxcluster.h"
+#include "eventloop.h"
+#include "hashtable.h"
+#include "list.h"
+#include "logbook.h"
+#include "md5.h"
 #include "parser.h"
+#include "qrz.h"
 #include "reply.h"
 #include "request.h"
-#include "list.h"
+#include "signals.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void (*HAMDXClusterHandler) (HAMConnection *connection, const char *dxcluster_data, int error, void *ui_data);
+void ham_initialize() {
+	ham_account_register_signals();
+	ham_callinfo_register_signals();
+	ham_connection_register_signals();
+	ham_dxcc_register_signals();
+	ham_dxcluster_register_signals();
+	ham_connection_register_signals();
+	ham_qrz_register_signals();
+}
 
-void ham_dxcluster_fetch(HAMConnection *connection, HAMDXClusterHandler handler, void *ui_data);
-
-void ham_dxcluster_register_signals();
-
-#ifdef __cplusplus
+#ifdef __cplusplus                                                                                                                                                      
 }
 #endif
 

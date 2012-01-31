@@ -52,6 +52,7 @@ const char *ham_reply_header_get_name(HAMReplyHeader *header);
 const char *ham_reply_header_get_value(HAMReplyHeader *header);
 
 HAMReply *ham_reply_new();
+char *ham_reply_get_dump(HAMReply *reply);
 void ham_reply_dump(HAMReply *reply);
 void ham_reply_destroy(HAMReply *reply);
 

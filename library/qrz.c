@@ -23,6 +23,7 @@
 #include "parser.h"
 #include "request.h"
 #include "md5.h"
+#include "signals.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -30,21 +31,11 @@
 #include <string.h>
 #include <errno.h>
 
-static HAMQRZUICallbacks *ui_callbacks = NULL;
-
 void ham_qrz_set_ui_callbacks(HAMQRZUICallbacks *callbacks) {
-	ui_callbacks = callbacks;
 }
 
 static void ham_qrz_response(HAMConnection *connection, HAMReply *reply, void *data) {
-	if (ham_reply_get_status(reply) == 200) {
-		if (ui_callbacks && ui_callbacks->fetched)
-			ui_callbacks->fetched(connection, data, ham_reply_get_content(reply));
-	}
-	else {
-		if (ui_callbacks && ui_callbacks->fetching_failed)
-			ui_callbacks->fetching_failed(connection, data, ham_reply_get_content(reply));
-	}
+	ham_signals_emit_signal("qrz-fetched", connection, ham_reply_get_content(reply), ham_reply_get_status(reply) != 200);
 	free(data);
 }
 
@@ -74,12 +65,10 @@ void ham_qrz_fetch_username(HAMConnection *connection) {
 
 static void ham_register_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	if (ham_reply_get_status(reply) == 200) {
-		if (ui_callbacks && ui_callbacks->registered)
-			ui_callbacks->registered(connection);
+		ham_signals_emit_signal("qrz-registered", connection, "", 0);
 	}
 	else {
-		if (ui_callbacks && ui_callbacks->registration_failed)
-			ui_callbacks->registration_failed(connection, ham_reply_get_content(reply));
+		ham_signals_emit_signal("qrz-registered", connection, ham_reply_get_content(reply), 1);
 	}
 }
 
@@ -88,4 +77,9 @@ void ham_qrz_register(HAMConnection *connection, const char *username, const cha
 	ham_request_add_header(request, "username", username);
 	ham_request_add_header(request, "password", password);
 	ham_connection_send_destroy(connection, request, ham_register_handle_response, NULL);
+}
+
+void ham_qrz_register_signals() {
+	ham_signals_register_signal("qrz-fetched");
+	ham_signals_register_signal("qrz-registered");
 }

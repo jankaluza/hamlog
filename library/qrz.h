@@ -66,6 +66,8 @@ void ham_qrz_fetch_username(HAMConnection *connection);
 
 void ham_qrz_register(HAMConnection *connection, const char *username, const char *password);
 
+void ham_qrz_register_signals();
+
 #ifdef __cplusplus                                                                                                                                                      
 }
 #endif

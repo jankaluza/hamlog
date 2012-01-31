@@ -76,7 +76,7 @@ void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HA
 	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, data);
 }
 
-static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, char *_data) {
+static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply, void *_data) {
 	const char *content = ham_reply_get_content(reply);
 
 	logbookClosure *data = (logbookClosure *) _data;
@@ -95,7 +95,7 @@ void ham_logbook_add(HAMConnection *connection, const char *payload, HAMLoogbook
 	ham_connection_send_destroy(connection, request, ham_logbook_add_response, data);
 }
 
-static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, char *data) {
+static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	if (ham_reply_get_status(reply) == 200) {
 		if (ui_callbacks && ui_callbacks->removed)
 			ui_callbacks->removed(connection, data);

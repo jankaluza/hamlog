@@ -110,6 +110,8 @@ void ham_account_unregister(HAMConnection *connection);
  */
 void ham_account_login(HAMConnection *connection);
 
+void ham_account_register_signals();
+
 #ifdef __cplusplus                                                                                                                                                      
 }
 #endif

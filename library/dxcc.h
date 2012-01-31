@@ -51,6 +51,8 @@ void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks);
 
 void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMDXCCHandler handler, void *ui_data);
 
+void ham_dxcc_register_signals();
+
 #ifdef __cplusplus                                                                                                                                                      
 }
 #endif

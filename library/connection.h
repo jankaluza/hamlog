@@ -177,6 +177,8 @@ HAMModule *ham_connection_get_module(HAMConnection *connection, char *name);
  */
 void ham_connection_destroy(HAMConnection *connection);
 
+void ham_connection_register_signals();
+
 #ifdef __cplusplus                                                                                                                                                      
 }
 #endif

@@ -23,6 +23,7 @@
 #include "parser.h"
 #include "request.h"
 #include "md5.h"
+#include "signals.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -39,10 +40,7 @@ typedef struct _callInfo {
 	void *ui_data;
 } callInfo;
 
-static HAMCallInfoUICallbacks *ui_callbacks;
-
 void ham_callinfo_set_ui_callbacks(HAMCallInfoUICallbacks *callbacks) {
-	ui_callbacks = callbacks;
 }
 
 static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, void *data) {
@@ -69,9 +67,7 @@ static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, vo
 			if (info->handler) {
 				info->handler(connection, info->data, 0, info->ui_data);
 			}
-			else if (ui_callbacks && ui_callbacks->fetched) {
-				ui_callbacks->fetched(connection, data, info->data);
-			}
+			ham_signals_emit_signal("callinfo-fetched", connection, info->data, 0);
 		}
 
 		free(info->call);
@@ -102,4 +98,8 @@ void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMCallInfo
 		item = ham_list_get_next_item(item);
 	}
 	ham_list_destroy(modules);
+}
+
+void ham_callinfo_register_signals() {
+	ham_signals_register_signal("callinfo-fetched");
 }

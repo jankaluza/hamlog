@@ -48,6 +48,8 @@ void ham_callinfo_set_ui_callbacks(HAMCallInfoUICallbacks *callbacks);
 
 void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMCallInfoHandler handler, void *ui_data);
 
+void ham_callinfo_register_signals();
+
 #ifdef __cplusplus                                                                                                                                                      
 }
 #endif

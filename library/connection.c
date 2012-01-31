@@ -21,6 +21,7 @@
 #include "connection.h"
 #include "eventloop.h"
 #include "parser.h"
+#include "signals.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,15 +34,12 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
-static HAMConnectionUICallbacks *ui_callbacks = NULL;
-
 typedef struct {
 	HAMReplyHandler handler;
 	void *ui_data;
 } HandlerTuple;
 
 void ham_connection_set_ui_callbacks(HAMConnectionUICallbacks *callbacks) {
-	ui_callbacks = callbacks;
 }
 
 HAMConnection *ham_connection_new(const char *hostname, int port, const char *username, const char *password) {
@@ -86,7 +84,7 @@ static void ham_connection_read_data(void * user_data, int fd) {
 	int len = read(connection->fd, connection->read_buffer, 65535);
 	
 	if (len == 0) {
-		ui_callbacks->disconnected(connection, "Server closed the connection");
+		ham_signals_emit_signal("connection-disconnected", connection, "Server closed the connection", 0);
 		ham_connection_disconnect(connection);
 		return;
 	}
@@ -101,7 +99,8 @@ static void ham_connection_read_data(void * user_data, int fd) {
 		if (parsed) {
 			parsed_total += parsed;
 			if (connection->reply->finished) {
-				ham_reply_dump(connection->reply);
+				char *dump = ham_reply_get_dump(connection->reply);
+				ham_signals_emit_signal("connection-reply-received", connection, dump, 0);
 
 				HandlerTuple *tuple = ham_list_get_first(connection->handlers);
 				if (tuple) {
@@ -118,7 +117,7 @@ static void ham_connection_read_data(void * user_data, int fd) {
 			}
 		}
 		else {
-			ui_callbacks->disconnected(connection, "Server sent mallformed data");
+			ham_signals_emit_signal("connection-disconnected", connection, "Server sent mallformed data", 0);
 			printf("PARSING ERROR\nBUFFER_TO_PARSER='%s'\nCOMPLETE_BUFFER='%s'\n", connection->read_buffer + parsed_total, connection->read_buffer);
 			ham_connection_disconnect(connection);
 			return;
@@ -205,10 +204,10 @@ static void ham_connect_handle_response(HAMConnection *connection, HAMReply *rep
 		// parse modules
 		ham_connection_parse_modules(connection->modules, ham_reply_get_content(reply));
 
-		ui_callbacks->connected(connection);
+		ham_signals_emit_signal("connection-connected", connection, "", 0);
 	}
 	else {
-		ui_callbacks->disconnected(connection, "Error response from server");
+		ham_signals_emit_signal("connection-disconnected", connection, "Error response from server while fetching modules", 0);
 	}
 }
 
@@ -222,12 +221,12 @@ void ham_connection_connect(HAMConnection *connection) {
 
 	// TODO: replace with non-blocking
 	if ((he = gethostbyname(connection->hostname)) == NULL) {
-		ui_callbacks->disconnected(connection, strerror(errno));
+		ham_signals_emit_signal("connection-disconnected", connection, strerror(errno), 0);
 		return;
 	}
     
 	if ((connection->fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-		ui_callbacks->disconnected(connection, strerror(errno));
+		ham_signals_emit_signal("connection-disconnected", connection, strerror(errno), 0);
 		return;
 	}
     
@@ -239,7 +238,7 @@ void ham_connection_connect(HAMConnection *connection) {
 
     //connect to thy host
 	if (connect(connection->fd, (struct sockaddr *)&host, sizeof(struct sockaddr)) < 0) {
-		ui_callbacks->disconnected(connection, strerror(errno));
+		ham_signals_emit_signal("connection-disconnected", connection, strerror(errno), 0);
 		return;
 	}
 
@@ -267,7 +266,8 @@ void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMRepl
 	}
 
 	char *data = ham_request_get_data(request);
-	printf("Request:\n    %s\n", data);
+	ham_signals_emit_signal("connection-request-sent", connection, data, 0);
+	
 	write(connection->fd, data, strlen(data));
 	free(data);
 
@@ -314,3 +314,11 @@ HAMList *ham_connection_get_modules(HAMConnection *connection) {
 HAMModule *ham_connection_get_module(HAMConnection *connection, char *name) {
 	return (HAMModule *) ham_hash_table_lookup(connection->modules, name, -1);
 }
+
+void ham_connection_register_signals() {
+	ham_signals_register_signal("connection-request-sent");
+	ham_signals_register_signal("connection-reply-received");
+	ham_signals_register_signal("connection-connected");
+	ham_signals_register_signal("connection-disconnected");
+}
+

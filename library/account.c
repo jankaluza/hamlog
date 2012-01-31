@@ -23,6 +23,8 @@
 #include "parser.h"
 #include "request.h"
 #include "md5.h"
+#include "signals.h"
+#include "dxcluster.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,20 +33,15 @@
 #include <errno.h>
 #include "qrz.h"
 
-static HAMAccountUICallbacks *ui_callbacks = NULL;
-
 void ham_account_set_ui_callbacks(HAMAccountUICallbacks *callbacks) {
-	ui_callbacks = callbacks;
 }
 
 static void ham_register_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	if (ham_reply_get_status(reply) == 200) {
-		if (ui_callbacks && ui_callbacks->registered)
-			ui_callbacks->registered(connection);
+		ham_signals_emit_signal("account-registered", connection, "", 0);
 	}
 	else {
-		if (ui_callbacks && ui_callbacks->registration_failed)
-			ui_callbacks->registration_failed(connection, ham_reply_get_content(reply));
+		ham_signals_emit_signal("account-registered", connection, ham_reply_get_content(reply), 1);
 	}
 }
 
@@ -62,8 +59,7 @@ void ham_account_unregister(HAMConnection *connection) {
 static void ham_login_handle_get_response2(HAMConnection *connection, HAMReply *reply, void *data) {
 	printf("login_handle_get_response: handling reply2\n");
 	if (ham_reply_get_status(reply) == 401) {
-		if (ui_callbacks && ui_callbacks->login_failed)
-			ui_callbacks->login_failed(connection, "Bad username or password");
+		ham_signals_emit_signal("account-logged-in", connection, "Bad username or password", 1);
 	}
 	else {
 		if (ham_connection_get_module(connection, "/qrz") != NULL) {
@@ -73,9 +69,7 @@ static void ham_login_handle_get_response2(HAMConnection *connection, HAMReply *
 		/* Connect to DXCluster */
 		ham_dxcluster_fetch(connection, NULL, NULL);
 
-		if (ui_callbacks && ui_callbacks->logged_in) {
-			ui_callbacks->logged_in(connection);
-		}
+		ham_signals_emit_signal("account-logged-in", connection, "", 0);
 	}
 }
 
@@ -205,12 +199,16 @@ static void ham_login_handle_get_response1(HAMConnection *connection, HAMReply *
 		ham_connection_send_destroy(connection, request, ham_login_handle_get_response2, NULL);
 	}
 	else {
-		if (ui_callbacks && ui_callbacks->logged_in)
-			ui_callbacks->logged_in(connection);
+		ham_signals_emit_signal("account-logged-in", connection, "", 0);
 	}
 }
 
 void ham_account_login(HAMConnection *connection) {
 	HAMRequest *request = ham_request_new("/login", "GET", NULL, NULL);
 	ham_connection_send_destroy(connection, request, ham_login_handle_get_response1, NULL);
+}
+
+void ham_account_register_signals() {
+	ham_signals_register_signal("account-logged-in");
+	ham_signals_register_signal("account-registered");
 }

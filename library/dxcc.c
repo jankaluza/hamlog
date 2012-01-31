@@ -23,6 +23,7 @@
 #include "parser.h"
 #include "request.h"
 #include "md5.h"
+#include "signals.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -35,10 +36,7 @@ typedef struct _dxccInfo {
 	void *ui_data;
 } dxccInfo;
 
-static HAMDXCCUICallbacks *ui_callbacks = NULL;
-
 void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks) {
-	ui_callbacks = callbacks;
 }
 
 static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *_data) {
@@ -47,6 +45,9 @@ static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *
 	if (data->handler) {
 		data->handler(connection, content, ham_reply_get_status(reply) != 200, data->ui_data);
 	}
+
+	ham_signals_emit_signal("dxcc-fetched", connection, content, ham_reply_get_status(reply) != 200);
+
 	free(data);
 }
 
@@ -61,4 +62,8 @@ void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMDXCCHandler 
 
 	HAMRequest *request = ham_request_new("/dxcc", "POST", call, "hamlog");
 	ham_connection_send_destroy(connection, request, ham_dxcc_response, data);
+}
+
+void ham_dxcc_register_signals() {
+	ham_signals_register_signal("dxcc-fetched");
 }
