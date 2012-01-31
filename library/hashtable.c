@@ -26,7 +26,7 @@
 #include <string.h>
 #include <errno.h>
 
-static unsigned long ham_hash_table_do_hash(void *key, long key_len) {
+static unsigned long ham_hash_table_do_hash(const void *key, long key_len) {
 	char c;
 	char *ptr = (char *) key;
 	unsigned long hash = 0;
@@ -76,7 +76,7 @@ void ham_hash_table_set_free_func(HAMHashTable *table, HAMHashTableItemDataFree 
 	table->free_func = func;
 }
 
-int ham_hash_table_add(HAMHashTable *table, void *key, long key_len, void *value) {
+int ham_hash_table_add(HAMHashTable *table, const void *key, long key_len, void *value) {
 	if (key_len == -1) {
 		key_len = strlen(key);
 	}
@@ -130,7 +130,7 @@ int ham_hash_table_add(HAMHashTable *table, void *key, long key_len, void *value
 	return 0;
 }
 
-int ham_hash_table_remove(HAMHashTable *table, void *key, long key_len) {
+int ham_hash_table_remove(HAMHashTable *table, const void *key, long key_len) {
 	if (key_len == -1) {
 		key_len = strlen(key);
 	}
@@ -166,7 +166,7 @@ int ham_hash_table_remove(HAMHashTable *table, void *key, long key_len) {
 	return -1;
 }
 
-void *ham_hash_table_lookup(HAMHashTable *table, void *key, long key_len) {
+void *ham_hash_table_lookup(HAMHashTable *table, const void *key, long key_len) {
 	if (key_len == -1) {
 		key_len = strlen(key);
 	}

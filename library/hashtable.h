@@ -37,7 +37,7 @@ extern "C" {
 typedef void (*HAMHashTableItemDataFree) (void *data);
 
 typedef struct _HAMHashTableItem {
-	void *key;
+	const void *key;
 	void *data;
 	unsigned long key_len;
 	struct _HAMHashTableItem *next;
@@ -91,7 +91,7 @@ void ham_hash_table_set_free_func(HAMHashTable *table, HAMHashTableItemDataFree 
  * @param value Value.
  * @return -1 on malloc error.
  */
-int ham_hash_table_add(HAMHashTable *table, void *key, long key_len, void *value);
+int ham_hash_table_add(HAMHashTable *table, const void *key, long key_len, void *value);
 
 /**
  * Removes item from hash table.
@@ -100,7 +100,7 @@ int ham_hash_table_add(HAMHashTable *table, void *key, long key_len, void *value
  * @param key_len Key length or -1 when the key is string.
  * @return -1 when item is not in hash table.
  */
-int ham_hash_table_remove(HAMHashTable *table, void *key, long key_len);
+int ham_hash_table_remove(HAMHashTable *table, const void *key, long key_len);
 
 /**
  * Finds the item with particular key in Hash Table and returns pointer to its data.
@@ -109,7 +109,7 @@ int ham_hash_table_remove(HAMHashTable *table, void *key, long key_len);
  * @param key_len Key length or -1 when the key is string.
  * @return Pointer to the data associated with the key.
  */
-void *ham_hash_table_lookup(HAMHashTable *table, void *key, long key_len);
+void *ham_hash_table_lookup(HAMHashTable *table, const void *key, long key_len);
 
 /**
  * Returns the number of items stored in hash table.

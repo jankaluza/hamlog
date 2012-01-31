@@ -12,6 +12,8 @@ ui_*.h
 parser_test
 list_test
 hash_test
+md5_test
+signals_test
 *.sql
 libmod*.so*
 *.kate-swp

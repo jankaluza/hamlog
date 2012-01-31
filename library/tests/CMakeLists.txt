@@ -10,3 +10,6 @@ TARGET_LINK_LIBRARIES(md5_test hamlog)
 ADD_EXECUTABLE(hash_test hash_test.c)
 TARGET_LINK_LIBRARIES(hash_test hamlog)
 
+ADD_EXECUTABLE(signals_test signals_test.c)
+TARGET_LINK_LIBRARIES(signals_test hamlog)
+

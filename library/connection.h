@@ -76,6 +76,8 @@ typedef struct _HAMModule {
  */
 typedef void (*HAMReplyHandler) (HAMConnection *connection, HAMReply *reply, void *data);
 
+typedef void (*HAMFetchHandler) (HAMConnection *connection, const char *data, int error, void *ui_data);
+
 /**
  * HAMConnection related UI callbacks.
  */
