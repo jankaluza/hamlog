@@ -56,9 +56,10 @@ void NewRecordDialog::callLookUp(bool unused) {
 }
 
 std::string NewRecordDialog::getCSV() {
-	std::string data = "id;qth;continent;cq;itu;latitude;longitude;name;qsodate\n";
+	std::string data = "id;callsign;qth;continent;cq;itu;latitude;longitude;name;qsodate\n";
 
 	data += m_id + ";";
+	data += ui.call->text().toStdString() + ";";
 	data += ui.qth->text().toStdString() + ";";
 	data += ui.continent->text().toStdString() + ";";
 	data += ui.cq->text().toStdString() + ";";
@@ -111,6 +112,13 @@ void NewRecordDialog::setCSV(const std::string &data) {
 	}
 	else {
 		m_id = "-1";
+	}
+
+	if (indexes.find("qsodate") != indexes.end()) {
+		QDateTime dateTime;
+		dateTime.setTime_t(tokens[1][indexes["qsodate"]].toUInt());
+		ui.date->setDate(dateTime.date());
+		ui.startTime->setTime(dateTime.time());
 	}
 
 #define SET_TEXT(WHERE, KEY) if(indexes.find(KEY) != indexes.end()) { WHERE->setText(tokens[1][indexes[KEY]]); }

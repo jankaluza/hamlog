@@ -41,6 +41,7 @@ class LogbookTreeWidget : public QTreeWidget {
 
 		std::string itemToCSV(QTreeWidgetItem *item);
 		QTreeWidgetItem *itemFromCSV(const std::string &csv);
+		QTreeWidgetItem *itemFromCSV(const QStringList &tokens, std::map<std::string, int> &indexes);
 
 	public slots:
 		void fetch();

@@ -28,6 +28,48 @@
 
 #include "newrecorddialog.h"
 
+class MyDelegate: public QItemDelegate {
+	public:
+		MyDelegate(QObject *parent = 0) : QItemDelegate(parent) { }
+		~MyDelegate() { }
+
+		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+			if (index.column() == 2) {
+				QDateTimeEdit *editor = new QDateTimeEdit(parent);
+				editor->setCalendarPopup(true);
+				editor->setDisplayFormat("yyyy-MM-dd hh:mm");
+				return editor;
+			}
+			else {
+				return QItemDelegate::createEditor(parent, option, index);
+			}
+		}
+
+
+		void setEditorData(QWidget *editor, const QModelIndex &index) const {
+			QDateTimeEdit *edit = qobject_cast<QDateTimeEdit *>(editor);
+			if (!edit) {
+				QItemDelegate::setEditorData(editor, index);
+				return;
+			}
+			QString time = index.model()->data(index,Qt::EditRole).toString();
+			edit->setDateTime(QDateTime::fromString(time, "yyyy-MM-dd hh:mm"));
+		}
+
+	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
+		if (!index.isValid())
+			return;
+
+		QDateTimeEdit *edit = qobject_cast<QDateTimeEdit *>(editor);
+		if (!edit) {
+			QItemDelegate::setModelData(editor, model, index);
+			return;
+		}
+
+		model->setData(index, edit->dateTime().toString("yyyy-MM-dd hh:mm"), Qt::EditRole);
+	}
+};
+
 static void fetch_handler(HAMConnection *connection, const char *logbook, int error, void *ui_data) {
 	LogbookTreeWidget *widget = static_cast<LogbookTreeWidget *>(ui_data);
 	if (!widget || error) {
@@ -36,27 +78,24 @@ static void fetch_handler(HAMConnection *connection, const char *logbook, int er
 
 	std::vector<QStringList > tokens = QtLogBook::tokenize(logbook);
 
+	std::map<std::string, int> indexes;
+	int i = 0;
+	Q_FOREACH(const QString &header, tokens[0]) {
+		indexes[header.toStdString()] = i++;
+	}
+
 	widget->clear();
 	widget->setHeaderLabels(tokens.front());
 	tokens.erase(tokens.begin());
 
-	QObject::disconnect(widget, SIGNAL(itemChanged( QTreeWidgetItem *, int)), widget, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
 	Q_FOREACH(const QStringList &row, tokens) {
 		if (row.size() > 1) {
-			QTreeWidgetItem *item = new QTreeWidgetItem(widget, row);
-			item->setFlags(item->flags() | Qt::ItemIsEditable);
+			widget->itemFromCSV(row, indexes);
 		}
-	}
-
-	for (int i = 0; i < widget->columnCount(); i++) {
-		widget->resizeColumnToContents(i);
 	}
 
 	widget->setColumnHidden(0, true);
 	widget->setColumnHidden(1, true);
-
-	QObject::connect(widget, SIGNAL(itemChanged( QTreeWidgetItem *, int)), widget, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 }
 
 static void callinfo_handler(HAMConnection *connection, const char *data, int error, void *ui_data) {
@@ -147,6 +186,8 @@ static void add_handler(HAMConnection *connection, const char *response, int err
 LogbookTreeWidget::LogbookTreeWidget(QWidget *parent) : QTreeWidget(parent), m_conn(NULL), m_askDXCC(false) {
 	setContextMenuPolicy(Qt::CustomContextMenu);
 
+	setItemDelegate(new MyDelegate(this));
+
 	connect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
 	connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(handleContextMenu(const QPoint &)));
 	connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(handleItemDoubleClicked(QTreeWidgetItem *, int)));
@@ -197,14 +238,17 @@ void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item, int col) {
 		return;
 	}
 
-	std::string data = "id;" + headerItem()->text(col).toStdString() + "\n";
-	if (item->text(0).isEmpty()) {
-		data += "-1;" + item->text(col).toStdString();
-	}
-	else {
-		data += item->text(0).toStdString() + ";" + item->text(col).toStdString();
-	}
-	data += "\n";
+	std::string data = itemToCSV(item);
+
+	// because of laziness...
+// 	std::string data = "id;" + headerItem()->text(col).toStdString() + "\n";
+// 	if (item->text(0).isEmpty()) {
+// 		data += "-1;" + item->text(col).toStdString();
+// 	}
+// 	else {
+// 		data += item->text(0).toStdString() + ";" + item->text(col).toStdString();
+// 	}
+// 	data += "\n";
 
 	ham_logbook_add(m_conn, data.c_str(), add_handler, this);
 
@@ -212,6 +256,42 @@ void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item, int col) {
 	if (col == findColumnWithName("callsign")) {
 		m_askDXCC = true;
 	}
+}
+
+QTreeWidgetItem *LogbookTreeWidget::itemFromCSV(const QStringList &tokens, std::map<std::string, int> &indexes) {
+	disconnect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	QTreeWidgetItem *item;
+
+	QList<QTreeWidgetItem *> items = findItems(tokens[indexes["id"]], Qt::MatchExactly);
+	if (items.empty()) {
+		item = new QTreeWidgetItem(this);
+		item->setFlags(item->flags() | Qt::ItemIsEditable);
+	}
+	else {
+		item = items.front();
+	}
+
+	setCurrentItem(item);
+
+	for (std::map<std::string, int>::const_iterator it = indexes.begin(); it != indexes.end(); it++) {
+		if (it->first == "qsodate") {
+			QDateTime dateTime;
+			dateTime.setTime_t(tokens[indexes["qsodate"]].toUInt());
+			item->setText(findColumnWithName("qsodate"), dateTime.toString("yyyy-MM-dd hh:mm"));
+		}
+		else {
+			item->setText(findColumnWithName(it->first), tokens[it->second]);
+		}
+	}
+
+	for (int i = 0; i < columnCount(); i++) {
+		resizeColumnToContents(i);
+	}
+
+	connect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
+
+	return item;
 }
 
 QTreeWidgetItem *LogbookTreeWidget::itemFromCSV(const std::string &data) {
@@ -226,32 +306,7 @@ QTreeWidgetItem *LogbookTreeWidget::itemFromCSV(const std::string &data) {
 		indexes[header.toStdString()] = i++;
 	}
 
-	disconnect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
-	QTreeWidgetItem *item;
-
-	QList<QTreeWidgetItem *> items = findItems(tokens[1][indexes["id"]], Qt::MatchExactly);
-	if (items.empty()) {
-		item = new QTreeWidgetItem(this);
-		item->setFlags(item->flags() | Qt::ItemIsEditable);
-	}
-	else {
-		item = items.front();
-	}
-
-	setCurrentItem(item);
-
-	item->setText(findColumnWithName("qth"), tokens[1][indexes["qth"]]);
-	item->setText(findColumnWithName("continent"), tokens[1][indexes["continent"]]);
-	item->setText(findColumnWithName("cq"), tokens[1][indexes["cq"]]);
-	item->setText(findColumnWithName("itu"), tokens[1][indexes["itu"]]);
-	item->setText(findColumnWithName("latitude"), tokens[1][indexes["latitude"]]);
-	item->setText(findColumnWithName("longitude"), tokens[1][indexes["longitude"]]);
-	item->setText(findColumnWithName("name"), tokens[1][indexes["name"]]);
-
-	connect(this, SIGNAL(itemChanged( QTreeWidgetItem *, int)), this, SLOT(handleItemChanged( QTreeWidgetItem *, int)));
-
-	return item;
+	return itemFromCSV(tokens[1], indexes);
 }
 
 std::string LogbookTreeWidget::itemToCSV(QTreeWidgetItem *item) {
@@ -266,6 +321,10 @@ std::string LogbookTreeWidget::itemToCSV(QTreeWidgetItem *item) {
 	for (int i = 0; i < headerItem()->columnCount(); i++) {
 		if (i == 0 && item->text(0).isEmpty()) {
 			data += "-1;";
+			continue;
+		}
+		else if (i == 2) {
+			data += QString::number(QDateTime::fromString(item->text(i), "yyyy-MM-dd hh:mm").toTime_t()).toStdString() + ";";
 			continue;
 		}
 
