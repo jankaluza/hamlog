@@ -32,37 +32,9 @@
 #include "request.h"
 #include "list.h"
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
-
-/**
- * Account related UI callbacks.
- */
-typedef struct _HAMAccountUICallbacks {
-	/** Called when user associated with this connection has been
-	 *  succesfully registered.
-	 */
-	void (*registered) (HAMConnection *connection);
-
-	/** Called when registration failed for some reason.
-	 */
-	void (*registration_failed) (HAMConnection *connection, const char *reason);
-
-	/** Called when user associated with this connection logged in.
-	 */
-	void (*logged_in) (HAMConnection *connection);
-
-	/** Called when login process failed for some reason.
-	 */
-	void (*login_failed) (HAMConnection *connection, const char *reason);
-} HAMAccountUICallbacks;
-
-/**
- * Sets UI callbacks which are then called for particular event.
- * @param callbacks UI Callbacks.
- */
-void ham_account_set_ui_callbacks(HAMAccountUICallbacks *callbacks);
 
 /**
  * Registers new account on remote server. Calls "registered" or
@@ -112,7 +84,7 @@ void ham_account_login(HAMConnection *connection);
 
 void ham_account_register_signals();
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

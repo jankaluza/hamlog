@@ -31,9 +31,6 @@
 #include <string.h>
 #include <errno.h>
 
-void ham_qrz_set_ui_callbacks(HAMQRZUICallbacks *callbacks) {
-}
-
 static void ham_qrz_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	ham_signals_emit_signal("qrz-fetched", connection, ham_reply_get_content(reply), ham_reply_get_status(reply) != 200);
 	free(data);

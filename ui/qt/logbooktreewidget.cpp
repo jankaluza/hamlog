@@ -19,14 +19,10 @@
  */
 
 #include "logbooktreewidget.h"
-#include "qteventloop.h"
-#include "qtconnection.h"
-#include "qtaccount.h"
 #include "qtlogbook.h"
 #include "dxcc.h"
 #include "callinfo.h"
 #include "qrz.h"
-#include "qtqrz.h"
 #include "iostream"
 #include <QtGui>
 
@@ -322,7 +318,7 @@ void LogbookTreeWidget::removeRecord() {
 	QTreeWidgetItem *item = this->currentItem();
 	std::string data = item->text(0).toStdString() + "\n";
 
-	ham_logbook_remove(m_conn, data.c_str());
+	ham_logbook_remove(m_conn, data.c_str(), NULL, NULL);
 
 	item = this->takeTopLevelItem(this->indexOfTopLevelItem(item));
 	delete item;

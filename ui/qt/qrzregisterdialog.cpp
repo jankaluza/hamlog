@@ -19,27 +19,37 @@
  */
 
 #include "qrzregisterdialog.h"
-#include "qteventloop.h"
-#include "qtconnection.h"
-#include "qtaccount.h"
 #include "qtlogbook.h"
 #include "dxcc.h"
 #include "qrz.h"
-#include "qtqrz.h"
 #include "iostream"
+#include "signals.h"
+
+static void handle_qrz_registered(HAMConnection *connection, const char *data, int error, void *ui_data) {
+	QRZRegisterDialog *window = static_cast<QRZRegisterDialog *>(ui_data);
+	if (!window) {
+		return;
+	}
+
+	if (error) {
+		window->handleRegistered(connection);
+	}
+	else {
+		QString reason(data);
+		window->handleRegistrationFailed(connection, reason);
+	}
+}
 
 QRZRegisterDialog::QRZRegisterDialog(HAMConnection *connection, QWidget *parent) : QDialog(parent), m_conn(connection) {
 	ui.setupUi(this);
 
 	connect(ui.registerAccount, SIGNAL(clicked()), this, SLOT(registerAccount()));
 
-	connect(QtQRZ::getInstance(), SIGNAL(onRegistered(HAMConnection *)), this, SLOT(handleRegistered(HAMConnection *)));
-	connect(QtQRZ::getInstance(), SIGNAL(onRegistrationFailed(HAMConnection *, const QString &)), this, SLOT(handleRegistrationFailed(HAMConnection *, const QString &)));
+	ham_signals_register_handler("qrz-registered", handle_qrz_registered, this);
 }
 
 QRZRegisterDialog::~QRZRegisterDialog() {
-	disconnect(QtQRZ::getInstance(), SIGNAL(onRegistered(HAMConnection *)), this, SLOT(handleRegistered(HAMConnection *)));
-	disconnect(QtQRZ::getInstance(), SIGNAL(onRegistrationFailed(HAMConnection *, const QString &)), this, SLOT(handleRegistrationFailed(HAMConnection *, const QString &)));
+	ham_signals_unregister_handler("qrz-registered", handle_qrz_registered, this);
 }
 
 void QRZRegisterDialog::handleRegistered(HAMConnection *connection) {

@@ -20,53 +20,7 @@
 
 #include "qtlogbook.h"
 
-QtLogBook* QtLogBook::m_instance = NULL;  
-
-
-static void fetched(HAMConnection *connection, const char *data) {
-	QtLogBook::getInstance()->handleFetched(connection, data);
-}
-
-static void updated(HAMConnection *connection, const char *data, const char *response) {
-	QtLogBook::getInstance()->handleUpdated(connection, data, response);
-}
-
-static void update_failed(HAMConnection *connection, const char *data, const char *reason) {
-	QtLogBook::getInstance()->handleUpdateFailed(connection, data, reason);
-}
-
 QtLogBook::QtLogBook() {
-	m_uiCallbacks.fetched = fetched;
-	m_uiCallbacks.updated = updated;
-	m_uiCallbacks.update_failed = update_failed;
-	m_uiCallbacks.removed = NULL;
-	m_uiCallbacks.remove_failed = NULL;
-	ham_logbook_set_ui_callbacks(&m_uiCallbacks);
-}
-
-QtLogBook *QtLogBook::getInstance() {
-	if (!m_instance) {
-		m_instance = new QtLogBook();
-	}
-
-	return m_instance;
-}
-
-void QtLogBook::handleFetched(HAMConnection *connection, const char *data) {
-	QString data_(data);
-	onLogBookFetched(connection, data_);
-}
-
-void QtLogBook::handleUpdated(HAMConnection *connection, const char *data, const char *response) {
-	QString d(data);
-	QString r(response);
-	onLogBookUpdated(connection, d, r);
-}
-
-void QtLogBook::handleUpdateFailed(HAMConnection *connection, const char *data, const char *reason) {
-	QString r(reason);
-	QString d(data);
-	onLogBookUpdateFailed(connection, d, r);
 }
 
 std::vector<QStringList> QtLogBook::tokenize(const QString &str) {

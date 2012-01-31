@@ -43,9 +43,9 @@ void ham_signals_emit_signal(const char *signal_name, HAMConnection *connection,
 
 void ham_signals_register_handler(const char *signal_name, HAMFetchHandler handler, void *ui_data);
 
-void ham_signals_unregister_handler(const char *signal_name, HAMFetchHandler handler);
+void ham_signals_unregister_handler(const char *signal_name, HAMFetchHandler handler, void *ui_data);
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

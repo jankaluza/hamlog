@@ -87,7 +87,7 @@ void ham_signals_register_handler(const char *signal_name, HAMFetchHandler handl
 	ham_list_insert_last(handlers, data);
 }
 
-void ham_signals_unregister_handler(const char *signal_name, HAMFetchHandler handler) {
+void ham_signals_unregister_handler(const char *signal_name, HAMFetchHandler handler, void *ui_data) {
 	HAMList *handlers = (HAMList *) ham_hash_table_lookup(signals, signal_name, -1);
 	if (!handlers) {
 		return;
@@ -96,7 +96,7 @@ void ham_signals_unregister_handler(const char *signal_name, HAMFetchHandler han
 	HAMListItem *item = ham_list_get_first_item(handlers);
 	while (item) {
 		pair *p = ham_list_item_get_data(item);
-		if (p->handler == handler) {
+		if (p->handler == handler && p->ui_data == ui_data) {
 			ham_list_remove(handlers, p);
 			free(p);
 			return;

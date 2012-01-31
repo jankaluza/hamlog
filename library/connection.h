@@ -79,33 +79,6 @@ typedef void (*HAMReplyHandler) (HAMConnection *connection, HAMReply *reply, voi
 typedef void (*HAMFetchHandler) (HAMConnection *connection, const char *data, int error, void *ui_data);
 
 /**
- * HAMConnection related UI callbacks.
- */
-typedef struct _HAMConnectionUICallbacks {
-	/**
-	 * Called when the connection is connected to server.
-	 */
-	void (*connected) (HAMConnection *connection);
-
-	/**
-	 * Called when the connection is disconnected.
-	 */
-	void (*disconnected) (HAMConnection *connection, const char *reason);
-
-	/**
-	 * Called when the reply from server is received and there was no handler
-	 * to handle it.
-	 */
-	void (*reply_received) (HAMConnection *connection, HAMReply *reply);
-} HAMConnectionUICallbacks;
-
-/**
- * Sets UI callbacks which are then called for particular events.
- * @param callbacks UI Callbacks.
- */
-void ham_connection_set_ui_callbacks(HAMConnectionUICallbacks *callbacks);
-
-/**
  * Creates new connection. You have to use ham_connection_connect in order to connect the server.
  * @param hostname Hostname of server.
  * @param port Port.

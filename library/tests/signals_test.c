@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
 	ham_signals_emit_signal("test-signal", (void *) 6, "ahoj", 1);
 
-	ham_signals_unregister_handler("test-signal", signal_handler);
+	ham_signals_unregister_handler("test-signal", signal_handler, (void *) 5);
 
 	ham_signals_emit_signal("test-signal", (void *) 6, "ahoj", 1);
 

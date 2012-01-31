@@ -32,37 +32,20 @@
 #include "request.h"
 #include "list.h"
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void (*HAMLoogbookHandler) (HAMConnection *connection, const char *logbook_data, int error, void *ui_data);
+void ham_logbook_fetch(HAMConnection *connection, HAMFetchHandler handler, void *ui_data);
 
-/**
- * LogBook related UI callbacks.
- */
-typedef struct _HAMLogBookUICallbacks {
-	/** Called when logbook is succesfully fetched from HAMLog server
-	 */
-	void (*fetched) (HAMConnection *connection, const char *logbook);
+void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data);
 
-	void (*updated) (HAMConnection *connection, const char *data, const char *response);
-	void (*update_failed) (HAMConnection *connection, const char *data, const char *reason);
+void ham_logbook_add(HAMConnection *connection, const char *data, HAMFetchHandler handler, void *ui_data);
+void ham_logbook_remove(HAMConnection *connection, const char *data, HAMFetchHandler handler, void *ui_data);
 
-	void (*removed) (HAMConnection *connection, const char *data);
-	void (*remove_failed) (HAMConnection *connection, const char *data, const char *reason);
-} HAMLogBookUICallbacks;
+void ham_logbook_register_signals();
 
-void ham_logbook_set_ui_callbacks(HAMLogBookUICallbacks *callbacks);
-
-void ham_logbook_fetch(HAMConnection *connection, HAMLoogbookHandler handler, void *ui_data);
-
-void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HAMLoogbookHandler handler, void *ui_data);
-
-void ham_logbook_add(HAMConnection *connection, const char *data, HAMLoogbookHandler handler, void *ui_data);
-void ham_logbook_remove(HAMConnection *connection, const char *data);
-
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

@@ -32,25 +32,15 @@
 #include "request.h"
 #include "list.h"
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void (*HAMCallInfoHandler) (HAMConnection *connection, const char *callinfo_data, int error, void *ui_data);
-
-typedef struct _HAMCallInfoUICallbacks {
-	/** Called when Call info data is succesfully fetched from HAMLog server
-	 */
-	void (*fetched) (HAMConnection *connection, const char *call, const char *data);
-} HAMCallInfoUICallbacks;
-
-void ham_callinfo_set_ui_callbacks(HAMCallInfoUICallbacks *callbacks);
-
-void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMCallInfoHandler handler, void *ui_data);
+void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data);
 
 void ham_callinfo_register_signals();
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

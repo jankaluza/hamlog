@@ -337,11 +337,14 @@ unsigned long ham_parser_parse(HAMParser *parser, HAMReply *response, const char
 	for (;size > 0; size--) {
 		if (ham_parser_consume(parser, response, *data++) == 0) {
 			ham_parser_reset(parser);
+			printf("CONSUME RETURNED 0\n");
 			return old_size - size;
 		}
 		if (response->finished)
+			printf("FINISHED\n");
 			return old_size - size;
 	}
+	printf("NEED MORE DATA\n");
 	return old_size - size;
 }
 

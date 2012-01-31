@@ -19,9 +19,6 @@
  */
 
 #include "newrecorddialog.h"
-#include "qteventloop.h"
-#include "qtconnection.h"
-#include "qtaccount.h"
 #include "qtlogbook.h"
 #include "callinfo.h"
 #include "iostream"

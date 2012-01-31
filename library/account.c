@@ -33,9 +33,6 @@
 #include <errno.h>
 #include "qrz.h"
 
-void ham_account_set_ui_callbacks(HAMAccountUICallbacks *callbacks) {
-}
-
 static void ham_register_handle_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	if (ham_reply_get_status(reply) == 200) {
 		ham_signals_emit_signal("account-registered", connection, "", 0);

@@ -36,12 +36,9 @@ typedef struct _callInfo {
 	int requests;
 	char *data;
 	char *call;
-	HAMCallInfoHandler handler;
+	HAMFetchHandler handler;
 	void *ui_data;
 } callInfo;
-
-void ham_callinfo_set_ui_callbacks(HAMCallInfoUICallbacks *callbacks) {
-}
 
 static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, void *data) {
 	callInfo *info = (callInfo *) data;
@@ -76,7 +73,7 @@ static void ham_callinfo_response(HAMConnection *connection, HAMReply *reply, vo
 	}
 }
 
-void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMCallInfoHandler handler, void *ui_data) {
+void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data) {
 	callInfo *data = malloc(sizeof(callInfo));
 	data->requests = 0;
 	data->data = 0;

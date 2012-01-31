@@ -32,12 +32,9 @@
 #include <errno.h>
 
 typedef struct _dxccInfo {
-	HAMDXCCHandler handler;
+	HAMFetchHandler handler;
 	void *ui_data;
 } dxccInfo;
-
-void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks) {
-}
 
 static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *_data) {
 	dxccInfo *data = (dxccInfo *) _data;
@@ -51,7 +48,7 @@ static void ham_dxcc_response(HAMConnection *connection, HAMReply *reply, void *
 	free(data);
 }
 
-void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMDXCCHandler handler, void *ui_data) {
+void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data) {
 	if (ham_connection_get_module(connection, "/dxcc") == NULL) {
 		return;
 	}

@@ -46,6 +46,8 @@
 extern "C" {
 #endif
 
+void ham_initialize();
+
 void ham_initialize() {
 	ham_account_register_signals();
 	ham_callinfo_register_signals();
@@ -54,6 +56,7 @@ void ham_initialize() {
 	ham_dxcluster_register_signals();
 	ham_connection_register_signals();
 	ham_qrz_register_signals();
+	ham_logbook_register_signals();
 }
 
 #ifdef __cplusplus                                                                                                                                                      

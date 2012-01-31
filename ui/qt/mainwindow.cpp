@@ -20,26 +20,68 @@
 
 #include "mainwindow.h"
 #include "qteventloop.h"
-#include "qtconnection.h"
-#include "qtaccount.h"
 #include "qtlogbook.h"
-#include "qtdxcc.h"
 #include "iostream"
 #include "connectdialog.h"
 #include "modulesdialog.h"
 #include "qrzregisterdialog.h"
-#include "qtqrz.h"
-#include "qtcallinfo.h"
 #include "callinfo.h"
+#include "signals.h"
+#include "account.h"
 
 #include <QMessageBox>
 
+static void handle_logged_in(HAMConnection *connection, const char *data, int error, void *ui_data) {
+	MainWindow *window = static_cast<MainWindow *>(ui_data);
+	if (!window) {
+		return;
+	}
+
+	if (error) {
+		window->handleLoggedIn(connection);
+	}
+	else {
+		QString reason(data);
+		window->handleLoginFailed(connection, reason);
+	}
+}
+
+static void handle_registered(HAMConnection *connection, const char *data, int error, void *ui_data) {
+	MainWindow *window = static_cast<MainWindow *>(ui_data);
+	if (!window) {
+		return;
+	}
+
+	if (error) {
+		window->handleRegistered(connection);
+	}
+	else {
+		QString reason(data);
+		window->handleRegistrationFailed(connection, reason);
+	}
+}
+
+static void handle_connected(HAMConnection *connection, const char *data, int error, void *ui_data) {
+	MainWindow *window = static_cast<MainWindow *>(ui_data);
+	if (!window) {
+		return;
+	}
+
+	window->handleConnected(connection);
+}
+
+static void handle_disconnected(HAMConnection *connection, const char *data, int error, void *ui_data) {
+	MainWindow *window = static_cast<MainWindow *>(ui_data);
+	if (!window) {
+		return;
+	}
+
+	QString reason(data);
+	window->handleDisconnected(connection, reason);
+}
+
 MainWindow::MainWindow()
 	: m_eventLoop(QtEventLoop::getInstance()),
-	m_connection(QtConnection::getInstance()),
-	m_account(QtAccount::getInstance()),
-	m_logbook(QtLogBook::getInstance()),
-	m_dxcc(QtDXCC::getInstance()),
 	m_conn(0),
 	m_register(0),
 	m_refetch(0),
@@ -47,13 +89,11 @@ MainWindow::MainWindow()
 	m_connectDialog(0) {
 	ui.setupUi(this);
 
-	connect(m_connection, SIGNAL(onConnected(HAMConnection *)), this, SLOT(handleConnected(HAMConnection *)));
-	connect(m_connection, SIGNAL(onDisconnected(HAMConnection *, const QString &)), this, SLOT(handleDisconnected(HAMConnection *, const QString &)));
+	ham_signals_register_handler("connection-connected", handle_connected, this);
+	ham_signals_register_handler("connection-disconnected", handle_disconnected, this);
 
-	connect(m_account, SIGNAL(onLoggedIn(HAMConnection *)), this, SLOT(handleLoggedIn(HAMConnection *)));
-	connect(m_account, SIGNAL(onLoginFailed(HAMConnection *, const QString &)), this, SLOT(handleLoginFailed(HAMConnection *, const QString &)));
-	connect(m_account, SIGNAL(onRegistered(HAMConnection *)), this, SLOT(handleRegistered(HAMConnection *)));
-	connect(m_account, SIGNAL(onRegistrationFailed(HAMConnection *, const QString &)), this, SLOT(handleRegistrationFailed(HAMConnection *, const QString &)));
+	ham_signals_register_handler("account-logged-in", handle_logged_in, this);
+	ham_signals_register_handler("account-registered", handle_registered, this);
 
 	connect(ui.addRecord, SIGNAL(clicked()), ui.logbook, SLOT(addRecord()));
 
@@ -74,6 +114,11 @@ MainWindow::MainWindow()
 }
 
 MainWindow::~MainWindow() {
+	ham_signals_unregister_handler("connection-connected", handle_connected, this);
+	ham_signals_unregister_handler("connection-disconnected", handle_disconnected, this);
+	ham_signals_unregister_handler("account-logged-in", handle_logged_in, this);
+	ham_signals_unregister_handler("account-registered", handle_registered, this);
+
 	if (m_connectDialog) {
 		m_connectDialog->deleteLater();
 	}

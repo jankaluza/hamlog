@@ -22,10 +22,13 @@
 #include <QMainWindow>
 
 #include "mainwindow.h"
+#include "hamlog.h"
 
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 	app.setApplicationName("HamLog");
+
+	ham_initialize();
 
 	MainWindow window;
 	window.show();

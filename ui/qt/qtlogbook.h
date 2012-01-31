@@ -1,3 +1,4 @@
+
 /**
  * Hamlog
  *
@@ -24,26 +25,15 @@
 #include <QApplication>
 #include "logbook.h"
 
+// TODO: This can be removed in the future probably, but QtLogBook::tokenize is heavily used everywhere!
 class QtLogBook : public QObject {
 	Q_OBJECT
 
 	public:
-		static QtLogBook *getInstance();
-
-		void handleFetched(HAMConnection *connection, const char *logbook);
-		void handleUpdated(HAMConnection *connection, const char *data, const char *response);
-		void handleUpdateFailed(HAMConnection *connection, const char *data, const char *reason);
 
 		static std::vector<QStringList> tokenize(const QString &str);
-
-	signals:
-		void onLogBookFetched(HAMConnection *connection, const QString &logbook);
-		void onLogBookUpdated(HAMConnection *connection, const QString &data, const QString &response);
-		void onLogBookUpdateFailed(HAMConnection *connection,  const QString &data, const QString &reason);
 
 	private:
 		QtLogBook();
 
-		HAMLogBookUICallbacks m_uiCallbacks;
-		static QtLogBook* m_instance;
 };

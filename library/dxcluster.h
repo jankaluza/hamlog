@@ -36,9 +36,7 @@
 extern "C" {
 #endif
 
-typedef void (*HAMDXClusterHandler) (HAMConnection *connection, const char *dxcluster_data, int error, void *ui_data);
-
-void ham_dxcluster_fetch(HAMConnection *connection, HAMDXClusterHandler handler, void *ui_data);
+void ham_dxcluster_fetch(HAMConnection *connection, HAMFetchHandler handler, void *ui_data);
 
 void ham_dxcluster_register_signals();
 

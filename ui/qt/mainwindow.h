@@ -25,11 +25,7 @@
 #include "ui_mainwindow.h"
 #include "connection.h"
 
-class QtConnection;
 class QtEventLoop;
-class QtAccount;
-class QtLogBook;
-class QtDXCC;
 class ConnectDialog;
 
 class MainWindow : public QMainWindow {
@@ -47,14 +43,15 @@ class MainWindow : public QMainWindow {
 		void connectServer(const QString &server, int port, const QString &username, const QString &password);
 		void registerAccount(const QString &server, int port, const QString &username, const QString &password);
 
-	private slots:
-		void handleConnected(HAMConnection *connection);
-		void handleDisconnected(HAMConnection *connection, const QString &reason);
-
 		void handleLoggedIn(HAMConnection *connection);
 		void handleLoginFailed(HAMConnection *connection, const QString &reason);
 		void handleRegistered(HAMConnection *connection);
 		void handleRegistrationFailed(HAMConnection *connection, const QString &reason);
+
+		void handleConnected(HAMConnection *connection);
+		void handleDisconnected(HAMConnection *connection, const QString &reason);
+
+	private slots:
 
 		void handleDXClusterDoubleClicked(QTreeWidgetItem *item, int col);
 		void handleEarthLocationChanged(double lat, double lon, double radius);
@@ -64,10 +61,6 @@ class MainWindow : public QMainWindow {
 
 		Ui_MainWindow ui;
 		QtEventLoop *m_eventLoop;
-		QtConnection *m_connection;
-		QtAccount *m_account;
-		QtLogBook *m_logbook;
-		QtDXCC *m_dxcc;
 		HAMConnection *m_conn;
 		bool m_register;
 		bool m_refetch;

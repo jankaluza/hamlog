@@ -34,7 +34,7 @@
 typedef struct _dxclusterInfo {
 	int requests;
 	char *data;
-	HAMDXClusterHandler handler;
+	HAMFetchHandler handler;
 	void *ui_data;
 } dxclusterInfo;
 
@@ -67,7 +67,7 @@ static void ham_dxcluster_response(HAMConnection *connection, HAMReply *reply, v
 	}
 }
 
-void ham_dxcluster_fetch(HAMConnection *connection, HAMDXClusterHandler handler, void *ui_data) {
+void ham_dxcluster_fetch(HAMConnection *connection, HAMFetchHandler handler, void *ui_data) {
 	dxclusterInfo *data = malloc(sizeof(dxclusterInfo));
 	data->requests = 0;
 	data->data = 0;

@@ -32,7 +32,7 @@ class QRZRegisterDialog : public QDialog {
 		QRZRegisterDialog(HAMConnection *connection, QWidget *parent);
 		~QRZRegisterDialog();
 
-	private slots:
+	public slots:
 		void registerAccount();
 		void handleRegistered(HAMConnection *connection);
 		void handleRegistrationFailed(HAMConnection *connection, const QString &reason);

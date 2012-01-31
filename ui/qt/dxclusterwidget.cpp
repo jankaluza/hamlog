@@ -19,14 +19,10 @@
  */
 
 #include "dxclusterwidget.h"
-#include "qteventloop.h"
-#include "qtconnection.h"
-#include "qtaccount.h"
 #include "qtlogbook.h"
 #include "dxcc.h"
 #include "callinfo.h"
 #include "qrz.h"
-#include "qtqrz.h"
 #include "iostream"
 #include <QtGui>
 

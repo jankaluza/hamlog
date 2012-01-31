@@ -29,7 +29,7 @@
 #include "reply.h"
 #include "list.h"
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -105,7 +105,7 @@ char *ham_csv_merge(const char *first, const char *second);
 
 
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

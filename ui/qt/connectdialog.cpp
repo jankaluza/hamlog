@@ -19,9 +19,6 @@
  */
 
 #include "connectdialog.h"
-#include "qteventloop.h"
-#include "qtconnection.h"
-#include "qtaccount.h"
 #include "qtlogbook.h"
 #include "dxcc.h"
 #include "iostream"

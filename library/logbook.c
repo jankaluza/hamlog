@@ -23,6 +23,7 @@
 #include "parser.h"
 #include "request.h"
 #include "md5.h"
+#include "signals.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,15 +32,9 @@
 #include <errno.h>
 
 typedef struct _logbookClosure {
-	HAMLoogbookHandler handler;
+	HAMFetchHandler handler;
 	void *ui_data;
 } logbookClosure;
-
-static HAMLogBookUICallbacks *ui_callbacks = NULL;
-
-void ham_logbook_set_ui_callbacks(HAMLogBookUICallbacks *callbacks) {
-	ui_callbacks = callbacks;
-}
 
 static void ham_logbook_fetch_response(HAMConnection *connection, HAMReply *reply, void *_data) {
 	const char *content = ham_reply_get_content(reply);
@@ -48,15 +43,13 @@ static void ham_logbook_fetch_response(HAMConnection *connection, HAMReply *repl
 	if (data->handler) {
 		data->handler(connection, content, ham_reply_get_status(reply) != 200, data->ui_data);
 	}
-	else {
-		if (ui_callbacks && ui_callbacks->fetched) {
-			ui_callbacks->fetched(connection, content);
-		}
-	}
+
+	ham_signals_emit_signal("logbook-fetched", connection, content, ham_reply_get_status(reply) != 200);
+
 	free(data);
 }
 
-void ham_logbook_fetch(HAMConnection *connection, HAMLoogbookHandler handler, void *ui_data) {
+void ham_logbook_fetch(HAMConnection *connection, HAMFetchHandler handler, void *ui_data) {
 	logbookClosure *data = malloc(sizeof(logbookClosure));
 	data->handler = handler;
 	data->ui_data = ui_data;
@@ -65,7 +58,7 @@ void ham_logbook_fetch(HAMConnection *connection, HAMLoogbookHandler handler, vo
 	ham_connection_send_destroy(connection, request, ham_logbook_fetch_response, data);
 }
 
-void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HAMLoogbookHandler handler, void *ui_data) {
+void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data) {
 	logbookClosure *data = malloc(sizeof(logbookClosure));
 	data->handler = handler;
 	data->ui_data = ui_data;
@@ -83,10 +76,13 @@ static void ham_logbook_add_response(HAMConnection *connection, HAMReply *reply,
 	if (data->handler) {
 		data->handler(connection, content, ham_reply_get_status(reply) != 200, data->ui_data);
 	}
+
+	ham_signals_emit_signal("logbook-added", connection, content, ham_reply_get_status(reply) != 200);
+
 	free(data);
 }
 
-void ham_logbook_add(HAMConnection *connection, const char *payload, HAMLoogbookHandler handler, void *ui_data) {
+void ham_logbook_add(HAMConnection *connection, const char *payload, HAMFetchHandler handler, void *ui_data) {
 	logbookClosure *data = malloc(sizeof(logbookClosure));
 	data->handler = handler;
 	data->ui_data = ui_data;
@@ -95,20 +91,30 @@ void ham_logbook_add(HAMConnection *connection, const char *payload, HAMLoogbook
 	ham_connection_send_destroy(connection, request, ham_logbook_add_response, data);
 }
 
-static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, void *data) {
-	if (ham_reply_get_status(reply) == 200) {
-		if (ui_callbacks && ui_callbacks->removed)
-			ui_callbacks->removed(connection, data);
+static void ham_logbook_remove_response(HAMConnection *connection, HAMReply *reply, void *_data) {
+	const char *content = ham_reply_get_content(reply);
+
+	logbookClosure *data = (logbookClosure *) _data;
+	if (data->handler) {
+		data->handler(connection, content, ham_reply_get_status(reply) != 200, data->ui_data);
 	}
-	else {
-		const char *error = ham_reply_get_content(reply);
-		if (ui_callbacks && ui_callbacks->remove_failed)
-			ui_callbacks->remove_failed(connection, data, error);
-	}
+
+	ham_signals_emit_signal("logbook-removed", connection, content, ham_reply_get_status(reply) != 200);
+
 	free(data);
 }
 
-void ham_logbook_remove(HAMConnection *connection, const char *data) {
-	HAMRequest *request = ham_request_new("/logbook/remove", "POST", data, "hamlog");
-	ham_connection_send_destroy(connection, request, ham_logbook_remove_response, (void *) strdup(data));
+void ham_logbook_remove(HAMConnection *connection, const char *id, HAMFetchHandler handler, void *ui_data) {
+	logbookClosure *data = malloc(sizeof(logbookClosure));
+	data->handler = handler;
+	data->ui_data = ui_data;
+
+	HAMRequest *request = ham_request_new("/logbook/remove", "POST", id, "hamlog");
+	ham_connection_send_destroy(connection, request, ham_logbook_remove_response, data);
+}
+
+void ham_logbook_register_signals() {
+	ham_signals_register_signal("logbook-added");
+	ham_signals_register_signal("logbook-removed");
+	ham_signals_register_signal("logbook-fetched");
 }

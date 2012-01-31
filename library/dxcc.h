@@ -32,28 +32,15 @@
 #include "request.h"
 #include "list.h"
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void (*HAMDXCCHandler) (HAMConnection *connection, const char *data, int error, void *ui_data);
-
-/**
- * DXCC related UI callbacks.
- */
-typedef struct _HAMDXCCUICallbacks {
-	/** Called when DXCC data is succesfully fetched from HAMLog server
-	 */
-	void (*fetched) (HAMConnection *connection, const char *call, const char *data);
-} HAMDXCCUICallbacks;
-
-void ham_dxcc_set_ui_callbacks(HAMDXCCUICallbacks *callbacks);
-
-void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMDXCCHandler handler, void *ui_data);
+void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data);
 
 void ham_dxcc_register_signals();
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 
