@@ -92,6 +92,10 @@ std::string DXClusterWidget::getItemCall(QTreeWidgetItem *item) {
 	return item->text(findColumnWithName("call")).toStdString();
 }
 
+std::string DXClusterWidget::getItemFreq(QTreeWidgetItem *item) {
+	return item->text(findColumnWithName("frequency")).toStdString();
+}
+
 void DXClusterWidget::fetch() {
 	if (!m_conn)
 		return;

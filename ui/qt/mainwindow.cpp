@@ -143,7 +143,7 @@ void MainWindow::handleEarthLocationChanged(double lat, double lon, double radiu
 }
 
 void MainWindow::handleDXClusterDoubleClicked(QTreeWidgetItem *item, int col) {
-	ui.logbook->addRecord(ui.dxcluster->getItemCall(item));
+	ui.logbook->addRecord(ui.dxcluster->getItemCall(item), ui.dxcluster->getItemFreq(item));
 }
 
 void MainWindow::showConnectDialog() {

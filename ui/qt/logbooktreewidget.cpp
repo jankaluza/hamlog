@@ -360,9 +360,14 @@ void LogbookTreeWidget::addRecord() {
 // 	this->editItem(item, findColumnWithName("callsign"));
 }
 
-void LogbookTreeWidget::addRecord(const std::string &call) {
+void LogbookTreeWidget::addRecord(const std::string &call, const std::string &freq) {
 	NewRecordDialog dialog(m_conn, this);
-	dialog.setCSV(std::string("callsign\n") + call);
+	if (freq.empty()) {
+		dialog.setCSV(std::string("callsign\n") + call);
+	}
+	else {
+		dialog.setCSV(std::string("callsign;freq\n") + call + ";" + freq);
+	}
 	dialog.callLookUp();
 	if (dialog.exec()) {
 		std::string csv = dialog.getCSV();

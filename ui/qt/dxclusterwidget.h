@@ -38,6 +38,7 @@ class DXClusterWidget : public QTreeWidget {
 		int findColumnWithName(const std::string &name);
 
 		std::string getItemCall(QTreeWidgetItem *item);
+		std::string getItemFreq(QTreeWidgetItem *item);
 
 		void setCSV(const std::string &csv);
 

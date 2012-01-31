@@ -56,7 +56,7 @@ void NewRecordDialog::callLookUp(bool unused) {
 }
 
 std::string NewRecordDialog::getCSV() {
-	std::string data = "id;callsign;qth;continent;cq;itu;latitude;longitude;name;qsodate\n";
+	std::string data = "id;callsign;qth;continent;cq;itu;latitude;longitude;name;freq;qsodate\n";
 
 	data += m_id + ";";
 	data += ui.call->text().toStdString() + ";";
@@ -67,6 +67,7 @@ std::string NewRecordDialog::getCSV() {
 	data += ui.latitude->text().toStdString() + ";";
 	data += ui.longitude->text().toStdString() + ";";
 	data += ui.name->text().toStdString() + ";";
+	data += ui.frequency->currentText().toStdString() + ";";
 
 	QDateTime dateTime;
 	dateTime.setDate(ui.date->date());
@@ -122,6 +123,7 @@ void NewRecordDialog::setCSV(const std::string &data) {
 	}
 
 #define SET_TEXT(WHERE, KEY) if(indexes.find(KEY) != indexes.end()) { WHERE->setText(tokens[1][indexes[KEY]]); }
+#define SET_EDITTEXT(WHERE, KEY) if(indexes.find(KEY) != indexes.end()) { WHERE->setEditText(tokens[1][indexes[KEY]]); }
 
 	SET_TEXT(ui.qth, "qth");
 	SET_TEXT(ui.continent, "continent");
@@ -130,7 +132,9 @@ void NewRecordDialog::setCSV(const std::string &data) {
 	SET_TEXT(ui.latitude, "latitude");
 	SET_TEXT(ui.longitude, "longitude");
 	SET_TEXT(ui.longitude, "longitude");
+	SET_EDITTEXT(ui.frequency, "freq");
 	ui.name->setText(name);
 
 #undef SET_TEXT
+#undef SET_EDITTEXT
 }
