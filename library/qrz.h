@@ -44,7 +44,7 @@ void ham_qrz_register(HAMConnection *connection, const char *username, const cha
 
 void ham_qrz_register_signals();
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

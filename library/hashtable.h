@@ -134,7 +134,7 @@ int ham_hash_table_get_keys(HAMHashTable *table, void **keys[]);
  */
 HAMList *ham_hash_table_to_list(HAMHashTable *table);
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

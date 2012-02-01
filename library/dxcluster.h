@@ -1,8 +1,3 @@
-/**
- * @file callinfo.h CALLINFO module asker
- * @ingroup core
- */
-
 /*
  * Hamlog
  *
@@ -36,6 +31,32 @@
 extern "C" {
 #endif
 
+/**
+ * @file dxcluster.h DXCluster API
+ * @ingroup core
+ * @details DXCluster API provides a way to get information
+ * from DXCluster cluster.
+ */
+
+/**
+ * Signal emitted when DXCluster data have been fetched.
+ * Data passed by this signal are in CSV format where the first row is header.
+ * Read \ref csv "Hamlog CSV description" for more information.
+ * If the error is true, data passed to handler contains error description.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_dxcluster_fetched "dxcluster-fetched"
+
+/**
+ * Fetches new data from DXCluster if any. Emits \ref ham_signal_dxcluster_fetched when done.
+ * You should call this method repeateadly (probably by timer) to get new data.
+ * @param connection Connection associated with the request.
+ * @param handler Handler called when the data is fetched, or NULL.
+ * For the CSV data passed to the handler, check the \ref ham_signal_dxcluster_fetched signal description.
+ * @param ui_data Pointer to data passed to handler or NULL.
+ * @see ham_signal_dxcluster_fetched
+ */
 void ham_dxcluster_fetch(HAMConnection *connection, HAMFetchHandler handler, void *ui_data);
 
 void ham_dxcluster_register_signals();

@@ -1,8 +1,3 @@
-/**
- * @file logbook.h LogBook API
- * @ingroup core
- */
-
 /*
  * Hamlog
  *
@@ -36,6 +31,34 @@
 extern "C" {
 #endif
 
+/**
+ * @file dxcc.h DXCC API
+ * @ingroup core
+ * @details DXCC API provides a way to get DXCC related 
+ * informations about operator
+ */
+
+/**
+ * Signal emitted when DXCC data have been fetched.
+ * Data passed by this signal are in CSV format where the first row is header.
+ * Read \ref csv "Hamlog CSV description" for more information.
+ * If the error is true, data passed to handler contains error description.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_dxcc_fetched "dxcc-fetched"
+
+/**
+ * Fetches DXCC information about particular operator. Emits ham_signal_dxcc_fetched when done.
+ * @note If you want to get all information about particular operator (not just DXCC), use 
+ * ham_callinfo_fetch() instead.
+ * @param connection Connection associated with the request.
+ * @param call Call sign.
+ * @param handler Handler called when the data is fetched, or NULL.
+ * For the CSV data passed to the handler, check the \ref ham_signal_dxcc_fetched signal description.
+ * @param ui_data Pointer to data passed to handler or NULL.
+ * @see ham_signal_dxcc_fetched
+ */
 void ham_dxcc_fetch(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data);
 
 void ham_dxcc_register_signals();

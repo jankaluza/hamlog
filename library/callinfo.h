@@ -1,8 +1,3 @@
-/**
- * @file callinfo.h CALLINFO module asker
- * @ingroup core
- */
-
 /*
  * Hamlog
  *
@@ -36,6 +31,38 @@
 extern "C" {
 #endif
 
+/**
+ * @file callinfo.h CallInfo API
+ * @ingroup core
+ * @details CallInfo API provides a way to get various
+ * information about the operator based on the call sign.
+ * 
+ * It merges data returned by all server-side modules which provides
+ * CallInfo features.
+ */
+
+/**
+ * Signal emitted when CallInfo data have been fetched.
+ * Data passed by this signal are in CSV format where the first row is header.
+ * Read \ref csv "Hamlog CSV description" for more information.
+ * If the error is true, data passed to handler contains error description.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_callinfo_fetched "callinfo-fetched"
+
+/**
+ * Fetches all available information about particular operator. Emits ham_signal_callinfo_fetched when done.
+ * @note Use this function only if you need data from all server-side modules providing CallInfo lookup.
+ * If you want to query just DXCC, query it directly. This function can be slow depending on the number of
+ * server-side modules.
+ * @param connection Connection associated with the request.
+ * @param call Call sign.
+ * @param handler Handler called when the data is fetched, or NULL.
+ * For the CSV data passed to the handler, check the \ref ham_signal_callinfo_fetched signal description.
+ * @param ui_data Pointer to data passed to handler or NULL.
+ * @see ham_signal_callinfo_fetched
+ */
 void ham_callinfo_fetch(HAMConnection *connection, const char *call, HAMFetchHandler handler, void *ui_data);
 
 void ham_callinfo_register_signals();

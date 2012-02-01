@@ -1,8 +1,3 @@
-/**
- * @file eventloop.h EventLoop API
- * @ingroup core
- */
-
 /*
  * Hamlog
  *
@@ -29,6 +24,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/**
+ * @file eventloop.h EventLoop API
+ * @ingroup core
+ */
 
 /** 
  * Callback called when timer timeouts.
@@ -130,7 +130,7 @@ void *ham_input_add(int fd, HAMInputCallback callback, void *user_data);
  */
 void ham_input_remove(void *handle);
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

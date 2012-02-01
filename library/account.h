@@ -1,8 +1,3 @@
-/**
- * @file account.h Account API
- * @ingroup core
- */
-
 /*
  * Hamlog
  *
@@ -37,48 +32,50 @@ extern "C" {
 #endif
 
 /**
- * Registers new account on remote server. Calls "registered" or
- * "registration_failed" UI callback when done.
- * @code
- * // ham_account_register has to be called when the connection is connected
- * static void handle_connection_connected(HAMConnection *connection) {
- * 	ham_account_register(connection);
- * }
- * 
- * // register handle_connection_connected callback
- * HAMConnectionUICallbacks callbacks;
- * callbacks.connected = handle_connection_connected;
- * ham_connection_set_ui_callbacks(callbacks);
- * 
- * // create connection and connect it
- * HAMConnection *connection = ham_connection_new("localhost", 8888, "user", "password");
- * ham_connection_connect(connection);
- * @endcode
+ * @file account.h Account API
+ * @ingroup core
+ * @details Account API provides a way to login the Hamlog server
+ * or register a new account.
+ */
+
+/**
+ * Signal emitted when account has been registered.
+ * If the error is true, data passed to handler contains error description.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_account_registered "account-registered"
+
+/**
+ * Signal emitted when login process finished.
+ * If the error is true, data passed to handler contains error description.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_account_logged_in "account-logged-in"
+
+/**
+ * Registers new account on remote server. Emits ham_signal_account_registered signal.
+ * @note This has to be called when when the connection is
+ * connected (ham_signal_connection_connected signal has been emitted)
  * @param connection Connection used for registration.
+ * @see ham_signal_account_registered
+ * @see ham_signal_connection_connected
+ * @see ham_connection_connect()
  */
 void ham_account_register(HAMConnection *connection);
 
 void ham_account_unregister(HAMConnection *connection);
 
 /**
- * Logins user associated with the conection once the connection is connected.
+ * Logins user associated with the conection. Emits ham_signal_account_logged_in signal.
+ * @note This has to be called when when the connection is
+ * connected (ham_signal_connection_connected signal has been emitted)
  * Calls "logged_in" or "login_failed" UI callback when done.
- * @code
- * // ham_account_login has to be called when the connection is connected 
- * static void handle_connection_connected(HAMConnection *connection) {
- * 	ham_account_login(connection);
- * }
- * 
- * // register handle_connection_connected callback
- * HAMConnectionUICallbacks callbacks;
- * callbacks.connected = handle_connection_connected;
- * ham_connection_set_ui_callbacks(callbacks);
- * 
- * // create connection and connect it
- * HAMConnection *connection = ham_connection_new("localhost", 8888, "user", "password");
- * ham_connection_connect(connection);
- * @endcode
  * @param connection Connection used for login.
+ * @see ham_signal_account_logged_in
+ * @see ham_signal_connection_connected
+ * @see ham_connection_connect()
  */
 void ham_account_login(HAMConnection *connection);
 
