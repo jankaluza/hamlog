@@ -1,8 +1,23 @@
-/** @page csv Hamlog CSV format descript
+/** @page csv Hamlog CSV format description
 
  @section Introduction
   Hamlog uses normal CSV format with some predefined columns
 
  @section Columns
-  
+
+- "id" -  ID of the entity (for example ID of logbook record). If it's newly created entity, use "-1" as ID.
+- "user_id" - ID of the user associated with the entity.
+- "qsodate" - Date and time of the record (unix timestamp).
+- "callsign" - Call (for example ok2jrq).
+- "freq" - Frequency (for example 28000.5).
+- "mode" - Mode.
+- "qth" - QTH.
+- "name" - Name of the operator.
+- "latitude" - Latitude.
+- "longitude" - Longitude.
+- "county" - County.
+- "continent" - Continent.
+- "cq" - CQ.
+- "itu" - ITU.
+
  */

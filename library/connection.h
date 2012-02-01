@@ -1,8 +1,3 @@
-/**
- * @file connection.h Connection API
- * @ingroup core
- */
-
 /*
  * Hamlog
  *
@@ -35,6 +30,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/**
+ * @file connection.h Connection API
+ * @ingroup core
+ * @details Connection API provides a way how to connect the Hamlog
+ * server and the low-level functions to send requests and receives
+ * responses.
+ */
 
 /** 
  * Represents one Connection to server.
@@ -72,51 +75,72 @@ typedef struct _HAMModule {
 } HAMModule;
 
 /** 
- * Handler for incoming replies.
+ * Low-level handler for incoming replies.
  */
-typedef void (*HAMReplyHandler) (HAMConnection *connection, HAMReply *reply, void *data);
+typedef void (*HAMReplyHandler) (HAMConnection *connection, HAMReply *reply, void *ui_data);
 
+/** 
+ * High-level handler for the parsed replies.
+ */
 typedef void (*HAMFetchHandler) (HAMConnection *connection, const char *data, int error, void *ui_data);
 
 /**
- * Creates new connection. You have to use ham_connection_connect in order to connect the server.
+ * Signal emitted when Hamlog connected the server.
+ * If the error is true, data passed to handler contains error description.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_connection_connected "connection-connected"
+
+/**
+ * Signal emitted when Hamlog disconnects the server for some reason.
+ * Data passed to handler contains the disconnect reason.
+ * @note This signal is \em not called as result of ham_connection_disconnect() call.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_connection_disconnected "connection-disconnected"
+
+/**
+ * Signal emitted when request is sent to server.
+ * Data passed to the handler contains dump of the request.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_connection_request_sent "connection-request-sent"
+
+/**
+ * Signal emitted when new reply from the server is received.
+ * Data passed to the handler contains dump of the reply.
+ * @ingroup signals
+ * @see ham_signals_register_handler()
+ */
+#define ham_signal_connection_reply_received "connection-reply_received"
+
+/**
+ * Creates new connection. You have to use ham_connection_connect() in order to connect the server.
  * @param hostname Hostname of server.
  * @param port Port.
  * @param username Username.
  * @param password Password.
- * @return Newly created connection. The connection has to be destroyed by ham_connection_destroy later.
+ * @return Newly created connection. The connection has to be destroyed by ham_connection_destroy() later.
+ * @see ham_connection_destroy()
+ * @see ham_connection_connect()
  */
 HAMConnection *ham_connection_new(const char *hostname, int port, const char *username, const char *password);
 
 /**
- * Connects the server. Calls "connected" or "disconnected" UI callbacks when done.
- * @code
- * // ham_account_register has to be called when the connection is connected
- * static void handle_connection_connected(HAMConnection *connection) {
- * 	printf("connected\n");
- * }
- * 
- * static void handle_connection_disconnected(HAMConnection *connection, const char *reason) {
- * 	printf("disconnected: %s\n", reason);
- * }
- * 
- * // register UI callbacks
- * HAMConnectionUICallbacks callbacks;
- * callbacks.connected = handle_connection_connected;
- * callbacks.disconnected = handle_connection_disconnected;
- * ham_connection_set_ui_callbacks(callbacks);
- * 
- * // create connection and connect it
- * HAMConnection *connection = ham_connection_new("localhost", 8888, "user", "password");
- * ham_connection_connect(connection);
- * @endcode
+ * Connects the server. Emits ham_signal_connection_connected when connected.
  * @param connection Connection.
+ * @see ham_signal_connection_connected
+ * @see ham_connection_disconnect()
  */
 void ham_connection_connect(HAMConnection *connection);
 
 /**
- * Disconnects the server.
+ * Disconnects from the server. You still have to destroy the connection later to free it.
  * @param connection Connection.
+ * @see ham_connection_destroy()
  */
 void ham_connection_disconnect(HAMConnection *connection);
 
@@ -126,6 +150,8 @@ void ham_connection_disconnect(HAMConnection *connection);
  * @param request Request.
  * @param handler Handler called once reply for this request is received.
  * @param ui_data Data passed to handler.
+ * @see ham_connection_connect()
+ * @see ham_connection_send_destroy()
  */
 void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
 
@@ -135,24 +161,47 @@ void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMRepl
  * @param request Request.
  * @param handler Handler called once reply for this request is received.
  * @param ui_data Data passed to handler.
+ * @see ham_connection_connect()
  */
 void ham_connection_send_destroy(HAMConnection *connection, HAMRequest *request, HAMReplyHandler handler, void *ui_data);
 
+/**
+ * Fetches the list of server-side modules.
+ * @note You don't have to call this function manually. It is called automatically during the connecting process.
+ * @param connection Connection.
+ * @param handler Handler called once reply for this request is received.
+ * @param ui_data Data passed to handler.
+ * @see ham_connection_connect()
+ */
 void ham_connection_fetch_available_modules(HAMConnection *connection, HAMReplyHandler handler, void *ui_data);
 
+/**
+ * Returns the list of all server-side modules.
+ * @param connection Connection.
+ * @return List of all server-side modules.
+ * @see ham_connection_connect()
+ */
 HAMList *ham_connection_get_modules(HAMConnection *connection);
 
+/**
+ * Returns the server-side module according to its name.
+ * @param connection Connection.
+ * @param name Name of the module to return
+ * @return Pointer to server-side module or NULL if there is not module with that name.
+ * @see ham_connection_connect()
+ */
 HAMModule *ham_connection_get_module(HAMConnection *connection, char *name);
 
 /**
  * Destroys the connection.
  * @param connection Connection.
+ * @see ham_connection_disconnect()
  */
 void ham_connection_destroy(HAMConnection *connection);
 
 void ham_connection_register_signals();
 
-#ifdef __cplusplus                                                                                                                                                      
+#ifdef __cplusplus
 }
 #endif
 

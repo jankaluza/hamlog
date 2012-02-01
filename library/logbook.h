@@ -37,27 +37,35 @@ extern "C" {
  * @details Logbook API provides basic way how maintain the logbook.
  * It allows to fetch the logbook and add or remove items from it.
  * 
- * Check the \ref signals "Signals page" to see signals provided by
- * this module.
  */
 
 /**
  * Signal emitted when records are fetched.
  * Data passed by this signal are in CSV format where the first row is header.
  * Read \ref csv "Hamlog CSV description" for more information.
- * \ingroup signals
+ * @ingroup signals
+ * @see ham_signals_register_handler()
  */
 #define ham_signal_logbook_fetched "logbook-fetched"
 
 /**
  * Signal emitted when the record is added/updated.
- * \ingroup signals
+ * If there is no error, data passed by this signal are in CSV format and contains "id" and "user_id"
+ * column associated to added/updated record.
+ * 
+ * It is useful to handle this signal to get the ID of the newly created record.
+ * 
+ * On error, error description is passed as a data.
+ * 
+ * @ingroup signals
+ * @see ham_signals_register_handler()
  */
 #define ham_signal_logbook_added "logbook-added"
 
 /**
  * Signal emitted when the record is removed.
  * \ingroup signals
+ * @see ham_signals_register_handler()
  */
 #define ham_signal_logbook_removed "logbook-removed"
 
@@ -89,7 +97,9 @@ void ham_logbook_fetch_with_call(HAMConnection *connection, const char *call, HA
  * Adds or updates the record.
  * @param connection Connection associated with the request.
  * @param data CSV data representing the record.
+ * Read \ref csv "Hamlog CSV description" for more information. "id" column has to be always included.
  * @param handler Handler called when the record is added/updated, or NULL.
+ * For the CSV data passed to the handler, check the \ref ham_signal_logbook_added signal description.
  * @param ui_data Pointer to data passed to handler or NULL.
  * @see ham_logbook_fetch()
  * @see ham_signal_logbook_added
@@ -99,7 +109,8 @@ void ham_logbook_add(HAMConnection *connection, const char *data, HAMFetchHandle
 /**
  * Removes the record.
  * @param connection Connection associated with the request.
- * @param data CSV data representing the record.
+ * @param data CSV data representing the record. Only "id" column is needed.
+ * Read \ref csv "Hamlog CSV description" for more information.
  * @param handler Handler called when the record is removed, or NULL.
  * @param ui_data Pointer to data passed to handler or NULL.
  * @see ham_logbook_fetch()
