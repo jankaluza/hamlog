@@ -46,6 +46,11 @@
 extern "C" {
 #endif
 
+/** \defgroup signals Signals    
+ * List of all signals emitted by Hamlog. For the information how to use signals
+ * read signals.h documentation.
+ */
+
 void ham_initialize();
 
 void ham_initialize() {

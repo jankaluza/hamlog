@@ -43,6 +43,8 @@ extern "C" {
  * function. Once, the signal is emitted, your handler is called. Once, you
  * decide you don't want to listen to this signal, unregister it using
  * ham_signals_unregister_handler().
+ * 
+ * List of all signals is located at \ref signals "Signals module page".
  *
  * Example:
  * 
