@@ -28,6 +28,7 @@
 #include "callinfo.h"
 #include "signals.h"
 #include "account.h"
+#include "hamlib.h"
 
 #include <QMessageBox>
 
@@ -143,6 +144,8 @@ void MainWindow::handleEarthLocationChanged(double lat, double lon, double radiu
 }
 
 void MainWindow::handleDXClusterDoubleClicked(QTreeWidgetItem *item, int col) {
+	QString freq = QString::number(QString::fromStdString(ui.dxcluster->getItemFreq(item)).toDouble() * 1000);
+	ham_hamlib_set_frequency(m_conn, freq.toStdString().c_str(), NULL, NULL);
 	ui.logbook->addRecord(ui.dxcluster->getItemCall(item), ui.dxcluster->getItemFreq(item));
 }
 

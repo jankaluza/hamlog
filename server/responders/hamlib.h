@@ -20,26 +20,36 @@
 
 #pragma once
 
-#include <QtCore>
-#include <QApplication>
-#include "ui_newrecorddialog.h"
-#include "connection.h"
+#include <boost/array.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/asio.hpp>
+#include <boost/signal.hpp>
+#include <boost/tuple/tuple.hpp>
+#include <string>
+#include "requestresponder.h"
+#include "request.h"
+#include "reply.h"
+#include "storagebackend.h"
 
-class NewRecordDialog : public QDialog {
-	Q_OBJECT
+namespace HamLog {
 
+class Session;
+
+namespace Responder {
+
+class Hamlib : public boost::enable_shared_from_this<Hamlib>, public RequestResponder {
 	public:
-		NewRecordDialog(HAMConnection *connection, QWidget *parent);
+		typedef boost::shared_ptr<Hamlib> ref;
 
-		void setCSV(const std::string &data);
-		std::string getCSV();
+		Hamlib();
 
-	public slots:
-		void callLookUp(bool unused = false);
-		void fetchFrequency();
+		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 
 	private:
-		Ui_NewRecordDialog ui;
-		HAMConnection *m_conn;
-		std::string m_id;
+		void sendFrequency(Session::ref session, Request::ref request, Reply::ref reply);
+		void setFrequency(Session::ref session, Request::ref request, Reply::ref reply);
 };
+
+}
+}

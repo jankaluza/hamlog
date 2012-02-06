@@ -21,6 +21,7 @@
 #include "newrecorddialog.h"
 #include "qtlogbook.h"
 #include "callinfo.h"
+#include "hamlib.h"
 #include "iostream"
 
 static void callinfo_handler(HAMConnection *connection, const char *data, int error, void *ui_data) {
@@ -30,6 +31,17 @@ static void callinfo_handler(HAMConnection *connection, const char *data, int er
 	}
 
 	std::string d(data);
+	widget->setCSV(d);
+}
+
+static void hamlib_handler(HAMConnection *connection, const char *data, int error, void *ui_data) {
+	NewRecordDialog *widget = static_cast<NewRecordDialog *>(ui_data);
+	if (!widget || error) {
+		return;
+	}
+
+	std::string d("freq\n");
+	d += data;
 	widget->setCSV(d);
 }
 
@@ -53,6 +65,10 @@ void NewRecordDialog::callLookUp(bool unused) {
 	ui.logbook->fetch(call);
 
 	ham_callinfo_fetch(m_conn, call.c_str(), callinfo_handler, this);
+}
+
+void NewRecordDialog::fetchFrequency() {
+	ham_hamlib_fetch_frequency(m_conn, hamlib_handler, this);
 }
 
 std::string NewRecordDialog::getCSV() {

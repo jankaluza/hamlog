@@ -41,6 +41,7 @@
 #include "reply.h"
 #include "request.h"
 #include "signals.h"
+#include "hamlib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,6 +63,7 @@ void ham_initialize() {
 	ham_connection_register_signals();
 	ham_qrz_register_signals();
 	ham_logbook_register_signals();
+	ham_hamlib_register_signals();
 }
 
 #ifdef __cplusplus                                                                                                                                                      

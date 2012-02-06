@@ -20,3 +20,8 @@ if (TINYXML_FOUND)
 	BUILD_MODULE(mod_qrz qrz.cpp qrz.h)
 	TARGET_LINK_LIBRARIES(mod_qrz ${TINYXML_LIBRARIES})
 endif()
+
+if (HAMLIB_FOUND)
+	BUILD_MODULE(mod_hamlib hamlib.cpp hamlib.h)
+	TARGET_LINK_LIBRARIES(mod_hamlib ${HAMLIB_LIBRARIES})
+endif()
