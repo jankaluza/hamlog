@@ -35,6 +35,7 @@
 namespace HamLog {
 
 class Session;
+class Server;
 
 namespace Responder {
 
@@ -42,13 +43,15 @@ class Hamlib : public boost::enable_shared_from_this<Hamlib>, public RequestResp
 	public:
 		typedef boost::shared_ptr<Hamlib> ref;
 
-		Hamlib();
+		Hamlib(Server *server);
 
 		bool handleRequest(Session::ref session, Request::ref request, Reply::ref reply);
 
 	private:
 		void sendFrequency(Session::ref session, Request::ref request, Reply::ref reply);
 		void setFrequency(Session::ref session, Request::ref request, Reply::ref reply);
+
+		Server *m_server;
 };
 
 }

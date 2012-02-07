@@ -33,6 +33,7 @@
 #include <boost/algorithm/string.hpp>
 #include "server.h"
 #include "log.h"
+#include "config.h"
 
 #include <hamlib/rig.h>
 
@@ -50,11 +51,19 @@ static std::string roundedCast(double toCast, unsigned precision = 2u) {
 }
 
 	
-Hamlib::Hamlib() : RequestResponder("Hamlib module", "/hamlib", Module::UNKNOWN, true) {
+Hamlib::Hamlib(Server *server) : RequestResponder("Hamlib module", "/hamlib", Module::UNKNOWN, true) {
+	m_server = server;
 }
 
 
 void Hamlib::sendFrequency(Session::ref session, Request::ref request, Reply::ref reply) {
+	Config *config = m_server->getConfig();
+	if (config->getUnregistered().find("hamlib.device") == config->getUnregistered().end()) {
+		LOG_ERROR(logger, "Set '[hamlib] device' in config file.");
+	}
+
+	std::string device = config->getUnregistered().find("hamlib.device")->second;
+	
 	RIG *my_rig;
 	freq_t freq;
 	int retcode;
@@ -70,7 +79,7 @@ void Hamlib::sendFrequency(Session::ref session, Request::ref request, Reply::re
 	my_rig->state.rigport.parm.serial.stop_bits = 1;
 	my_rig->state.rigport.parm.serial.parity = RIG_PARITY_NONE;
 	my_rig->state.rigport.parm.serial.handshake = RIG_HANDSHAKE_NONE;
-	strncpy(my_rig->state.rigport.pathname, "/dev/ttyUSB1", FILPATHLEN - 1);
+	strncpy(my_rig->state.rigport.pathname, device.c_str(), FILPATHLEN - 1);
 	if ((retcode = rig_open(my_rig)) != RIG_OK)
 	{
 		fprintf(stderr, "rig_open: error = %s\n", rigerror(retcode));
@@ -91,6 +100,13 @@ void Hamlib::sendFrequency(Session::ref session, Request::ref request, Reply::re
 }
 
 void Hamlib::setFrequency(Session::ref session, Request::ref request, Reply::ref reply) {
+	Config *config = m_server->getConfig();
+	if (config->getUnregistered().find("hamlib.device") == config->getUnregistered().end()) {
+		LOG_ERROR(logger, "Set '[hamlib] device' in config file.");
+	}
+
+	std::string device = config->getUnregistered().find("hamlib.device")->second;
+
 	RIG *my_rig;
 	freq_t freq;
 	int retcode;
@@ -113,7 +129,7 @@ void Hamlib::setFrequency(Session::ref session, Request::ref request, Reply::ref
 	my_rig->state.rigport.parm.serial.stop_bits = 1;
 	my_rig->state.rigport.parm.serial.parity = RIG_PARITY_NONE;
 	my_rig->state.rigport.parm.serial.handshake = RIG_HANDSHAKE_NONE;
-	strncpy(my_rig->state.rigport.pathname, "/dev/ttyUSB1", FILPATHLEN - 1);
+	strncpy(my_rig->state.rigport.pathname, device.c_str(), FILPATHLEN - 1);
 	if ((retcode = rig_open(my_rig)) != RIG_OK)
 	{
 		fprintf(stderr, "rig_open: error = %s\n", rigerror(retcode));
@@ -148,8 +164,8 @@ bool Hamlib::handleRequest(Session::ref session, Request::ref request, Reply::re
 
 extern "C" {
 	Module *module_init(Server *);
-    Module *module_init(Server *) {
-		return new Hamlib();
+    Module *module_init(Server *server) {
+		return new Hamlib(server);
     }
 }
 

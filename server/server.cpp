@@ -22,13 +22,14 @@
 #include <boost/bind.hpp>
 #include <iostream>
 #include "log.h"
+#include "config.h"
 
 namespace HamLog {
 
 DEFINE_LOGGER(logger, "Server");
 
-Server::Server(const std::string &hostname, int port)
-	: m_ioService(), m_acceptor(m_ioService), m_session(new Session(m_ioService)) {
+Server::Server(Config *config, const std::string &hostname, int port)
+	: m_ioService(), m_acceptor(m_ioService), m_session(new Session(m_ioService)), m_config(config) {
 
 // 	boost::asio::ip::tcp::resolver resolver(m_ioService);
 // 	boost::asio::ip::tcp::resolver::query query(hostname, port);

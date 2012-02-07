@@ -40,7 +40,15 @@ bool Config::load(const std::string &configfile, boost::program_options::options
 		("database.prefix", value<std::string>()->default_value(""), "Prefix of tables in database")
 	;
 
-	store(parse_config_file(ifs, opts), m_variables);
+	parsed_options parsed = parse_config_file(ifs, opts, true);
+
+	BOOST_FOREACH(option &opt, parsed.options) {
+		if (opt.unregistered) {
+			m_unregistered[opt.string_key] = opt.value[0];
+		}
+	}
+
+	store(parsed, m_variables);
 	notify(m_variables);
 
 	m_file = configfile;

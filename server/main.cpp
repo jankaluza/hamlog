@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
 		storage->connect();
 	}
 
-	Server server(CONFIG_STRING(&config, "server.hostname"),
+	Server server(&config, CONFIG_STRING(&config, "server.hostname"),
 				  CONFIG_INT(&config, "server.port"));
 
 	ModuleManager *moduleManager = ModuleManager::getInstance();
