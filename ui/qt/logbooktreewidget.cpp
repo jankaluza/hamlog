@@ -344,6 +344,7 @@ void LogbookTreeWidget::handleItemChanged(QTreeWidgetItem *item) {
 
 void LogbookTreeWidget::addRecord() {
 	NewRecordDialog dialog(m_conn, this);
+	dialog.fetchFrequency();
 	if (dialog.exec()) {
 		std::string csv = dialog.getCSV();
 		itemFromCSV(csv);

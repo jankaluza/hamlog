@@ -15,6 +15,9 @@ find_package(tinyxml)
 set(log4cxx_DIR "${CMAKE_SOURCE_DIR}/cmake_modules")
 find_package(log4cxx)
 
+set(hamlib_DIR "${CMAKE_SOURCE_DIR}/cmake_modules")
+find_package(hamlib)
+
 find_package(Doxygen)
 
 INCLUDE(FindQt4)
@@ -61,6 +64,15 @@ else (TINYXML_FOUND)
 	set(TINYXML_LIBRARIES "")
 	message("QRZ support       : no (install tinyxml-devel)")
 endif (TINYXML_FOUND)
+
+if (HAMLIB_FOUND)
+	ADD_DEFINITIONS(-DWITH_HAMLIB)
+	include_directories(HAMLIB_INCLUDE_DIR)
+	message("Hamlib support    : yes")
+else ()
+	set(TINYXML_LIBRARIES "")
+	message("Hamlib support    : no (install hamlib-devel)")
+endif ()
 
 if (LOG4CXX_FOUND)
 	ADD_DEFINITIONS(-DWITH_LOG4CXX)

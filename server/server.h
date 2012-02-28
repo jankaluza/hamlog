@@ -27,16 +27,22 @@
 
 namespace HamLog {
 
+class Config;
+
 class Server {
 	public:
-		Server(const std::string& address, int port);
-
+		Server(Config *config, const std::string& address, int port);
+		
 		void start();
 
 		void stop();
 
 		boost::asio::io_service &getIOService() {
 			return m_ioService;
+		}
+
+		Config *getConfig() {
+			return m_config;
 		}
 
 	private:
@@ -48,6 +54,7 @@ class Server {
 		boost::asio::ip::tcp::acceptor m_acceptor;
 		SessionManager m_sessionManager;
 		Session::ref m_session;
+		Config *m_config;
 };
 
 }

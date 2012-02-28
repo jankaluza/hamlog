@@ -1,4 +1,4 @@
-/**
+/*
  * Hamlog
  *
  * Copyright (C) 2011, Jan Kaluza <hanzz.k@gmail.com>
@@ -18,28 +18,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#pragma once
+#ifndef _HAMLOG_HAMLIB_H
+#define _HAMLOG_HAMLIB_H
 
-#include <QtCore>
-#include <QApplication>
-#include "ui_newrecorddialog.h"
 #include "connection.h"
+#include "parser.h"
+#include "reply.h"
+#include "request.h"
+#include "list.h"
 
-class NewRecordDialog : public QDialog {
-	Q_OBJECT
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-	public:
-		NewRecordDialog(HAMConnection *connection, QWidget *parent);
+/**
+ * @file hamlib.h Hamlib API
+ * @ingroup core
+ * @details DXCC API provides a way to get DXCC related 
+ * informations about operator
+ */
 
-		void setCSV(const std::string &data);
-		std::string getCSV();
+void ham_hamlib_set_frequency(HAMConnection *connection, const char *frequency, HAMFetchHandler handler, void *ui_data);
 
-	public slots:
-		void callLookUp(bool unused = false);
-		void fetchFrequency();
+void ham_hamlib_fetch_frequency(HAMConnection *connection, HAMFetchHandler handler, void *ui_data);
 
-	private:
-		Ui_NewRecordDialog ui;
-		HAMConnection *m_conn;
-		std::string m_id;
-};
+void ham_hamlib_register_signals();
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
