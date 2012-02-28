@@ -1,0 +1,406 @@
+\chapter{Úvod}
+
+\chapter{Radioamatéøi}
+
+\chapter{Rozbor zadání}
+
+\chapter{Návrh aplikace}
+
+Cílem této kapitoly popsání návrhu aplikace a komunikaèního protokolu.
+
+Aplikace se skládá z modulárního serveru, klientské knihovny a grafického u¾ivatelského rozhraní.
+V následujících podkapitolách jsou jednotlivé èásti struènì popsány.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.8]{fig/princip.pdf}
+\caption{Základní èinnost programu.}
+\label{fig:FigureExample}
+\end{figure}
+
+\section{Návrh komunikaèního protokolu}
+
+Byl zvolen protokol inspirovaný protokolem HTTP \cite{http}, pøevá¾nì kvùli jeho jednoduchosti a úèelnosti z hlediska modularity.
+Jednotlivé moduly serveru mají své vlastní URI a klientské po¾adavky jsou pak smìrovány podle URI na konkrétní modul,
+který vygeneruje odpovìï poslanou klientovi.
+
+Protokol je zpìtnì kompatibilní s protokolem HTTP, ale jsou pou¾ity jen nìkteré jeho èásti.
+
+Data pøená¹ená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první øádek reprezentuje hlavièku dat.
+
+\subsection{Schéma packetu}
+
+Dotaz na modul poskytující URI "/logbook":
+\begin{verbatim}
+GET /logbook HTTP/1.1
+
+
+\end{verbatim}
+Odpovìï serveru:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Content-Type: text/hamlog
+Content-Length: 74
+
+id;user_id;callsign;date;qth;loc
+1;1;TEST;2011;qt;
+2;1;LKS;2011;;location
+\end{verbatim}
+
+\section{Návrh serveru}
+
+Server je konzolová aplikace zpracovávající klientské po¾adavky. Server je schopen obsluhovat více u¾ivatelù souèasnì.
+U¾ivatelé se k serveru pøihla¹ují pomocí jména a hesla.
+Pøihlá¹ení je provádìno metodou Digest Access Authentication definovanou v RFC 2617. Noví u¾ivatelé se musí nejprve
+registrovat.
+
+Návrh serveru poèítá s pou¾itím jakékoliv databáze pro uchování perzistentních dat. V rámci této bakaláøské práce jsem se 
+rozhodl pou¾ít databázi SQLite3.
+
+Server je modulární a ve¹keré slu¾by, které u¾ivateli poskytuje, jsou souèástí modulù.
+
+\subsection{Moduly}
+
+Moduly umo¾òují roz¹iøovat dynamicky funkènost serveru. Ka¾dý nový po¾adavek, které server od klienta pøijme je
+pøedán pøíslu¹nému modulu na základì URI. Modul jej zpracuje a ode¹le klientovi zpìt odpovìï. Klient si mù¾e
+od serveru vy¾ádat seznam v¹ech modulù pomocí po¾adavku na speciální URI "/modules".
+
+Jednotlivé moduly serveru jsou realizovány jako dynamické knihovny.
+Pøi spu¹tìní serveru jsou nahrány v¹echny moduly z adresáøe nastavitelného pomocí konfiguraèního souboru.
+
+Ka¾dý modul obsahuje následující informace:
+
+\begin{itemize}
+\item URI
+\item Typ
+\item Popis
+\end{itemize}
+
+
+
+
+\section{Klientská knihovna}
+
+Cílem klientské knihovny je poskytnout grafickým rozhraním jednotné API pro pøístup k serveru
+a tím pádem zamezit duplikování kódu mezi pøípadnými grafickými rozhraními.
+
+Klientská knihovna má minimální závislosti a je multiplatformní.
+
+
+\section{Klient}
+
+Klient slou¾í koncovému u¾ivateli k pøipojení k serveru, prezentaci aktuálních dat a jejich zmìnì. Pro komunikace
+se serverem klient vyu¾ívá klientskou knihovnu. Pro komunikaci s u¾ivatelem pak klient vyu¾ívá grafického rozhraní.
+Po startu klienta je u¾ivatel vyzván k pøihlá¹ení se k serveru. U¾ivateli je rovnì¾ nabídnuta mo¾nost registrace
+nového úètu.
+
+Po pøihlá¹ení zobrazí klientská aplikace ve¹keré záznamy v deníku a umo¾ní jejich editaci. Klientská aplikace také zobrazuje
+aktuální vysílání získané ze slu¾by DXCluster.
+
+
+\chapter{Implementace}
+
+V této kapitole je popsána implementace serverové aplikace, klientské aplikace a klientské knihovny.
+
+\section{Implementace serverové aplikace}
+
+Server byl implementován v jazyce C++ umo¾òujícím lep¹í dekompozici aplikace a pou¾ití objektového paradigmatu. Byla rovnì¾
+pou¾ita knihovna Boost, která poskytuje základní metody pro asynchronní sí»ovou komunikaci a nabízí programátorské prostøedky
+nad rámec standardní STL knihovny.
+
+Pro implementaci modulu QRZ bylo potøeba pou¾ít knihovnu pro zpracování XML. K tomuto úèelu jsem pou¾il knihovnu TinyXML.
+
+\subsubsection{Tøída Server}
+
+Tøída Server je základní tøídou serveru. Vytváøí soket, na kterém server pøijímá pøipojení z klientské knihovny. Jakmile je 
+akceptováno nové pøipojení, je vytvoøena instance tøídy Session, která dále zpracovává v¹echny po¾adavky klienta.
+
+\subsubsection{Tøída Session}
+
+Tato tøída reprezentuje sezení jednoho u¾ivatele. Pøi obdr¾ení nových dat od klienta jsou tato pøedána instanci tøídy
+RequestParser, která slou¾í k jejich rozparsování. Pokud byla obdr¾ena kompletní zpráva, je pøedána instanci tøídy 
+ModuleManager metodou handleRequest, která pak øídí její dal¹í zpracování. Výsledná odpovìï je pak v tøídou Session poslána
+zpìt klientovi.
+
+\subsubsection{Tøída RequestParser}
+
+Tøída RequestParser reprezentuje koneèný automat pro parsování zpráv podle specifikace komunikaèního protokolu.
+Metoda parse zpracovává pøijatá data, parsuje je, a výsledek uchovává v instanci tøídy Request. Pokud dojde bìhem parsování
+k chybì, vrací funkce parse hodnotu false.
+
+\subsection{Implementace databázového rozhraní}
+
+Návrh a implementace serveru umo¾òuje pou¾ití libovolného databázového rozhraní. V rámci bakaláøské práce je v¹ak podpována
+pouze databáze SQLite3. Tøída implementující konkrétní databázové rozhraní musí dìdit tøídu StorageBackend a implementovat
+její èistì virtuální metody.
+
+\subsubsection{Tøída StorageBackend}
+
+Tøída StorageBackend je základní abstraktní tøídou pro implementaci jakéhokoliv databázového rozhraní.
+Je typu singleton a jejím smyslem je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
+o jakou databázi se jedná. Názvy metod a podtøíd jsou pojmenovány terminologií známou z SQL databází, ale prakticky
+lze pomocí tøídy StorageBackend implementovat rozhraní pro pøístup k jakémukoliv typu databáze.
+
+Tøída StorageBackend Obsahuje základní podtøídy pro definici dotazù typu SELECT, INSERT, UPDATE a CREATE známých z
+jazyka SQL:
+
+\begin{itemize}
+\item StorageBackend::Column - Obsahuje ve¹keré informace o sloupci tabulky (jméno, typ, velikost,
+pøíznaky pro NOT NULL, UNIQUE a PRIMARY KEY). Slou¾í pro definici sloupce pøi vytváøení
+nové tabulky metodou StorageBackend::createTable().
+\item StorageBackend::Select - Zapouzdøuje data potøebná pro provedení výbìru dat z databáze. Obsahuje jméno tabulky,
+ze které se výbìr provádí, a ukazatel na dvourozmìrnì pole, do kterého se ulo¾í výsledky. Dále umo¾òuje tøída StorageBackend::Select
+definovat omezení výbìru (v SQL jazyce klíèové slovo WHERE) a umo¾òuje výbìr konkrétních sloupcù, které vrátí ve výsledku.
+Instance této tøídy je pøedána metodì StorageBackend::select() nebo StorageBackend::remove().
+\item StorageBackend::Insert - Obsahuje data pro vlo¾ení (v SQL jazyce INSERT) nebo aktualizaci (v SQL jazyce UPDATE)
+záznamu v databázi. Obsahuje název tabulky, ve které se budou data mìnit, a samotná data ve formì název sloupce - hodnota.
+Umo¾òuje definovat omezení (v SQL jazyce WHERE) aplikovaná pøi aktualizaci dat. Instance této tøidy je pøedána metodì
+StorageBackend::insert() nebo StorageBackend::update().
+\end{itemize}
+
+V závislosti na implementaci metod tøídy StorageBackend je pak vyvolána konkrétní zmìna v databázi. Tøída StorageBackend
+dále umo¾òuje získání identifikaèního èísla naposledy vlo¾eného záznamu metodou lastInsertedID().
+
+
+\subsubsection{Tøída SQLite3Backend}
+
+Tato tøída dìdí tøídu StorageBackend a implementuje její metody pro pou¾ití databázového systému SQLite3. V metodách
+update(), insert(), select(), createTable() a remove() se na základì pøedaných dat vygeneruje dotaz v SQL jazyce, spustí se
+a je vrácen výsledek.
+
+\subsection{Implementace modulù}
+
+Moduly jsou implementovány jako dynamické knihovny. Ka¾dý modul musí dìdit tøídu Modul a implementovat její èistì virtuální
+(pure virtual) metody. Ve¹keré klientské po¾adavky jsou pak smìrovány na konkrétní modul podle URI instancí tøídy ModuleManager.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=10cm 10cm 10cm 10cm, scale=0.7]{fig/moduly.pdf}
+\caption{Diagram tøíd modulù.}
+\label{fig:FigureExample}
+\end{figure}
+
+\subsubsection{Tøída Module}
+
+Tøída Module poskytuje základní tøídu, kterou musí implementovat ka¾dý externí modul. Obsahuje základní informace o modulu 
+(jeho jméno, typ a popis).
+
+\subsubsection{Tøída RequestResponder}
+
+Tato tøída dìdí tøídu Module a roz¹iøuje ji o data a metody specifické pro modul odpovídající na klientské po¾adavky.
+Pøiøazuje modulu jeho URI a informaci o tom, jestli musí být u¾ivatel pro jeho pou¾ití pøihlá¹en.
+Obsahuje také deklaraci metody handleRequest(), která je volána instancí tøídy ModuleManager pro ka¾dý pøíchozí po¾adavek
+smerující na modul.
+
+\subsubsection{Tøída ModuleManager}
+
+Tøída ModuleManager je typu singleton (jedináèek) a zabezpeèuje ve¹kerou práci serveru s externími moduly. Pomocí 
+metody loadModules lze naèíst v¹echny moduly z adresáøe zvoleného v konfiguraèním souboru. Ve¹keré po¾adavky od klientù
+jsou pøedány instanci této tøídy metodou handleRequest, která je pak dále smìruje podle URI na konkrétní modul. Tøída také
+umo¾òuje poslat seznam v¹ech modulù klientovi.
+
+\subsection{Seznam implementovaných modulù}
+
+V této podkapitole jsou popsány jednotlivé implementované moduly.
+
+\subsubsection{Modul Register}
+
+Modul Register (bì¾ící na URI "/register") slou¾í k registraci nových u¾ivatelù. Pøi svém spu¹tìní vytvoøí pomocí
+instance tøídy StorageBackend tabulku "users". V metodì handleRequest pak pøijímá pøípadné po¾adavky na registraci
+u¾ivatele a pøidá nového u¾ivatele do databáze. Pokud je ji¾ u¾ivatel zaregistrován, vrací klientovi chybový kód.
+
+\subsubsection{Modul Login}
+
+Modul Login bì¾í na URI "/login". Jeho cílem je umo¾nit u¾ivatelùm pøihlá¹ení k systému. V metodì handleRequest je
+implementován princip pøihlá¹ení WWW-Authenticate.
+
+\subsubsection{Modul LogBook}
+
+Tento modul je základem celého projektu, proto¾e umo¾òuje u¾ivateli ukládat nové logy na server. Pøi svém naètení
+vytvoøí tabulku "logbook". V metodì handleRequest na základì URI provádí následující akce:
+
+\begin{itemize}
+\item URI "/logbook" - Jako odpovìd na dotaz po¹le celý logbook v CSV formátu.
+\item URI "/logbook/add" - Pøidá do tabulky "logbook" nový záznam podle CSV dat pøijatých v dotazu.
+\item URI "/logbook/remove" - Odstraní z tabulky "logbook" záznam definovaný pomocí ID pøijatého v dotazu.
+\item URI "/logbook/call" - Jako odpovìï na dotaz po¹le pouze záznamy s CALL definovanou v CSV datech v dotazu.
+\end{itemize}
+
+\subsubsection{Modul DXCC}
+
+Modul DXCC (bì¾í na URI "/dxcc") umo¾òuje získat z volací znaèky bli¾¹í informace o její lokaci. Data o jednotlivých prefixech
+jsou po startu modulu naètena z souboru "cty.csv" v CSV formátu. V metodì handleRequest modul získá z po¾adavku prefix volací
+znaèky, vyhledá jej v datech naètených pøi startu a jako odpovìï ode¹le informace o lokaci znaèky. Pokud prefix není nalezen,
+vrací se chybový kód.
+
+\subsubsection{Modul DXCluster}
+
+Modul DXCluster (bì¾ící na URI "/dxcluster") slou¾í k pøipojení k DXClusteru dxspots.com. Pøi prvním po¾adavku od klienta
+dojde k pøipojení na DXCluster. Ve¹kerá data pøijatá z DXClusteru jsou rozparsována a ulo¾ena v CSV formátu. Na ka¾dý
+dal¹í klientský po¾adavek odpoví modul daty získanými z DXClusteru. Jde tedy o jistou formu pollingu, kdy si klient
+opakovanì ¾ádá o nová data.
+
+\subsubsection{Modul QRZ}
+
+Modul QRZ (bì¾ící na URI "/qrz") umo¾òuje získávat u¾ivateli dal¹í informace o ostatních u¾ivatelích na základì jejich
+volací znaèky. K tomuto vyu¾ívá slu¾bu qrz.com. V metodì handleRequest se na základì URI provádí následující akce:
+
+\begin{itemize}
+\item URI "/qrz" - Po¹le QRZ serveru po¾adavek pro získání informací o u¾ivateli na základì jeho volací znaèky.
+\item URI "/qrz/register" - Umo¾òuje u¾ivateli zvolení nebo zmìnu hesla pou¾itého pro pøihlá¹ení k QRZ serveru.
+\end{itemize}
+
+\subsection{Implementace logování}
+
+Logování je implementováno s pou¾itím knihovny Log4cxx vyvíjené Apache Software Foundation a licencované pod licencí
+Apache License. Pokud v¹ak není pøi kompilaci knihovna Log4cxx nalezena, je pro logování pou¾it standardní výstup.
+Výhodou Pou¾ití Log4cxx je mo¾nost ¹iroké konfigurace logování pomoci konfiguraèního souboru, mo¾nost pøesmìrovat
+logování do souboru a tento pak automaticky rotovat na základì jeho velikosti nebo èasu.
+
+Ka¾dá tøída serveru má vlastní statickou instanci tøídy log4cxx::LoggerPtr, kterou vyu¾ívá k logování. Standardní výstup
+logování vypadá následovnì:
+
+\section{Implementace klientské knihovny}
+
+Klientská knihovna spojuje serverovou aplikaci se samotným klientským rozhraním.
+Klientská knihovna je navr¾ena a implementována
+tak, aby ji bylo mo¾no pou¾ít s jakýmkoliv grafickým (pøípadnì i konzolovým) rozhraním. Kvùli pøenositelnosti a
+¹ir¹í vyu¾itelnosti je napsána v jazyce C s dùrazem na co nejménì závislostí na jiných knihovnách.
+
+Klientská knihovna je rozdìlena do men¹ích blokù, které budou v této kapitole postupnì popsány.
+
+\subsection{Abstraktní datové typy}
+
+V této podkapitole je popsána implementace abstraktních datových typù po¾itých v klientské knihovnì.
+
+\subsubsection{HAMList - Seznam}
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/list.pdf}
+\caption{Diagram dvousmìrného seznamu.}
+\label{fig:FigureExample}
+\end{figure}
+
+HAMList je implementací dvousmìrného seznamu. Základní datové struktury pou¾ité pro definici seznamu jsou
+HAMList a HAMListItem:
+
+\begin{verbatim}
+typedef struct _HAMListItem {
+	void *data;
+	struct _HAMListItem *lptr;
+	struct _HAMListItem *rptr;
+} HAMListItem;
+
+typedef struct _HAMList {
+	HAMListItem *first;
+	HAMListItem *last;
+	HAMListItemDataFree free_func;
+} HAMList;
+\end{verbatim}
+
+Ka¾dá polo¾ka HAMListItem obsahuje odkaz na svého pøedchùdce (lptr) a následníka (rptr) a samotná data spjatá
+s polo¾kou (data). Struktura HAMList obsahuje odkaz na první a poslední polo¾ku a ukazatel na funkci free\_func,
+která je pou¾ita pro uvolnìní u¾ivatelských dat z pamìti. Pokud není tato funkce definována, nejsou u¾ivatelská
+data pøi uvolòování seznamu z pamìti uvolnìna.
+
+\subsubsection{HAMHashTable - Hashovací tabulka}
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/hash.pdf}
+\caption{Diagram hash tabulky seznamu.}
+\label{fig:FigureExample}
+\end{figure}
+
+HAMHashTable je implementací hash tabulky. Základní datové struktury pou¾íté pøi implementaci hash tabulky jsou
+HAMHashTableItem a HAMHashTable:
+
+\begin{verbatim}
+typedef struct _HAMHashTableItem {
+	const void *key;
+	void *data;
+	unsigned long key_len;
+	struct _HAMHashTableItem *next;
+} HAMHashTableItem;
+
+typedef struct _HAMHashTable {
+	HAMHashTableItem *items[HAM_HASH_LEN];
+	unsigned long count;
+	HAMHashTableItemDataFree free_func;
+} HAMHashTable;
+\end{verbatim}
+
+Ka¾dá polo¾ka ulo¾ená v hash tabulce obsahuje svùj klíè (key), jeho délku (key\_len), data svázaná s polo¾kou a ukazatel
+na dal¹í polo¾ku. Pøi vlo¾ení nové polo¾ky do tabulky je vypoèten hash jejího klièe pomocí SDBM hashovacího algoritmu.
+Na základì hodnoty hashe je ukazatel na polo¾ku ulo¾en do pole polo¾ek items. P
+
+\subsection{Komunikace s klientskou aplikací}
+
+Pro komunikaci s klientskou aplikací je podstatné napojení na její smyèku událostí a mo¾nost pøedávat asynchronnì
+výsledky po¾adavkù odeslaných serveru. V této podkapitole jsou popsány øe¹ení obou tìchto problémù
+
+\subsubsection{EventLoop}
+
+Eventloop (neboli smyèka událostí) sdru¾uje metody slou¾ící k napojení na hlavní smyèku
+klientské aplikace. Pro správnou funkci klientské
+knihovny musí klientská aplikace implementovat v¹echny funkce definované ve struktuøe HAMEventLoopUICallbacks a
+pøedat je klientské knihovnì prostøednictvím metody ham\_eventloop\_set\_ui\_callbacks().
+
+Funkce definované ve struktuøe HAMEventLoopUICallbacks jsou pak pou¾ívány dal¹ími èástmi klientské knihovny na
+následující èinnosti:
+
+\begin{itemize}
+\item timeout\_add - Pøidá do hlavní smyèky programu bì¾ící v klientské aplikaci nový èasocaè. Klientská aplikace
+musí vrátit ukazatel na strukturu jednoznaènì identifikující èasovaè a
+volat opakovanì funkci pøedánou jakou ukazatel ve zvoleném intervalu.
+\item timeout\_remove - Odebere z hlavní smyèky èasovaè na základì jeho ukazatele na strukturu, která jej identifikuje.
+\item input\_add - Pøidá do hlavní smyèky klientské aplikace ukazatel na funkci, která je volána kdy¾ jsou k dispozici
+nová data na definovaném soketu. Klientská aplikace
+musí vrátit ukazatel na strukturu jednoznaènì identifikující tuto událost.
+\item input\_remove - Odebere z hlavní smyèky ukazatel na funkci vstupu na
+základì ukazatele na strukturu, která jej identifikuje.
+\end{itemize}
+
+Díky této abstrakci je tak mo¾no napojit klientskou knihovnu na jakoukoliv smyèku událostí.
+
+\subsubsection{Signály}
+
+Jednotlivé èásti klientské knihovny umo¾òují definovat signály, na které se pak mù¾e klientská aplikace napojit.
+Seznam signálù je ulo¾en v hash tabulce, kde klíèem je název signálu a daty seznam funkcí, které jsou zavolány
+pokud je signál emitován. K registraci nových signálù slou¾í funkce ham\_signals\_register\_signal().
+
+Klientské aplikaci je umo¾nìno funkcí ham\_signals\_register\_handler() zaregistrovat funkci, která je zavolána
+pøi emitování signálu. Funkce musí být ve formátu HAMFetchHandler. Pøi registraci signálu lze rovnì¾ definovat
+ukazatel na data, která jsou pøi emitování signálu zpracovávající funkci pøedána. Toho lze vyu¾ít pro udr¾ování
+kontextu pøi zpracovávání signálu.
+
+
+\subsection{Komunikace se serverem}
+
+Tato podkapitola popisuje implementaci komunikace se serverem v klientské knihovnì. Je zde popsáno rozhraní pro
+pøipojení k serveru, parser komunikaèního protokolu a pomocné struktury Reply a Request pro reprezetanci odchozích a
+pøíchozích paketù.
+
+\subsubsection{Pøipojení k serveru}
+
+Pro pøipojení k serveru je nutné vytvoøit novou instanci struktury Connection funkcí ham\_connection\_new(). Touto funkcí
+se definuje adresa a port serveru, u¾ivatelské jméno a heslo. Samotné pøipojení probìhne a¾ po zavolání funkce
+ham\_connection\_connect(). Tato funkce vytvoøí nový soket pro pøipojení k serveru a pomocí funkce ham\_eventloop\_input\_add()
+pøidá do hlavní smyèky programu ukazatel na funkci pro parsování pøijatých dat.
+
+\subsubsection{Parsování dat}
+
+K parsování dat v klientské knihovnì slou¾í HAMParser. TODO
+
+
+\section{Implementace klientské aplikace}
+
+Referenèní klientská aplikace byla naprogramována v jazyce C++ s vyu¾itím grafického frameworku Qt. V této kapitole jsou struènì
+popsány jednotlivé tøídy klientské aplikace a jejich napojení na klientskou knihovnu.
+
+
+
+
+\chapter{Závìr}
+Závìreèná kapitola obsahuje zhodnocení dosa¾ených výsledkù se zvlá¹» vyznaèeným vlastním pøínosem studenta. Povinnì se zde objeví i zhodnocení z pohledu dal¹ího vývoje projektu, student uvede námìty vycházející ze zku¹eností s øe¹eným projektem a uvede rovnì¾ návaznosti na právì dokonèené projekty.
