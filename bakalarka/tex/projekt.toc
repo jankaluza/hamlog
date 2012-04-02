@@ -1,43 +1,56 @@
 \select@language {czech}
 \contentsline {chapter}{\numberline {1}\'Uvod}{2}{chapter.1}
 \contentsline {chapter}{\numberline {2}Radioamat\'e\v ri}{3}{chapter.2}
-\contentsline {chapter}{\numberline {3}Rozbor zad\'an\IeC {\'\i }}{4}{chapter.3}
-\contentsline {chapter}{\numberline {4}N\'avrh aplikace}{5}{chapter.4}
-\contentsline {section}{\numberline {4.1}N\'avrh komunika\v cn\IeC {\'\i }ho protokolu}{5}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Sch\'ema packetu}{5}{subsection.4.1.1}
-\contentsline {section}{\numberline {4.2}N\'avrh serveru}{6}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Moduly}{6}{subsection.4.2.1}
-\contentsline {section}{\numberline {4.3}Klientsk\'a knihovna}{6}{section.4.3}
-\contentsline {section}{\numberline {4.4}Klient}{6}{section.4.4}
-\contentsline {chapter}{\numberline {5}Implementace}{8}{chapter.5}
-\contentsline {section}{\numberline {5.1}Implementace serverov\'e aplikace}{8}{section.5.1}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da Server}{8}{section*.2}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da Session}{8}{section*.3}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestParser}{8}{section*.4}
-\contentsline {subsection}{\numberline {5.1.1}Implementace datab\'azov\'eho rozhran\IeC {\'\i }}{9}{subsection.5.1.1}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da StorageBackend}{9}{section*.5}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da SQLite3Backend}{9}{section*.6}
-\contentsline {subsection}{\numberline {5.1.2}Implementace modul\r u}{9}{subsection.5.1.2}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da Module}{10}{section*.7}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestResponder}{10}{section*.8}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da ModuleManager}{10}{section*.9}
-\contentsline {subsection}{\numberline {5.1.3}Seznam implementovan\'ych modul\r u}{10}{subsection.5.1.3}
-\contentsline {subsubsection}{Modul Register}{10}{section*.10}
-\contentsline {subsubsection}{Modul Login}{11}{section*.11}
-\contentsline {subsubsection}{Modul LogBook}{11}{section*.12}
-\contentsline {subsubsection}{Modul DXCC}{11}{section*.13}
-\contentsline {subsubsection}{Modul DXCluster}{11}{section*.14}
-\contentsline {subsubsection}{Modul QRZ}{11}{section*.15}
-\contentsline {subsection}{\numberline {5.1.4}Implementace logov\'an\IeC {\'\i }}{12}{subsection.5.1.4}
-\contentsline {section}{\numberline {5.2}Implementace klientsk\'e knihovny}{12}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Abstraktn\IeC {\'\i } datov\'e typy}{12}{subsection.5.2.1}
-\contentsline {subsubsection}{HAMList - Seznam}{12}{section*.16}
-\contentsline {subsubsection}{HAMHashTable - Hashovac\IeC {\'\i } tabulka}{13}{section*.17}
-\contentsline {subsection}{\numberline {5.2.2}Komunikace s klientskou aplikac\IeC {\'\i }}{14}{subsection.5.2.2}
-\contentsline {subsubsection}{EventLoop}{14}{section*.18}
-\contentsline {subsubsection}{Sign\'aly}{14}{section*.19}
-\contentsline {subsection}{\numberline {5.2.3}Komunikace se serverem}{15}{subsection.5.2.3}
-\contentsline {subsubsection}{P\v ripojen\IeC {\'\i } k serveru}{15}{section*.20}
-\contentsline {subsubsection}{Parsov\'an\IeC {\'\i } dat}{15}{section*.21}
-\contentsline {section}{\numberline {5.3}Implementace klientsk\'e aplikace}{15}{section.5.3}
-\contentsline {chapter}{\numberline {6}Z\'av\v er}{16}{chapter.6}
+\contentsline {section}{\numberline {2.1}Historie amat\'ersk\'eho r\'adia}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Amat\'ersk\'e r\'adio dnes}{3}{section.2.2}
+\contentsline {chapter}{\numberline {3}Sou\v casn\'e logovac\IeC {\'\i } aplikace}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}Logger32}{5}{section.3.1}
+\contentsline {section}{\numberline {3.2}CQRLOG}{6}{section.3.2}
+\contentsline {section}{\numberline {3.3}HAM Radio Deluxe}{7}{section.3.3}
+\contentsline {chapter}{\numberline {4}N\'avrh aplikace}{8}{chapter.4}
+\contentsline {section}{\numberline {4.1}N\'avrh komunika\v cn\IeC {\'\i }ho protokolu}{8}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Vy\v z\'ad\'an\IeC {\'\i } logu}{9}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Editace z\'aznamu}{9}{subsection.4.1.2}
+\contentsline {section}{\numberline {4.2}N\'avrh serveru}{10}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Moduly}{10}{subsection.4.2.1}
+\contentsline {section}{\numberline {4.3}Klientsk\'a knihovna}{10}{section.4.3}
+\contentsline {section}{\numberline {4.4}Klient}{11}{section.4.4}
+\contentsline {chapter}{\numberline {5}Implementace}{12}{chapter.5}
+\contentsline {section}{\numberline {5.1}Implementace serverov\'e aplikace}{12}{section.5.1}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da Server}{12}{section*.2}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da Session}{12}{section*.3}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestParser}{12}{section*.4}
+\contentsline {subsection}{\numberline {5.1.1}Implementace datab\'azov\'eho rozhran\IeC {\'\i }}{13}{subsection.5.1.1}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da StorageBackend}{13}{section*.5}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da SQLite3Backend}{13}{section*.6}
+\contentsline {subsection}{\numberline {5.1.2}Implementace modul\r u}{13}{subsection.5.1.2}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da Module}{14}{section*.7}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestResponder}{14}{section*.8}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da ModuleManager}{14}{section*.9}
+\contentsline {subsection}{\numberline {5.1.3}Seznam implementovan\'ych modul\r u}{14}{subsection.5.1.3}
+\contentsline {subsubsection}{Modul Register}{14}{section*.10}
+\contentsline {subsubsection}{Modul Login}{15}{section*.11}
+\contentsline {subsubsection}{Modul LogBook}{15}{section*.12}
+\contentsline {subsubsection}{Modul DXCC}{15}{section*.13}
+\contentsline {subsubsection}{Modul DXCluster}{15}{section*.14}
+\contentsline {subsubsection}{Modul QRZ}{15}{section*.15}
+\contentsline {subsection}{\numberline {5.1.4}Implementace logov\'an\IeC {\'\i }}{16}{subsection.5.1.4}
+\contentsline {section}{\numberline {5.2}Implementace klientsk\'e knihovny}{16}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Abstraktn\IeC {\'\i } datov\'e typy}{16}{subsection.5.2.1}
+\contentsline {subsubsection}{HAMList - Seznam}{16}{section*.16}
+\contentsline {subsubsection}{HAMHashTable - Hashovac\IeC {\'\i } tabulka}{17}{section*.17}
+\contentsline {subsection}{\numberline {5.2.2}Komunikace s klientskou aplikac\IeC {\'\i }}{17}{subsection.5.2.2}
+\contentsline {subsubsection}{EventLoop}{18}{section*.18}
+\contentsline {subsubsection}{Sign\'aly}{18}{section*.19}
+\contentsline {subsection}{\numberline {5.2.3}Komunikace se serverem}{19}{subsection.5.2.3}
+\contentsline {subsubsection}{P\v ripojen\IeC {\'\i } k serveru}{19}{section*.20}
+\contentsline {subsubsection}{Parsov\'an\IeC {\'\i } dat}{19}{section*.21}
+\contentsline {section}{\numberline {5.3}Implementace klientsk\'e aplikace}{19}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Hlavn\IeC {\'\i } okno programu}{19}{subsection.5.3.1}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da MainWindow}{19}{section*.22}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da LogbookTreeWidget}{20}{section*.23}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da EarthWidget}{20}{section*.24}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da DXClusterWidget}{20}{section*.25}
+\contentsline {subsection}{\numberline {5.3.2}P\v rid\'an\IeC {\'\i } nov\'eho z\'aznamu a editace}{20}{subsection.5.3.2}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{20}{section*.26}
+\contentsline {chapter}{\numberline {6}Z\'av\v er}{22}{chapter.6}

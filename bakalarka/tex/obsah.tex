@@ -1,12 +1,155 @@
 \chapter{Úvod}
 
-\chapter{Radioamatéøi}
+Tato bakaláøská  práce je rozdìlena do ¹esti kapitol.
 
-\chapter{Rozbor zadání}
+\begin{enumerate}
+  \item \textbf{Úvod} - Úvodní kapitola.
+  \item \textbf{Radioamatéøi} - V druhé kapitole (\ref{radioamateri}) je popsána historie amatérského rádia
+(\ref{radioamateri_hist}) a také jeho aktuální stav dnes (\ref{radioamateri_dnes}).
+  \item \textbf{Rozbor zadání} - V tøetí kapitole ...
+  \item \textbf{Návrh aplikace} - Ètvrtá kapitolá (\ref{navrh}) struènì popisuje návrh 
+komunikaèního protokolu (\ref{navrh_protokol}), serverové aplikace (\ref{navrh_server}), klientské knihovny 
+(\ref{navrh_knihovna}) a samotné klientské aplikace (\ref{navrh_klient}).
+  \item \textbf{Implementace} - V páté kapitole (\ref{implementace}) je popsána implementace v¹ech souèástí
+zmínìných v kapitole ètvrté (\ref{navrh}). V podkapitole o implementaci serverové aplikace (\ref{implementace_server})
+je popsána implementace databázového rozhraní (\ref{implementace_db}), modulù (\ref{implementace_moduly}),
+seznam implementovaných modulù (\ref{implementace_moduly_list}) a logování (\ref{implementace_logovani}). Dále je
+zde popsána implementace klientské knihovny (\ref{implementace_knihovna}) a samotného klienta (\ref{implementace_klient}).
+  \item \textbf{Závìr} - V ¹esté kapitole (\ref{zaver}) ...
+\end{enumerate}
+
+\chapter{Radioamatéøi}
+\label{radioamateri}
+
+\section{Historie amatérského rádia}
+\label{radioamateri_hist}
+Prvotní motivací pro vznik amatérského rádia byla my¹lenka na¹ich pøedkù rádio nejen poslouchat, ale také vysílat.
+To dalo vzniknout novému druhu zábavy - amatérskému vysílání (HAM Radio). Lidem, kteøí vysílali se pak zaèalo øíkat 
+radioamatéøi.
+
+Amatérské rádio se zaèalo rychle ¹íøit po první svìtové válce hlavnì díky vlivu rozhlasu. V tìchto dobách radioamatéøi znaènì
+pøispìli k získání znalostí o vyu¾ití celého spektra radiových vln. Vysílali na dlouhých a støedních vlnách, které byly do té doby
+pova¾ovány za bezcenné, a také na vlnách krátkých, o jejich¾ existenci se nevìdìlo vùbec.
+
+První pokusy o transatlantické spojení zaèaly lákat také Pravoslava Motyèku - prvního známého radioamatéra u nás.
+Koncem roku 1924 navázal Motyèka první spojení v Èeskoslovensku. 
+Díky Motyèkovì inspiraci bylo u nás kolem 30. let 20. století a¾ nìkolik set radioamatérù.
+
+Dal¹ím významýn rokem byl rok 1928, kdy byl ruský radioamatér prvním, kdo zachytil volání vzducholodi ITALIA,
+která ztroskotala na cestì od severního pólu. To zmìnilo pohled na amatérské rádio, do té doby vnímané spí¹e jako zábava ne¾
+pøíli¹ u¾iteèná vìc. Pøi mnoha pohromách na celém svìtì èasto pomohla pøipravenost radioamatérù poskytnout rychlé spojení do
+jiných míst.
+
+\section{Amatérské rádio dnes}
+\label{radioamateri_dnes}
+
+Základním pilíøem amatérského rádia je vysílání na krátkých vlnách umo¾òují spojení do celého svìta vèetnì exotických zemí.
+Øada radioamatérù se sna¾í a spojení s co nejvíce exotickými zemìmi. Této zálibì øíkáma DX provoz.
+Po úspì¹nì navázaném spojení si radioamatéøi vymìnují QSL lístky (potvrzení o navázaném spojení formátu pohlednice). Cílem je
+získání QSL lístkù z co mozná nejvíce zemí svìta (ideálnì v¹ech).
+
+Pro kvalitní pøíjem profesionálního vysílání (napøíklad FM rozhlas nebo televize) je potøeba být od výsilaèe vzdálen maximálnì
+v desitkách kilometrù. Radioamatéøi se pøi svých vysíláních sna¾í tyto limity pøekonat a provádìt spojení na co nejvìt¹í
+vzdálenosti. K tomu vyu¾ívají kromì techniky také dobrých znalostí faktorù, které ovliòují ¹íøení krátkých vln. Tìmi jsou napøíklad
+rozhraní teplých a studených mas vzduchu nebo polární záøe. Profesionálové se nemohou na tyto pøechodné faktory spolehnout, ale 
+radioamatéøi jsou díky nim schopni navázat spojení a¾ na tisíce kilometrù
+
+Na øadì vysokých budov a kopcù pracují pozemní radioamatérské pøevadìèe. Pøevadìè pøeposílá signál pøijatý na na jedné frekvenci
+na frekvenci jinou. Radioamatéøi se tak mohou pomocí pøevadìèe dovolat na velké vzdálenosti i s pou¾itím vysílaèù o malém výkonu
+(èasto jde o kapesní radiostanice)
+
+V poèátcích 60. let byla také vypo¹tìna první radioamatérská dru¾ice. Dnes jich existuje nìkolik desítek.
+Dru¾ice pokrývají, podobnì jako bì¾né televizní satelity, kruh o prùmìru zhruba 4000 km. 
+Narozdíl od geostacionárních televizních satelitù v¹ak amatérské dru¾ice kolem Zemì obíhají.
+Díky tomu jsou schopny pokrýt postupnì signálem v¹echny obydlené oblasti.
+
+V radioamatérském vysílání se rovnì¾ konají závody. Cílem je napøíklad v urèitém èase navázat spojení s co nejvíce jinými
+amatérskými stanicemi v co nejvíce zemích. Jinou variantou je napøíklad souèet vzdáleností v¹ech spojení vykonaných za urèitý
+èas.
+
+Morseova abeceda byla prvním dorozumívacím prostøedkem pou¾ívaným v amatérském rádiu a je radioamatéry pou¾ívána dodnes.
+Hlavním pøínosem morseovy abecedy je její velká odolnost proti ru¹ení, diký ní¾ lze pøekonat velké vzdálenosti i s malým
+výkonem. Dal¹í výhodou je to, ¾e odbourává jazykové bariéry, proto¾e se komunikuje pøevá¾nì pomocí zkratek. Pøi hlasové komunikaci
+je mezinárodním jazykem angliètina a vyu¾ívá se amplitudové modulace SSB nebo FM modulace.
+
+Nejnovìj¹ím systémem pro zakódování øeèi je je packet 
+radio. V podstatì se jedná o radioamatérský Internet, kde se informace pøená¹í pomocí modifikace protokolu X.25. 
+Sí» packet radia pokrývá celý vyspìlý svìt, její souèástí jsou i BBS (databanky pro ukládání a výmìnu informací) a
+elektronická po¹ta. Poslat e-mail kamarádovi do Austrálie nemusíte jen po Internetu,
+ale také amatérským packet radiem, a nemáte-li nic lep¹ího na práci, mù¾ete trávit hodiny zkoumáním nových zpráv i
+zajímavých programù v desítkách BBS po celé Evropì.
+
+Samozøejmì jde vysílat i obrazové signály. Dlouhou tradici má tzv. pomalá televise (SSTV),
+jaká byla pou¾ita i u pøenosu obrazu z prvních pøistání amerických astronautù na Mìsíci,
+dnes se experimentuje s rùznými digitálními pøenosy a na UHF kmitoètech je mo¾né pou¾ít i klasickou televisní normu.
+
+Z ryze sportovních aktivit je dobøe známý rádiový
+orientaèní bìh. Cílem je v nejkrat¹ím èase najít pomocí
+pøijímaèe v terénu ukryté zamaskované vysílaèe. 
+Tyto sporty jsou atraktivní a pìstují je i lidé, kteøí se jinak o radioamatérství pøíli¹ nezajímají.
+
+\chapter{Souèasné logovací aplikace}
+\label{soucasnost}
+
+V této kapitole jsou posány aplikace pou¾ívané souèasnými radioamatéry pro logování spojení. Ka¾dá aplikace je struènì
+popsána a jsou zmínìny i její klady a zápory. Na základì této kapitoly bude vytvoøen základní návrh aplikace.
+
+\section{Logger32}
+
+Logger32 je jednou z nejznámìj¹ích logovacích aplikací pro operaèní systém Windows. Jeho hlavní výhodou je pøehledné a funkèní
+u¾ivatelské rozhraní rozhraní a podpora pøídavných pluginù.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/logger32.jpg}
+\caption{U¾ivatelské rozhraní Logger32.}
+\label{fig:FigureExample}
+\end{figure}
+
+Lze vytváøet pluginy pro vyhledávání detailních informací na základì volací znaèky a také pluginy vytváøející externí okno
+s informacemi roz¹iøující informace. Logger32 také umo¾òuje ovládání radiostanice.
+
+Hlavní nevýhodou aplikace Logger32 je její závislost na systému Windows. Moderním trendem dne¹ní doby je programování multiplatformních
+aplikací. Dal¹í nevýhodou je absence zdrojových kódù, tak¾e je roz¹íøitelnost aplikace limitována rozhraním modulù definovaným
+tvùrcem aplikace.
+Mezi nevýhody mù¾eme øadit také nemo¾nost pou¾ití externí databáze jako je napøíklad SQLite3 nebo MySQL. Problémem mù¾e rovnì¾ být
+situace, kdy chce u¾ivatel zalogovat nové spojení z mobilního telefonu nebo jiného zaøízení s nestandardním operaèním systémem. V
+dne¹ní dobì je dùle¾itým faktorem pøi tvorbì aplikací dùraz na jejich pou¾itelnost na ¹irokém poètu zaøízení.
+
+\section{CQRLOG}
+
+CQRLOG je nejpou¾ívanìj¹ím logovacím nástrojem z øad multiplatformních aplikací. Je mo¾né jej pou¾ívat jak v systému
+Windows, tak v Linuxových distribucích.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.5]{fig/cqrlog.png}
+\caption{U¾ivatelské rozhraní CQRLOG.}
+\label{fig:FigureExample}
+\end{figure}
+
+Jeho u¾ivatelské rozhraní je jednodu¹¹í ne¾ rozhraní programu Logger32 a je také více pøehledné. Na druhou stranu v¹ak
+chybí podpora roz¹íøení formou pluginù. K dispozici jsou zdrojové kódy v jazyce Delphi. Volba tohoto programovacího jazyka
+znaènì ztì¾uje (a¾ znemo¾òuje) tvorbu oficiálních instalaèních balièkù pro linuxové distribuce.
+
+CQRLOG umo¾òuje pou¾ítí
+MySQL databáze, ale návrh aplikace znemo¾òuje jednoduchou zmìnu databázové aplikace. Také volba MySQL databáze pro pou¾ití 
+v desktopové aplikaci mù¾e být vnímána jako negativum. Návrh CQRLOGu rovnì¾ nedefinuje rozhraní pro jednoduché pøidávání nebo úpravu
+záznamù pomocí aplikací tøetích stran a není tak jednoduché postavit dal¹í aplikaci nad CQRLOGem.
+
+\section{HAM Radio Deluxe}
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/hrd.jpg}
+\caption{U¾ivatelské rozhraní HAM Radio Deluxe.}
+\label{fig:FigureExample}
+\end{figure}
 
 \chapter{Návrh aplikace}
+\label{navrh}
 
-Cílem této kapitoly popsání návrhu aplikace a komunikaèního protokolu.
+Cílem této kapitoly je popsání návrhu aplikace a komunikaèního protokolu.
 
 Aplikace se skládá z modulárního serveru, klientské knihovny a grafického u¾ivatelského rozhraní.
 V následujících podkapitolách jsou jednotlivé èásti struènì popsány.
@@ -19,16 +162,55 @@ V následujících podkapitolách jsou jednotlivé èásti struènì popsány.
 \end{figure}
 
 \section{Návrh komunikaèního protokolu}
+\label{navrh_protokol}
 
 Byl zvolen protokol inspirovaný protokolem HTTP \cite{http}, pøevá¾nì kvùli jeho jednoduchosti a úèelnosti z hlediska modularity.
 Jednotlivé moduly serveru mají své vlastní URI a klientské po¾adavky jsou pak smìrovány podle URI na konkrétní modul,
 který vygeneruje odpovìï poslanou klientovi.
 
-Protokol je zpìtnì kompatibilní s protokolem HTTP, ale jsou pou¾ity jen nìkteré jeho èásti.
+Protokol je zpìtnì kompatibilní s protokolem HTTP, ale jsou pou¾ity jen nìkteré jeho èásti. Komunikace probíhá v re¾imu
+po¾adavek-odpovìï.
 
-Data pøená¹ená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první øádek reprezentuje hlavièku dat.
+Data pøená¹ená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první øádek reprezentuje hlavièku dat. Standardní názvy
+sloupcù ve hlavièce protokolu jsou:
+\begin{itemize}
+\item \textbf{id} - ID záznamu v logu. Koresponduje s ID v databázi a slou¾í jako klíè pro vybrání konkrétního øádku.
+\item \textbf{user\_id} - ID u¾ivatele, jemu¾ záznam v logu patøí.
+\item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
+\item \textbf{callsign} - Volací znaèka (napøíklad OK2JRQ).
+\item \textbf{mode} - Mód spojení.
+\item \textbf{qth} - QTH lokátor (Maidenhead Locator).
+\item \textbf{name} - Jméno operátora.
+\item \textbf{latitude} - Zemìpisná ¹íøka.
+\item \textbf{longitude} - Zemìpisná délka.
+\item \textbf{conty} - Okres.
+\item \textbf{continent} - Zkratka kontinentu.
+\item \textbf{cq} - CQ zóna.
+\item \textbf{itu} - ITU zóna.
+\end{itemize}
 
-\subsection{Schéma packetu}
+\subsection{Vy¾ádání logu}
+
+Dotaz na modul poskytující URI "/logbook":
+\begin{verbatim}
+GET /logbook HTTP/1.1
+
+
+\end{verbatim}
+Odpovìï serveru:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Content-Type: text/hamlog
+Content-Length: 74
+
+id;user_id;callsign;date;qth;loc
+1;1;TEST;2011;qt;
+2;1;LKS;2011;;location
+\end{verbatim}
+
+\subsection{Editace záznamu}
+
+TODO
 
 Dotaz na modul poskytující URI "/logbook":
 \begin{verbatim}
@@ -48,6 +230,7 @@ id;user_id;callsign;date;qth;loc
 \end{verbatim}
 
 \section{Návrh serveru}
+\label{navrh_server}
 
 Server je konzolová aplikace zpracovávající klientské po¾adavky. Server je schopen obsluhovat více u¾ivatelù souèasnì.
 U¾ivatelé se k serveru pøihla¹ují pomocí jména a hesla.
@@ -57,11 +240,13 @@ registrovat.
 Návrh serveru poèítá s pou¾itím jakékoliv databáze pro uchování perzistentních dat. V rámci této bakaláøské práce jsem se 
 rozhodl pou¾ít databázi SQLite3.
 
-Server je modulární a ve¹keré slu¾by, které u¾ivateli poskytuje, jsou souèástí modulù.
+Server je modulární a ve¹keré slu¾by, které u¾ivateli poskytuje, jsou souèástí modulù. Server samotný pouze spravuje
+pøipojené u¾ivatele a deleguje po¾adavky na jednotlivé moduly.
 
 \subsection{Moduly}
+\label{navrh_moduly}
 
-Moduly umo¾òují roz¹iøovat dynamicky funkènost serveru. Ka¾dý nový po¾adavek, které server od klienta pøijme je
+Moduly umo¾òují dynamicky roz¹iøovat funkènost serveru. Ka¾dý nový po¾adavek, který server od klienta pøijme je
 pøedán pøíslu¹nému modulu na základì URI. Modul jej zpracuje a ode¹le klientovi zpìt odpovìï. Klient si mù¾e
 od serveru vy¾ádat seznam v¹ech modulù pomocí po¾adavku na speciální URI "/modules".
 
@@ -71,23 +256,35 @@ Pøi spu¹tìní serveru jsou nahrány v¹echny moduly z adresáøe nastavitelného pomoc
 Ka¾dý modul obsahuje následující informace:
 
 \begin{itemize}
-\item URI
-\item Typ
-\item Popis
+\item \textbf{URI} - URI moduly, na kterém daný modul pracuje. Ka¾dý modul serveru musí mít své jedineèné URI.
+\item \textbf{Typ} - Typ modulu. V¹echny moduly daného typu poskytují stejné komunikaèní rozhraní. To umo¾òuje klientské knihovnì
+komunikovat i s pro ni neznámými moduly pouze na znalosti jejich typu.
+\item \textbf{Popis} - Krátký text popisující funkci modulu. V grafickém rozhraní je tento text zobrazen v seznamu modulù.
 \end{itemize}
 
+V rámci této bakaláøské práce existují moduly jen dvou typù:
 
-
+\begin{itemize}
+\item \textbf{CALLINFO} - Moduly tohoto typu poskytují rozlièné informace (napøíklad polohu nebo jméno operátora)
+na základì volací znaèky. Data jsou získávána z veøejnì dostupných slu¾eb, nebo z databáze ulo¾ené na serveru.
+\item \textbf{DXCLUSTER} - Moduly typu DXCLUSTER poskytují informace (napøíklad frekvenci a polohu) o stanicích,
+které aktuálnì vysílají.
+\end{itemize}
 
 \section{Klientská knihovna}
+\label{navrh_knihovna}
 
-Cílem klientské knihovny je poskytnout grafickým rozhraním jednotné API pro pøístup k serveru
+Cílem klientské knihovny je poskytnout grafickému rozhraní jednotné API pro pøístup k serveru
 a tím pádem zamezit duplikování kódu mezi pøípadnými grafickými rozhraními.
 
-Klientská knihovna má minimální závislosti a je multiplatformní.
+Klientská knihovna má minimální závislosti a je multiplatformní. Pomocí komunikaèního protokolu
+komunikuje se server, zpracovává pøíchozí data a pøedává je klientovi.
+
+Knihovna je navr¾ena tak, aby mohla spolupracovat s jakýmkoliv grafickým rozhraním.
 
 
 \section{Klient}
+\label{navrh_klient}
 
 Klient slou¾í koncovému u¾ivateli k pøipojení k serveru, prezentaci aktuálních dat a jejich zmìnì. Pro komunikace
 se serverem klient vyu¾ívá klientskou knihovnu. Pro komunikaci s u¾ivatelem pak klient vyu¾ívá grafického rozhraní.
@@ -95,14 +292,22 @@ Po startu klienta je u¾ivatel vyzván k pøihlá¹ení se k serveru. U¾ivateli je rov
 nového úètu.
 
 Po pøihlá¹ení zobrazí klientská aplikace ve¹keré záznamy v deníku a umo¾ní jejich editaci. Klientská aplikace také zobrazuje
-aktuální vysílání získané ze slu¾by DXCluster.
+aktuální vysílání získané ze slu¾by DXCluster. Stanice, které aktuálnì vysílají jsou zobrazeny graficky na modelu zemìkoule.
+
+Po vybrání stanice zobrazen dialog pro pøidání nového záznamu s pøedvolenými hodnotami získanými ze slu¾by DXCluster. Automaticky
+je také pøeladìno rádio na danou frekvenci. V oknì pro nový záznam je u¾ivateli zobrazena historie v¹ech spojení s daným operátorem.
+Po potvrzení dialogu je nový záznam odeslán na server a ulo¾en do databáze.
+
+Klient také umo¾òuje zobrazit v¹echny moduly dostupné na serveru a jejich popis.
 
 
 \chapter{Implementace}
+\label{implementace}
 
 V této kapitole je popsána implementace serverové aplikace, klientské aplikace a klientské knihovny.
 
 \section{Implementace serverové aplikace}
+\label{implementace_server}
 
 Server byl implementován v jazyce C++ umo¾òujícím lep¹í dekompozici aplikace a pou¾ití objektového paradigmatu. Byla rovnì¾
 pou¾ita knihovna Boost, která poskytuje základní metody pro asynchronní sí»ovou komunikaci a nabízí programátorské prostøedky
@@ -129,6 +334,7 @@ Metoda parse zpracovává pøijatá data, parsuje je, a výsledek uchovává v instanci
 k chybì, vrací funkce parse hodnotu false.
 
 \subsection{Implementace databázového rozhraní}
+\label{implementace_db}
 
 Návrh a implementace serveru umo¾òuje pou¾ití libovolného databázového rozhraní. V rámci bakaláøské práce je v¹ak podpována
 pouze databáze SQLite3. Tøída implementující konkrétní databázové rozhraní musí dìdit tøídu StorageBackend a implementovat
@@ -169,6 +375,7 @@ update(), insert(), select(), createTable() a remove() se na základì pøedaných d
 a je vrácen výsledek.
 
 \subsection{Implementace modulù}
+\label{implementace_moduly}
 
 Moduly jsou implementovány jako dynamické knihovny. Ka¾dý modul musí dìdit tøídu Modul a implementovat její èistì virtuální
 (pure virtual) metody. Ve¹keré klientské po¾adavky jsou pak smìrovány na konkrétní modul podle URI instancí tøídy ModuleManager.
@@ -200,6 +407,7 @@ jsou pøedány instanci této tøídy metodou handleRequest, která je pak dále smìruj
 umo¾òuje poslat seznam v¹ech modulù klientovi.
 
 \subsection{Seznam implementovaných modulù}
+\label{implementace_moduly_list}
 
 V této podkapitole jsou popsány jednotlivé implementované moduly.
 
@@ -251,16 +459,23 @@ volací znaèky. K tomuto vyu¾ívá slu¾bu qrz.com. V metodì handleRequest se na zák
 \end{itemize}
 
 \subsection{Implementace logování}
+\label{implementace_logovani}
 
 Logování je implementováno s pou¾itím knihovny Log4cxx vyvíjené Apache Software Foundation a licencované pod licencí
 Apache License. Pokud v¹ak není pøi kompilaci knihovna Log4cxx nalezena, je pro logování pou¾it standardní výstup.
 Výhodou Pou¾ití Log4cxx je mo¾nost ¹iroké konfigurace logování pomoci konfiguraèního souboru, mo¾nost pøesmìrovat
 logování do souboru a tento pak automaticky rotovat na základì jeho velikosti nebo èasu.
 
-Ka¾dá tøída serveru má vlastní statickou instanci tøídy log4cxx::LoggerPtr, kterou vyu¾ívá k logování. Standardní výstup
-logování vypadá následovnì:
+Ka¾dá tøída serveru má vlastní statickou instanci tøídy log4cxx::LoggerPtr, kterou vyu¾ívá k logování.
+U ka¾dého zápisu do logu se loguje datum a èas, záva¾nost záznamu (Informace, varování, chyba), název modulu a samotný
+logovaný záznam.S tandardní výstup pak vypadá napøíklad následovnì:
+
+\begin{verbatim}
+2012-03-28 19:12:44,423 INFO  Server: Starting the server
+\end{verbatim}
 
 \section{Implementace klientské knihovny}
+\label{implementace_knihovna}
 
 Klientská knihovna spojuje serverovou aplikaci se samotným klientským rozhraním.
 Klientská knihovna je navr¾ena a implementována
@@ -336,6 +551,7 @@ na dal¹í polo¾ku. Pøi vlo¾ení nové polo¾ky do tabulky je vypoèten hash jejího kl
 Na základì hodnoty hashe je ukazatel na polo¾ku ulo¾en do pole polo¾ek items. P
 
 \subsection{Komunikace s klientskou aplikací}
+\label{implementace_knihovna_komunikace}
 
 Pro komunikaci s klientskou aplikací je podstatné napojení na její smyèku událostí a mo¾nost pøedávat asynchronnì
 výsledky po¾adavkù odeslaných serveru. V této podkapitole jsou popsány øe¹ení obou tìchto problémù
@@ -391,13 +607,81 @@ pøidá do hlavní smyèky programu ukazatel na funkci pro parsování pøijatých dat.
 
 \subsubsection{Parsování dat}
 
-K parsování dat v klientské knihovnì slou¾í HAMParser. TODO
-
+K parsování dat v klientské knihovnì slou¾í HAMParser. Ten funguje na stejném principu jako RequestParser na stranì serveru.
+Parsovaná data jsou ukládána do struktury Reply, která pak pøedána prostøednictvím signálu nebo zpìtného volání (callbacku)
+funkci, která po¾adavek na server iniciovala.
 
 \section{Implementace klientské aplikace}
+\label{implementace_klient}
 
 Referenèní klientská aplikace byla naprogramována v jazyce C++ s vyu¾itím grafického frameworku Qt. V této kapitole jsou struènì
-popsány jednotlivé tøídy klientské aplikace a jejich napojení na klientskou knihovnu.
+popsány jednotlivé èásti klientské aplikace, tøídy, které klientskou aplikaci implementují a jejich napojení na klientskou knihovnu.
+
+\subsection{Hlavní okno programu}
+
+V této podkapitole je popsána implementace hlavního okno programu a v¹ech prvkù, které jej tvoøí.
+
+\subsubsection{Tøída MainWindow}
+
+Tøída MainWindow reprezentující hlavní okno je také hlavní tøídou klientské aplikace. Po svém vytvoøení zobrazí dialog
+pro pøipojení u¾ivatele k serveru. Pomocí metody connectServer() se pak pøihlásí k serveru. Registrovat nový u¾ivatelský
+úèet lze metodou registerAccount.
+
+Tøída MainWindow se o úspì¹ném, pøípadnì neúspì¹ném pøihlá¹ení k serveru dozví díky napojení
+na patøièné signály klientské knihovny. V této tøídì je také obstarána komunikace mezi jednotlivými prvky tvoøícími hlavní okno
+prostøednictvím Qt signálù.
+
+\subsubsection{Tøída LogbookTreeWidget}
+
+Tøídou LogbookTreeWidget je u¾ivateli umo¾nìno zobrazení a editace logu prostøednictvím rozhraní podobného tabulce.
+Je implementována nad Qt tøídou QTreeWidget a komunikuje 
+se serverovým modulem Logbook prostøednictvím klientské knihovny. Jednotlivé polo¾ky jsou editovatelné a zmìny se pøená¹ejí
+na server. Pokud u¾ivatel poklepe na nìkterou z polo¾ek, je zpracován pøíslu¹ný Qt signál a otevøen dialog NewRecordDialog,
+ve kterém mù¾e u¾ivatel polo¾ku také editovat.
+
+\subsubsection{Tøída EarthWidget}
+
+Tøída EarthWidget je technologicky nejzajímavìj¹í tøídou klientské aplikace. Umo¾òuje zobrazit zemìkouli promítnutou do roviny i 
+formou klasického globusu. Na zemìkouli lze pak zobrazovat znaèky s popisky. Toho je vyu¾ito pro zobrazení polohy právì vysilájících
+stanic.
+
+Pro zobrazení zemìkoule je vyu¾ita aplikace Xplanet. Pøi po¾adavku na pøekreslení okna je spu¹tìn nový proces Xplanet
+s po¾adovanými parametry a je mu pøedáno ID widgetu, do kterého má vykreslovat. Znaèky s popisky jsou ulo¾eny do doèasného souboru
+a tento soubor je pak naèten programem Xplanet a pou¾it k vykreslení znaèek.
+EarthWidget umo¾òuje také pøiblí¾ení na pøeddefinované lokace (napøíklad pøiblí¾ení Evropy) pomocí kontextového menu.
+
+\subsubsection{Tøída DXClusterWidget}
+
+Pomocí tøídy DXClusterWidget je zobrazen seznam aktuálnì vysílajících stanic. Tøída se prostøednictvím klientské knihovny
+v pravidelných intervalech dotazuje
+serveru na seznam aktuálnì vysílajících stanic a tento pak zobrazuje. Pokud u¾ivatel na nìkterou ze stanic poklepe, otevøe se 
+dialog pro pøidání nového záznamu. Seznam stanic je také pøedáván za pomoci Qt signálu tøídì EarthWidget, která pak stanice
+vykresluje na mapì.
+
+\subsection{Pøidání nového záznamu a editace}
+
+Nový záznam lze pøidat dvìma zpùsoby. Buï tak lze uèinit pomocí tlaèítka "Add Record" v hlavním oknì programu, nebo poklepáním
+na stanici získanou z DXClusteru. Obì mo¾nosti pak vedou k vyvolání dialogu pro pøidání nového záznamu. Stejný dialog je pou¾it
+také pro editaci ji¾ existujícího záznamu. Editaci lze vyvolat poklepáním na existující záznam v hlavním oknì programu.
+
+\subsubsection{Tøída NewRecordDialog}
+
+Dialog pro pøidání nového záznamu a jeho editaci je implementován v tøídì NewRecordDialog. Dialog se skládá ze dvou èástí:
+
+\begin{itemize}
+\item Tabulka zobrazující pøedchozí spojení s pøidávanou stanicí.
+\item Formuláø s jednotlivými poli o novì pøidávaném záznamu.
+\end{itemize}
+
+Pro implementaci tabulky s pøedchozími spojeními je pou¾ita tøída LogbookTreeWidget. Je tak znovu pou¾it ji¾ jednou existující
+kód.
+
+V pøípadì zmìny pole pro zadání volací znaèky (Call sign), je aktualizována tabulka s historií, a u¾ivatel tak vidí pøede¹lá 
+spojení s danou stanicí. Také se pomocí klientské knihovny zjistí podrobné informace o zadané stanici a pøedvyplní se patøièná
+pole. To zrychluje zadávání nových záznamu. V pøípadì zmìny hodnoty v poli frekvence je na server odeslán po¾adavek o pøeladìní
+rádia na zadanou frekvenci.
+
+Po potvrzení dialogu jsou hodnoty v¹ech polí prostøednictvím klientské knihovny pøeneseny na server, kde jsou uchovány.
 
 
 
