@@ -88,6 +88,78 @@ orientaèní bìh. Cílem je v nejkrat¹ím èase najít pomocí
 pøijímaèe v terénu ukryté zamaskované vysílaèe. 
 Tyto sporty jsou atraktivní a pìstují je i lidé, kteøí se jinak o radioamatérství pøíli¹ nezajímají.
 
+\section{Dùle¾ité pojmy}
+\label{radioamateri_pojmy}
+
+V této podkapitole jsou popsány dùle¾ité pojmy pou¾ívané mezi radioamatéry, které jsou také pou¾ity dále v této práci.
+
+\subsection{Volací znaèka}
+
+Ka¾dá stanice má pøidìlenu jedineènou volací znaèku, kterou operátor stanice uvádí pøi ka¾dém spojení.
+První dva znaky znaèky jsou urèeny podle pøehledu mezinárodních volacích znakù pøidìlených dané zemi.
+Dal¹ím znakem je èíslo 0-9. Kombinaci tìchto tøí znakù se øíká prefix. Zbytek znaèky je tvoøen jedním a¾ ètyømi znaky.
+
+Na základì prefixu tak lze urèit zemi, ze které daný operátor pochází a tak i jeho pøibli¾nou polohu. K tomu slou¾í seznam DXCC
+obsahující v¹echny aktuálnì pou¾ívané prefixy a informace k nim.
+
+\subsection{ITU zóny}
+
+Jedním z mo¾ných rozdìlení svìta na men¹í celky je jeho rozdìlení do takzvaných ITU zón.
+Systém je pojmenován podle organizace International Telecommunications Union. Svìt je rozdìlen do celkem 
+89 zón ve tøech regionech.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.4]{fig/itu-zone.png}
+\caption{Rozdìlení ITU zón.}
+\label{fig:FigureExample}
+\end{figure}
+
+\subsection{CQ zóny}
+
+Dal¹ím z mo¾ných rozdìlení svìta pou¾ívaných radioamatéry je dìlení na CQ zóny, pojmenované podle èasopisu CQ.
+Jde o pouze 40 zón.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.4]{fig/cq-zone.png}
+\caption{Rozdìlení CQ zón.}
+\label{fig:FigureExample}
+\end{figure}
+
+\subsection{QTH lokátor}
+
+Poslední z pou¾ívaných systémù pro rozdìlení svìta je QTH lokátor. Jde o rozdìlení na základì zemìpisné ¹íøky a délky.
+Zemì je rozdìlena do obdélníkù o velikosti 1° x 2°.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.7]{fig/QTH_locator.png}
+\caption{Mapa rozdìlení pomocí QTH lokátoru.}
+\label{fig:FigureExample}
+\end{figure}
+
+\subsection{QTH lokátor}
+
+\section{Slu¾by pou¾ívané radioamatéry}
+\label{radioamateri_sluzby}
+
+Díky roz¹iøování Internetu se zaèaly rozvíjet i slu¾by provozované radioamatéry pro dal¹í radioamatéry. V této podkapitole
+jsou struènì popsány slu¾by, kterých je v aplikaci vyu¾ito a se kterými aplikace umí spolupracovat.
+
+\subsection{DXCluster}
+
+DXCluster je komunitní slu¾bou umo¾òující radioamatérovi informovat ostatní radioamatéry o tom, kdo aktuálnì vysílá. Kromì
+volací znaèky se posílá i poloha a frekvence, na které radioamatér vysílá. Díky této slu¾bì tak lze jednodu¹eji navazovat
+spojení. Protokol slu¾by DXCluster je postaven na slu¾bì telnet a není nikterak slo¾itý. Lze jej jednodu¹e èíst a zpracovávat.
+
+\subsection{QRZ.com}
+
+QRZ.com je nejvìt¹í databází radioamatérù z celého svìta. Na základì volací znaèky lze s její pomocí zjistit rùzné detailní
+informace (napøíklad jméno nebo pøesnou polohu) o jejím majiteli. Vyhledávat lze i pomocí speciálního webového rozhraní
+postaveného na technologii XML. To je velmi výhodné pro tvorbu aplikací vyu¾ívajících QRZ.com pro zji¹tìní informací o
+operátorech. XML rozhraní umo¾òuje pøihlásit se ke slu¾bì QRZ.com a provést vyhledání na základì volací znaèky.
+
 \chapter{Souèasné logovací aplikace}
 \label{soucasnost}
 
@@ -149,9 +221,28 @@ záznamù pomocí aplikací tøetích stran a není tak jednoduché postavit dal¹í aplik
 \chapter{Návrh aplikace}
 \label{navrh}
 
-Cílem této kapitoly je popsání návrhu aplikace a komunikaèního protokolu.
+Cílem této kapitoly je popsání návrhu aplikace a pou¾itého komunikaèního protokolu.
 
-Aplikace se skládá z modulárního serveru, klientské knihovny a grafického u¾ivatelského rozhraní.
+Na základì rozboru souèasnì pou¾ívaných aplikací z pøedchozí kapitoly vyplynuly základní po¾adavky
+na výslednou aplikaci.
+
+\begin{itemize}
+\item \textbf{Multiplatformnost} - Návrh aplikace musí poèítat s mo¾ností jejího spou¹tìní na rùzných operaèních systémech
+a platformách.
+\item \textbf{Klient-server architektura} - Jádro programu je tvoøeno serverem.
+Server umo¾òuje vedení deníkù více u¾ivatelù zároveò a poskytuje rozhraní pro pøídavné moduly.
+Klientská aplikace se pøipojí k serveru a prostøedníctvím komunikaèního protokolu s ním komunikuje.
+Díky tomuto rozdìlení je mo¾né pøidávat záznamy do centrální databáze z více zaøízení a pracovat
+tak v¹ude se stejnými daty. Vyu¾ití klient-server architektury je výhodné také pro soutì¾e, kdy mù¾e vyhodnocení
+výsledkù v¹ech úèastníkù probìhnout souèasnì na centrálním místì.
+\item \textbf{Modulárnost} - Serverová aplikace je zalo¾ena na modulech. Moduly jsou speciální knihovny roz¹iøující funkce
+serveru. Umí zpracovávat klientské po¾adavky a je jim umo¾nìn pøístup k logu jednotlivých u¾ivatelù. Díky pou¾ití modulù
+je zaji¹tìna jednoduchá roz¹íritelnost aplikace o nové funkce bez nutnosti zmìny jejího jádra.
+\item \textbf{Ulo¾ení dat} - Záznamy jednotlivých u¾ivatelù jsou ulo¾eny v databázi SQLite3. Návrh aplikace
+v¹ak poèítá s mo¾ností pou¾ití rùzných formátù pro ulo¾ení u¾ivatelských dat.
+\end{itemize}
+
+Aplikace se tedy skládá z modulárního serveru, klientské knihovny a grafického u¾ivatelského rozhraní.
 V následujících podkapitolách jsou jednotlivé èásti struènì popsány.
 
 \begin{figure}[h]
@@ -161,6 +252,7 @@ V následujících podkapitolách jsou jednotlivé èásti struènì popsány.
 \label{fig:FigureExample}
 \end{figure}
 
+\newpage
 \section{Návrh komunikaèního protokolu}
 \label{navrh_protokol}
 
@@ -189,7 +281,11 @@ sloupcù ve hlavièce protokolu jsou:
 \item \textbf{itu} - ITU zóna.
 \end{itemize}
 
+Jednotlivé moduly serveru v¹ak mohou pou¾ít i své vlastní názvy sloupcù pro polo¾ky, které nejsou v tomto seznamu.
+
 \subsection{Vy¾ádání logu}
+
+Tento pøíklad ukazuje pou¾ití protokolu pro získání v¹ech záznamù z logu.
 
 Dotaz na modul poskytující URI "/logbook":
 \begin{verbatim}
@@ -250,6 +346,16 @@ Moduly umo¾òují dynamicky roz¹iøovat funkènost serveru. Ka¾dý nový po¾adavek, kt
 pøedán pøíslu¹nému modulu na základì URI. Modul jej zpracuje a ode¹le klientovi zpìt odpovìï. Klient si mù¾e
 od serveru vy¾ádat seznam v¹ech modulù pomocí po¾adavku na speciální URI "/modules".
 
+Modulùm je také umo¾nìno pøistupovat k databázi záznamù v¹ech u¾ivatelù a provádìt nad ní dotazy. Tato problematika je více
+rozebrána v následující podkapitole.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=11cm 11cm 11cm 11cm, scale=0.7]{fig/navrh_moduly.pdf}
+\caption{Návrh vyu¾ití modulù.}
+\label{fig:FigureExample}
+\end{figure}
+
 Jednotlivé moduly serveru jsou realizovány jako dynamické knihovny.
 Pøi spu¹tìní serveru jsou nahrány v¹echny moduly z adresáøe nastavitelného pomocí konfiguraèního souboru.
 
@@ -258,7 +364,7 @@ Ka¾dý modul obsahuje následující informace:
 \begin{itemize}
 \item \textbf{URI} - URI moduly, na kterém daný modul pracuje. Ka¾dý modul serveru musí mít své jedineèné URI.
 \item \textbf{Typ} - Typ modulu. V¹echny moduly daného typu poskytují stejné komunikaèní rozhraní. To umo¾òuje klientské knihovnì
-komunikovat i s pro ni neznámými moduly pouze na znalosti jejich typu.
+komunikovat i s pro ni neznámými moduly pouze na základì znalosti jejich typu.
 \item \textbf{Popis} - Krátký text popisující funkci modulu. V grafickém rozhraní je tento text zobrazen v seznamu modulù.
 \end{itemize}
 
@@ -269,6 +375,51 @@ V rámci této bakaláøské práce existují moduly jen dvou typù:
 na základì volací znaèky. Data jsou získávána z veøejnì dostupných slu¾eb, nebo z databáze ulo¾ené na serveru.
 \item \textbf{DXCLUSTER} - Moduly typu DXCLUSTER poskytují informace (napøíklad frekvenci a polohu) o stanicích,
 které aktuálnì vysílají.
+\end{itemize}
+
+\subsection{Databáze}
+\label{navrh_databaze}
+
+Souèástí serveru je rozhraní pro pøístup k databázi. Ve¹kerá data v¹ech u¾ivatelù jsou v této databázi ulo¾ena.
+Návrh serveru poèítá s vyu¾itím databáze jakéhokoliv typu (SQLite3, MySQL, PostgreSQL, \dots). Jednotlivé moduly
+umí prostøednictvím databázového rozhraní s databází pracovat a spou¹tìt nad ní prakticky jakékoliv dotazy.
+
+Na následujícím obrázku je zobrazeno obecné schéma databáze pou¾ité pro ulo¾ení v¹ech potøebných informací. Tabulky
+z tohoto obrázku jsou pak dále struènì popsány.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=9cm 9cm 9cm 9cm, scale=0.7]{fig/navrh_databaze.pdf}
+\caption{Návrh databáze.}
+\label{fig:FigureExample}
+\end{figure}
+
+\subsubsection{Tabulka users}
+
+Tabulka users obsahuje informace potøebné pro pøihlá¹ení u¾ivatele deníku. Jde zejména o jeho volací znaèku a
+heslo.
+
+\subsubsection{Tabulka logbook}
+
+V tabulce logbook jsou ulo¾eny deníky v¹ech u¾ivatelù. Obsahuje následující sloupce:
+
+\begin{itemize}
+\item \textbf{id} - ID záznamu v logu.
+\item \textbf{user\_id} - ID u¾ivatele, jemu¾ záznam v logu patøí.
+\item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
+\item \textbf{callsign} - Volací znaèka (napøíklad OK2JRQ).
+\item \textbf{mode} - Mód spojení.
+\item \textbf{qth} - QTH lokátor (Maidenhead Locator).
+\item \textbf{name} - Jméno operátora.
+\item \textbf{latitude} - Zemìpisná ¹íøka.
+\item \textbf{longitude} - Zemìpisná délka.
+\item \textbf{conty} - Okres.
+\item \textbf{continent} - Zkratka kontinentu.
+\item \textbf{cq} - CQ zóna.
+\item \textbf{itu} - ITU zóna.
+\item \textbf{qsl} - Pøíznak ¾ádosti o QSL lístek.
+\item \textbf{qsl\_sent} - Pøíznak poslání QSL lístku.
+\item \textbf{comments} - Komentáøe.
 \end{itemize}
 
 \section{Klientská knihovna}
@@ -282,6 +433,13 @@ komunikuje se server, zpracovává pøíchozí data a pøedává je klientovi.
 
 Knihovna je navr¾ena tak, aby mohla spolupracovat s jakýmkoliv grafickým rozhraním.
 
+Základními funkcemi klientské knihovny je:
+
+\begin{itemize}
+\item Pøipojení k serveru, registrace a pøihlá¹ení u¾ivatele.
+\item Generování po¾adavkù pro server a jejich posílání.
+\item Zpracování odpovìdí serveru a pøedání zpracovaných dat klientské knihovnì.
+\end{itemize}
 
 \section{Klient}
 \label{navrh_klient}
@@ -621,6 +779,13 @@ popsány jednotlivé èásti klientské aplikace, tøídy, které klientskou aplikaci im
 
 V této podkapitole je popsána implementace hlavního okno programu a v¹ech prvkù, které jej tvoøí.
 
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.7]{fig/ham3.png}
+\caption{Hlavní okno aplikace.}
+\label{fig:FigureExample}
+\end{figure}
+
 \subsubsection{Tøída MainWindow}
 
 Tøída MainWindow reprezentující hlavní okno je také hlavní tøídou klientské aplikace. Po svém vytvoøení zobrazí dialog
@@ -645,6 +810,13 @@ Tøída EarthWidget je technologicky nejzajímavìj¹í tøídou klientské aplikace. Umo
 formou klasického globusu. Na zemìkouli lze pak zobrazovat znaèky s popisky. Toho je vyu¾ito pro zobrazení polohy právì vysilájících
 stanic.
 
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham5.png}
+\caption{Ukázka mo¾nosti zobrazení zemìkoule.}
+\label{fig:FigureExample}
+\end{figure}
+
 Pro zobrazení zemìkoule je vyu¾ita aplikace Xplanet. Pøi po¾adavku na pøekreslení okna je spu¹tìn nový proces Xplanet
 s po¾adovanými parametry a je mu pøedáno ID widgetu, do kterého má vykreslovat. Znaèky s popisky jsou ulo¾eny do doèasného souboru
 a tento soubor je pak naèten programem Xplanet a pou¾it k vykreslení znaèek.
@@ -663,6 +835,13 @@ vykresluje na mapì.
 Nový záznam lze pøidat dvìma zpùsoby. Buï tak lze uèinit pomocí tlaèítka "Add Record" v hlavním oknì programu, nebo poklepáním
 na stanici získanou z DXClusteru. Obì mo¾nosti pak vedou k vyvolání dialogu pro pøidání nového záznamu. Stejný dialog je pou¾it
 také pro editaci ji¾ existujícího záznamu. Editaci lze vyvolat poklepáním na existující záznam v hlavním oknì programu.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham4.png}
+\caption{Dialog pro pøidání a editaci záznamu.}
+\label{fig:FigureExample}
+\end{figure}
 
 \subsubsection{Tøída NewRecordDialog}
 
@@ -683,8 +862,27 @@ rádia na zadanou frekvenci.
 
 Po potvrzení dialogu jsou hodnoty v¹ech polí prostøednictvím klientské knihovny pøeneseny na server, kde jsou uchovány.
 
+\subsection{Zobrazení dostupných modulù}
 
+Dialog zobrazující moduly dostupné na server lze spustit prostøednictvím hlavního menu aplikace.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=1]{fig/ham6.png}
+\caption{Dialog pro pøidání a editaci záznamu.}
+\label{fig:FigureExample}
+\end{figure}
+
+\subsubsection{Tøída NewRecordDialog}
+
+Dialog zobrazující dostupné moduly je implementován tøídou NewRecordDialog. Jedná se o jednoduchou tøídu, která pomocí
+klientské knihovny získá ze serveru seznam modulù a zobrazí je formou tabulky vytvoøené díky Qt widget QTreeWidget.
 
 
 \chapter{Závìr}
-Závìreèná kapitola obsahuje zhodnocení dosa¾ených výsledkù se zvlá¹» vyznaèeným vlastním pøínosem studenta. Povinnì se zde objeví i zhodnocení z pohledu dal¹ího vývoje projektu, student uvede námìty vycházející ze zku¹eností s øe¹eným projektem a uvede rovnì¾ návaznosti na právì dokonèené projekty.
+Závìreèná kapitola obsahuje zhodnocení dosa¾ených výsledkù se zvlá¹» vyznaèeným vlastním pøínosem studenta.
+ Povinnì se zde objeví i zhodnocení z pohledu dal¹ího vývoje projektu, student uvede námìty vycházející ze zku¹eností 
+s øe¹eným projektem a uvede rovnì¾ návaznosti na právì dokonèené projekty.
+
+\section{Mo¾nosti budoucího roz¹íøení}
+

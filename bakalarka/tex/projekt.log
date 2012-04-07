@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2011.7.22)  1 APR 2012 21:44
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2011.7.22)  7 APR 2012 19:48
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -251,6 +251,33 @@ LaTeX Warning: Label `fig:FigureExample' multiply defined.
 
 LaTeX Warning: Label `fig:FigureExample' multiply defined.
 
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
+
+LaTeX Warning: Label `fig:FigureExample' multiply defined.
+
 )
 \openout1 = `projekt.aux'.
 
@@ -304,14 +331,14 @@ LaTeX Font Info:    Created by CsPsFont utility v.1.0f (C) Z. Wagner, 1998/12/2
 \@vyskartext=\skip47
 \@vyskaobr=\skip48
 
-<fig/vut-zp2.pdf, id=133, 109.40875pt x 109.40875pt>
+<fig/vut-zp2.pdf, id=181, 109.40875pt x 109.40875pt>
 File: fig/vut-zp2.pdf Graphic file (type pdf)
  <use fig/vut-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 110--110
 [][] 
  []
 
-<fig/fit-zp2.pdf, id=134, 120.45pt x 120.45pt>
+<fig/fit-zp2.pdf, id=182, 120.45pt x 120.45pt>
 File: fig/fit-zp2.pdf Graphic file (type pdf)
  <use fig/fit-zp2.pdf>
 Overfull \hbox (109.58464pt too wide) in paragraph at lines 110--110
@@ -353,125 +380,175 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 4.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
-))
+)pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.57 ...unikace se serverem}{24}{subsection.5.2.3}
+                                                   [1
+
+
+])
 \tf@toc=\write4
 \openout4 = `projekt.toc'.
 
  (./obsah.texpdfTeX warning (ext4): destination with the same identifier (name{
-page.1}) has been already used, duplicate ignored
+page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.1 \chapter
-            {Úvod} [1
-
-
-]
+            {Úvod} [2]
 Kapitola 1.
 
-LaTeX Warning: Reference `zaver' on page 2 undefined on input line 18.
+LaTeX Warning: Reference `zaver' on page 3 undefined on input line 18.
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.21 \chapter
-             {Radioamatéøi} [2
-
-]
-Kapitola 2.
 pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.60 
-      [3
+l.21 \chapter
+             {Radioamatéøi} [3
 
-]pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
- been already used, duplicate ignored
+]
+Kapitola 2.
+pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.91 \chapter
-             {Souèasné logovací aplikace} [4]
+l.60 
+      [4
+
+] [5] <fig/itu-zone.png, id=289, 1075.01625pt x 537.00626pt>
+File: fig/itu-zone.png Graphic file (type png)
+
+<use fig/itu-zone.png> <fig/cq-zone.png, id=290, 1075.01625pt x 537.00626pt>
+File: fig/cq-zone.png Graphic file (type png)
+
+<use fig/cq-zone.png> <fig/QTH_locator.png, id=291, 562.1pt x 336.25626pt>
+File: fig/QTH_locator.png Graphic file (type png)
+
+<use fig/QTH_locator.png> [6 <./fig/itu-zone.png (PNG copy)> <./fig/cq-zone.png
+ (PNG copy)>] [7 <./fig/QTH_locator.png (PNG copy)>]
 Kapitola 3.
-<fig/logger32.jpg, id=225, 1275.76625pt x 769.87625pt>
+<fig/logger32.jpg, id=304, 1275.76625pt x 769.87625pt>
 File: fig/logger32.jpg Graphic file (type jpg)
  <use fig/logger32.jpg>
-[5
+[8
 
- <./fig/logger32.jpg>] <fig/cqrlog.png, id=231, 831.105pt x 697.60625pt>
+ <./fig/logger32.jpg>] <fig/cqrlog.png, id=310, 831.105pt x 697.60625pt>
 File: fig/cqrlog.png Graphic file (type png)
 
-<use fig/cqrlog.png> [6 <./fig/cqrlog.png>]
-<fig/hrd.jpg, id=238, 1156.32pt x 807.015pt>
+<use fig/cqrlog.png> [9 <./fig/cqrlog.png>]
+<fig/hrd.jpg, id=318, 1156.32pt x 807.015pt>
 File: fig/hrd.jpg Graphic file (type jpg)
- <use fig/hrd.jpg> [7 <./fig/hrd.jpg>]
+ <use fig/hrd.jpg> [10 <./fig/hrd.jpg>]
 Kapitola 4.
-<fig/princip.pdf, id=244, 598.235pt x 845.1575pt>
+<fig/princip.pdf, id=324, 598.235pt x 845.1575pt>
 File: fig/princip.pdf Graphic file (type pdf)
  <use fig/princip.pdf>
 
-LaTeX Warning: Citation `http' on page 8 undefined on input line 167.
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11
+
+]
+
+LaTeX Warning: Citation `http' on page 12 undefined on input line 259.
 
 
-LaTeX Warning: Citation `csv' on page 8 undefined on input line 174.
+LaTeX Warning: Citation `csv' on page 12 undefined on input line 266.
 
-[8
-
- <./fig/princip.pdf>]
-LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 195
+[12 <./fig/princip.pdf>]
+LaTeX Font Info:    Try loading font information for IL2+cmtt on input line 291
 .
  (/usr/share/texmf/tex/latex/cslatex/il2cmtt.fd
 File: il2cmtt.fd 1997/08/20 CSLaTeX font definitions
 )
-[9] [10] [11]
-Kapitola 5.
-[12
+[13] <fig/navrh_moduly.pdf, id=373, 598.235pt x 845.1575pt>
+File: fig/navrh_moduly.pdf Graphic file (type pdf)
 
-] <fig/moduly.pdf, id=305, 598.235pt x 845.1575pt>
+<use fig/navrh_moduly.pdf> [14 <./fig/navrh_moduly.pdf>]
+<fig/navrh_databaze.pdf, id=413, 598.235pt x 845.1575pt>
+File: fig/navrh_databaze.pdf Graphic file (type pdf)
+
+<use fig/navrh_databaze.pdf> [15 <./fig/navrh_databaze.pdf>] [16]
+Kapitola 5.
+[17
+
+] <fig/moduly.pdf, id=451, 598.235pt x 845.1575pt>
 File: fig/moduly.pdf Graphic file (type pdf)
  <use fig/moduly.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[13] [14 <./fig/moduly.pdf>]
-Overfull \hbox (4.02713pt too wide) in paragraph at lines 446--450
+[18] [19 <./fig/moduly.pdf>]
+Overfull \hbox (4.02713pt too wide) in paragraph at lines 604--608
 \IL2/cmr/m/n/10.95 Modul DXClus-ter (bì¾ící na URI []/dxcluster[]) slou¾í k pøi
 -po-jení k DXClus-teru dxspots.com.
  []
 
-[15] <fig/list.pdf, id=395, 598.235pt x 845.1575pt>
+[20] <fig/list.pdf, id=540, 598.235pt x 845.1575pt>
 File: fig/list.pdf Graphic file (type pdf)
  <use fig/list.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig/hash.pdf, id=396, 598.235pt x 845.1575pt>
+<fig/hash.pdf, id=541, 598.235pt x 845.1575pt>
 File: fig/hash.pdf Graphic file (type pdf)
- <use fig/hash.pdf> [16]
+ <use fig/hash.pdf> [21]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[17 <./fig/list.pdf>] [18 <./fig/hash.pdf>]
-Overfull \hbox (4.68848pt too wide) in paragraph at lines 589--593
+[22 <./fig/list.pdf>] [23 <./fig/hash.pdf>]
+Overfull \hbox (4.68848pt too wide) in paragraph at lines 747--751
 []\IL2/cmr/m/n/10.95 Klientské apli-kaci je umo¾-nìno funkcí ham[]signals[]regi
 ster[]handler() za-re-gis-tro-vat funkci,
  []
 
 
-Overfull \hbox (6.06024pt too wide) in paragraph at lines 603--607
+Overfull \hbox (6.06024pt too wide) in paragraph at lines 761--765
 \IL2/cmr/m/n/10.95 funkce vy-tvoøí nový so-ket pro pøi-po-jení k ser-veru a po-
 mocí funkce ham[]eventloop[]input[]add()
  []
 
-[19] [20] [21]
+<fig/ham3.png, id=631, 639.13782pt x 438.13687pt>
+File: fig/ham3.png Graphic file (type png)
+ <use fig/ham3.png>
+Overfull \hbox (14.91162pt too wide) in paragraph at lines 784--785
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[24] <fig/ham5.png, id=639, 465.99094pt x 199.49532pt>
+File: fig/ham5.png Graphic file (type png)
+ <use fig/ham5.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[25 <./fig/ham3.png>] <fig/ham4.png, id=648, 473.51906pt x 336.50719pt>
+File: fig/ham4.png Graphic file (type png)
+
+<use fig/ham4.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<fig/ham6.png, id=649, 359.84438pt x 217.5628pt>
+File: fig/ham6.png Graphic file (type png)
+ <use fig/ham6.png> [26 <./fig/ham5.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[27 <./fig/ham4.png>] [28 <./fig/ham6.png>]
 Kapitola 6.
-) (./projekt.bbl [22
+) (./projekt.bbl [29
 
 ]
 
 LaTeX Warning: Empty `thebibliography' environment on input line 11.
 
-) (./prilohy.tex) [23
+) (./prilohy.tex) [30
 
 ] (./projekt.aux)
 
@@ -486,22 +563,22 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 5205 strings out of 256216
- 64605 string characters out of 1917072
- 122973 words of memory out of 1500000
- 8299 multiletter control sequences out of 10000+200000
+ 5298 strings out of 256216
+ 66077 string characters out of 1917072
+ 124126 words of memory out of 1500000
+ 8352 multiletter control sequences out of 10000+200000
  20591 words of font info for 57 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 34i,7n,36p,352b,401s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 34i,7n,36p,290b,434s stack positions out of 5000i,500n,6000p,200000b,15000s
 {/usr/share/texmf/fonts/enc/dvips/base/8a.enc}</usr/share/texmf/fonts/type1/b
-luesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/cs/csbx10.pfb></usr/s
-hare/texmf/fonts/type1/public/cs/csbx12.pfb></usr/share/texmf/fonts/type1/publi
-c/cs/csr10.pfb></usr/share/texmf/fonts/type1/public/cs/csti10.pfb></usr/share/t
-exmf/fonts/type1/public/cs/cstt10.pfb></usr/share/texmf/fonts/type1/urw/helveti
-c/uhvr8a.pfb>
-Output written on projekt.pdf (27 pages, 1101944 bytes).
+luesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy8.pfb></usr/s
+hare/texmf/fonts/type1/public/cs/csbx10.pfb></usr/share/texmf/fonts/type1/publi
+c/cs/csbx12.pfb></usr/share/texmf/fonts/type1/public/cs/csr10.pfb></usr/share/t
+exmf/fonts/type1/public/cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/c
+stt10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on projekt.pdf (34 pages, 1732829 bytes).
 PDF statistics:
- 560 PDF objects out of 1000 (max. 8388607)
- 94 named destinations out of 1000 (max. 131072)
- 302 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 736 PDF objects out of 1000 (max. 8388607)
+ 125 named destinations out of 1000 (max. 131072)
+ 443 words of extra memory for PDF output out of 10000 (max. 10000000)
 
