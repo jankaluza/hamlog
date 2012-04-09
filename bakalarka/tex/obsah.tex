@@ -372,7 +372,8 @@ Authorized
 \section{Návrh serveru}
 \label{navrh_server}
 
-Server je konzolová aplikace zpracovávající klientské po¾adavky. Server je schopen obsluhovat více u¾ivatelù souèasnì.
+Server je konzolová aplikace zpracovávající klientské po¾adavky. Administrátor mù¾e server konfigurovat konfiguraèním souborem
+v INI formát. Server je schopen obsluhovat více u¾ivatelù souèasnì.
 U¾ivatelé se k serveru pøihla¹ují pomocí jména a hesla. Noví u¾ivatelé se musí nejprve registrovat.
 
 Návrh serveru poèítá s pou¾itím jakékoliv databáze pro uchování perzistentních dat. V rámci této bakaláøské práce jsem se 
@@ -398,13 +399,13 @@ rozebrána v následující podkapitole.
 \label{fig:FigureExample}
 \end{figure}
 
-Jednotlivé moduly serveru jsou realizovány jako dynamické knihovny.
+Jednotlivé moduly serveru jsou navr¾eny jako dynamické knihovny.
 Pøi spu¹tìní serveru jsou nahrány v¹echny moduly z adresáøe nastavitelného pomocí konfiguraèního souboru.
 
 Ka¾dý modul obsahuje následující informace:
 
 \begin{itemize}
-\item \textbf{URI} - URI moduly, na kterém daný modul pracuje. Ka¾dý modul serveru musí mít své jedineèné URI.
+\item \textbf{URI} - URI modulu, na kterém daný modul pracuje. Ka¾dý modul serveru musí mít své jedineèné URI.
 \item \textbf{Typ} - Typ modulu. V¹echny moduly daného typu poskytují stejné komunikaèní rozhraní. To umo¾òuje klientské knihovnì
 komunikovat i s pro ni neznámými moduly pouze na základì znalosti jejich typu.
 \item \textbf{Popis} - Krátký text popisující funkci modulu. V grafickém rozhraní je tento text zobrazen v seznamu modulù.
