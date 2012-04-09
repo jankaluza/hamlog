@@ -98,6 +98,7 @@ static void ham_connection_read_data(void * user_data, int fd) {
 			if (connection->reply->finished) {
 				char *dump = ham_reply_get_dump(connection->reply);
 				ham_signals_emit_signal("connection-reply-received", connection, dump, 0);
+				printf("%s\n", connection->read_buffer);
 				free(dump);
 
 				HandlerTuple *tuple = ham_list_get_first(connection->handlers);
@@ -263,6 +264,7 @@ void ham_connection_send(HAMConnection *connection, HAMRequest *request, HAMRepl
 
 	char *data = ham_request_get_data(request);
 	ham_signals_emit_signal("connection-request-sent", connection, data, 0);
+	printf("%s\n", data);
 	
 	write(connection->fd, data, strlen(data));
 	free(data);

@@ -236,10 +236,13 @@ Díky tomuto rozdìlení je mo¾né pøidávat záznamy do centrální databáze z více zaø
 tak v¹ude se stejnými daty. Vyu¾ití klient-server architektury je výhodné také pro soutì¾e, kdy mù¾e vyhodnocení
 výsledkù v¹ech úèastníkù probìhnout souèasnì na centrálním místì.
 \item \textbf{Modulárnost} - Serverová aplikace je zalo¾ena na modulech. Moduly jsou speciální knihovny roz¹iøující funkce
-serveru. Umí zpracovávat klientské po¾adavky a je jim umo¾nìn pøístup k logu jednotlivých u¾ivatelù. Díky pou¾ití modulù
+serveru. Moduly umí zpracovávat klientské po¾adavky a je jim umo¾nìn pøístup k deníkùm jednotlivých u¾ivatelù. Díky pou¾ití modulù
 je zaji¹tìna jednoduchá roz¹íritelnost aplikace o nové funkce bez nutnosti zmìny jejího jádra.
 \item \textbf{Ulo¾ení dat} - Záznamy jednotlivých u¾ivatelù jsou ulo¾eny v databázi SQLite3. Návrh aplikace
 v¹ak poèítá s mo¾ností pou¾ití rùzných formátù pro ulo¾ení u¾ivatelských dat.
+\item \textbf{Oddìlení grafického rozhraní od komunikace se serverem} - Klientská aplikace vyu¾ívající grafického rozhraní
+je oddìlena od nízkoúrovòové komunikace se serverem díky klientské knihovnì. Klientská knihovna obsahuje základní funkce
+pro komunikaci se serverem a umo¾òuje pou¾ití libovolného grafického rozhraní bez zbyteèné duplikace kódu.
 \end{itemize}
 
 Aplikace se tedy skládá z modulárního serveru, klientské knihovny a grafického u¾ivatelského rozhraní.
@@ -283,7 +286,9 @@ sloupcù ve hlavièce protokolu jsou:
 
 Jednotlivé moduly serveru v¹ak mohou pou¾ít i své vlastní názvy sloupcù pro polo¾ky, které nejsou v tomto seznamu.
 
-\subsection{Vy¾ádání logu}
+\subsection{Ukázky pou¾ití protokolu}
+
+\subsubsection{Vy¾ádání logu}
 
 Tento pøíklad ukazuje pou¾ití protokolu pro získání v¹ech záznamù z logu.
 
@@ -304,7 +309,7 @@ id;user_id;callsign;date;qth;loc
 2;1;LKS;2011;;location
 \end{verbatim}
 
-\subsection{Editace záznamu}
+\subsubsection{Editace záznamu}
 
 TODO
 
@@ -325,13 +330,50 @@ id;user_id;callsign;date;qth;loc
 2;1;LKS;2011;;location
 \end{verbatim}
 
+\subsection{Pøihlá¹ení u¾ivatele}
+
+Pøihlá¹ení je provádìno metodou Digest Access Authentication definovanou v RFC 2617. Díky tomu se heslo neposílá
+pøi pøihlá¹ení po síti a je mo¾né jej na stranì serveru ukládat zahashované. Nehrozí tak jeho mo¾ný odposlech bìhem pøihlá¹ení.
+
+\subsubsection{Ukázka pøihlá¹ení u¾ivatele}
+
+Dotaz na modul poskytující URI "/login":
+\begin{verbatim}
+GET /login HTTP/1.1
+
+\end{verbatim}
+
+Odpovìï serveru vybízí u¾ivatele k pøihlá¹ení podle RFC 2617:
+\begin{verbatim}
+HTTP/1.0 401 Unauthorized
+Content-Type: text/html
+Content-Length: 14
+WWW-Authenticate: Digest realm="realm@hamlog",qop="auth,auth-int",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",opaque="5ccc069c403ebaf9f0171e9517f40e41"
+
+Authentication
+\end{verbatim}
+
+Klient se pøihlásí s pou¾itím správného jména a hesla, které je v¹ask pøená¹ena zahashované:
+\begin{verbatim}
+GET /login HTTP/1.1
+Authorization: Digest username="ok2jrq",realm="realm@hamlog",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",uri="/login",qop=auth,response="d197141dc972c02d71e6a73b3396ed53",opaque="5ccc069c403ebaf9f0171e9517f40e41")
+
+\end{verbatim}
+
+Server informuje klienta o úspì¹ném pøihlá¹ení:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 10
+
+Authorized
+\end{verbatim}
+
 \section{Návrh serveru}
 \label{navrh_server}
 
 Server je konzolová aplikace zpracovávající klientské po¾adavky. Server je schopen obsluhovat více u¾ivatelù souèasnì.
-U¾ivatelé se k serveru pøihla¹ují pomocí jména a hesla.
-Pøihlá¹ení je provádìno metodou Digest Access Authentication definovanou v RFC 2617. Noví u¾ivatelé se musí nejprve
-registrovat.
+U¾ivatelé se k serveru pøihla¹ují pomocí jména a hesla. Noví u¾ivatelé se musí nejprve registrovat.
 
 Návrh serveru poèítá s pou¾itím jakékoliv databáze pro uchování perzistentních dat. V rámci této bakaláøské práce jsem se 
 rozhodl pou¾ít databázi SQLite3.
