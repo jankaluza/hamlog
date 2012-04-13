@@ -25,50 +25,52 @@
 \contentsline {subsubsection}{Uk\'azka p\v rihl\'a\v sen\IeC {\'\i } u\v zivatele}{13}{section*.4}
 \contentsline {section}{\numberline {4.2}N\'avrh serveru}{14}{section.4.2}
 \contentsline {subsection}{\numberline {4.2.1}Moduly}{14}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Datab\'aze}{15}{subsection.4.2.2}
-\contentsline {subsubsection}{Tabulka users}{15}{section*.5}
-\contentsline {subsubsection}{Tabulka logbook}{15}{section*.6}
+\contentsline {subsubsection}{Rozhran\IeC {\'\i } modul\r u typu CALLINFO}{15}{section*.5}
+\contentsline {subsubsection}{Rozhran\IeC {\'\i } modul\r u typu DXCLUSTER}{16}{section*.6}
+\contentsline {subsection}{\numberline {4.2.2}Datab\'aze}{16}{subsection.4.2.2}
+\contentsline {subsubsection}{Tabulka users}{16}{section*.7}
+\contentsline {subsubsection}{Tabulka logbook}{17}{section*.8}
 \contentsline {section}{\numberline {4.3}Klientsk\'a knihovna}{17}{section.4.3}
-\contentsline {section}{\numberline {4.4}Klient}{17}{section.4.4}
-\contentsline {chapter}{\numberline {5}Implementace}{18}{chapter.5}
-\contentsline {section}{\numberline {5.1}Implementace serverov\'e aplikace}{18}{section.5.1}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da Server}{18}{section*.7}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da Session}{18}{section*.8}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestParser}{18}{section*.9}
-\contentsline {subsection}{\numberline {5.1.1}Implementace datab\'azov\'eho rozhran\IeC {\'\i }}{19}{subsection.5.1.1}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da StorageBackend}{19}{section*.10}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da SQLite3Backend}{19}{section*.11}
-\contentsline {subsection}{\numberline {5.1.2}Implementace modul\r u}{19}{subsection.5.1.2}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da Module}{20}{section*.12}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestResponder}{20}{section*.13}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da ModuleManager}{20}{section*.14}
-\contentsline {subsection}{\numberline {5.1.3}Seznam implementovan\'ych modul\r u}{20}{subsection.5.1.3}
-\contentsline {subsubsection}{Modul Register}{20}{section*.15}
-\contentsline {subsubsection}{Modul Login}{21}{section*.16}
-\contentsline {subsubsection}{Modul LogBook}{21}{section*.17}
-\contentsline {subsubsection}{Modul DXCC}{21}{section*.18}
-\contentsline {subsubsection}{Modul DXCluster}{21}{section*.19}
-\contentsline {subsubsection}{Modul QRZ}{21}{section*.20}
-\contentsline {subsection}{\numberline {5.1.4}Implementace logov\'an\IeC {\'\i }}{22}{subsection.5.1.4}
-\contentsline {section}{\numberline {5.2}Implementace klientsk\'e knihovny}{22}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Abstraktn\IeC {\'\i } datov\'e typy}{22}{subsection.5.2.1}
-\contentsline {subsubsection}{HAMList - Seznam}{22}{section*.21}
-\contentsline {subsubsection}{HAMHashTable - Hashovac\IeC {\'\i } tabulka}{23}{section*.22}
-\contentsline {subsection}{\numberline {5.2.2}Komunikace s klientskou aplikac\IeC {\'\i }}{23}{subsection.5.2.2}
-\contentsline {subsubsection}{EventLoop}{24}{section*.23}
-\contentsline {subsubsection}{Sign\'aly}{24}{section*.24}
-\contentsline {subsection}{\numberline {5.2.3}Komunikace se serverem}{25}{subsection.5.2.3}
-\contentsline {subsubsection}{P\v ripojen\IeC {\'\i } k serveru}{25}{section*.25}
-\contentsline {subsubsection}{Parsov\'an\IeC {\'\i } dat}{25}{section*.26}
-\contentsline {section}{\numberline {5.3}Implementace klientsk\'e aplikace}{25}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Hlavn\IeC {\'\i } okno programu}{25}{subsection.5.3.1}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da MainWindow}{25}{section*.27}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da LogbookTreeWidget}{26}{section*.28}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da EarthWidget}{26}{section*.29}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da DXClusterWidget}{27}{section*.30}
-\contentsline {subsection}{\numberline {5.3.2}P\v rid\'an\IeC {\'\i } nov\'eho z\'aznamu a editace}{27}{subsection.5.3.2}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{27}{section*.31}
-\contentsline {subsection}{\numberline {5.3.3}Zobrazen\IeC {\'\i } dostupn\'ych modul\r u}{28}{subsection.5.3.3}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{28}{section*.32}
-\contentsline {chapter}{\numberline {6}Z\'av\v er}{30}{chapter.6}
-\contentsline {section}{\numberline {6.1}Mo\v znosti budouc\IeC {\'\i }ho roz\v s\IeC {\'\i }\v ren\IeC {\'\i }}{30}{section.6.1}
+\contentsline {section}{\numberline {4.4}Klient}{18}{section.4.4}
+\contentsline {chapter}{\numberline {5}Implementace}{19}{chapter.5}
+\contentsline {section}{\numberline {5.1}Implementace serverov\'e aplikace}{19}{section.5.1}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da Server}{19}{section*.9}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da Session}{19}{section*.10}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestParser}{19}{section*.11}
+\contentsline {subsection}{\numberline {5.1.1}Implementace datab\'azov\'eho rozhran\IeC {\'\i }}{20}{subsection.5.1.1}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da StorageBackend}{20}{section*.12}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da SQLite3Backend}{21}{section*.13}
+\contentsline {subsection}{\numberline {5.1.2}Implementace modul\r u}{21}{subsection.5.1.2}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da Module}{21}{section*.14}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da RequestResponder}{21}{section*.15}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da ModuleManager}{21}{section*.16}
+\contentsline {subsection}{\numberline {5.1.3}Seznam implementovan\'ych modul\r u}{22}{subsection.5.1.3}
+\contentsline {subsubsection}{Modul Register}{22}{section*.17}
+\contentsline {subsubsection}{Modul Login}{22}{section*.18}
+\contentsline {subsubsection}{Modul LogBook}{22}{section*.19}
+\contentsline {subsubsection}{Modul DXCC}{22}{section*.20}
+\contentsline {subsubsection}{Modul DXCluster}{22}{section*.21}
+\contentsline {subsubsection}{Modul QRZ}{23}{section*.22}
+\contentsline {subsection}{\numberline {5.1.4}Implementace logov\'an\IeC {\'\i }}{23}{subsection.5.1.4}
+\contentsline {section}{\numberline {5.2}Implementace klientsk\'e knihovny}{23}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Abstraktn\IeC {\'\i } datov\'e typy}{23}{subsection.5.2.1}
+\contentsline {subsubsection}{HAMList - Seznam}{24}{section*.23}
+\contentsline {subsubsection}{HAMHashTable - Hashovac\IeC {\'\i } tabulka}{24}{section*.24}
+\contentsline {subsection}{\numberline {5.2.2}Komunikace s klientskou aplikac\IeC {\'\i }}{25}{subsection.5.2.2}
+\contentsline {subsubsection}{EventLoop}{25}{section*.25}
+\contentsline {subsubsection}{Sign\'aly}{26}{section*.26}
+\contentsline {subsection}{\numberline {5.2.3}Komunikace se serverem}{26}{subsection.5.2.3}
+\contentsline {subsubsection}{P\v ripojen\IeC {\'\i } k serveru}{26}{section*.27}
+\contentsline {subsubsection}{Parsov\'an\IeC {\'\i } dat}{26}{section*.28}
+\contentsline {section}{\numberline {5.3}Implementace klientsk\'e aplikace}{27}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Hlavn\IeC {\'\i } okno programu}{27}{subsection.5.3.1}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da MainWindow}{27}{section*.29}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da LogbookTreeWidget}{28}{section*.30}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da EarthWidget}{28}{section*.31}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da DXClusterWidget}{28}{section*.32}
+\contentsline {subsection}{\numberline {5.3.2}P\v rid\'an\IeC {\'\i } nov\'eho z\'aznamu a editace}{29}{subsection.5.3.2}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{29}{section*.33}
+\contentsline {subsection}{\numberline {5.3.3}Zobrazen\IeC {\'\i } dostupn\'ych modul\r u}{30}{subsection.5.3.3}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{30}{section*.34}
+\contentsline {chapter}{\numberline {6}Z\'av\v er}{31}{chapter.6}
+\contentsline {section}{\numberline {6.1}Mo\v znosti budouc\IeC {\'\i }ho roz\v s\IeC {\'\i }\v ren\IeC {\'\i }}{31}{section.6.1}

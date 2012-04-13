@@ -420,6 +420,32 @@ na základì volací znaèky. Data jsou získávána z veøejnì dostupných slu¾eb, nebo 
 které aktuálnì vysílají.
 \end{itemize}
 
+\subsubsection{Rozhraní modulù typu CALLINFO}
+
+S moduly typu CALLINFO lze komunikovat následujícími zpùsoby:
+
+\begin{itemize}
+\item \textbf{Po¾adavek typu POST na URI "/modul"} - Jako data je v po¾adavku zaslána volací znaèka operátora. Odpovìï obsahuje
+ve¹keré zjistitelné informace o volací znaèce ve formátu CSV definovaném v podkapitole \ref{navrh_protokol}.
+\item \textbf{Po¾adavek typu GET na URI "/modul/username"} - Pokud modul vy¾aduje registraci u¾ivatelského jména a hesla pro
+pøístup k databázi volacích znaèek (napøíklad v pøípadì, ¾e modul pøistupuje ke slu¾bì, která je jen pro registrované), musí modul
+implementovat zpracování tohoto URI a vrátit aktuálnì registrované u¾ivatelské jméno nebo prázdný øetezec. Klient pak mù¾e tohoto
+chování vyu¾ít pro zji¹tení, jestli je potøeba být pro pou¾ití modulu registrován.
+\item \textbf{Po¾adavek na URI "/modul/register"} - Slou¾í k registraci u¾ivatelského jména a hesla pro pou¾ití modulu.
+Jméno a heslo jsou pøedány v hlavièce paketu pod klíèi "username" a "password".
+\end{itemize}
+
+\subsubsection{Rozhraní modulù typu DXCLUSTER}
+
+Moduly typu DXCLUSTER poskytují následující funkce:
+
+\begin{itemize}
+\item \textbf{Po¾adavek typu GET na URI "/modul"} - Modul vrátí seznam novì vysílajících stanic od posledního dotazu. Klient se tak
+musí opakovanì ptát, aby získal nové vysílající stanice.
+\item \textbf{Po¾adavek typu GET na URI "/modul/username"} - Význam je stejný jako u modulu typu CALLINFO.
+\item \textbf{Po¾adavek na URI "/modul/register"} - Význam je stejný jako u modulu typu CALLINFO.
+\end{itemize}
+
 \subsection{Databáze}
 \label{navrh_databaze}
 
@@ -516,6 +542,8 @@ nad rámec standardní STL knihovny.
 
 Pro implementaci modulu QRZ bylo potøeba pou¾ít knihovnu pro zpracování XML. K tomuto úèelu jsem pou¾il knihovnu TinyXML.
 
+V této podkapitole jsou popsány nejdùle¾itej¹í tøídy serveru.
+
 \subsubsection{Tøída Server}
 
 Tøída Server je základní tøídou serveru. Vytváøí soket, na kterém server pøijímá pøipojení z klientské knihovny. Jakmile je 
@@ -525,14 +553,14 @@ akceptováno nové pøipojení, je vytvoøena instance tøídy Session, která dále zpra
 
 Tato tøída reprezentuje sezení jednoho u¾ivatele. Pøi obdr¾ení nových dat od klienta jsou tato pøedána instanci tøídy
 RequestParser, která slou¾í k jejich rozparsování. Pokud byla obdr¾ena kompletní zpráva, je pøedána instanci tøídy 
-ModuleManager metodou handleRequest, která pak øídí její dal¹í zpracování. Výsledná odpovìï je pak v tøídou Session poslána
+ModuleManager metodou handleRequest, která pak øídí její dal¹í zpracování. Výsledná odpovìï je pak tøídou Session poslána
 zpìt klientovi.
 
 \subsubsection{Tøída RequestParser}
 
 Tøída RequestParser reprezentuje koneèný automat pro parsování zpráv podle specifikace komunikaèního protokolu.
 Metoda parse zpracovává pøijatá data, parsuje je, a výsledek uchovává v instanci tøídy Request. Pokud dojde bìhem parsování
-k chybì, vrací funkce parse hodnotu false.
+k chybì, vrací funkce parse hodnotu false a u¾ivatel, jeho¾ klient poslal nevalidní data, je odpojen.
 
 \subsection{Implementace databázového rozhraní}
 \label{implementace_db}
@@ -541,10 +569,17 @@ Návrh a implementace serveru umo¾òuje pou¾ití libovolného databázového rozhraní.
 pouze databáze SQLite3. Tøída implementující konkrétní databázové rozhraní musí dìdit tøídu StorageBackend a implementovat
 její èistì virtuální metody.
 
+\begin{figure}[h]
+\centering
+\includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.7]{fig/imp_databaze.pdf}
+\caption{Diagram databázového rozhraní.}
+\label{fig:FigureExample}
+\end{figure}
+
 \subsubsection{Tøída StorageBackend}
 
 Tøída StorageBackend je základní abstraktní tøídou pro implementaci jakéhokoliv databázového rozhraní.
-Je typu singleton a jejím smyslem je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
+Je u ní pou¾it návrhový vzor Singleton a jejím smyslem je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
 o jakou databázi se jedná. Názvy metod a podtøíd jsou pojmenovány terminologií známou z SQL databází, ale prakticky
 lze pomocí tøídy StorageBackend implementovat rozhraní pro pøístup k jakémukoliv typu databáze.
 
@@ -565,8 +600,8 @@ Umo¾òuje definovat omezení (v SQL jazyce WHERE) aplikovaná pøi aktualizaci dat. 
 StorageBackend::insert() nebo StorageBackend::update().
 \end{itemize}
 
-V závislosti na implementaci metod tøídy StorageBackend je pak vyvolána konkrétní zmìna v databázi. Tøída StorageBackend
-dále umo¾òuje získání identifikaèního èísla naposledy vlo¾eného záznamu metodou lastInsertedID().
+V závislosti na implementaci metod tøídy StorageBackend v nìktéré z jejich dceøiných tøíd je pak vyvolána konkrétní zmìna v
+databázi. Tøída StorageBackend dále umo¾òuje získání identifikaèního èísla naposledy vlo¾eného záznamu metodou lastInsertedID().
 
 
 \subsubsection{Tøída SQLite3Backend}
@@ -578,7 +613,8 @@ a je vrácen výsledek.
 \subsection{Implementace modulù}
 \label{implementace_moduly}
 
-Moduly jsou implementovány jako dynamické knihovny. Ka¾dý modul musí dìdit tøídu Modul a implementovat její èistì virtuální
+Moduly jsou implementovány jako dynamické knihovny. Ka¾dý modul musí dìdit tøídu Modul (zprostøedkovanì napøíklad pøes tøídu RequestResponder)
+a implementovat její èistì virtuální
 (pure virtual) metody. Ve¹keré klientské po¾adavky jsou pak smìrovány na konkrétní modul podle URI instancí tøídy ModuleManager.
 
 \begin{figure}[h]
@@ -598,14 +634,15 @@ Tøída Module poskytuje základní tøídu, kterou musí implementovat ka¾dý externí m
 Tato tøída dìdí tøídu Module a roz¹iøuje ji o data a metody specifické pro modul odpovídající na klientské po¾adavky.
 Pøiøazuje modulu jeho URI a informaci o tom, jestli musí být u¾ivatel pro jeho pou¾ití pøihlá¹en.
 Obsahuje také deklaraci metody handleRequest(), která je volána instancí tøídy ModuleManager pro ka¾dý pøíchozí po¾adavek
-smerující na modul.
+smeøující na modul.
 
 \subsubsection{Tøída ModuleManager}
 
-Tøída ModuleManager je typu singleton (jedináèek) a zabezpeèuje ve¹kerou práci serveru s externími moduly. Pomocí 
+U tøídy ModuleManager je pou¾it návrhový vzor Singleton.
+Tato tøída zabezpeèuje ve¹kerou práci serveru s externími moduly. Pomocí 
 metody loadModules lze naèíst v¹echny moduly z adresáøe zvoleného v konfiguraèním souboru. Ve¹keré po¾adavky od klientù
 jsou pøedány instanci této tøídy metodou handleRequest, která je pak dále smìruje podle URI na konkrétní modul. Tøída také
-umo¾òuje poslat seznam v¹ech modulù klientovi.
+umo¾òuje poslat seznam v¹ech modulù klientské aplikaci.
 
 \subsection{Seznam implementovaných modulù}
 \label{implementace_moduly_list}
@@ -616,7 +653,7 @@ V této podkapitole jsou popsány jednotlivé implementované moduly.
 
 Modul Register (bì¾ící na URI "/register") slou¾í k registraci nových u¾ivatelù. Pøi svém spu¹tìní vytvoøí pomocí
 instance tøídy StorageBackend tabulku "users". V metodì handleRequest pak pøijímá pøípadné po¾adavky na registraci
-u¾ivatele a pøidá nového u¾ivatele do databáze. Pokud je ji¾ u¾ivatel zaregistrován, vrací klientovi chybový kód.
+u¾ivatele a pøidá nového u¾ivatele do databáze. Pokud je ji¾ u¾ivatel zaregistrován, vrací klientské aplikaci chybový kód.
 
 \subsubsection{Modul Login}
 
@@ -625,39 +662,55 @@ implementován princip pøihlá¹ení WWW-Authenticate.
 
 \subsubsection{Modul LogBook}
 
-Tento modul je základem celého projektu, proto¾e umo¾òuje u¾ivateli ukládat nové logy na server. Pøi svém naètení
+Tento modul je základem celého projektu, proto¾e umo¾òuje u¾ivateli ukládat nové záznamy v deníku na server. Pøi svém naètení
 vytvoøí tabulku "logbook". V metodì handleRequest na základì URI provádí následující akce:
 
 \begin{itemize}
-\item URI "/logbook" - Jako odpovìd na dotaz po¹le celý logbook v CSV formátu.
+\item URI "/logbook" - Jako odpovìd na dotaz po¹le celý logbook v CSV formátu získaný z databáze pomocí instance tøídy StorageBackend.
 \item URI "/logbook/add" - Pøidá do tabulky "logbook" nový záznam podle CSV dat pøijatých v dotazu.
 \item URI "/logbook/remove" - Odstraní z tabulky "logbook" záznam definovaný pomocí ID pøijatého v dotazu.
-\item URI "/logbook/call" - Jako odpovìï na dotaz po¹le pouze záznamy s CALL definovanou v CSV datech v dotazu.
+\item URI "/logbook/call" - Jako odpovìï na dotaz po¹le pouze záznamy o spojeních s konkrétním operátorem urèeným jeho znaèkou v 
+tìle dotazu.
 \end{itemize}
 
 \subsubsection{Modul DXCC}
 
-Modul DXCC (bì¾í na URI "/dxcc") umo¾òuje získat z volací znaèky bli¾¹í informace o její lokaci. Data o jednotlivých prefixech
-jsou po startu modulu naètena z souboru "cty.csv" v CSV formátu. V metodì handleRequest modul získá z po¾adavku prefix volací
-znaèky, vyhledá jej v datech naètených pøi startu a jako odpovìï ode¹le informace o lokaci znaèky. Pokud prefix není nalezen,
-vrací se chybový kód.
+Modul DXCC (bì¾í na URI "/dxcc") umo¾òuje získat z volací znaèky bli¾¹í informace o její lokaci. Modul je typu CALLINFO.
+Data o jednotlivých prefixech
+jsou po startu modulu naètena ze souboru "cty.csv" v CSV formátu. Tento soubor byl získán z TODO.
+V metodì handleRequest modul získá z po¾adavku prefix volací
+znaèky, vyhledá jej v datech naètených pøi startu a jako odpovìï ode¹le informace o lokaci stanice. Pokud prefix není nalezen,
+vrací chybový kód.
 
 \subsubsection{Modul DXCluster}
 
-Modul DXCluster (bì¾ící na URI "/dxcluster") slou¾í k pøipojení k DXClusteru dxspots.com. Pøi prvním po¾adavku od klienta
-dojde k pøipojení na DXCluster. Ve¹kerá data pøijatá z DXClusteru jsou rozparsována a ulo¾ena v CSV formátu. Na ka¾dý
+Modul DXCluster (bì¾ící na URI "/dxcluster") slou¾í k pøipojení k DXClusteru dxspots.com. Modul je typu DXCLUSTER.
+Pøi prvním po¾adavku od klienta dojde k pøipojení na DXCluster.
+Ve¹kerá data pøijatá z DXClusteru jsou rozparsována a ulo¾ena v CSV formátu. Na ka¾dý
 dal¹í klientský po¾adavek odpoví modul daty získanými z DXClusteru. Jde tedy o jistou formu pollingu, kdy si klient
 opakovanì ¾ádá o nová data.
 
 \subsubsection{Modul QRZ}
 
-Modul QRZ (bì¾ící na URI "/qrz") umo¾òuje získávat u¾ivateli dal¹í informace o ostatních u¾ivatelích na základì jejich
-volací znaèky. K tomuto vyu¾ívá slu¾bu qrz.com. V metodì handleRequest se na základì URI provádí následující akce:
+Modul QRZ (bì¾ící na URI "/qrz") je typu CALLINFO umo¾òuje tedy získávat u¾ivateli dal¹í informace o ostatních u¾ivatelích na základì jejich
+volací znaèky.K tomuto vyu¾ívá slu¾bu qrz.com. V metodì handleRequest se na základì URI provádí následující akce:
 
 \begin{itemize}
-\item URI "/qrz" - Po¹le QRZ serveru po¾adavek pro získání informací o u¾ivateli na základì jeho volací znaèky.
+\item URI "/qrz" - Po¹le QRZ serveru po¾adavek pro získání informací o u¾ivateli na základì jeho volací znaèky. Ke komunikaci 
+s QRZ serverem je vyu¾íváno XML API, které tento server poskytuje. Odpovìï na po¾adavek je rozparsována pomocí knihovny 
+TinyXML a odeslána klientské aplikaci ve formátu CSV.
 \item URI "/qrz/register" - Umo¾òuje u¾ivateli zvolení nebo zmìnu hesla pou¾itého pro pøihlá¹ení k QRZ serveru.
 \end{itemize}
+
+Komunikace se serverem QRZ je rovnì¾ asynchronní a odpovìï na dotaz na QRZ modul není odeslána ihned.
+Je tak tøeba øe¹it problém, kdy klientská aplikace po¹le dotaz na QRZ modul
+následovaný dotazem na modul jiný. V tomto pøípadì by mohl být druhý dotaz zpracován pøed prvním a do¹lo by tak k naru¹ení
+zpùsobu komunikace dotaz-odpovìï.
+
+Øe¹ením tohoto problému je mo¾nost modulu zastavit doèasnì zpravovávání dal¹ích po¾adavkù od konkrétního klienta, dokud 
+nebude vyøízen po¾adavek aktuální. To lze provést zavoláním metody Reply::setAsync(). Jakmile je odpovìï pøipravena
+k odeslání, lze ji odeslat metodou Session::sendAsyncReply(). Po zavolání této metody je pak opìt povoleno zpracovávání
+dal¹ích po¾adavkù od klienta.
 
 \subsection{Implementace logování}
 \label{implementace_logovani}
