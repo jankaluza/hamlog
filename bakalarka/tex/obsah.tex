@@ -21,6 +21,9 @@ zde popsána implementace klientské knihovny (\ref{implementace_knihovna}) a samo
 \chapter{Radioamatéøi}
 \label{radioamateri}
 
+V této kapitole je struènì popsána historie amatérského rádia a jsou zde vysvìtleny dùle¾ité pojmy pou¾ívané dále v práci.
+Podkapitola \ref{radioamateri_hist} a \ref{radioamateri_dnes} byla pøevzata z \cite{crk_hist}.
+
 \section{Historie amatérského rádia}
 \label{radioamateri_hist}
 Prvotní motivací pro vznik amatérského rádia byla my¹lenka na¹ich pøedkù rádio nejen poslouchat, ale také vysílat.
@@ -332,7 +335,7 @@ id;user_id;callsign;date;qth;loc
 
 \subsection{Pøihlá¹ení u¾ivatele}
 
-Pøihlá¹ení je provádìno metodou Digest Access Authentication definovanou v RFC 2617. Díky tomu se heslo neposílá
+Pøihlá¹ení je provádìno metodou Digest Access Authentication definovanou v RFC 2617 \cite{rfc2617}. Díky tomu se heslo neposílá
 pøi pøihlá¹ení po síti a je mo¾né jej na stranì serveru ukládat zahashované. Nehrozí tak jeho mo¾ný odposlech bìhem pøihlá¹ení.
 
 \subsubsection{Ukázka pøihlá¹ení u¾ivatele}
@@ -343,7 +346,7 @@ GET /login HTTP/1.1
 
 \end{verbatim}
 
-Odpovìï serveru vybízí u¾ivatele k pøihlá¹ení podle RFC 2617:
+Odpovìï serveru vybízí u¾ivatele k pøihlá¹ení podle RFC 2617 \cite{rfc2617}:
 \begin{verbatim}
 HTTP/1.0 401 Unauthorized
 Content-Type: text/html

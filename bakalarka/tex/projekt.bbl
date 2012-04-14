@@ -1,4 +1,4 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -7,5 +7,23 @@
   \urlstyle{rm}\Url}\fi
 \providecommand{\selectlanguage}[1]{\relax}
 \providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{http}
+Fielding, R.: RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1. 1997.
+\newline\urlprefix\url{http://www.ietf.org/rfc/rfc2616.txt}
+
+\bibitem{crk_hist}
+OK1XU: Co je HAM Radio? 1999.
+\newline\urlprefix\url{http://www.crk.cz/CZ/CJHRC}
+
+\bibitem{csv}
+Shafranovich, Y.: RFC 4180: Common Format and MIME Type for Comma-Separated
+  Values (CSV) Files. 2005.
+\newline\urlprefix\url{http://www.ietf.org/rfc/rfc4180.txt}
+
+\bibitem{rfc2617}
+W3C/MIT: RFC 2617: HTTP Authentication: Basic and Digest Access Authentication.
+  Èerven 1999.
+\newline\urlprefix\url{http://www.ietf.org/rfc/rfc2617.txt}
 
 \end{thebibliography}
