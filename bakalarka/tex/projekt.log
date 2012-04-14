@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2011.7.22)  14 APR 2012 14:19
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2011.7.22)  14 APR 2012 14:43
 entering extended mode
  %&-line parsing enabled.
 **projekt
@@ -568,7 +568,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  5319 strings out of 256216
  66357 string characters out of 1917072
- 124232 words of memory out of 1500000
+ 124113 words of memory out of 1500000
  8359 multiletter control sequences out of 10000+200000
  20591 words of font info for 57 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
@@ -579,7 +579,7 @@ hare/texmf/fonts/type1/public/cs/csbx10.pfb></usr/share/texmf/fonts/type1/publi
 c/cs/csbx12.pfb></usr/share/texmf/fonts/type1/public/cs/csr10.pfb></usr/share/t
 exmf/fonts/type1/public/cs/csti10.pfb></usr/share/texmf/fonts/type1/public/cs/c
 stt10.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on projekt.pdf (37 pages, 1798138 bytes).
+Output written on projekt.pdf (37 pages, 1798170 bytes).
 PDF statistics:
  796 PDF objects out of 1000 (max. 8388607)
  138 named destinations out of 1000 (max. 131072)
