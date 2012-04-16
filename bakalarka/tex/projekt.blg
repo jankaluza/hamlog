@@ -10,7 +10,7 @@ Warning--entry type for "crk_hist" isn't style-file defined
 --line 18 of file literatura.bib
 Warning--entry type for "rfc2617" isn't style-file defined
 --line 25 of file literatura.bib
-Reallocated wiz_functions (elt_size=4) to 6000 items from 261993008056.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 You've used 4 entries,
             3151 wiz_defined-function locations,
             671 strings with 5727 characters,

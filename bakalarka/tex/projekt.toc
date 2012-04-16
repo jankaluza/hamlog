@@ -51,26 +51,29 @@
 \contentsline {subsubsection}{Modul DXCC}{23}{section*.20}
 \contentsline {subsubsection}{Modul DXCluster}{23}{section*.21}
 \contentsline {subsubsection}{Modul QRZ}{24}{section*.22}
+\contentsline {subsubsection}{Modul Hamlib}{24}{section*.23}
 \contentsline {subsection}{\numberline {5.1.4}Implementace logov\'an\IeC {\'\i }}{24}{subsection.5.1.4}
-\contentsline {section}{\numberline {5.2}Implementace klientsk\'e knihovny}{24}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Abstraktn\IeC {\'\i } datov\'e typy}{24}{subsection.5.2.1}
-\contentsline {subsubsection}{HAMList - Seznam}{25}{section*.23}
-\contentsline {subsubsection}{HAMHashTable - Hashovac\IeC {\'\i } tabulka}{25}{section*.24}
-\contentsline {subsection}{\numberline {5.2.2}Komunikace s klientskou aplikac\IeC {\'\i }}{26}{subsection.5.2.2}
-\contentsline {subsubsection}{EventLoop}{26}{section*.25}
-\contentsline {subsubsection}{Sign\'aly}{27}{section*.26}
+\contentsline {section}{\numberline {5.2}Implementace klientsk\'e knihovny}{25}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Abstraktn\IeC {\'\i } datov\'e typy}{25}{subsection.5.2.1}
+\contentsline {subsubsection}{HAMList - Seznam}{25}{section*.24}
+\contentsline {subsubsection}{HAMHashTable - Hashovac\IeC {\'\i } tabulka}{26}{section*.25}
+\contentsline {subsection}{\numberline {5.2.2}Komunikace s klientskou aplikac\IeC {\'\i }}{27}{subsection.5.2.2}
+\contentsline {subsubsection}{EventLoop}{27}{section*.26}
+\contentsline {subsubsection}{Sign\'aly}{27}{section*.27}
 \contentsline {subsection}{\numberline {5.2.3}Komunikace se serverem}{27}{subsection.5.2.3}
-\contentsline {subsubsection}{P\v ripojen\IeC {\'\i } k serveru}{27}{section*.27}
-\contentsline {subsubsection}{Parsov\'an\IeC {\'\i } dat}{27}{section*.28}
+\contentsline {subsubsection}{P\v ripojen\IeC {\'\i } k serveru}{28}{section*.28}
+\contentsline {subsubsection}{Parsov\'an\IeC {\'\i } dat}{28}{section*.29}
 \contentsline {section}{\numberline {5.3}Implementace klientsk\'e aplikace}{28}{section.5.3}
 \contentsline {subsection}{\numberline {5.3.1}Hlavn\IeC {\'\i } okno programu}{28}{subsection.5.3.1}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da MainWindow}{28}{section*.29}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da LogbookTreeWidget}{29}{section*.30}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da EarthWidget}{29}{section*.31}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da DXClusterWidget}{29}{section*.32}
-\contentsline {subsection}{\numberline {5.3.2}P\v rid\'an\IeC {\'\i } nov\'eho z\'aznamu a editace}{30}{subsection.5.3.2}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{30}{section*.33}
-\contentsline {subsection}{\numberline {5.3.3}Zobrazen\IeC {\'\i } dostupn\'ych modul\r u}{31}{subsection.5.3.3}
-\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{31}{section*.34}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da MainWindow}{28}{section*.30}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da LogbookTreeWidget}{28}{section*.31}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da EarthWidget}{28}{section*.32}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da DXClusterWidget}{29}{section*.33}
+\contentsline {subsection}{\numberline {5.3.2}P\v rid\'an\IeC {\'\i } nov\'eho z\'aznamu a editace}{29}{subsection.5.3.2}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{30}{section*.34}
+\contentsline {subsection}{\numberline {5.3.3}Zobrazen\IeC {\'\i } dostupn\'ych modul\r u}{30}{subsection.5.3.3}
+\contentsline {subsubsection}{T\v r\IeC {\'\i }da NewRecordDialog}{30}{section*.35}
 \contentsline {chapter}{\numberline {6}Z\'av\v er}{32}{chapter.6}
 \contentsline {section}{\numberline {6.1}Mo\v znosti budouc\IeC {\'\i }ho roz\v s\IeC {\'\i }\v ren\IeC {\'\i }}{32}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Podpora MySQL}{32}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}Moduly pro tvorbu statistik}{33}{subsection.6.1.2}

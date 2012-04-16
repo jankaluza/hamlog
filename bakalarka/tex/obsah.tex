@@ -715,6 +715,18 @@ nebude vyøízen po¾adavek aktuální. To lze provést zavoláním metody Reply::setAsy
 k odeslání, lze ji odeslat metodou Session::sendAsyncReply(). Po zavolání této metody je pak opìt povoleno zpracovávání
 dal¹ích po¾adavkù od klienta.
 
+\subsubsection{Modul Hamlib}
+
+Modul Hamlib (bì¾ící na URI "/hamlib") umo¾òuje ovládat frekvenci vysílaèky pøipojené k poèítaèí, na které
+bì¾í serverová aplikace. Pro zmìnu a získání frekvence vyu¾ívá knihovnu Libhamlib. V metodì handleRequest se na základì
+URI provádí tyto akce:
+
+\begin{itemize}
+\item dotaz typu POST na URI "/hamlib" - Pøeladí frekvenci vysílaèky na frekvenci získanou z po¾adavku. Frekvence
+je posílána jako desetinné èíslo v kHz.
+\item dotaz typu POST na URI "/hamlib" - Ode¹le zpìt aktuální frekvenci jako desetinné èíslo v kHz.
+\end{itemize}
+
 \subsection{Implementace logování}
 \label{implementace_logovani}
 
@@ -993,5 +1005,28 @@ Serverová aplikace je plnì modulární a umo¾òuje jednoduché pøidávání nových
 funkcí pomocí modulù. Splòuje ve¹keré po¾adavky na základní vedení stanièního deníku (pøidávání/editace záznamù, vyhledávání 
 informací o ostatních radioamatérech nebo napøíklad ovládání vysílaèky pøipojené k poèítaèi).
 
+Klientská knihovna je dùle¾itým prvkem implementace, proto¾e implementuje nízkoúrovòovou komunikaci s serverovou aplikaci
+a umo¾òuje tak grafickému u¾ivatelskému rozhraní vìnovat se pouze na komunikaci s u¾ivatelem.
+
+Grafické u¾ivatelské není pøili¹ rozsáhlé, ale umo¾òuje vést stanièní deník pohodlnì a poskytuje v¹echny základní funkce potøebné
+pro vedení stanièního deníku. Je graficky pøehledné a pro stávající radioamatéry intuitivní.
+
+Celkovì je výsledná aplikace dobrým základem pro implementaci dal¹ích nadstandardních funkcí.
+
 \section{Mo¾nosti budoucího roz¹íøení}
+
+Bìhem implementace a testování aplikace vyplynuly nìkteré dal¹í mo¾nosti, jakým smìrem aplikaci v budoucnu roz¹iøovat.
+
+\subsection{Podpora MySQL}
+
+Pro vìt¹í nasazení s více u¾ivateli vyu¾ívajícími funkce serveru souèasnì by bylo vhodné implementovat podporu pro databázový
+systém MySQL. Databázový systém SQLite3 by se mohl pøi vìt¹ím zatí¾ení ukázat jako nevyhovující. Pøidat podporu pro jinou databázi
+je díky souèasnému návrhnu jednoduché.
+
+\subsection{Moduly pro tvorbu statistik}
+
+Dal¹ím mo¾ným roz¹íøením je implementace modulù umo¾òujících generování statistik a pøehledù o jednotlivých záznamech v deníku.
+U¾ivateli tyto moduly umo¾ní lep¹í orientaci v jeho deníku a na stranì serveru je pak mo¾né generovat ¾ebøíèek u¾ivatelù na
+základì rùzných klíèù.
+
 
