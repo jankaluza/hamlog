@@ -3,10 +3,10 @@
 % (c) 2008 Michal Bidlo
 % E-mail: bidlom AT fit vutbr cz
 %============================================================================
-% kodovaní: iso-8859-2 (zmena prikazem iconv, recode nebo cstocs)
+% kodovanÃ­: iso-8859-2 (zmena prikazem iconv, recode nebo cstocs)
 %----------------------------------------------------------------------------
-% zpracování: make, make pdf, make desky, make clean
-% pøipomínky posílejte na e-mail: bidlom AT fit.vutbr.cz
+% zpracovÃ¡nÃ­: make, make pdf, make desky, make clean
+% pÅ™ipomÃ­nky posÃ­lejte na e-mail: bidlom AT fit.vutbr.cz
 % vim: set syntax=tex encoding=latin2:
 %============================================================================
 \documentclass[cover]{fitthesis} % odevzdani do wisu - odkazy, na ktere se da klikat
@@ -22,29 +22,31 @@
 % zde zvolime kodovani, ve kterem je napsan text prace
 % "latin2" pro iso8859-2 nebo "cp1250" pro windows-1250, "utf8" pro "utf-8"
 %\usepackage{ucs}
-\usepackage[latin2]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1, IL2]{fontenc}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{gensymb}
 \DeclareUrlCommand\url{\def\UrlLeft{<}\def\UrlRight{>} \urlstyle{tt}}
 
 %zde muzeme vlozit vlastni balicky
 
 
 % =======================================================================
-% balíèek "hyperref" vytváøí klikací odkazy v pdf, pokud tedy pou¾ijeme pdflatex
-% problém je, ¾e balíèek hyperref musí bıt uveden jako poslední, tak¾e nemù¾e
-% bıt v ¹ablonì
+% balÃ­Äek "hyperref" vytvÃ¡Å™Ã­ klikacÃ­ odkazy v pdf, pokud tedy pouÅ¾ijeme pdflatex
+% problÃ©m je, Å¾e balÃ­Äek hyperref musÃ­ bÃ½t uveden jako poslednÃ­, takÅ¾e nemÅ¯Å¾e
+% bÃ½t v Å¡ablonÄ›
 \ifWis
 \ifx\pdfoutput\undefined % nejedeme pod pdflatexem
 \else
   \usepackage{color}
-  \usepackage[unicode,colorlinks,hyperindex,plainpages=false,pdftex]{hyperref}
+%  \usepackage[unicode,colorlinks,hyperindex,plainpages=false,pdftex]{hyperref}
+  \usepackage[unicode,colorlinks,hyperindex,plainpages=false]{hyperref}
   \definecolor{links}{rgb}{0.4,0.5,0}
   \definecolor{anchors}{rgb}{1,0,0}
   \def\AnchorColor{anchors}
   \def\LinkColor{links}
-  \def\pdfBorderAttrs{/Border [0 0 0] }  % bez okrajù kolem odkazù
+  \def\pdfBorderAttrs{/Border [0 0 0] }  % bez okrajÅ¯ kolem odkazÅ¯
   \pdfcompresslevel=9
 \fi
 \fi
@@ -57,29 +59,29 @@
   year=2012,             %rok
   date=\today,           %datum odevzdani
   %Nazev prace
-  title.cs={HAM stanièní deník pro Linux},  %nazev prace v cestine
+  title.cs={HAM staniÄnÃ­ denÃ­k pro Linux},  %nazev prace v cestine
   title.en={HAM logbook for Linux}, %nazev prace v anglictine
   %Autor
-  author={Jan Kalu¾a},   %jmeno prijmeni autora
+  author={Jan KaluÅ¾a},   %jmeno prijmeni autora
   %author.title.p=Bc., %titul pred jmenem (nepovinne)
   %author.title.a=PhD, %titul za jmenem (nepovinne)
   %Ustav
   department=UPSY, % doplnte prislusnou zkratku: UPSY/UIFS/UITS/UPGM
   %Skolitel
-  supervisor={Václav ©imek}, %jmeno prijmeni skolitele
+  supervisor={VÃ¡clav Å imek}, %jmeno prijmeni skolitele
   supervisor.title.p=Ing.,   %titul pred jmenem (nepovinne)
 %   supervisor.title.a={Ph.D.},    %titul za jmenem (nepovinne)
   %Klicova slova, abstrakty, prohlaseni a podekovani je mozne definovat 
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
   %===========================================================================
   %Klicova slova
-  keywords.cs={HAM, amatérské rádio, deník, klient, server, databáze, C++, Qt, Boost}, %klicova slova v ceskem jazyce
+  keywords.cs={HAM, amatÃ©rskÃ© rÃ¡dio, denÃ­k, klient, server, databÃ¡ze, C++, Qt, Boost}, %klicova slova v ceskem jazyce
   keywords.en={HAM, logbook, client, server, database, C++, Qt, Boost}, %klicova slova v anglickem jazyce
   %Abstract
-  abstract.cs={Cílem této bakaláøské práce je navrhout a implementovat stanièní deník fungující v systému Linux.
-V úvodní èásti je struènì popsána historie amatérského rádia a objasnìny dùle¾ité pojmy. Jsou zde taky popsány
-aktuálnì pou¾ívané deníky a jejich vıhody a nevıhody. Na základì tohoto popisu je proveden návrh aplikace a posléze
-také jeho implementace. V závìru je práce zhodnocena a jsou zmínìny mo¾nosti dal¹ího roz¹íøení aplikace.
+  abstract.cs={CÃ­lem tÃ©to bakalÃ¡Å™skÃ© prÃ¡ce je navrhout a implementovat staniÄnÃ­ denÃ­k fungujÃ­cÃ­ v systÃ©mu Linux.
+V ÃºvodnÃ­ ÄÃ¡sti je struÄnÄ› popsÃ¡na historie amatÃ©rskÃ©ho rÃ¡dia a objasnÄ›ny dÅ¯leÅ¾itÃ© pojmy. Jsou zde taky popsÃ¡ny
+aktuÃ¡lnÄ› pouÅ¾Ã­vanÃ© denÃ­ky a jejich vÃ½hody a nevÃ½hody. Na zÃ¡kladÄ› tohoto popisu je proveden nÃ¡vrh aplikace a poslÃ©ze
+takÃ© jeho implementace. V zÃ¡vÄ›ru je prÃ¡ce zhodnocena a jsou zmÃ­nÄ›ny moÅ¾nosti dalÅ¡Ã­ho rozÅ¡Ã­Å™enÃ­ aplikace.
 }, % abstrakt v ceskem jazyce
   abstract.en={The goal of this bachelor's thesis is to design and implement an amateur radio logbook for a Linux system.
 In the first part there is description of amateur radio history and also a description of important terms used 
@@ -88,27 +90,27 @@ Based on this description the logbook application is designed in the second part
 implemented. At the end the application is evaluated and there is a discussion of possibilities for further expansion
 of the application.}, % abstrakt v anglickem jazyce
   %Prohlaseni
-  declaration={Prohla¹uji, ¾e jsem tuto bakaláøskou práci vypracoval samostatnì pod vedením pana Ing. Václava ©imka.},
+  declaration={ProhlaÅ¡uji, Å¾e jsem tuto bakalÃ¡Å™skou prÃ¡ci vypracoval samostatnÄ› pod vedenÃ­m pana Ing. VÃ¡clava Å imka.},
   %Podekovani (nepovinne)
-%   acknowledgment={Zde je mo¾né uvést podìkování vedoucímu práce a tìm, kteøí poskytli odbornou pomoc.} % nepovinne
+%   acknowledgment={Zde je moÅ¾nÃ© uvÃ©st podÄ›kovÃ¡nÃ­ vedoucÃ­mu prÃ¡ce a tÄ›m, kteÅ™Ã­ poskytli odbornou pomoc.} % nepovinne
 }
 
 %Abstrakt (cesky, anglicky)
-%\abstract[cs]{Do tohoto odstavce bude zapsán vıtah (abstrakt) práce v èeském jazyce.}
-%\abstract[en]{Do tohoto odstavce bude zapsán vıtah (abstrakt) práce v anglickém jazyce.}
+%\abstract[cs]{Do tohoto odstavce bude zapsÃ¡n vÃ½tah (abstrakt) prÃ¡ce v ÄeskÃ©m jazyce.}
+%\abstract[en]{Do tohoto odstavce bude zapsÃ¡n vÃ½tah (abstrakt) prÃ¡ce v anglickÃ©m jazyce.}
 
 %Klicova slova (cesky, anglicky)
-%\keywords[cs]{Sem budou zapsána jednotlivá klíèová slova v èeském jazyce, oddìlená èárkami.}
-%\keywords[en]{Sem budou zapsána jednotlivá klíèová slova v anglickém jazyce, oddìlená èárkami.}
+%\keywords[cs]{Sem budou zapsÃ¡na jednotlivÃ¡ klÃ­ÄovÃ¡ slova v ÄeskÃ©m jazyce, oddÄ›lenÃ¡ ÄÃ¡rkami.}
+%\keywords[en]{Sem budou zapsÃ¡na jednotlivÃ¡ klÃ­ÄovÃ¡ slova v anglickÃ©m jazyce, oddÄ›lenÃ¡ ÄÃ¡rkami.}
 
 %Prohlaseni
-%\declaration{Prohla¹uji, ¾e jsem tuto bakaláøskou práci vypracoval samostatnì pod vedením pana X...
-%Dal¹í informace mi poskytli...
-%Uvedl jsem v¹echny literární prameny a publikace, ze kterıch jsem èerpal.}
+%\declaration{ProhlaÅ¡uji, Å¾e jsem tuto bakalÃ¡Å™skou prÃ¡ci vypracoval samostatnÄ› pod vedenÃ­m pana X...
+%DalÅ¡Ã­ informace mi poskytli...
+%Uvedl jsem vÅ¡echny literÃ¡rnÃ­ prameny a publikace, ze kterÃ½ch jsem Äerpal.}
 
 %Podekovani (nepovinne)
-%\acknowledgment{V této sekci je mo¾no uvést podìkování vedoucímu práce a tìm, kteøí poskytli odbornou pomoc
-%(externí zadavatel, konzultant, apod.).}
+%\acknowledgment{V tÃ©to sekci je moÅ¾no uvÃ©st podÄ›kovÃ¡nÃ­ vedoucÃ­mu prÃ¡ce a tÄ›m, kteÅ™Ã­ poskytli odbornou pomoc
+%(externÃ­ zadavatel, konzultant, apod.).}
 
 \begin{document}
   % Vysazeni titulnich stran
@@ -135,7 +137,7 @@ of the application.}, % abstrakt v anglickem jazyce
 %  \bibliographystyle{alpha}
 \fi
   \begin{flushleft}
-  \bibliography{literatura} % viz. literatura.bib
+  \bibliography{projekt} % viz. literatura.bib
   \end{flushleft}
   \appendix
   
