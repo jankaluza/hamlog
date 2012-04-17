@@ -1,307 +1,307 @@
-\chapter{Úvod}
+\chapter{Ãšvod}
 
-Tato bakaláøská  práce je rozdìlena do ¹esti kapitol.
+Tato bakalÃ¡Å™skÃ¡  prÃ¡ce je rozdÄ›lena do Å¡esti kapitol.
 
 \begin{enumerate}
-  \item \textbf{Úvod} - Úvodní kapitola.
-  \item \textbf{Radioamatéøi} - V druhé kapitole (\ref{radioamateri}) je popsána historie amatérského rádia
-(\ref{radioamateri_hist}) a také jeho aktuální stav dnes (\ref{radioamateri_dnes}).
-  \item \textbf{Rozbor zadání} - V tøetí kapitole ...
-  \item \textbf{Návrh aplikace} - Ètvrtá kapitolá (\ref{navrh}) struènì popisuje návrh 
-komunikaèního protokolu (\ref{navrh_protokol}), serverové aplikace (\ref{navrh_server}), klientské knihovny 
-(\ref{navrh_knihovna}) a samotné klientské aplikace (\ref{navrh_klient}).
-  \item \textbf{Implementace} - V páté kapitole (\ref{implementace}) je popsána implementace v¹ech souèástí
-zmínìnıch v kapitole ètvrté (\ref{navrh}). V podkapitole o implementaci serverové aplikace (\ref{implementace_server})
-je popsána implementace databázového rozhraní (\ref{implementace_db}), modulù (\ref{implementace_moduly}),
-seznam implementovanıch modulù (\ref{implementace_moduly_list}) a logování (\ref{implementace_logovani}). Dále je
-zde popsána implementace klientské knihovny (\ref{implementace_knihovna}) a samotného klienta (\ref{implementace_klient}).
-  \item \textbf{Závìr} - V ¹esté kapitole (\ref{zaver}) ...
+  \item \textbf{Ãšvod} - ÃšvodnÃ­ kapitola.
+  \item \textbf{RadioamatÃ©Å™i} - V druhÃ© kapitole (\ref{radioamateri}) je popsÃ¡na historie amatÃ©rskÃ©ho rÃ¡dia
+(\ref{radioamateri_hist}) a takÃ© jeho aktuÃ¡lnÃ­ stav dnes (\ref{radioamateri_dnes}).
+  \item \textbf{Rozbor zadÃ¡nÃ­} - V tÅ™etÃ­ kapitole ...
+  \item \textbf{NÃ¡vrh aplikace} - ÄŒtvrtÃ¡ kapitolÃ¡ (\ref{navrh}) struÄnÄ› popisuje nÃ¡vrh 
+komunikaÄnÃ­ho protokolu (\ref{navrh_protokol}), serverovÃ© aplikace (\ref{navrh_server}), klientskÃ© knihovny 
+(\ref{navrh_knihovna}) a samotnÃ© klientskÃ© aplikace (\ref{navrh_klient}).
+  \item \textbf{Implementace} - V pÃ¡tÃ© kapitole (\ref{implementace}) je popsÃ¡na implementace vÅ¡ech souÄÃ¡stÃ­
+zmÃ­nÄ›nÃ½ch v kapitole ÄtvrtÃ© (\ref{navrh}). V podkapitole o implementaci serverovÃ© aplikace (\ref{implementace_server})
+je popsÃ¡na implementace databÃ¡zovÃ©ho rozhranÃ­ (\ref{implementace_db}), modulÅ¯ (\ref{implementace_moduly}),
+seznam implementovanÃ½ch modulÅ¯ (\ref{implementace_moduly_list}) a logovÃ¡nÃ­ (\ref{implementace_logovani}). DÃ¡le je
+zde popsÃ¡na implementace klientskÃ© knihovny (\ref{implementace_knihovna}) a samotnÃ©ho klienta (\ref{implementace_klient}).
+  \item \textbf{ZÃ¡vÄ›r} - V Å¡estÃ© kapitole (\ref{zaver}) ...
 \end{enumerate}
 
-\chapter{Radioamatéøi}
+\chapter{RadioamatÃ©Å™i}
 \label{radioamateri}
 
-V této kapitole je struènì popsána historie amatérského rádia a jsou zde vysvìtleny dùle¾ité pojmy pou¾ívané dále v práci.
-Podkapitola \ref{radioamateri_hist} a \ref{radioamateri_dnes} byla pøevzata z \cite{crk_hist}.
+V tÃ©to kapitole je struÄnÄ› popsÃ¡na historie amatÃ©rskÃ©ho rÃ¡dia a jsou zde vysvÄ›tleny dÅ¯leÅ¾itÃ© pojmy pouÅ¾Ã­vanÃ© dÃ¡le v prÃ¡ci.
+Podkapitola \ref{radioamateri_hist} a \ref{radioamateri_dnes} byla pÅ™evzata z \cite{crk_hist}.
 
-\section{Historie amatérského rádia}
+\section{Historie amatÃ©rskÃ©ho rÃ¡dia}
 \label{radioamateri_hist}
-Prvotní motivací pro vznik amatérského rádia byla my¹lenka na¹ich pøedkù rádio nejen poslouchat, ale také vysílat.
-To dalo vzniknout novému druhu zábavy - amatérskému vysílání (HAM Radio). Lidem, kteøí vysílali se pak zaèalo øíkat 
-radioamatéøi.
+PrvotnÃ­ motivacÃ­ pro vznik amatÃ©rskÃ©ho rÃ¡dia byla myÅ¡lenka naÅ¡ich pÅ™edkÅ¯ rÃ¡dio nejen poslouchat, ale takÃ© vysÃ­lat.
+To dalo vzniknout novÃ©mu druhu zÃ¡bavy - amatÃ©rskÃ©mu vysÃ­lÃ¡nÃ­ (HAM Radio). Lidem, kteÅ™Ã­ vysÃ­lali se pak zaÄalo Å™Ã­kat 
+radioamatÃ©Å™i.
 
-Amatérské rádio se zaèalo rychle ¹íøit po první svìtové válce hlavnì díky vlivu rozhlasu. V tìchto dobách radioamatéøi znaènì
-pøispìli k získání znalostí o vyu¾ití celého spektra radiovıch vln. Vysílali na dlouhıch a støedních vlnách, které byly do té doby
-pova¾ovány za bezcenné, a také na vlnách krátkıch, o jejich¾ existenci se nevìdìlo vùbec.
+AmatÃ©rskÃ© rÃ¡dio se zaÄalo rychle Å¡Ã­Å™it po prvnÃ­ svÄ›tovÃ© vÃ¡lce hlavnÄ› dÃ­ky vlivu rozhlasu. V tÄ›chto dobÃ¡ch radioamatÃ©Å™i znaÄnÄ›
+pÅ™ispÄ›li k zÃ­skÃ¡nÃ­ znalostÃ­ o vyuÅ¾itÃ­ celÃ©ho spektra radiovÃ½ch vln. VysÃ­lali na dlouhÃ½ch a stÅ™ednÃ­ch vlnÃ¡ch, kterÃ© byly do tÃ© doby
+povaÅ¾ovÃ¡ny za bezcennÃ©, a takÃ© na vlnÃ¡ch krÃ¡tkÃ½ch, o jejichÅ¾ existenci se nevÄ›dÄ›lo vÅ¯bec.
 
-První pokusy o transatlantické spojení zaèaly lákat také Pravoslava Motyèku - prvního známého radioamatéra u nás.
-Koncem roku 1924 navázal Motyèka první spojení v Èeskoslovensku. 
-Díky Motyèkovì inspiraci bylo u nás kolem 30. let 20. století a¾ nìkolik set radioamatérù.
+PrvnÃ­ pokusy o transatlantickÃ© spojenÃ­ zaÄaly lÃ¡kat takÃ© Pravoslava MotyÄku - prvnÃ­ho znÃ¡mÃ©ho radioamatÃ©ra u nÃ¡s.
+Koncem roku 1924 navÃ¡zal MotyÄka prvnÃ­ spojenÃ­ v ÄŒeskoslovensku. 
+DÃ­ky MotyÄkovÄ› inspiraci bylo u nÃ¡s kolem 30. let 20. stoletÃ­ aÅ¾ nÄ›kolik set radioamatÃ©rÅ¯.
 
-Dal¹ím vıznamın rokem byl rok 1928, kdy byl ruskı radioamatér prvním, kdo zachytil volání vzducholodi ITALIA,
-která ztroskotala na cestì od severního pólu. To zmìnilo pohled na amatérské rádio, do té doby vnímané spí¹e jako zábava ne¾
-pøíli¹ u¾iteèná vìc. Pøi mnoha pohromách na celém svìtì èasto pomohla pøipravenost radioamatérù poskytnout rychlé spojení do
-jinıch míst.
+DalÅ¡Ã­m vÃ½znamÃ½n rokem byl rok 1928, kdy byl ruskÃ½ radioamatÃ©r prvnÃ­m, kdo zachytil volÃ¡nÃ­ vzducholodi ITALIA,
+kterÃ¡ ztroskotala na cestÄ› od severnÃ­ho pÃ³lu. To zmÄ›nilo pohled na amatÃ©rskÃ© rÃ¡dio, do tÃ© doby vnÃ­manÃ© spÃ­Å¡e jako zÃ¡bava neÅ¾
+pÅ™Ã­liÅ¡ uÅ¾iteÄnÃ¡ vÄ›c. PÅ™i mnoha pohromÃ¡ch na celÃ©m svÄ›tÄ› Äasto pomohla pÅ™ipravenost radioamatÃ©rÅ¯ poskytnout rychlÃ© spojenÃ­ do
+jinÃ½ch mÃ­st.
 
-\section{Amatérské rádio dnes}
+\section{AmatÃ©rskÃ© rÃ¡dio dnes}
 \label{radioamateri_dnes}
 
-Základním pilíøem amatérského rádia je vysílání na krátkıch vlnách umo¾òují spojení do celého svìta vèetnì exotickıch zemí.
-Øada radioamatérù se sna¾í a spojení s co nejvíce exotickımi zemìmi. Této zálibì øíkáma DX provoz.
-Po úspì¹nì navázaném spojení si radioamatéøi vymìnují QSL lístky (potvrzení o navázaném spojení formátu pohlednice). Cílem je
-získání QSL lístkù z co mozná nejvíce zemí svìta (ideálnì v¹ech).
+ZÃ¡kladnÃ­m pilÃ­Å™em amatÃ©rskÃ©ho rÃ¡dia je vysÃ­lÃ¡nÃ­ na krÃ¡tkÃ½ch vlnÃ¡ch umoÅ¾ÅˆujÃ­ spojenÃ­ do celÃ©ho svÄ›ta vÄetnÄ› exotickÃ½ch zemÃ­.
+Å˜ada radioamatÃ©rÅ¯ se snaÅ¾Ã­ a spojenÃ­ s co nejvÃ­ce exotickÃ½mi zemÄ›mi. TÃ©to zÃ¡libÄ› Å™Ã­kÃ¡ma DX provoz.
+Po ÃºspÄ›Å¡nÄ› navÃ¡zanÃ©m spojenÃ­ si radioamatÃ©Å™i vymÄ›nujÃ­ QSL lÃ­stky (potvrzenÃ­ o navÃ¡zanÃ©m spojenÃ­ formÃ¡tu pohlednice). CÃ­lem je
+zÃ­skÃ¡nÃ­ QSL lÃ­stkÅ¯ z co moznÃ¡ nejvÃ­ce zemÃ­ svÄ›ta (ideÃ¡lnÄ› vÅ¡ech).
 
-Pro kvalitní pøíjem profesionálního vysílání (napøíklad FM rozhlas nebo televize) je potøeba bıt od vısilaèe vzdálen maximálnì
-v desitkách kilometrù. Radioamatéøi se pøi svıch vysíláních sna¾í tyto limity pøekonat a provádìt spojení na co nejvìt¹í
-vzdálenosti. K tomu vyu¾ívají kromì techniky také dobrıch znalostí faktorù, které ovliòují ¹íøení krátkıch vln. Tìmi jsou napøíklad
-rozhraní teplıch a studenıch mas vzduchu nebo polární záøe. Profesionálové se nemohou na tyto pøechodné faktory spolehnout, ale 
-radioamatéøi jsou díky nim schopni navázat spojení a¾ na tisíce kilometrù
+Pro kvalitnÃ­ pÅ™Ã­jem profesionÃ¡lnÃ­ho vysÃ­lÃ¡nÃ­ (napÅ™Ã­klad FM rozhlas nebo televize) je potÅ™eba bÃ½t od vÃ½silaÄe vzdÃ¡len maximÃ¡lnÄ›
+v desitkÃ¡ch kilometrÅ¯. RadioamatÃ©Å™i se pÅ™i svÃ½ch vysÃ­lÃ¡nÃ­ch snaÅ¾Ã­ tyto limity pÅ™ekonat a provÃ¡dÄ›t spojenÃ­ na co nejvÄ›tÅ¡Ã­
+vzdÃ¡lenosti. K tomu vyuÅ¾Ã­vajÃ­ kromÄ› techniky takÃ© dobrÃ½ch znalostÃ­ faktorÅ¯, kterÃ© ovliÅˆujÃ­ Å¡Ã­Å™enÃ­ krÃ¡tkÃ½ch vln. TÄ›mi jsou napÅ™Ã­klad
+rozhranÃ­ teplÃ½ch a studenÃ½ch mas vzduchu nebo polÃ¡rnÃ­ zÃ¡Å™e. ProfesionÃ¡lovÃ© se nemohou na tyto pÅ™echodnÃ© faktory spolehnout, ale 
+radioamatÃ©Å™i jsou dÃ­ky nim schopni navÃ¡zat spojenÃ­ aÅ¾ na tisÃ­ce kilometrÅ¯
 
-Na øadì vysokıch budov a kopcù pracují pozemní radioamatérské pøevadìèe. Pøevadìè pøeposílá signál pøijatı na na jedné frekvenci
-na frekvenci jinou. Radioamatéøi se tak mohou pomocí pøevadìèe dovolat na velké vzdálenosti i s pou¾itím vysílaèù o malém vıkonu
-(èasto jde o kapesní radiostanice)
+Na Å™adÄ› vysokÃ½ch budov a kopcÅ¯ pracujÃ­ pozemnÃ­ radioamatÃ©rskÃ© pÅ™evadÄ›Äe. PÅ™evadÄ›Ä pÅ™eposÃ­lÃ¡ signÃ¡l pÅ™ijatÃ½ na na jednÃ© frekvenci
+na frekvenci jinou. RadioamatÃ©Å™i se tak mohou pomocÃ­ pÅ™evadÄ›Äe dovolat na velkÃ© vzdÃ¡lenosti i s pouÅ¾itÃ­m vysÃ­laÄÅ¯ o malÃ©m vÃ½konu
+(Äasto jde o kapesnÃ­ radiostanice)
 
-V poèátcích 60. let byla také vypo¹tìna první radioamatérská dru¾ice. Dnes jich existuje nìkolik desítek.
-Dru¾ice pokrıvají, podobnì jako bì¾né televizní satelity, kruh o prùmìru zhruba 4000 km. 
-Narozdíl od geostacionárních televizních satelitù v¹ak amatérské dru¾ice kolem Zemì obíhají.
-Díky tomu jsou schopny pokrıt postupnì signálem v¹echny obydlené oblasti.
+V poÄÃ¡tcÃ­ch 60. let byla takÃ© vypoÅ¡tÄ›na prvnÃ­ radioamatÃ©rskÃ¡ druÅ¾ice. Dnes jich existuje nÄ›kolik desÃ­tek.
+DruÅ¾ice pokrÃ½vajÃ­, podobnÄ› jako bÄ›Å¾nÃ© televiznÃ­ satelity, kruh o prÅ¯mÄ›ru zhruba 4000 km. 
+NarozdÃ­l od geostacionÃ¡rnÃ­ch televiznÃ­ch satelitÅ¯ vÅ¡ak amatÃ©rskÃ© druÅ¾ice kolem ZemÄ› obÃ­hajÃ­.
+DÃ­ky tomu jsou schopny pokrÃ½t postupnÄ› signÃ¡lem vÅ¡echny obydlenÃ© oblasti.
 
-V radioamatérském vysílání se rovnì¾ konají závody. Cílem je napøíklad v urèitém èase navázat spojení s co nejvíce jinımi
-amatérskımi stanicemi v co nejvíce zemích. Jinou variantou je napøíklad souèet vzdáleností v¹ech spojení vykonanıch za urèitı
-èas.
+V radioamatÃ©rskÃ©m vysÃ­lÃ¡nÃ­ se rovnÄ›Å¾ konajÃ­ zÃ¡vody. CÃ­lem je napÅ™Ã­klad v urÄitÃ©m Äase navÃ¡zat spojenÃ­ s co nejvÃ­ce jinÃ½mi
+amatÃ©rskÃ½mi stanicemi v co nejvÃ­ce zemÃ­ch. Jinou variantou je napÅ™Ã­klad souÄet vzdÃ¡lenostÃ­ vÅ¡ech spojenÃ­ vykonanÃ½ch za urÄitÃ½
+Äas.
 
-Morseova abeceda byla prvním dorozumívacím prostøedkem pou¾ívanım v amatérském rádiu a je radioamatéry pou¾ívána dodnes.
-Hlavním pøínosem morseovy abecedy je její velká odolnost proti ru¹ení, dikı ní¾ lze pøekonat velké vzdálenosti i s malım
-vıkonem. Dal¹í vıhodou je to, ¾e odbourává jazykové bariéry, proto¾e se komunikuje pøevá¾nì pomocí zkratek. Pøi hlasové komunikaci
-je mezinárodním jazykem angliètina a vyu¾ívá se amplitudové modulace SSB nebo FM modulace.
+Morseova abeceda byla prvnÃ­m dorozumÃ­vacÃ­m prostÅ™edkem pouÅ¾Ã­vanÃ½m v amatÃ©rskÃ©m rÃ¡diu a je radioamatÃ©ry pouÅ¾Ã­vÃ¡na dodnes.
+HlavnÃ­m pÅ™Ã­nosem morseovy abecedy je jejÃ­ velkÃ¡ odolnost proti ruÅ¡enÃ­, dikÃ½ nÃ­Å¾ lze pÅ™ekonat velkÃ© vzdÃ¡lenosti i s malÃ½m
+vÃ½konem. DalÅ¡Ã­ vÃ½hodou je to, Å¾e odbourÃ¡vÃ¡ jazykovÃ© bariÃ©ry, protoÅ¾e se komunikuje pÅ™evÃ¡Å¾nÄ› pomocÃ­ zkratek. PÅ™i hlasovÃ© komunikaci
+je mezinÃ¡rodnÃ­m jazykem angliÄtina a vyuÅ¾Ã­vÃ¡ se amplitudovÃ© modulace SSB nebo FM modulace.
 
-Nejnovìj¹ím systémem pro zakódování øeèi je je packet 
-radio. V podstatì se jedná o radioamatérskı Internet, kde se informace pøená¹í pomocí modifikace protokolu X.25. 
-Sí» packet radia pokrıvá celı vyspìlı svìt, její souèástí jsou i BBS (databanky pro ukládání a vımìnu informací) a
-elektronická po¹ta. Poslat e-mail kamarádovi do Austrálie nemusíte jen po Internetu,
-ale také amatérskım packet radiem, a nemáte-li nic lep¹ího na práci, mù¾ete trávit hodiny zkoumáním novıch zpráv i
-zajímavıch programù v desítkách BBS po celé Evropì.
+NejnovÄ›jÅ¡Ã­m systÃ©mem pro zakÃ³dovÃ¡nÃ­ Å™eÄi je je packet 
+radio. V podstatÄ› se jednÃ¡ o radioamatÃ©rskÃ½ Internet, kde se informace pÅ™enÃ¡Å¡Ã­ pomocÃ­ modifikace protokolu X.25. 
+SÃ­Å¥ packet radia pokrÃ½vÃ¡ celÃ½ vyspÄ›lÃ½ svÄ›t, jejÃ­ souÄÃ¡stÃ­ jsou i BBS (databanky pro uklÃ¡dÃ¡nÃ­ a vÃ½mÄ›nu informacÃ­) a
+elektronickÃ¡ poÅ¡ta. Poslat e-mail kamarÃ¡dovi do AustrÃ¡lie nemusÃ­te jen po Internetu,
+ale takÃ© amatÃ©rskÃ½m packet radiem, a nemÃ¡te-li nic lepÅ¡Ã­ho na prÃ¡ci, mÅ¯Å¾ete trÃ¡vit hodiny zkoumÃ¡nÃ­m novÃ½ch zprÃ¡v i
+zajÃ­mavÃ½ch programÅ¯ v desÃ­tkÃ¡ch BBS po celÃ© EvropÄ›.
 
-Samozøejmì jde vysílat i obrazové signály. Dlouhou tradici má tzv. pomalá televise (SSTV),
-jaká byla pou¾ita i u pøenosu obrazu z prvních pøistání americkıch astronautù na Mìsíci,
-dnes se experimentuje s rùznımi digitálními pøenosy a na UHF kmitoètech je mo¾né pou¾ít i klasickou televisní normu.
+SamozÅ™ejmÄ› jde vysÃ­lat i obrazovÃ© signÃ¡ly. Dlouhou tradici mÃ¡ tzv. pomalÃ¡ televise (SSTV),
+jakÃ¡ byla pouÅ¾ita i u pÅ™enosu obrazu z prvnÃ­ch pÅ™istÃ¡nÃ­ americkÃ½ch astronautÅ¯ na MÄ›sÃ­ci,
+dnes se experimentuje s rÅ¯znÃ½mi digitÃ¡lnÃ­mi pÅ™enosy a na UHF kmitoÄtech je moÅ¾nÃ© pouÅ¾Ã­t i klasickou televisnÃ­ normu.
 
-Z ryze sportovních aktivit je dobøe známı rádiovı
-orientaèní bìh. Cílem je v nejkrat¹ím èase najít pomocí
-pøijímaèe v terénu ukryté zamaskované vysílaèe. 
-Tyto sporty jsou atraktivní a pìstují je i lidé, kteøí se jinak o radioamatérství pøíli¹ nezajímají.
+Z ryze sportovnÃ­ch aktivit je dobÅ™e znÃ¡mÃ½ rÃ¡diovÃ½
+orientaÄnÃ­ bÄ›h. CÃ­lem je v nejkratÅ¡Ã­m Äase najÃ­t pomocÃ­
+pÅ™ijÃ­maÄe v terÃ©nu ukrytÃ© zamaskovanÃ© vysÃ­laÄe. 
+Tyto sporty jsou atraktivnÃ­ a pÄ›stujÃ­ je i lidÃ©, kteÅ™Ã­ se jinak o radioamatÃ©rstvÃ­ pÅ™Ã­liÅ¡ nezajÃ­majÃ­.
 
-\section{Dùle¾ité pojmy}
+\section{DÅ¯leÅ¾itÃ© pojmy}
 \label{radioamateri_pojmy}
 
-V této podkapitole jsou popsány dùle¾ité pojmy pou¾ívané mezi radioamatéry, které jsou také pou¾ity dále v této práci.
+V tÃ©to podkapitole jsou popsÃ¡ny dÅ¯leÅ¾itÃ© pojmy pouÅ¾Ã­vanÃ© mezi radioamatÃ©ry, kterÃ© jsou takÃ© pouÅ¾ity dÃ¡le v tÃ©to prÃ¡ci.
 
-\subsection{Volací znaèka}
+\subsection{VolacÃ­ znaÄka}
 
-Ka¾dá stanice má pøidìlenu jedineènou volací znaèku, kterou operátor stanice uvádí pøi ka¾dém spojení.
-První dva znaky znaèky jsou urèeny podle pøehledu mezinárodních volacích znakù pøidìlenıch dané zemi.
-Dal¹ím znakem je èíslo 0-9. Kombinaci tìchto tøí znakù se øíká prefix. Zbytek znaèky je tvoøen jedním a¾ ètyømi znaky.
+KaÅ¾dÃ¡ stanice mÃ¡ pÅ™idÄ›lenu jedineÄnou volacÃ­ znaÄku, kterou operÃ¡tor stanice uvÃ¡dÃ­ pÅ™i kaÅ¾dÃ©m spojenÃ­.
+PrvnÃ­ dva znaky znaÄky jsou urÄeny podle pÅ™ehledu mezinÃ¡rodnÃ­ch volacÃ­ch znakÅ¯ pÅ™idÄ›lenÃ½ch danÃ© zemi.
+DalÅ¡Ã­m znakem je ÄÃ­slo 0-9. Kombinaci tÄ›chto tÅ™Ã­ znakÅ¯ se Å™Ã­kÃ¡ prefix. Zbytek znaÄky je tvoÅ™en jednÃ­m aÅ¾ ÄtyÅ™mi znaky.
 
-Na základì prefixu tak lze urèit zemi, ze které danı operátor pochází a tak i jeho pøibli¾nou polohu. K tomu slou¾í seznam DXCC
-obsahující v¹echny aktuálnì pou¾ívané prefixy a informace k nim.
+Na zÃ¡kladÄ› prefixu tak lze urÄit zemi, ze kterÃ© danÃ½ operÃ¡tor pochÃ¡zÃ­ a tak i jeho pÅ™ibliÅ¾nou polohu. K tomu slouÅ¾Ã­ seznam DXCC
+obsahujÃ­cÃ­ vÅ¡echny aktuÃ¡lnÄ› pouÅ¾Ã­vanÃ© prefixy a informace k nim.
 
-\subsection{ITU zóny}
+\subsection{ITU zÃ³ny}
 
-Jedním z mo¾nıch rozdìlení svìta na men¹í celky je jeho rozdìlení do takzvanıch ITU zón.
-Systém je pojmenován podle organizace International Telecommunications Union. Svìt je rozdìlen do celkem 
-89 zón ve tøech regionech.
-
-\begin{figure}[h]
-\centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.4]{fig/itu-zone.png}
-\caption{Rozdìlení ITU zón.}
-\label{fig:FigureExample}
-\end{figure}
-
-\subsection{CQ zóny}
-
-Dal¹ím z mo¾nıch rozdìlení svìta pou¾ívanıch radioamatéry je dìlení na CQ zóny, pojmenované podle èasopisu CQ.
-Jde o pouze 40 zón.
+JednÃ­m z moÅ¾nÃ½ch rozdÄ›lenÃ­ svÄ›ta na menÅ¡Ã­ celky je jeho rozdÄ›lenÃ­ do takzvanÃ½ch ITU zÃ³n.
+SystÃ©m je pojmenovÃ¡n podle organizace International Telecommunications Union. SvÄ›t je rozdÄ›len do celkem 
+89 zÃ³n ve tÅ™ech regionech.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.4]{fig/cq-zone.png}
-\caption{Rozdìlení CQ zón.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.4]{fig/itu-zone}
+\caption{RozdÄ›lenÃ­ ITU zÃ³n.}
 \label{fig:FigureExample}
 \end{figure}
 
-\subsection{QTH lokátor}
+\subsection{CQ zÃ³ny}
 
-Poslední z pou¾ívanıch systémù pro rozdìlení svìta je QTH lokátor. Jde o rozdìlení na základì zemìpisné ¹íøky a délky.
-Zemì je rozdìlena do obdélníkù o velikosti 1° x 2°.
+DalÅ¡Ã­m z moÅ¾nÃ½ch rozdÄ›lenÃ­ svÄ›ta pouÅ¾Ã­vanÃ½ch radioamatÃ©ry je dÄ›lenÃ­ na CQ zÃ³ny, pojmenovanÃ© podle Äasopisu CQ.
+Jde o pouze 40 zÃ³n.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.7]{fig/QTH_locator.png}
-\caption{Mapa rozdìlení pomocí QTH lokátoru.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.4]{fig/cq-zone}
+\caption{RozdÄ›lenÃ­ CQ zÃ³n.}
 \label{fig:FigureExample}
 \end{figure}
 
-\subsection{QTH lokátor}
+\subsection{QTH lokÃ¡tor}
 
-\section{Slu¾by pou¾ívané radioamatéry}
+PoslednÃ­ z pouÅ¾Ã­vanÃ½ch systÃ©mÅ¯ pro rozdÄ›lenÃ­ svÄ›ta je QTH lokÃ¡tor. Jde o rozdÄ›lenÃ­ na zÃ¡kladÄ› zemÄ›pisnÃ© Å¡Ã­Å™ky a dÃ©lky.
+ZemÄ› je rozdÄ›lena do obdÃ©lnÃ­kÅ¯ o velikosti 1\degree x 2\degree.
+
+\begin{figure}[h]
+\centering
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.7]{fig/QTH_locator}
+\caption{Mapa rozdÄ›lenÃ­ pomocÃ­ QTH lokÃ¡toru.}
+\label{fig:FigureExample}
+\end{figure}
+
+\subsection{QTH lokÃ¡tor}
+
+\section{SluÅ¾by pouÅ¾Ã­vanÃ© radioamatÃ©ry}
 \label{radioamateri_sluzby}
 
-Díky roz¹iøování Internetu se zaèaly rozvíjet i slu¾by provozované radioamatéry pro dal¹í radioamatéry. V této podkapitole
-jsou struènì popsány slu¾by, kterıch je v aplikaci vyu¾ito a se kterımi aplikace umí spolupracovat.
+DÃ­ky rozÅ¡iÅ™ovÃ¡nÃ­ Internetu se zaÄaly rozvÃ­jet i sluÅ¾by provozovanÃ© radioamatÃ©ry pro dalÅ¡Ã­ radioamatÃ©ry. V tÃ©to podkapitole
+jsou struÄnÄ› popsÃ¡ny sluÅ¾by, kterÃ½ch je v aplikaci vyuÅ¾ito a se kterÃ½mi aplikace umÃ­ spolupracovat.
 
 \subsection{DXCluster}
 
-DXCluster je komunitní slu¾bou umo¾òující radioamatérovi informovat ostatní radioamatéry o tom, kdo aktuálnì vysílá. Kromì
-volací znaèky se posílá i poloha a frekvence, na které radioamatér vysílá. Díky této slu¾bì tak lze jednodu¹eji navazovat
-spojení. Protokol slu¾by DXCluster je postaven na slu¾bì telnet a není nikterak slo¾itı. Lze jej jednodu¹e èíst a zpracovávat.
+DXCluster je komunitnÃ­ sluÅ¾bou umoÅ¾ÅˆujÃ­cÃ­ radioamatÃ©rovi informovat ostatnÃ­ radioamatÃ©ry o tom, kdo aktuÃ¡lnÄ› vysÃ­lÃ¡. KromÄ›
+volacÃ­ znaÄky se posÃ­lÃ¡ i poloha a frekvence, na kterÃ© radioamatÃ©r vysÃ­lÃ¡. DÃ­ky tÃ©to sluÅ¾bÄ› tak lze jednoduÅ¡eji navazovat
+spojenÃ­. Protokol sluÅ¾by DXCluster je postaven na sluÅ¾bÄ› telnet a nenÃ­ nikterak sloÅ¾itÃ½. Lze jej jednoduÅ¡e ÄÃ­st a zpracovÃ¡vat.
 
 \subsection{QRZ.com}
 
-QRZ.com je nejvìt¹í databází radioamatérù z celého svìta. Na základì volací znaèky lze s její pomocí zjistit rùzné detailní
-informace (napøíklad jméno nebo pøesnou polohu) o jejím majiteli. Vyhledávat lze i pomocí speciálního webového rozhraní
-postaveného na technologii XML. To je velmi vıhodné pro tvorbu aplikací vyu¾ívajících QRZ.com pro zji¹tìní informací o
-operátorech. XML rozhraní umo¾òuje pøihlásit se ke slu¾bì QRZ.com a provést vyhledání na základì volací znaèky.
+QRZ.com je nejvÄ›tÅ¡Ã­ databÃ¡zÃ­ radioamatÃ©rÅ¯ z celÃ©ho svÄ›ta. Na zÃ¡kladÄ› volacÃ­ znaÄky lze s jejÃ­ pomocÃ­ zjistit rÅ¯znÃ© detailnÃ­
+informace (napÅ™Ã­klad jmÃ©no nebo pÅ™esnou polohu) o jejÃ­m majiteli. VyhledÃ¡vat lze i pomocÃ­ speciÃ¡lnÃ­ho webovÃ©ho rozhranÃ­
+postavenÃ©ho na technologii XML. To je velmi vÃ½hodnÃ© pro tvorbu aplikacÃ­ vyuÅ¾Ã­vajÃ­cÃ­ch QRZ.com pro zjiÅ¡tÄ›nÃ­ informacÃ­ o
+operÃ¡torech. XML rozhranÃ­ umoÅ¾Åˆuje pÅ™ihlÃ¡sit se ke sluÅ¾bÄ› QRZ.com a provÃ©st vyhledÃ¡nÃ­ na zÃ¡kladÄ› volacÃ­ znaÄky.
 
-\chapter{Souèasné logovací aplikace}
+\chapter{SouÄasnÃ© logovacÃ­ aplikace}
 \label{soucasnost}
 
-V této kapitole jsou posány aplikace pou¾ívané souèasnımi radioamatéry pro logování spojení. Ka¾dá aplikace je struènì
-popsána a jsou zmínìny i její klady a zápory. Na základì této kapitoly bude vytvoøen základní návrh aplikace.
+V tÃ©to kapitole jsou posÃ¡ny aplikace pouÅ¾Ã­vanÃ© souÄasnÃ½mi radioamatÃ©ry pro logovÃ¡nÃ­ spojenÃ­. KaÅ¾dÃ¡ aplikace je struÄnÄ›
+popsÃ¡na a jsou zmÃ­nÄ›ny i jejÃ­ klady a zÃ¡pory. Na zÃ¡kladÄ› tÃ©to kapitoly bude vytvoÅ™en zÃ¡kladnÃ­ nÃ¡vrh aplikace.
 
 \section{Logger32}
 
-Logger32 je jednou z nejznámìj¹ích logovacích aplikací pro operaèní systém Windows. Jeho hlavní vıhodou je pøehledné a funkèní
-u¾ivatelské rozhraní rozhraní a podpora pøídavnıch pluginù.
+Logger32 je jednou z nejznÃ¡mÄ›jÅ¡Ã­ch logovacÃ­ch aplikacÃ­ pro operaÄnÃ­ systÃ©m Windows. Jeho hlavnÃ­ vÃ½hodou je pÅ™ehlednÃ© a funkÄnÃ­
+uÅ¾ivatelskÃ© rozhranÃ­ rozhranÃ­ a podpora pÅ™Ã­davnÃ½ch pluginÅ¯.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/logger32.jpg}
-\caption{U¾ivatelské rozhraní Logger32.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/logger32}
+\caption{UÅ¾ivatelskÃ© rozhranÃ­ Logger32.}
 \label{fig:FigureExample}
 \end{figure}
 
-Lze vytváøet pluginy pro vyhledávání detailních informací na základì volací znaèky a také pluginy vytváøející externí okno
-s informacemi roz¹iøující informace. Logger32 také umo¾òuje ovládání radiostanice.
+Lze vytvÃ¡Å™et pluginy pro vyhledÃ¡vÃ¡nÃ­ detailnÃ­ch informacÃ­ na zÃ¡kladÄ› volacÃ­ znaÄky a takÃ© pluginy vytvÃ¡Å™ejÃ­cÃ­ externÃ­ okno
+s informacemi rozÅ¡iÅ™ujÃ­cÃ­ informace. Logger32 takÃ© umoÅ¾Åˆuje ovlÃ¡dÃ¡nÃ­ radiostanice.
 
-Hlavní nevıhodou aplikace Logger32 je její závislost na systému Windows. Moderním trendem dne¹ní doby je programování multiplatformních
-aplikací. Dal¹í nevıhodou je absence zdrojovıch kódù, tak¾e je roz¹íøitelnost aplikace limitována rozhraním modulù definovanım
-tvùrcem aplikace.
-Mezi nevıhody mù¾eme øadit také nemo¾nost pou¾ití externí databáze jako je napøíklad SQLite3 nebo MySQL. Problémem mù¾e rovnì¾ bıt
-situace, kdy chce u¾ivatel zalogovat nové spojení z mobilního telefonu nebo jiného zaøízení s nestandardním operaèním systémem. V
-dne¹ní dobì je dùle¾itım faktorem pøi tvorbì aplikací dùraz na jejich pou¾itelnost na ¹irokém poètu zaøízení.
+HlavnÃ­ nevÃ½hodou aplikace Logger32 je jejÃ­ zÃ¡vislost na systÃ©mu Windows. ModernÃ­m trendem dneÅ¡nÃ­ doby je programovÃ¡nÃ­ multiplatformnÃ­ch
+aplikacÃ­. DalÅ¡Ã­ nevÃ½hodou je absence zdrojovÃ½ch kÃ³dÅ¯, takÅ¾e je rozÅ¡Ã­Å™itelnost aplikace limitovÃ¡na rozhranÃ­m modulÅ¯ definovanÃ½m
+tvÅ¯rcem aplikace.
+Mezi nevÃ½hody mÅ¯Å¾eme Å™adit takÃ© nemoÅ¾nost pouÅ¾itÃ­ externÃ­ databÃ¡ze jako je napÅ™Ã­klad SQLite3 nebo MySQL. ProblÃ©mem mÅ¯Å¾e rovnÄ›Å¾ bÃ½t
+situace, kdy chce uÅ¾ivatel zalogovat novÃ© spojenÃ­ z mobilnÃ­ho telefonu nebo jinÃ©ho zaÅ™Ã­zenÃ­ s nestandardnÃ­m operaÄnÃ­m systÃ©mem. V
+dneÅ¡nÃ­ dobÄ› je dÅ¯leÅ¾itÃ½m faktorem pÅ™i tvorbÄ› aplikacÃ­ dÅ¯raz na jejich pouÅ¾itelnost na Å¡irokÃ©m poÄtu zaÅ™Ã­zenÃ­.
 
 \section{CQRLOG}
 
-CQRLOG je nejpou¾ívanìj¹ím logovacím nástrojem z øad multiplatformních aplikací. Je mo¾né jej pou¾ívat jak v systému
-Windows, tak v Linuxovıch distribucích.
+CQRLOG je nejpouÅ¾Ã­vanÄ›jÅ¡Ã­m logovacÃ­m nÃ¡strojem z Å™ad multiplatformnÃ­ch aplikacÃ­. Je moÅ¾nÃ© jej pouÅ¾Ã­vat jak v systÃ©mu
+Windows, tak v LinuxovÃ½ch distribucÃ­ch.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.5]{fig/cqrlog.png}
-\caption{U¾ivatelské rozhraní CQRLOG.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.5]{fig/cqrlog}
+\caption{UÅ¾ivatelskÃ© rozhranÃ­ CQRLOG.}
 \label{fig:FigureExample}
 \end{figure}
 
-Jeho u¾ivatelské rozhraní je jednodu¹¹í ne¾ rozhraní programu Logger32 a je také více pøehledné. Na druhou stranu v¹ak
-chybí podpora roz¹íøení formou pluginù. K dispozici jsou zdrojové kódy v jazyce Delphi. Volba tohoto programovacího jazyka
-znaènì ztì¾uje (a¾ znemo¾òuje) tvorbu oficiálních instalaèních balièkù pro linuxové distribuce.
+Jeho uÅ¾ivatelskÃ© rozhranÃ­ je jednoduÅ¡Å¡Ã­ neÅ¾ rozhranÃ­ programu Logger32 a je takÃ© vÃ­ce pÅ™ehlednÃ©. Na druhou stranu vÅ¡ak
+chybÃ­ podpora rozÅ¡Ã­Å™enÃ­ formou pluginÅ¯. K dispozici jsou zdrojovÃ© kÃ³dy v jazyce Delphi. Volba tohoto programovacÃ­ho jazyka
+znaÄnÄ› ztÄ›Å¾uje (aÅ¾ znemoÅ¾Åˆuje) tvorbu oficiÃ¡lnÃ­ch instalaÄnÃ­ch baliÄkÅ¯ pro linuxovÃ© distribuce.
 
-CQRLOG umo¾òuje pou¾ítí
-MySQL databáze, ale návrh aplikace znemo¾òuje jednoduchou zmìnu databázové aplikace. Také volba MySQL databáze pro pou¾ití 
-v desktopové aplikaci mù¾e bıt vnímána jako negativum. Návrh CQRLOGu rovnì¾ nedefinuje rozhraní pro jednoduché pøidávání nebo úpravu
-záznamù pomocí aplikací tøetích stran a není tak jednoduché postavit dal¹í aplikaci nad CQRLOGem.
+CQRLOG umoÅ¾Åˆuje pouÅ¾Ã­tÃ­
+MySQL databÃ¡ze, ale nÃ¡vrh aplikace znemoÅ¾Åˆuje jednoduchou zmÄ›nu databÃ¡zovÃ© aplikace. TakÃ© volba MySQL databÃ¡ze pro pouÅ¾itÃ­ 
+v desktopovÃ© aplikaci mÅ¯Å¾e bÃ½t vnÃ­mÃ¡na jako negativum. NÃ¡vrh CQRLOGu rovnÄ›Å¾ nedefinuje rozhranÃ­ pro jednoduchÃ© pÅ™idÃ¡vÃ¡nÃ­ nebo Ãºpravu
+zÃ¡znamÅ¯ pomocÃ­ aplikacÃ­ tÅ™etÃ­ch stran a nenÃ­ tak jednoduchÃ© postavit dalÅ¡Ã­ aplikaci nad CQRLOGem.
 
 \section{HAM Radio Deluxe}
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/hrd.jpg}
-\caption{U¾ivatelské rozhraní HAM Radio Deluxe.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/hrd}
+\caption{UÅ¾ivatelskÃ© rozhranÃ­ HAM Radio Deluxe.}
 \label{fig:FigureExample}
 \end{figure}
 
-\chapter{Návrh aplikace}
+\chapter{NÃ¡vrh aplikace}
 \label{navrh}
 
-Cílem této kapitoly je popsání návrhu aplikace a pou¾itého komunikaèního protokolu.
+CÃ­lem tÃ©to kapitoly je popsÃ¡nÃ­ nÃ¡vrhu aplikace a pouÅ¾itÃ©ho komunikaÄnÃ­ho protokolu.
 
-Na základì rozboru souèasnì pou¾ívanıch aplikací z pøedchozí kapitoly vyplynuly základní po¾adavky
-na vıslednou aplikaci.
+Na zÃ¡kladÄ› rozboru souÄasnÄ› pouÅ¾Ã­vanÃ½ch aplikacÃ­ z pÅ™edchozÃ­ kapitoly vyplynuly zÃ¡kladnÃ­ poÅ¾adavky
+na vÃ½slednou aplikaci.
 
 \begin{itemize}
-\item \textbf{Multiplatformnost} - Návrh aplikace musí poèítat s mo¾ností jejího spou¹tìní na rùznıch operaèních systémech
-a platformách.
-\item \textbf{Klient-server architektura} - Jádro programu je tvoøeno serverem.
-Server umo¾òuje vedení deníkù více u¾ivatelù zároveò a poskytuje rozhraní pro pøídavné moduly.
-Klientská aplikace se pøipojí k serveru a prostøedníctvím komunikaèního protokolu s ním komunikuje.
-Díky tomuto rozdìlení je mo¾né pøidávat záznamy do centrální databáze z více zaøízení a pracovat
-tak v¹ude se stejnımi daty. Vyu¾ití klient-server architektury je vıhodné také pro soutì¾e, kdy mù¾e vyhodnocení
-vısledkù v¹ech úèastníkù probìhnout souèasnì na centrálním místì.
-\item \textbf{Modulárnost} - Serverová aplikace je zalo¾ena na modulech. Moduly jsou speciální knihovny roz¹iøující funkce
-serveru. Moduly umí zpracovávat klientské po¾adavky a je jim umo¾nìn pøístup k deníkùm jednotlivıch u¾ivatelù. Díky pou¾ití modulù
-je zaji¹tìna jednoduchá roz¹íritelnost aplikace o nové funkce bez nutnosti zmìny jejího jádra.
-\item \textbf{Ulo¾ení dat} - Záznamy jednotlivıch u¾ivatelù jsou ulo¾eny v databázi SQLite3. Návrh aplikace
-v¹ak poèítá s mo¾ností pou¾ití rùznıch formátù pro ulo¾ení u¾ivatelskıch dat.
-\item \textbf{Oddìlení grafického rozhraní od komunikace se serverem} - Klientská aplikace vyu¾ívající grafického rozhraní
-je oddìlena od nízkoúrovòové komunikace se serverem díky klientské knihovnì. Klientská knihovna obsahuje základní funkce
-pro komunikaci se serverem a umo¾òuje pou¾ití libovolného grafického rozhraní bez zbyteèné duplikace kódu.
+\item \textbf{Multiplatformnost} - NÃ¡vrh aplikace musÃ­ poÄÃ­tat s moÅ¾nostÃ­ jejÃ­ho spouÅ¡tÄ›nÃ­ na rÅ¯znÃ½ch operaÄnÃ­ch systÃ©mech
+a platformÃ¡ch.
+\item \textbf{Klient-server architektura} - JÃ¡dro programu je tvoÅ™eno serverem.
+Server umoÅ¾Åˆuje vedenÃ­ denÃ­kÅ¯ vÃ­ce uÅ¾ivatelÅ¯ zÃ¡roveÅˆ a poskytuje rozhranÃ­ pro pÅ™Ã­davnÃ© moduly.
+KlientskÃ¡ aplikace se pÅ™ipojÃ­ k serveru a prostÅ™ednÃ­ctvÃ­m komunikaÄnÃ­ho protokolu s nÃ­m komunikuje.
+DÃ­ky tomuto rozdÄ›lenÃ­ je moÅ¾nÃ© pÅ™idÃ¡vat zÃ¡znamy do centrÃ¡lnÃ­ databÃ¡ze z vÃ­ce zaÅ™Ã­zenÃ­ a pracovat
+tak vÅ¡ude se stejnÃ½mi daty. VyuÅ¾itÃ­ klient-server architektury je vÃ½hodnÃ© takÃ© pro soutÄ›Å¾e, kdy mÅ¯Å¾e vyhodnocenÃ­
+vÃ½sledkÅ¯ vÅ¡ech ÃºÄastnÃ­kÅ¯ probÄ›hnout souÄasnÄ› na centrÃ¡lnÃ­m mÃ­stÄ›.
+\item \textbf{ModulÃ¡rnost} - ServerovÃ¡ aplikace je zaloÅ¾ena na modulech. Moduly jsou speciÃ¡lnÃ­ knihovny rozÅ¡iÅ™ujÃ­cÃ­ funkce
+serveru. Moduly umÃ­ zpracovÃ¡vat klientskÃ© poÅ¾adavky a je jim umoÅ¾nÄ›n pÅ™Ã­stup k denÃ­kÅ¯m jednotlivÃ½ch uÅ¾ivatelÅ¯. DÃ­ky pouÅ¾itÃ­ modulÅ¯
+je zajiÅ¡tÄ›na jednoduchÃ¡ rozÅ¡Ã­ritelnost aplikace o novÃ© funkce bez nutnosti zmÄ›ny jejÃ­ho jÃ¡dra.
+\item \textbf{UloÅ¾enÃ­ dat} - ZÃ¡znamy jednotlivÃ½ch uÅ¾ivatelÅ¯ jsou uloÅ¾eny v databÃ¡zi SQLite3. NÃ¡vrh aplikace
+vÅ¡ak poÄÃ­tÃ¡ s moÅ¾nostÃ­ pouÅ¾itÃ­ rÅ¯znÃ½ch formÃ¡tÅ¯ pro uloÅ¾enÃ­ uÅ¾ivatelskÃ½ch dat.
+\item \textbf{OddÄ›lenÃ­ grafickÃ©ho rozhranÃ­ od komunikace se serverem} - KlientskÃ¡ aplikace vyuÅ¾Ã­vajÃ­cÃ­ grafickÃ©ho rozhranÃ­
+je oddÄ›lena od nÃ­zkoÃºrovÅˆovÃ© komunikace se serverem dÃ­ky klientskÃ© knihovnÄ›. KlientskÃ¡ knihovna obsahuje zÃ¡kladnÃ­ funkce
+pro komunikaci se serverem a umoÅ¾Åˆuje pouÅ¾itÃ­ libovolnÃ©ho grafickÃ©ho rozhranÃ­ bez zbyteÄnÃ© duplikace kÃ³du.
 \end{itemize}
 
-Aplikace se tedy skládá z modulárního serveru, klientské knihovny a grafického u¾ivatelského rozhraní.
-V následujících podkapitolách jsou jednotlivé èásti struènì popsány.
+Aplikace se tedy sklÃ¡dÃ¡ z modulÃ¡rnÃ­ho serveru, klientskÃ© knihovny a grafickÃ©ho uÅ¾ivatelskÃ©ho rozhranÃ­.
+V nÃ¡sledujÃ­cÃ­ch podkapitolÃ¡ch jsou jednotlivÃ© ÄÃ¡sti struÄnÄ› popsÃ¡ny.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.8]{fig/princip.pdf}
-\caption{Základní èinnost programu.}
+\includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.8]{fig/princip}
+\caption{ZÃ¡kladnÃ­ Äinnost programu.}
 \label{fig:FigureExample}
 \end{figure}
 
 \newpage
-\section{Návrh komunikaèního protokolu}
+\section{NÃ¡vrh komunikaÄnÃ­ho protokolu}
 \label{navrh_protokol}
 
-Byl zvolen protokol inspirovanı protokolem HTTP \cite{http}, pøevá¾nì kvùli jeho jednoduchosti a úèelnosti z hlediska modularity.
-Jednotlivé moduly serveru mají své vlastní URI a klientské po¾adavky jsou pak smìrovány podle URI na konkrétní modul,
-kterı vygeneruje odpovìï poslanou klientovi.
+Byl zvolen protokol inspirovanÃ½ protokolem HTTP \cite{http}, pÅ™evÃ¡Å¾nÄ› kvÅ¯li jeho jednoduchosti a ÃºÄelnosti z hlediska modularity.
+JednotlivÃ© moduly serveru majÃ­ svÃ© vlastnÃ­ URI a klientskÃ© poÅ¾adavky jsou pak smÄ›rovÃ¡ny podle URI na konkrÃ©tnÃ­ modul,
+kterÃ½ vygeneruje odpovÄ›Ä poslanou klientovi.
 
-Protokol je zpìtnì kompatibilní s protokolem HTTP, ale jsou pou¾ity jen nìkteré jeho èásti. Komunikace probíhá v re¾imu
-po¾adavek-odpovìï.
+Protokol je zpÄ›tnÄ› kompatibilnÃ­ s protokolem HTTP, ale jsou pouÅ¾ity jen nÄ›kterÃ© jeho ÄÃ¡sti. Komunikace probÃ­hÃ¡ v reÅ¾imu
+poÅ¾adavek-odpovÄ›Ä.
 
-Data pøená¹ená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první øádek reprezentuje hlavièku dat. Standardní názvy
-sloupcù ve hlavièce protokolu jsou:
+Data pÅ™enÃ¡Å¡enÃ¡ protokolem HTTP jsou ve formÃ¡tu CSV \cite{csv}, kde prvnÃ­ Å™Ã¡dek reprezentuje hlaviÄku dat. StandardnÃ­ nÃ¡zvy
+sloupcÅ¯ ve hlaviÄce protokolu jsou:
 \begin{itemize}
-\item \textbf{id} - ID záznamu v logu. Koresponduje s ID v databázi a slou¾í jako klíè pro vybrání konkrétního øádku.
-\item \textbf{user\_id} - ID u¾ivatele, jemu¾ záznam v logu patøí.
-\item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
-\item \textbf{callsign} - Volací znaèka (napøíklad OK2JRQ).
-\item \textbf{mode} - Mód spojení.
-\item \textbf{qth} - QTH lokátor (Maidenhead Locator).
-\item \textbf{name} - Jméno operátora.
-\item \textbf{latitude} - Zemìpisná ¹íøka.
-\item \textbf{longitude} - Zemìpisná délka.
+\item \textbf{id} - ID zÃ¡znamu v logu. Koresponduje s ID v databÃ¡zi a slouÅ¾Ã­ jako klÃ­Ä pro vybrÃ¡nÃ­ konkrÃ©tnÃ­ho Å™Ã¡dku.
+\item \textbf{user\_id} - ID uÅ¾ivatele, jemuÅ¾ zÃ¡znam v logu patÅ™Ã­.
+\item \textbf{qsodate} - Datum zÃ¡znamu ve formÃ¡tu unixovÃ©ho timestampu.
+\item \textbf{callsign} - VolacÃ­ znaÄka (napÅ™Ã­klad OK2JRQ).
+\item \textbf{mode} - MÃ³d spojenÃ­.
+\item \textbf{qth} - QTH lokÃ¡tor (Maidenhead Locator).
+\item \textbf{name} - JmÃ©no operÃ¡tora.
+\item \textbf{latitude} - ZemÄ›pisnÃ¡ Å¡Ã­Å™ka.
+\item \textbf{longitude} - ZemÄ›pisnÃ¡ dÃ©lka.
 \item \textbf{conty} - Okres.
 \item \textbf{continent} - Zkratka kontinentu.
-\item \textbf{cq} - CQ zóna.
-\item \textbf{itu} - ITU zóna.
+\item \textbf{cq} - CQ zÃ³na.
+\item \textbf{itu} - ITU zÃ³na.
 \end{itemize}
 
-Jednotlivé moduly serveru v¹ak mohou pou¾ít i své vlastní názvy sloupcù pro polo¾ky, které nejsou v tomto seznamu.
+JednotlivÃ© moduly serveru vÅ¡ak mohou pouÅ¾Ã­t i svÃ© vlastnÃ­ nÃ¡zvy sloupcÅ¯ pro poloÅ¾ky, kterÃ© nejsou v tomto seznamu.
 
-\subsection{Ukázky pou¾ití protokolu}
+\subsection{UkÃ¡zky pouÅ¾itÃ­ protokolu}
 
-\subsubsection{Vy¾ádání logu}
+\subsubsection{VyÅ¾Ã¡dÃ¡nÃ­ logu}
 
-Tento pøíklad ukazuje pou¾ití protokolu pro získání v¹ech záznamù z logu.
+Tento pÅ™Ã­klad ukazuje pouÅ¾itÃ­ protokolu pro zÃ­skÃ¡nÃ­ vÅ¡ech zÃ¡znamÅ¯ z logu.
 
-Dotaz na modul poskytující URI "/logbook":
+Dotaz na modul poskytujÃ­cÃ­ URI "/logbook":
 \begin{verbatim}
 GET /logbook HTTP/1.1
 
 
 \end{verbatim}
-Odpovìï serveru:
+OdpovÄ›Ä serveru:
 \begin{verbatim}
 HTTP/1.1 200 OK
 Content-Type: text/hamlog
@@ -312,17 +312,17 @@ id;user_id;callsign;date;qth;loc
 2;1;LKS;2011;;location
 \end{verbatim}
 
-\subsubsection{Editace záznamu}
+\subsubsection{Editace zÃ¡znamu}
 
 TODO
 
-Dotaz na modul poskytující URI "/logbook":
+Dotaz na modul poskytujÃ­cÃ­ URI "/logbook":
 \begin{verbatim}
 GET /logbook HTTP/1.1
 
 
 \end{verbatim}
-Odpovìï serveru:
+OdpovÄ›Ä serveru:
 \begin{verbatim}
 HTTP/1.1 200 OK
 Content-Type: text/hamlog
@@ -333,20 +333,20 @@ id;user_id;callsign;date;qth;loc
 2;1;LKS;2011;;location
 \end{verbatim}
 
-\subsection{Pøihlá¹ení u¾ivatele}
+\subsection{PÅ™ihlÃ¡Å¡enÃ­ uÅ¾ivatele}
 
-Pøihlá¹ení je provádìno metodou Digest Access Authentication definovanou v RFC 2617 \cite{rfc2617}. Díky tomu se heslo neposílá
-pøi pøihlá¹ení po síti a je mo¾né jej na stranì serveru ukládat zahashované. Nehrozí tak jeho mo¾nı odposlech bìhem pøihlá¹ení.
+PÅ™ihlÃ¡Å¡enÃ­ je provÃ¡dÄ›no metodou Digest Access Authentication definovanou v RFC 2617 \cite{rfc2617}. DÃ­ky tomu se heslo neposÃ­lÃ¡
+pÅ™i pÅ™ihlÃ¡Å¡enÃ­ po sÃ­ti a je moÅ¾nÃ© jej na stranÄ› serveru uklÃ¡dat zahashovanÃ©. NehrozÃ­ tak jeho moÅ¾nÃ½ odposlech bÄ›hem pÅ™ihlÃ¡Å¡enÃ­.
 
-\subsubsection{Ukázka pøihlá¹ení u¾ivatele}
+\subsubsection{UkÃ¡zka pÅ™ihlÃ¡Å¡enÃ­ uÅ¾ivatele}
 
-Dotaz na modul poskytující URI "/login":
+Dotaz na modul poskytujÃ­cÃ­ URI "/login":
 \begin{verbatim}
 GET /login HTTP/1.1
 
 \end{verbatim}
 
-Odpovìï serveru vybízí u¾ivatele k pøihlá¹ení podle RFC 2617 \cite{rfc2617}:
+OdpovÄ›Ä serveru vybÃ­zÃ­ uÅ¾ivatele k pÅ™ihlÃ¡Å¡enÃ­ podle RFC 2617 \cite{rfc2617}:
 \begin{verbatim}
 HTTP/1.0 401 Unauthorized
 Content-Type: text/html
@@ -356,14 +356,14 @@ WWW-Authenticate: Digest realm="realm@hamlog",qop="auth,auth-int",nonce="dcd98b7
 Authentication
 \end{verbatim}
 
-Klient se pøihlásí s pou¾itím správného jména a hesla, které je v¹ask pøená¹ena zahashované:
+Klient se pÅ™ihlÃ¡sÃ­ s pouÅ¾itÃ­m sprÃ¡vnÃ©ho jmÃ©na a hesla, kterÃ© je vÅ¡ask pÅ™enÃ¡Å¡ena zahashovanÃ©:
 \begin{verbatim}
 GET /login HTTP/1.1
 Authorization: Digest username="ok2jrq",realm="realm@hamlog",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",uri="/login",qop=auth,response="d197141dc972c02d71e6a73b3396ed53",opaque="5ccc069c403ebaf9f0171e9517f40e41")
 
 \end{verbatim}
 
-Server informuje klienta o úspì¹ném pøihlá¹ení:
+Server informuje klienta o ÃºspÄ›Å¡nÃ©m pÅ™ihlÃ¡Å¡enÃ­:
 \begin{verbatim}
 HTTP/1.1 200 OK
 Content-Type: text/html
@@ -372,401 +372,401 @@ Content-Length: 10
 Authorized
 \end{verbatim}
 
-\section{Návrh serveru}
+\section{NÃ¡vrh serveru}
 \label{navrh_server}
 
-Server je konzolová aplikace zpracovávající klientské po¾adavky. Administrátor mù¾e server konfigurovat konfiguraèním souborem
-v INI formát. Server je schopen obsluhovat více u¾ivatelù souèasnì.
-U¾ivatelé se k serveru pøihla¹ují pomocí jména a hesla. Noví u¾ivatelé se musí nejprve registrovat.
+Server je konzolovÃ¡ aplikace zpracovÃ¡vajÃ­cÃ­ klientskÃ© poÅ¾adavky. AdministrÃ¡tor mÅ¯Å¾e server konfigurovat konfiguraÄnÃ­m souborem
+v INI formÃ¡t. Server je schopen obsluhovat vÃ­ce uÅ¾ivatelÅ¯ souÄasnÄ›.
+UÅ¾ivatelÃ© se k serveru pÅ™ihlaÅ¡ujÃ­ pomocÃ­ jmÃ©na a hesla. NovÃ­ uÅ¾ivatelÃ© se musÃ­ nejprve registrovat.
 
-Návrh serveru poèítá s pou¾itím jakékoliv databáze pro uchování perzistentních dat. V rámci této bakaláøské práce jsem se 
-rozhodl pou¾ít databázi SQLite3.
+NÃ¡vrh serveru poÄÃ­tÃ¡ s pouÅ¾itÃ­m jakÃ©koliv databÃ¡ze pro uchovÃ¡nÃ­ perzistentnÃ­ch dat. V rÃ¡mci tÃ©to bakalÃ¡Å™skÃ© prÃ¡ce jsem se 
+rozhodl pouÅ¾Ã­t databÃ¡zi SQLite3.
 
-Server je modulární a ve¹keré slu¾by, které u¾ivateli poskytuje, jsou souèástí modulù. Server samotnı pouze spravuje
-pøipojené u¾ivatele a deleguje po¾adavky na jednotlivé moduly.
+Server je modulÃ¡rnÃ­ a veÅ¡kerÃ© sluÅ¾by, kterÃ© uÅ¾ivateli poskytuje, jsou souÄÃ¡stÃ­ modulÅ¯. Server samotnÃ½ pouze spravuje
+pÅ™ipojenÃ© uÅ¾ivatele a deleguje poÅ¾adavky na jednotlivÃ© moduly.
 
 \subsection{Moduly}
 \label{navrh_moduly}
 
-Moduly umo¾òují dynamicky roz¹iøovat funkènost serveru. Ka¾dı novı po¾adavek, kterı server od klienta pøijme je
-pøedán pøíslu¹nému modulu na základì URI. Modul jej zpracuje a ode¹le klientovi zpìt odpovìï. Klient si mù¾e
-od serveru vy¾ádat seznam v¹ech modulù pomocí po¾adavku na speciální URI "/modules".
+Moduly umoÅ¾ÅˆujÃ­ dynamicky rozÅ¡iÅ™ovat funkÄnost serveru. KaÅ¾dÃ½ novÃ½ poÅ¾adavek, kterÃ½ server od klienta pÅ™ijme je
+pÅ™edÃ¡n pÅ™Ã­sluÅ¡nÃ©mu modulu na zÃ¡kladÄ› URI. Modul jej zpracuje a odeÅ¡le klientovi zpÄ›t odpovÄ›Ä. Klient si mÅ¯Å¾e
+od serveru vyÅ¾Ã¡dat seznam vÅ¡ech modulÅ¯ pomocÃ­ poÅ¾adavku na speciÃ¡lnÃ­ URI "/modules".
 
-Modulùm je také umo¾nìno pøistupovat k databázi záznamù v¹ech u¾ivatelù a provádìt nad ní dotazy. Tato problematika je více
-rozebrána v následující podkapitole.
+ModulÅ¯m je takÃ© umoÅ¾nÄ›no pÅ™istupovat k databÃ¡zi zÃ¡znamÅ¯ vÅ¡ech uÅ¾ivatelÅ¯ a provÃ¡dÄ›t nad nÃ­ dotazy. Tato problematika je vÃ­ce
+rozebrÃ¡na v nÃ¡sledujÃ­cÃ­ podkapitole.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=11cm 11cm 11cm 11cm, scale=0.7]{fig/navrh_moduly.pdf}
-\caption{Návrh vyu¾ití modulù.}
+\includegraphics[trim=11cm 11cm 11cm 11cm, scale=0.7]{fig/navrh_moduly}
+\caption{NÃ¡vrh vyuÅ¾itÃ­ modulÅ¯.}
 \label{fig:FigureExample}
 \end{figure}
 
-Jednotlivé moduly serveru jsou navr¾eny jako dynamické knihovny.
-Pøi spu¹tìní serveru jsou nahrány v¹echny moduly z adresáøe nastavitelného pomocí konfiguraèního souboru.
+JednotlivÃ© moduly serveru jsou navrÅ¾eny jako dynamickÃ© knihovny.
+PÅ™i spuÅ¡tÄ›nÃ­ serveru jsou nahrÃ¡ny vÅ¡echny moduly z adresÃ¡Å™e nastavitelnÃ©ho pomocÃ­ konfiguraÄnÃ­ho souboru.
 
-Ka¾dı modul obsahuje následující informace:
-
-\begin{itemize}
-\item \textbf{URI} - URI modulu, na kterém danı modul pracuje. Ka¾dı modul serveru musí mít své jedineèné URI.
-\item \textbf{Typ} - Typ modulu. V¹echny moduly daného typu poskytují stejné komunikaèní rozhraní. To umo¾òuje klientské knihovnì
-komunikovat i s pro ni neznámımi moduly pouze na základì znalosti jejich typu.
-\item \textbf{Popis} - Krátkı text popisující funkci modulu. V grafickém rozhraní je tento text zobrazen v seznamu modulù.
-\end{itemize}
-
-V rámci této bakaláøské práce existují moduly jen dvou typù:
+KaÅ¾dÃ½ modul obsahuje nÃ¡sledujÃ­cÃ­ informace:
 
 \begin{itemize}
-\item \textbf{CALLINFO} - Moduly tohoto typu poskytují rozlièné informace (napøíklad polohu nebo jméno operátora)
-na základì volací znaèky. Data jsou získávána z veøejnì dostupnıch slu¾eb, nebo z databáze ulo¾ené na serveru.
-\item \textbf{DXCLUSTER} - Moduly typu DXCLUSTER poskytují informace (napøíklad frekvenci a polohu) o stanicích,
-které aktuálnì vysílají.
+\item \textbf{URI} - URI modulu, na kterÃ©m danÃ½ modul pracuje. KaÅ¾dÃ½ modul serveru musÃ­ mÃ­t svÃ© jedineÄnÃ© URI.
+\item \textbf{Typ} - Typ modulu. VÅ¡echny moduly danÃ©ho typu poskytujÃ­ stejnÃ© komunikaÄnÃ­ rozhranÃ­. To umoÅ¾Åˆuje klientskÃ© knihovnÄ›
+komunikovat i s pro ni neznÃ¡mÃ½mi moduly pouze na zÃ¡kladÄ› znalosti jejich typu.
+\item \textbf{Popis} - KrÃ¡tkÃ½ text popisujÃ­cÃ­ funkci modulu. V grafickÃ©m rozhranÃ­ je tento text zobrazen v seznamu modulÅ¯.
 \end{itemize}
 
-\subsubsection{Rozhraní modulù typu CALLINFO}
-
-S moduly typu CALLINFO lze komunikovat následujícími zpùsoby:
+V rÃ¡mci tÃ©to bakalÃ¡Å™skÃ© prÃ¡ce existujÃ­ moduly jen dvou typÅ¯:
 
 \begin{itemize}
-\item \textbf{Po¾adavek typu POST na URI "/modul"} - Jako data je v po¾adavku zaslána volací znaèka operátora. Odpovìï obsahuje
-ve¹keré zjistitelné informace o volací znaèce ve formátu CSV definovaném v podkapitole \ref{navrh_protokol}.
-\item \textbf{Po¾adavek typu GET na URI "/modul/username"} - Pokud modul vy¾aduje registraci u¾ivatelského jména a hesla pro
-pøístup k databázi volacích znaèek (napøíklad v pøípadì, ¾e modul pøistupuje ke slu¾bì, která je jen pro registrované), musí modul
-implementovat zpracování tohoto URI a vrátit aktuálnì registrované u¾ivatelské jméno nebo prázdnı øetezec. Klient pak mù¾e tohoto
-chování vyu¾ít pro zji¹tení, jestli je potøeba bıt pro pou¾ití modulu registrován.
-\item \textbf{Po¾adavek na URI "/modul/register"} - Slou¾í k registraci u¾ivatelského jména a hesla pro pou¾ití modulu.
-Jméno a heslo jsou pøedány v hlavièce paketu pod klíèi "username" a "password".
+\item \textbf{CALLINFO} - Moduly tohoto typu poskytujÃ­ rozliÄnÃ© informace (napÅ™Ã­klad polohu nebo jmÃ©no operÃ¡tora)
+na zÃ¡kladÄ› volacÃ­ znaÄky. Data jsou zÃ­skÃ¡vÃ¡na z veÅ™ejnÄ› dostupnÃ½ch sluÅ¾eb, nebo z databÃ¡ze uloÅ¾enÃ© na serveru.
+\item \textbf{DXCLUSTER} - Moduly typu DXCLUSTER poskytujÃ­ informace (napÅ™Ã­klad frekvenci a polohu) o stanicÃ­ch,
+kterÃ© aktuÃ¡lnÄ› vysÃ­lajÃ­.
 \end{itemize}
 
-\subsubsection{Rozhraní modulù typu DXCLUSTER}
+\subsubsection{RozhranÃ­ modulÅ¯ typu CALLINFO}
 
-Moduly typu DXCLUSTER poskytují následující funkce:
+S moduly typu CALLINFO lze komunikovat nÃ¡sledujÃ­cÃ­mi zpÅ¯soby:
 
 \begin{itemize}
-\item \textbf{Po¾adavek typu GET na URI "/modul"} - Modul vrátí seznam novì vysílajících stanic od posledního dotazu. Klient se tak
-musí opakovanì ptát, aby získal nové vysílající stanice.
-\item \textbf{Po¾adavek typu GET na URI "/modul/username"} - Vıznam je stejnı jako u modulu typu CALLINFO.
-\item \textbf{Po¾adavek na URI "/modul/register"} - Vıznam je stejnı jako u modulu typu CALLINFO.
+\item \textbf{PoÅ¾adavek typu POST na URI "/modul"} - Jako data je v poÅ¾adavku zaslÃ¡na volacÃ­ znaÄka operÃ¡tora. OdpovÄ›Ä obsahuje
+veÅ¡kerÃ© zjistitelnÃ© informace o volacÃ­ znaÄce ve formÃ¡tu CSV definovanÃ©m v podkapitole \ref{navrh_protokol}.
+\item \textbf{PoÅ¾adavek typu GET na URI "/modul/username"} - Pokud modul vyÅ¾aduje registraci uÅ¾ivatelskÃ©ho jmÃ©na a hesla pro
+pÅ™Ã­stup k databÃ¡zi volacÃ­ch znaÄek (napÅ™Ã­klad v pÅ™Ã­padÄ›, Å¾e modul pÅ™istupuje ke sluÅ¾bÄ›, kterÃ¡ je jen pro registrovanÃ©), musÃ­ modul
+implementovat zpracovÃ¡nÃ­ tohoto URI a vrÃ¡tit aktuÃ¡lnÄ› registrovanÃ© uÅ¾ivatelskÃ© jmÃ©no nebo prÃ¡zdnÃ½ Å™etezec. Klient pak mÅ¯Å¾e tohoto
+chovÃ¡nÃ­ vyuÅ¾Ã­t pro zjiÅ¡tenÃ­, jestli je potÅ™eba bÃ½t pro pouÅ¾itÃ­ modulu registrovÃ¡n.
+\item \textbf{PoÅ¾adavek na URI "/modul/register"} - SlouÅ¾Ã­ k registraci uÅ¾ivatelskÃ©ho jmÃ©na a hesla pro pouÅ¾itÃ­ modulu.
+JmÃ©no a heslo jsou pÅ™edÃ¡ny v hlaviÄce paketu pod klÃ­Äi "username" a "password".
 \end{itemize}
 
-\subsection{Databáze}
+\subsubsection{RozhranÃ­ modulÅ¯ typu DXCLUSTER}
+
+Moduly typu DXCLUSTER poskytujÃ­ nÃ¡sledujÃ­cÃ­ funkce:
+
+\begin{itemize}
+\item \textbf{PoÅ¾adavek typu GET na URI "/modul"} - Modul vrÃ¡tÃ­ seznam novÄ› vysÃ­lajÃ­cÃ­ch stanic od poslednÃ­ho dotazu. Klient se tak
+musÃ­ opakovanÄ› ptÃ¡t, aby zÃ­skal novÃ© vysÃ­lajÃ­cÃ­ stanice.
+\item \textbf{PoÅ¾adavek typu GET na URI "/modul/username"} - VÃ½znam je stejnÃ½ jako u modulu typu CALLINFO.
+\item \textbf{PoÅ¾adavek na URI "/modul/register"} - VÃ½znam je stejnÃ½ jako u modulu typu CALLINFO.
+\end{itemize}
+
+\subsection{DatabÃ¡ze}
 \label{navrh_databaze}
 
-Souèástí serveru je rozhraní pro pøístup k databázi. Ve¹kerá data v¹ech u¾ivatelù jsou v této databázi ulo¾ena.
-Návrh serveru poèítá s vyu¾itím databáze jakéhokoliv typu (SQLite3, MySQL, PostgreSQL, \dots). Jednotlivé moduly
-umí prostøednictvím databázového rozhraní s databází pracovat a spou¹tìt nad ní prakticky jakékoliv dotazy.
+SouÄÃ¡stÃ­ serveru je rozhranÃ­ pro pÅ™Ã­stup k databÃ¡zi. VeÅ¡kerÃ¡ data vÅ¡ech uÅ¾ivatelÅ¯ jsou v tÃ©to databÃ¡zi uloÅ¾ena.
+NÃ¡vrh serveru poÄÃ­tÃ¡ s vyuÅ¾itÃ­m databÃ¡ze jakÃ©hokoliv typu (SQLite3, MySQL, PostgreSQL, \dots). JednotlivÃ© moduly
+umÃ­ prostÅ™ednictvÃ­m databÃ¡zovÃ©ho rozhranÃ­ s databÃ¡zÃ­ pracovat a spouÅ¡tÄ›t nad nÃ­ prakticky jakÃ©koliv dotazy.
 
-Na následujícím obrázku je zobrazeno obecné schéma databáze pou¾ité pro ulo¾ení v¹ech potøebnıch informací. Tabulky
-z tohoto obrázku jsou pak dále struènì popsány.
+Na nÃ¡sledujÃ­cÃ­m obrÃ¡zku je zobrazeno obecnÃ© schÃ©ma databÃ¡ze pouÅ¾itÃ© pro uloÅ¾enÃ­ vÅ¡ech potÅ™ebnÃ½ch informacÃ­. Tabulky
+z tohoto obrÃ¡zku jsou pak dÃ¡le struÄnÄ› popsÃ¡ny.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=9cm 9cm 9cm 9cm, scale=0.7]{fig/navrh_databaze.pdf}
-\caption{Návrh databáze.}
+\includegraphics[trim=9cm 9cm 9cm 9cm, scale=0.7]{fig/navrh_databaze}
+\caption{NÃ¡vrh databÃ¡ze.}
 \label{fig:FigureExample}
 \end{figure}
 
 \subsubsection{Tabulka users}
 
-Tabulka users obsahuje informace potøebné pro pøihlá¹ení u¾ivatele deníku. Jde zejména o jeho volací znaèku a
+Tabulka users obsahuje informace potÅ™ebnÃ© pro pÅ™ihlÃ¡Å¡enÃ­ uÅ¾ivatele denÃ­ku. Jde zejmÃ©na o jeho volacÃ­ znaÄku a
 heslo.
 
 \subsubsection{Tabulka logbook}
 
-V tabulce logbook jsou ulo¾eny deníky v¹ech u¾ivatelù. Obsahuje následující sloupce:
+V tabulce logbook jsou uloÅ¾eny denÃ­ky vÅ¡ech uÅ¾ivatelÅ¯. Obsahuje nÃ¡sledujÃ­cÃ­ sloupce:
 
 \begin{itemize}
-\item \textbf{id} - ID záznamu v logu.
-\item \textbf{user\_id} - ID u¾ivatele, jemu¾ záznam v logu patøí.
-\item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
-\item \textbf{callsign} - Volací znaèka (napøíklad OK2JRQ).
-\item \textbf{mode} - Mód spojení.
-\item \textbf{qth} - QTH lokátor (Maidenhead Locator).
-\item \textbf{name} - Jméno operátora.
-\item \textbf{latitude} - Zemìpisná ¹íøka.
-\item \textbf{longitude} - Zemìpisná délka.
+\item \textbf{id} - ID zÃ¡znamu v logu.
+\item \textbf{user\_id} - ID uÅ¾ivatele, jemuÅ¾ zÃ¡znam v logu patÅ™Ã­.
+\item \textbf{qsodate} - Datum zÃ¡znamu ve formÃ¡tu unixovÃ©ho timestampu.
+\item \textbf{callsign} - VolacÃ­ znaÄka (napÅ™Ã­klad OK2JRQ).
+\item \textbf{mode} - MÃ³d spojenÃ­.
+\item \textbf{qth} - QTH lokÃ¡tor (Maidenhead Locator).
+\item \textbf{name} - JmÃ©no operÃ¡tora.
+\item \textbf{latitude} - ZemÄ›pisnÃ¡ Å¡Ã­Å™ka.
+\item \textbf{longitude} - ZemÄ›pisnÃ¡ dÃ©lka.
 \item \textbf{conty} - Okres.
 \item \textbf{continent} - Zkratka kontinentu.
-\item \textbf{cq} - CQ zóna.
-\item \textbf{itu} - ITU zóna.
-\item \textbf{qsl} - Pøíznak ¾ádosti o QSL lístek.
-\item \textbf{qsl\_sent} - Pøíznak poslání QSL lístku.
-\item \textbf{comments} - Komentáøe.
+\item \textbf{cq} - CQ zÃ³na.
+\item \textbf{itu} - ITU zÃ³na.
+\item \textbf{qsl} - PÅ™Ã­znak Å¾Ã¡dosti o QSL lÃ­stek.
+\item \textbf{qsl\_sent} - PÅ™Ã­znak poslÃ¡nÃ­ QSL lÃ­stku.
+\item \textbf{comments} - KomentÃ¡Å™e.
 \end{itemize}
 
-\section{Klientská knihovna}
+\section{KlientskÃ¡ knihovna}
 \label{navrh_knihovna}
 
-Cílem klientské knihovny je poskytnout grafickému rozhraní jednotné API pro pøístup k serveru
-a tím pádem zamezit duplikování kódu mezi pøípadnımi grafickımi rozhraními.
+CÃ­lem klientskÃ© knihovny je poskytnout grafickÃ©mu rozhranÃ­ jednotnÃ© API pro pÅ™Ã­stup k serveru
+a tÃ­m pÃ¡dem zamezit duplikovÃ¡nÃ­ kÃ³du mezi pÅ™Ã­padnÃ½mi grafickÃ½mi rozhranÃ­mi.
 
-Klientská knihovna má minimální závislosti a je multiplatformní. Pomocí komunikaèního protokolu
-komunikuje se server, zpracovává pøíchozí data a pøedává je klientovi.
+KlientskÃ¡ knihovna mÃ¡ minimÃ¡lnÃ­ zÃ¡vislosti a je multiplatformnÃ­. PomocÃ­ komunikaÄnÃ­ho protokolu
+komunikuje se server, zpracovÃ¡vÃ¡ pÅ™Ã­chozÃ­ data a pÅ™edÃ¡vÃ¡ je klientovi.
 
-Knihovna je navr¾ena tak, aby mohla spolupracovat s jakımkoliv grafickım rozhraním.
+Knihovna je navrÅ¾ena tak, aby mohla spolupracovat s jakÃ½mkoliv grafickÃ½m rozhranÃ­m.
 
-Základními funkcemi klientské knihovny je:
+ZÃ¡kladnÃ­mi funkcemi klientskÃ© knihovny je:
 
 \begin{itemize}
-\item Pøipojení k serveru, registrace a pøihlá¹ení u¾ivatele.
-\item Generování po¾adavkù pro server a jejich posílání.
-\item Zpracování odpovìdí serveru a pøedání zpracovanıch dat klientské knihovnì.
+\item PÅ™ipojenÃ­ k serveru, registrace a pÅ™ihlÃ¡Å¡enÃ­ uÅ¾ivatele.
+\item GenerovÃ¡nÃ­ poÅ¾adavkÅ¯ pro server a jejich posÃ­lÃ¡nÃ­.
+\item ZpracovÃ¡nÃ­ odpovÄ›dÃ­ serveru a pÅ™edÃ¡nÃ­ zpracovanÃ½ch dat klientskÃ© knihovnÄ›.
 \end{itemize}
 
 \section{Klient}
 \label{navrh_klient}
 
-Klient slou¾í koncovému u¾ivateli k pøipojení k serveru, prezentaci aktuálních dat a jejich zmìnì. Pro komunikace
-se serverem klient vyu¾ívá klientskou knihovnu. Pro komunikaci s u¾ivatelem pak klient vyu¾ívá grafického rozhraní.
-Po startu klienta je u¾ivatel vyzván k pøihlá¹ení se k serveru. U¾ivateli je rovnì¾ nabídnuta mo¾nost registrace
-nového úètu.
+Klient slouÅ¾Ã­ koncovÃ©mu uÅ¾ivateli k pÅ™ipojenÃ­ k serveru, prezentaci aktuÃ¡lnÃ­ch dat a jejich zmÄ›nÄ›. Pro komunikace
+se serverem klient vyuÅ¾Ã­vÃ¡ klientskou knihovnu. Pro komunikaci s uÅ¾ivatelem pak klient vyuÅ¾Ã­vÃ¡ grafickÃ©ho rozhranÃ­.
+Po startu klienta je uÅ¾ivatel vyzvÃ¡n k pÅ™ihlÃ¡Å¡enÃ­ se k serveru. UÅ¾ivateli je rovnÄ›Å¾ nabÃ­dnuta moÅ¾nost registrace
+novÃ©ho ÃºÄtu.
 
-Po pøihlá¹ení zobrazí klientská aplikace ve¹keré záznamy v deníku a umo¾ní jejich editaci. Klientská aplikace také zobrazuje
-aktuální vysílání získané ze slu¾by DXCluster. Stanice, které aktuálnì vysílají jsou zobrazeny graficky na modelu zemìkoule.
+Po pÅ™ihlÃ¡Å¡enÃ­ zobrazÃ­ klientskÃ¡ aplikace veÅ¡kerÃ© zÃ¡znamy v denÃ­ku a umoÅ¾nÃ­ jejich editaci. KlientskÃ¡ aplikace takÃ© zobrazuje
+aktuÃ¡lnÃ­ vysÃ­lÃ¡nÃ­ zÃ­skanÃ© ze sluÅ¾by DXCluster. Stanice, kterÃ© aktuÃ¡lnÄ› vysÃ­lajÃ­ jsou zobrazeny graficky na modelu zemÄ›koule.
 
-Po vybrání stanice zobrazen dialog pro pøidání nového záznamu s pøedvolenımi hodnotami získanımi ze slu¾by DXCluster. Automaticky
-je také pøeladìno rádio na danou frekvenci. V oknì pro novı záznam je u¾ivateli zobrazena historie v¹ech spojení s danım operátorem.
-Po potvrzení dialogu je novı záznam odeslán na server a ulo¾en do databáze.
+Po vybrÃ¡nÃ­ stanice zobrazen dialog pro pÅ™idÃ¡nÃ­ novÃ©ho zÃ¡znamu s pÅ™edvolenÃ½mi hodnotami zÃ­skanÃ½mi ze sluÅ¾by DXCluster. Automaticky
+je takÃ© pÅ™eladÄ›no rÃ¡dio na danou frekvenci. V oknÄ› pro novÃ½ zÃ¡znam je uÅ¾ivateli zobrazena historie vÅ¡ech spojenÃ­ s danÃ½m operÃ¡torem.
+Po potvrzenÃ­ dialogu je novÃ½ zÃ¡znam odeslÃ¡n na server a uloÅ¾en do databÃ¡ze.
 
-Klient také umo¾òuje zobrazit v¹echny moduly dostupné na serveru a jejich popis.
+Klient takÃ© umoÅ¾Åˆuje zobrazit vÅ¡echny moduly dostupnÃ© na serveru a jejich popis.
 
 
 \chapter{Implementace}
 \label{implementace}
 
-V této kapitole je popsána implementace serverové aplikace, klientské aplikace a klientské knihovny.
+V tÃ©to kapitole je popsÃ¡na implementace serverovÃ© aplikace, klientskÃ© aplikace a klientskÃ© knihovny.
 
-\section{Implementace serverové aplikace}
+\section{Implementace serverovÃ© aplikace}
 \label{implementace_server}
 
-Server byl implementován v jazyce C++ umo¾òujícím lep¹í dekompozici aplikace a pou¾ití objektového paradigmatu. Byla rovnì¾
-pou¾ita knihovna Boost, která poskytuje základní metody pro asynchronní sí»ovou komunikaci a nabízí programátorské prostøedky
-nad rámec standardní STL knihovny.
+Server byl implementovÃ¡n v jazyce C++ umoÅ¾ÅˆujÃ­cÃ­m lepÅ¡Ã­ dekompozici aplikace a pouÅ¾itÃ­ objektovÃ©ho paradigmatu. Byla rovnÄ›Å¾
+pouÅ¾ita knihovna Boost, kterÃ¡ poskytuje zÃ¡kladnÃ­ metody pro asynchronnÃ­ sÃ­Å¥ovou komunikaci a nabÃ­zÃ­ programÃ¡torskÃ© prostÅ™edky
+nad rÃ¡mec standardnÃ­ STL knihovny.
 
-Pro implementaci modulu QRZ bylo potøeba pou¾ít knihovnu pro zpracování XML. K tomuto úèelu jsem pou¾il knihovnu TinyXML.
+Pro implementaci modulu QRZ bylo potÅ™eba pouÅ¾Ã­t knihovnu pro zpracovÃ¡nÃ­ XML. K tomuto ÃºÄelu jsem pouÅ¾il knihovnu TinyXML.
 
-V této podkapitole jsou popsány nejdùle¾itej¹í tøídy serveru.
+V tÃ©to podkapitole jsou popsÃ¡ny nejdÅ¯leÅ¾itejÅ¡Ã­ tÅ™Ã­dy serveru.
 
-\subsubsection{Tøída Server}
+\subsubsection{TÅ™Ã­da Server}
 
-Tøída Server je základní tøídou serveru. Vytváøí soket, na kterém server pøijímá pøipojení z klientské knihovny. Jakmile je 
-akceptováno nové pøipojení, je vytvoøena instance tøídy Session, která dále zpracovává v¹echny po¾adavky klienta.
+TÅ™Ã­da Server je zÃ¡kladnÃ­ tÅ™Ã­dou serveru. VytvÃ¡Å™Ã­ soket, na kterÃ©m server pÅ™ijÃ­mÃ¡ pÅ™ipojenÃ­ z klientskÃ© knihovny. Jakmile je 
+akceptovÃ¡no novÃ© pÅ™ipojenÃ­, je vytvoÅ™ena instance tÅ™Ã­dy Session, kterÃ¡ dÃ¡le zpracovÃ¡vÃ¡ vÅ¡echny poÅ¾adavky klienta.
 
-\subsubsection{Tøída Session}
+\subsubsection{TÅ™Ã­da Session}
 
-Tato tøída reprezentuje sezení jednoho u¾ivatele. Pøi obdr¾ení novıch dat od klienta jsou tato pøedána instanci tøídy
-RequestParser, která slou¾í k jejich rozparsování. Pokud byla obdr¾ena kompletní zpráva, je pøedána instanci tøídy 
-ModuleManager metodou handleRequest, která pak øídí její dal¹í zpracování. Vısledná odpovìï je pak tøídou Session poslána
-zpìt klientovi.
+Tato tÅ™Ã­da reprezentuje sezenÃ­ jednoho uÅ¾ivatele. PÅ™i obdrÅ¾enÃ­ novÃ½ch dat od klienta jsou tato pÅ™edÃ¡na instanci tÅ™Ã­dy
+RequestParser, kterÃ¡ slouÅ¾Ã­ k jejich rozparsovÃ¡nÃ­. Pokud byla obdrÅ¾ena kompletnÃ­ zprÃ¡va, je pÅ™edÃ¡na instanci tÅ™Ã­dy 
+ModuleManager metodou handleRequest, kterÃ¡ pak Å™Ã­dÃ­ jejÃ­ dalÅ¡Ã­ zpracovÃ¡nÃ­. VÃ½slednÃ¡ odpovÄ›Ä je pak tÅ™Ã­dou Session poslÃ¡na
+zpÄ›t klientovi.
 
-\subsubsection{Tøída RequestParser}
+\subsubsection{TÅ™Ã­da RequestParser}
 
-Tøída RequestParser reprezentuje koneènı automat pro parsování zpráv podle specifikace komunikaèního protokolu.
-Metoda parse zpracovává pøijatá data, parsuje je, a vısledek uchovává v instanci tøídy Request. Pokud dojde bìhem parsování
-k chybì, vrací funkce parse hodnotu false a u¾ivatel, jeho¾ klient poslal nevalidní data, je odpojen.
+TÅ™Ã­da RequestParser reprezentuje koneÄnÃ½ automat pro parsovÃ¡nÃ­ zprÃ¡v podle specifikace komunikaÄnÃ­ho protokolu.
+Metoda parse zpracovÃ¡vÃ¡ pÅ™ijatÃ¡ data, parsuje je, a vÃ½sledek uchovÃ¡vÃ¡ v instanci tÅ™Ã­dy Request. Pokud dojde bÄ›hem parsovÃ¡nÃ­
+k chybÄ›, vracÃ­ funkce parse hodnotu false a uÅ¾ivatel, jehoÅ¾ klient poslal nevalidnÃ­ data, je odpojen.
 
-\subsection{Implementace databázového rozhraní}
+\subsection{Implementace databÃ¡zovÃ©ho rozhranÃ­}
 \label{implementace_db}
 
-Návrh a implementace serveru umo¾òuje pou¾ití libovolného databázového rozhraní. V rámci bakaláøské práce je v¹ak podpována
-pouze databáze SQLite3. Tøída implementující konkrétní databázové rozhraní musí dìdit tøídu StorageBackend a implementovat
-její èistì virtuální metody.
+NÃ¡vrh a implementace serveru umoÅ¾Åˆuje pouÅ¾itÃ­ libovolnÃ©ho databÃ¡zovÃ©ho rozhranÃ­. V rÃ¡mci bakalÃ¡Å™skÃ© prÃ¡ce je vÅ¡ak podpovÃ¡na
+pouze databÃ¡ze SQLite3. TÅ™Ã­da implementujÃ­cÃ­ konkrÃ©tnÃ­ databÃ¡zovÃ© rozhranÃ­ musÃ­ dÄ›dit tÅ™Ã­du StorageBackend a implementovat
+jejÃ­ ÄistÄ› virtuÃ¡lnÃ­ metody.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.7]{fig/imp_databaze.pdf}
-\caption{Diagram databázového rozhraní.}
+\includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.7]{fig/imp_databaze}
+\caption{Diagram databÃ¡zovÃ©ho rozhranÃ­.}
 \label{fig:FigureExample}
 \end{figure}
 
-\subsubsection{Tøída StorageBackend}
+\subsubsection{TÅ™Ã­da StorageBackend}
 
-Tøída StorageBackend je základní abstraktní tøídou pro implementaci jakéhokoliv databázového rozhraní.
-Je u ní pou¾it návrhovı vzor Singleton a jejím smyslem je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
-o jakou databázi se jedná. Názvy metod a podtøíd jsou pojmenovány terminologií známou z SQL databází, ale prakticky
-lze pomocí tøídy StorageBackend implementovat rozhraní pro pøístup k jakémukoliv typu databáze.
+TÅ™Ã­da StorageBackend je zÃ¡kladnÃ­ abstraktnÃ­ tÅ™Ã­dou pro implementaci jakÃ©hokoliv databÃ¡zovÃ©ho rozhranÃ­.
+Je u nÃ­ pouÅ¾it nÃ¡vrhovÃ½ vzor Singleton a jejÃ­m smyslem je poskytnout rozhranÃ­ pro zÃ­skÃ¡vÃ¡nÃ­ dat z databÃ¡zovÃ©ho rozhranÃ­ bez znalosti
+o jakou databÃ¡zi se jednÃ¡. NÃ¡zvy metod a podtÅ™Ã­d jsou pojmenovÃ¡ny terminologiÃ­ znÃ¡mou z SQL databÃ¡zÃ­, ale prakticky
+lze pomocÃ­ tÅ™Ã­dy StorageBackend implementovat rozhranÃ­ pro pÅ™Ã­stup k jakÃ©mukoliv typu databÃ¡ze.
 
-Tøída StorageBackend Obsahuje základní podtøídy pro definici dotazù typu SELECT, INSERT, UPDATE a CREATE známıch z
+TÅ™Ã­da StorageBackend Obsahuje zÃ¡kladnÃ­ podtÅ™Ã­dy pro definici dotazÅ¯ typu SELECT, INSERT, UPDATE a CREATE znÃ¡mÃ½ch z
 jazyka SQL:
 
 \begin{itemize}
-\item StorageBackend::Column - Obsahuje ve¹keré informace o sloupci tabulky (jméno, typ, velikost,
-pøíznaky pro NOT NULL, UNIQUE a PRIMARY KEY). Slou¾í pro definici sloupce pøi vytváøení
-nové tabulky metodou StorageBackend::createTable().
-\item StorageBackend::Select - Zapouzdøuje data potøebná pro provedení vıbìru dat z databáze. Obsahuje jméno tabulky,
-ze které se vıbìr provádí, a ukazatel na dvourozmìrnì pole, do kterého se ulo¾í vısledky. Dále umo¾òuje tøída StorageBackend::Select
-definovat omezení vıbìru (v SQL jazyce klíèové slovo WHERE) a umo¾òuje vıbìr konkrétních sloupcù, které vrátí ve vısledku.
-Instance této tøídy je pøedána metodì StorageBackend::select() nebo StorageBackend::remove().
-\item StorageBackend::Insert - Obsahuje data pro vlo¾ení (v SQL jazyce INSERT) nebo aktualizaci (v SQL jazyce UPDATE)
-záznamu v databázi. Obsahuje název tabulky, ve které se budou data mìnit, a samotná data ve formì název sloupce - hodnota.
-Umo¾òuje definovat omezení (v SQL jazyce WHERE) aplikovaná pøi aktualizaci dat. Instance této tøidy je pøedána metodì
+\item StorageBackend::Column - Obsahuje veÅ¡kerÃ© informace o sloupci tabulky (jmÃ©no, typ, velikost,
+pÅ™Ã­znaky pro NOT NULL, UNIQUE a PRIMARY KEY). SlouÅ¾Ã­ pro definici sloupce pÅ™i vytvÃ¡Å™enÃ­
+novÃ© tabulky metodou StorageBackend::createTable().
+\item StorageBackend::Select - ZapouzdÅ™uje data potÅ™ebnÃ¡ pro provedenÃ­ vÃ½bÄ›ru dat z databÃ¡ze. Obsahuje jmÃ©no tabulky,
+ze kterÃ© se vÃ½bÄ›r provÃ¡dÃ­, a ukazatel na dvourozmÄ›rnÄ› pole, do kterÃ©ho se uloÅ¾Ã­ vÃ½sledky. DÃ¡le umoÅ¾Åˆuje tÅ™Ã­da StorageBackend::Select
+definovat omezenÃ­ vÃ½bÄ›ru (v SQL jazyce klÃ­ÄovÃ© slovo WHERE) a umoÅ¾Åˆuje vÃ½bÄ›r konkrÃ©tnÃ­ch sloupcÅ¯, kterÃ© vrÃ¡tÃ­ ve vÃ½sledku.
+Instance tÃ©to tÅ™Ã­dy je pÅ™edÃ¡na metodÄ› StorageBackend::select() nebo StorageBackend::remove().
+\item StorageBackend::Insert - Obsahuje data pro vloÅ¾enÃ­ (v SQL jazyce INSERT) nebo aktualizaci (v SQL jazyce UPDATE)
+zÃ¡znamu v databÃ¡zi. Obsahuje nÃ¡zev tabulky, ve kterÃ© se budou data mÄ›nit, a samotnÃ¡ data ve formÄ› nÃ¡zev sloupce - hodnota.
+UmoÅ¾Åˆuje definovat omezenÃ­ (v SQL jazyce WHERE) aplikovanÃ¡ pÅ™i aktualizaci dat. Instance tÃ©to tÅ™idy je pÅ™edÃ¡na metodÄ›
 StorageBackend::insert() nebo StorageBackend::update().
 \end{itemize}
 
-V závislosti na implementaci metod tøídy StorageBackend v nìktéré z jejich dceøinıch tøíd je pak vyvolána konkrétní zmìna v
-databázi. Tøída StorageBackend dále umo¾òuje získání identifikaèního èísla naposledy vlo¾eného záznamu metodou lastInsertedID().
+V zÃ¡vislosti na implementaci metod tÅ™Ã­dy StorageBackend v nÄ›ktÃ©rÃ© z jejich dceÅ™inÃ½ch tÅ™Ã­d je pak vyvolÃ¡na konkrÃ©tnÃ­ zmÄ›na v
+databÃ¡zi. TÅ™Ã­da StorageBackend dÃ¡le umoÅ¾Åˆuje zÃ­skÃ¡nÃ­ identifikaÄnÃ­ho ÄÃ­sla naposledy vloÅ¾enÃ©ho zÃ¡znamu metodou lastInsertedID().
 
 
-\subsubsection{Tøída SQLite3Backend}
+\subsubsection{TÅ™Ã­da SQLite3Backend}
 
-Tato tøída dìdí tøídu StorageBackend a implementuje její metody pro pou¾ití databázového systému SQLite3. V metodách
-update(), insert(), select(), createTable() a remove() se na základì pøedanıch dat vygeneruje dotaz v SQL jazyce, spustí se
-a je vrácen vısledek.
+Tato tÅ™Ã­da dÄ›dÃ­ tÅ™Ã­du StorageBackend a implementuje jejÃ­ metody pro pouÅ¾itÃ­ databÃ¡zovÃ©ho systÃ©mu SQLite3. V metodÃ¡ch
+update(), insert(), select(), createTable() a remove() se na zÃ¡kladÄ› pÅ™edanÃ½ch dat vygeneruje dotaz v SQL jazyce, spustÃ­ se
+a je vrÃ¡cen vÃ½sledek.
 
-\subsection{Implementace modulù}
+\subsection{Implementace modulÅ¯}
 \label{implementace_moduly}
 
-Moduly jsou implementovány jako dynamické knihovny. Ka¾dı modul musí dìdit tøídu Modul (zprostøedkovanì napøíklad pøes tøídu RequestResponder)
-a implementovat její èistì virtuální
-(pure virtual) metody. Ve¹keré klientské po¾adavky jsou pak smìrovány na konkrétní modul podle URI instancí tøídy ModuleManager.
+Moduly jsou implementovÃ¡ny jako dynamickÃ© knihovny. KaÅ¾dÃ½ modul musÃ­ dÄ›dit tÅ™Ã­du Modul (zprostÅ™edkovanÄ› napÅ™Ã­klad pÅ™es tÅ™Ã­du RequestResponder)
+a implementovat jejÃ­ ÄistÄ› virtuÃ¡lnÃ­
+(pure virtual) metody. VeÅ¡kerÃ© klientskÃ© poÅ¾adavky jsou pak smÄ›rovÃ¡ny na konkrÃ©tnÃ­ modul podle URI instancÃ­ tÅ™Ã­dy ModuleManager.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=10cm 10cm 10cm 10cm, scale=0.7]{fig/moduly.pdf}
-\caption{Diagram tøíd modulù.}
+\includegraphics[trim=10cm 10cm 10cm 10cm, scale=0.7]{fig/moduly}
+\caption{Diagram tÅ™Ã­d modulÅ¯.}
 \label{fig:FigureExample}
 \end{figure}
 
-\subsubsection{Tøída Module}
+\subsubsection{TÅ™Ã­da Module}
 
-Tøída Module poskytuje základní tøídu, kterou musí implementovat ka¾dı externí modul. Obsahuje základní informace o modulu 
-(jeho jméno, typ a popis).
+TÅ™Ã­da Module poskytuje zÃ¡kladnÃ­ tÅ™Ã­du, kterou musÃ­ implementovat kaÅ¾dÃ½ externÃ­ modul. Obsahuje zÃ¡kladnÃ­ informace o modulu 
+(jeho jmÃ©no, typ a popis).
 
-\subsubsection{Tøída RequestResponder}
+\subsubsection{TÅ™Ã­da RequestResponder}
 
-Tato tøída dìdí tøídu Module a roz¹iøuje ji o data a metody specifické pro modul odpovídající na klientské po¾adavky.
-Pøiøazuje modulu jeho URI a informaci o tom, jestli musí bıt u¾ivatel pro jeho pou¾ití pøihlá¹en.
-Obsahuje také deklaraci metody handleRequest(), která je volána instancí tøídy ModuleManager pro ka¾dı pøíchozí po¾adavek
-smeøující na modul.
+Tato tÅ™Ã­da dÄ›dÃ­ tÅ™Ã­du Module a rozÅ¡iÅ™uje ji o data a metody specifickÃ© pro modul odpovÃ­dajÃ­cÃ­ na klientskÃ© poÅ¾adavky.
+PÅ™iÅ™azuje modulu jeho URI a informaci o tom, jestli musÃ­ bÃ½t uÅ¾ivatel pro jeho pouÅ¾itÃ­ pÅ™ihlÃ¡Å¡en.
+Obsahuje takÃ© deklaraci metody handleRequest(), kterÃ¡ je volÃ¡na instancÃ­ tÅ™Ã­dy ModuleManager pro kaÅ¾dÃ½ pÅ™Ã­chozÃ­ poÅ¾adavek
+smeÅ™ujÃ­cÃ­ na modul.
 
-\subsubsection{Tøída ModuleManager}
+\subsubsection{TÅ™Ã­da ModuleManager}
 
-U tøídy ModuleManager je pou¾it návrhovı vzor Singleton.
-Tato tøída zabezpeèuje ve¹kerou práci serveru s externími moduly. Pomocí 
-metody loadModules lze naèíst v¹echny moduly z adresáøe zvoleného v konfiguraèním souboru. Ve¹keré po¾adavky od klientù
-jsou pøedány instanci této tøídy metodou handleRequest, která je pak dále smìruje podle URI na konkrétní modul. Tøída také
-umo¾òuje poslat seznam v¹ech modulù klientské aplikaci.
+U tÅ™Ã­dy ModuleManager je pouÅ¾it nÃ¡vrhovÃ½ vzor Singleton.
+Tato tÅ™Ã­da zabezpeÄuje veÅ¡kerou prÃ¡ci serveru s externÃ­mi moduly. PomocÃ­ 
+metody loadModules lze naÄÃ­st vÅ¡echny moduly z adresÃ¡Å™e zvolenÃ©ho v konfiguraÄnÃ­m souboru. VeÅ¡kerÃ© poÅ¾adavky od klientÅ¯
+jsou pÅ™edÃ¡ny instanci tÃ©to tÅ™Ã­dy metodou handleRequest, kterÃ¡ je pak dÃ¡le smÄ›ruje podle URI na konkrÃ©tnÃ­ modul. TÅ™Ã­da takÃ©
+umoÅ¾Åˆuje poslat seznam vÅ¡ech modulÅ¯ klientskÃ© aplikaci.
 
-\subsection{Seznam implementovanıch modulù}
+\subsection{Seznam implementovanÃ½ch modulÅ¯}
 \label{implementace_moduly_list}
 
-V této podkapitole jsou popsány jednotlivé implementované moduly.
+V tÃ©to podkapitole jsou popsÃ¡ny jednotlivÃ© implementovanÃ© moduly.
 
 \subsubsection{Modul Register}
 
-Modul Register (bì¾ící na URI "/register") slou¾í k registraci novıch u¾ivatelù. Pøi svém spu¹tìní vytvoøí pomocí
-instance tøídy StorageBackend tabulku "users". V metodì handleRequest pak pøijímá pøípadné po¾adavky na registraci
-u¾ivatele a pøidá nového u¾ivatele do databáze. Pokud je ji¾ u¾ivatel zaregistrován, vrací klientské aplikaci chybovı kód.
+Modul Register (bÄ›Å¾Ã­cÃ­ na URI "/register") slouÅ¾Ã­ k registraci novÃ½ch uÅ¾ivatelÅ¯. PÅ™i svÃ©m spuÅ¡tÄ›nÃ­ vytvoÅ™Ã­ pomocÃ­
+instance tÅ™Ã­dy StorageBackend tabulku "users". V metodÄ› handleRequest pak pÅ™ijÃ­mÃ¡ pÅ™Ã­padnÃ© poÅ¾adavky na registraci
+uÅ¾ivatele a pÅ™idÃ¡ novÃ©ho uÅ¾ivatele do databÃ¡ze. Pokud je jiÅ¾ uÅ¾ivatel zaregistrovÃ¡n, vracÃ­ klientskÃ© aplikaci chybovÃ½ kÃ³d.
 
 \subsubsection{Modul Login}
 
-Modul Login bì¾í na URI "/login". Jeho cílem je umo¾nit u¾ivatelùm pøihlá¹ení k systému. V metodì handleRequest je
-implementován princip pøihlá¹ení WWW-Authenticate.
+Modul Login bÄ›Å¾Ã­ na URI "/login". Jeho cÃ­lem je umoÅ¾nit uÅ¾ivatelÅ¯m pÅ™ihlÃ¡Å¡enÃ­ k systÃ©mu. V metodÄ› handleRequest je
+implementovÃ¡n princip pÅ™ihlÃ¡Å¡enÃ­ WWW-Authenticate.
 
 \subsubsection{Modul LogBook}
 
-Tento modul je základem celého projektu, proto¾e umo¾òuje u¾ivateli ukládat nové záznamy v deníku na server. Pøi svém naètení
-vytvoøí tabulku "logbook". V metodì handleRequest na základì URI provádí následující akce:
+Tento modul je zÃ¡kladem celÃ©ho projektu, protoÅ¾e umoÅ¾Åˆuje uÅ¾ivateli uklÃ¡dat novÃ© zÃ¡znamy v denÃ­ku na server. PÅ™i svÃ©m naÄtenÃ­
+vytvoÅ™Ã­ tabulku "logbook". V metodÄ› handleRequest na zÃ¡kladÄ› URI provÃ¡dÃ­ nÃ¡sledujÃ­cÃ­ akce:
 
 \begin{itemize}
-\item URI "/logbook" - Jako odpovìd na dotaz po¹le celı logbook v CSV formátu získanı z databáze pomocí instance tøídy StorageBackend.
-\item URI "/logbook/add" - Pøidá do tabulky "logbook" novı záznam podle CSV dat pøijatıch v dotazu.
-\item URI "/logbook/remove" - Odstraní z tabulky "logbook" záznam definovanı pomocí ID pøijatého v dotazu.
-\item URI "/logbook/call" - Jako odpovìï na dotaz po¹le pouze záznamy o spojeních s konkrétním operátorem urèenım jeho znaèkou v 
-tìle dotazu.
+\item URI "/logbook" - Jako odpovÄ›d na dotaz poÅ¡le celÃ½ logbook v CSV formÃ¡tu zÃ­skanÃ½ z databÃ¡ze pomocÃ­ instance tÅ™Ã­dy StorageBackend.
+\item URI "/logbook/add" - PÅ™idÃ¡ do tabulky "logbook" novÃ½ zÃ¡znam podle CSV dat pÅ™ijatÃ½ch v dotazu.
+\item URI "/logbook/remove" - OdstranÃ­ z tabulky "logbook" zÃ¡znam definovanÃ½ pomocÃ­ ID pÅ™ijatÃ©ho v dotazu.
+\item URI "/logbook/call" - Jako odpovÄ›Ä na dotaz poÅ¡le pouze zÃ¡znamy o spojenÃ­ch s konkrÃ©tnÃ­m operÃ¡torem urÄenÃ½m jeho znaÄkou v 
+tÄ›le dotazu.
 \end{itemize}
 
 \subsubsection{Modul DXCC}
 
-Modul DXCC (bì¾í na URI "/dxcc") umo¾òuje získat z volací znaèky bli¾¹í informace o její lokaci. Modul je typu CALLINFO.
-Data o jednotlivıch prefixech
-jsou po startu modulu naètena ze souboru "cty.csv" v CSV formátu. Tento soubor byl získán z TODO.
-V metodì handleRequest modul získá z po¾adavku prefix volací
-znaèky, vyhledá jej v datech naètenıch pøi startu a jako odpovìï ode¹le informace o lokaci stanice. Pokud prefix není nalezen,
-vrací chybovı kód.
+Modul DXCC (bÄ›Å¾Ã­ na URI "/dxcc") umoÅ¾Åˆuje zÃ­skat z volacÃ­ znaÄky bliÅ¾Å¡Ã­ informace o jejÃ­ lokaci. Modul je typu CALLINFO.
+Data o jednotlivÃ½ch prefixech
+jsou po startu modulu naÄtena ze souboru "cty.csv" v CSV formÃ¡tu. Tento soubor byl zÃ­skÃ¡n z TODO.
+V metodÄ› handleRequest modul zÃ­skÃ¡ z poÅ¾adavku prefix volacÃ­
+znaÄky, vyhledÃ¡ jej v datech naÄtenÃ½ch pÅ™i startu a jako odpovÄ›Ä odeÅ¡le informace o lokaci stanice. Pokud prefix nenÃ­ nalezen,
+vracÃ­ chybovÃ½ kÃ³d.
 
 \subsubsection{Modul DXCluster}
 
-Modul DXCluster (bì¾ící na URI "/dxcluster") slou¾í k pøipojení k DXClusteru dxspots.com. Modul je typu DXCLUSTER.
-Pøi prvním po¾adavku od klienta dojde k pøipojení na DXCluster.
-Ve¹kerá data pøijatá z DXClusteru jsou rozparsována a ulo¾ena v CSV formátu. Na ka¾dı
-dal¹í klientskı po¾adavek odpoví modul daty získanımi z DXClusteru. Jde tedy o jistou formu pollingu, kdy si klient
-opakovanì ¾ádá o nová data.
+Modul DXCluster (bÄ›Å¾Ã­cÃ­ na URI "/dxcluster") slouÅ¾Ã­ k pÅ™ipojenÃ­ k DXClusteru dxspots.com. Modul je typu DXCLUSTER.
+PÅ™i prvnÃ­m poÅ¾adavku od klienta dojde k pÅ™ipojenÃ­ na DXCluster.
+VeÅ¡kerÃ¡ data pÅ™ijatÃ¡ z DXClusteru jsou rozparsovÃ¡na a uloÅ¾ena v CSV formÃ¡tu. Na kaÅ¾dÃ½
+dalÅ¡Ã­ klientskÃ½ poÅ¾adavek odpovÃ­ modul daty zÃ­skanÃ½mi z DXClusteru. Jde tedy o jistou formu pollingu, kdy si klient
+opakovanÄ› Å¾Ã¡dÃ¡ o novÃ¡ data.
 
 \subsubsection{Modul QRZ}
 
-Modul QRZ (bì¾ící na URI "/qrz") je typu CALLINFO umo¾òuje tedy získávat u¾ivateli dal¹í informace o ostatních u¾ivatelích na základì jejich
-volací znaèky.K tomuto vyu¾ívá slu¾bu qrz.com. V metodì handleRequest se na základì URI provádí následující akce:
+Modul QRZ (bÄ›Å¾Ã­cÃ­ na URI "/qrz") je typu CALLINFO umoÅ¾Åˆuje tedy zÃ­skÃ¡vat uÅ¾ivateli dalÅ¡Ã­ informace o ostatnÃ­ch uÅ¾ivatelÃ­ch na zÃ¡kladÄ› jejich
+volacÃ­ znaÄky.K tomuto vyuÅ¾Ã­vÃ¡ sluÅ¾bu qrz.com. V metodÄ› handleRequest se na zÃ¡kladÄ› URI provÃ¡dÃ­ nÃ¡sledujÃ­cÃ­ akce:
 
 \begin{itemize}
-\item URI "/qrz" - Po¹le QRZ serveru po¾adavek pro získání informací o u¾ivateli na základì jeho volací znaèky. Ke komunikaci 
-s QRZ serverem je vyu¾íváno XML API, které tento server poskytuje. Odpovìï na po¾adavek je rozparsována pomocí knihovny 
-TinyXML a odeslána klientské aplikaci ve formátu CSV.
-\item URI "/qrz/register" - Umo¾òuje u¾ivateli zvolení nebo zmìnu hesla pou¾itého pro pøihlá¹ení k QRZ serveru.
+\item URI "/qrz" - PoÅ¡le QRZ serveru poÅ¾adavek pro zÃ­skÃ¡nÃ­ informacÃ­ o uÅ¾ivateli na zÃ¡kladÄ› jeho volacÃ­ znaÄky. Ke komunikaci 
+s QRZ serverem je vyuÅ¾Ã­vÃ¡no XML API, kterÃ© tento server poskytuje. OdpovÄ›Ä na poÅ¾adavek je rozparsovÃ¡na pomocÃ­ knihovny 
+TinyXML a odeslÃ¡na klientskÃ© aplikaci ve formÃ¡tu CSV.
+\item URI "/qrz/register" - UmoÅ¾Åˆuje uÅ¾ivateli zvolenÃ­ nebo zmÄ›nu hesla pouÅ¾itÃ©ho pro pÅ™ihlÃ¡Å¡enÃ­ k QRZ serveru.
 \end{itemize}
 
-Komunikace se serverem QRZ je rovnì¾ asynchronní a odpovìï na dotaz na QRZ modul není odeslána ihned.
-Je tak tøeba øe¹it problém, kdy klientská aplikace po¹le dotaz na QRZ modul
-následovanı dotazem na modul jinı. V tomto pøípadì by mohl bıt druhı dotaz zpracován pøed prvním a do¹lo by tak k naru¹ení
-zpùsobu komunikace dotaz-odpovìï.
+Komunikace se serverem QRZ je rovnÄ›Å¾ asynchronnÃ­ a odpovÄ›Ä na dotaz na QRZ modul nenÃ­ odeslÃ¡na ihned.
+Je tak tÅ™eba Å™eÅ¡it problÃ©m, kdy klientskÃ¡ aplikace poÅ¡le dotaz na QRZ modul
+nÃ¡sledovanÃ½ dotazem na modul jinÃ½. V tomto pÅ™Ã­padÄ› by mohl bÃ½t druhÃ½ dotaz zpracovÃ¡n pÅ™ed prvnÃ­m a doÅ¡lo by tak k naruÅ¡enÃ­
+zpÅ¯sobu komunikace dotaz-odpovÄ›Ä.
 
-Øe¹ením tohoto problému je mo¾nost modulu zastavit doèasnì zpravovávání dal¹ích po¾adavkù od konkrétního klienta, dokud 
-nebude vyøízen po¾adavek aktuální. To lze provést zavoláním metody Reply::setAsync(). Jakmile je odpovìï pøipravena
-k odeslání, lze ji odeslat metodou Session::sendAsyncReply(). Po zavolání této metody je pak opìt povoleno zpracovávání
-dal¹ích po¾adavkù od klienta.
+Å˜eÅ¡enÃ­m tohoto problÃ©mu je moÅ¾nost modulu zastavit doÄasnÄ› zpravovÃ¡vÃ¡nÃ­ dalÅ¡Ã­ch poÅ¾adavkÅ¯ od konkrÃ©tnÃ­ho klienta, dokud 
+nebude vyÅ™Ã­zen poÅ¾adavek aktuÃ¡lnÃ­. To lze provÃ©st zavolÃ¡nÃ­m metody Reply::setAsync(). Jakmile je odpovÄ›Ä pÅ™ipravena
+k odeslÃ¡nÃ­, lze ji odeslat metodou Session::sendAsyncReply(). Po zavolÃ¡nÃ­ tÃ©to metody je pak opÄ›t povoleno zpracovÃ¡vÃ¡nÃ­
+dalÅ¡Ã­ch poÅ¾adavkÅ¯ od klienta.
 
 \subsubsection{Modul Hamlib}
 
-Modul Hamlib (bì¾ící na URI "/hamlib") umo¾òuje ovládat frekvenci vysílaèky pøipojené k poèítaèí, na které
-bì¾í serverová aplikace. Pro zmìnu a získání frekvence vyu¾ívá knihovnu Libhamlib. V metodì handleRequest se na základì
-URI provádí tyto akce:
+Modul Hamlib (bÄ›Å¾Ã­cÃ­ na URI "/hamlib") umoÅ¾Åˆuje ovlÃ¡dat frekvenci vysÃ­laÄky pÅ™ipojenÃ© k poÄÃ­taÄÃ­, na kterÃ©
+bÄ›Å¾Ã­ serverovÃ¡ aplikace. Pro zmÄ›nu a zÃ­skÃ¡nÃ­ frekvence vyuÅ¾Ã­vÃ¡ knihovnu Libhamlib. V metodÄ› handleRequest se na zÃ¡kladÄ›
+URI provÃ¡dÃ­ tyto akce:
 
 \begin{itemize}
-\item dotaz typu POST na URI "/hamlib" - Pøeladí frekvenci vysílaèky na frekvenci získanou z po¾adavku. Frekvence
-je posílána jako desetinné èíslo v kHz.
-\item dotaz typu POST na URI "/hamlib" - Ode¹le zpìt aktuální frekvenci jako desetinné èíslo v kHz.
+\item dotaz typu POST na URI "/hamlib" - PÅ™eladÃ­ frekvenci vysÃ­laÄky na frekvenci zÃ­skanou z poÅ¾adavku. Frekvence
+je posÃ­lÃ¡na jako desetinnÃ© ÄÃ­slo v kHz.
+\item dotaz typu POST na URI "/hamlib" - OdeÅ¡le zpÄ›t aktuÃ¡lnÃ­ frekvenci jako desetinnÃ© ÄÃ­slo v kHz.
 \end{itemize}
 
-\subsection{Implementace logování}
+\subsection{Implementace logovÃ¡nÃ­}
 \label{implementace_logovani}
 
-Logování je implementováno s pou¾itím knihovny Log4cxx vyvíjené Apache Software Foundation a licencované pod licencí
-Apache License. Pokud v¹ak není pøi kompilaci knihovna Log4cxx nalezena, je pro logování pou¾it standardní vıstup.
-Vıhodou Pou¾ití Log4cxx je mo¾nost ¹iroké konfigurace logování pomoci konfiguraèního souboru, mo¾nost pøesmìrovat
-logování do souboru a tento pak automaticky rotovat na základì jeho velikosti nebo èasu.
+LogovÃ¡nÃ­ je implementovÃ¡no s pouÅ¾itÃ­m knihovny Log4cxx vyvÃ­jenÃ© Apache Software Foundation a licencovanÃ© pod licencÃ­
+Apache License. Pokud vÅ¡ak nenÃ­ pÅ™i kompilaci knihovna Log4cxx nalezena, je pro logovÃ¡nÃ­ pouÅ¾it standardnÃ­ vÃ½stup.
+VÃ½hodou PouÅ¾itÃ­ Log4cxx je moÅ¾nost Å¡irokÃ© konfigurace logovÃ¡nÃ­ pomoci konfiguraÄnÃ­ho souboru, moÅ¾nost pÅ™esmÄ›rovat
+logovÃ¡nÃ­ do souboru a tento pak automaticky rotovat na zÃ¡kladÄ› jeho velikosti nebo Äasu.
 
-Ka¾dá tøída serveru má vlastní statickou instanci tøídy log4cxx::LoggerPtr, kterou vyu¾ívá k logování.
-U ka¾dého zápisu do logu se loguje datum a èas, záva¾nost záznamu (Informace, varování, chyba), název modulu a samotnı
-logovanı záznam.S tandardní vıstup pak vypadá napøíklad následovnì:
+KaÅ¾dÃ¡ tÅ™Ã­da serveru mÃ¡ vlastnÃ­ statickou instanci tÅ™Ã­dy log4cxx::LoggerPtr, kterou vyuÅ¾Ã­vÃ¡ k logovÃ¡nÃ­.
+U kaÅ¾dÃ©ho zÃ¡pisu do logu se loguje datum a Äas, zÃ¡vaÅ¾nost zÃ¡znamu (Informace, varovÃ¡nÃ­, chyba), nÃ¡zev modulu a samotnÃ½
+logovanÃ½ zÃ¡znam.S tandardnÃ­ vÃ½stup pak vypadÃ¡ napÅ™Ã­klad nÃ¡sledovnÄ›:
 
 \begin{verbatim}
 2012-03-28 19:12:44,423 INFO  Server: Starting the server
 \end{verbatim}
 
-\section{Implementace klientské knihovny}
+\section{Implementace klientskÃ© knihovny}
 \label{implementace_knihovna}
 
-Klientská knihovna spojuje serverovou aplikaci se samotnım klientskım rozhraním.
-Klientská knihovna je navr¾ena a implementována
-tak, aby ji bylo mo¾no pou¾ít s jakımkoliv grafickım (pøípadnì i konzolovım) rozhraním. Kvùli pøenositelnosti a
-¹ir¹í vyu¾itelnosti je napsána v jazyce C s dùrazem na co nejménì závislostí na jinıch knihovnách.
+KlientskÃ¡ knihovna spojuje serverovou aplikaci se samotnÃ½m klientskÃ½m rozhranÃ­m.
+KlientskÃ¡ knihovna je navrÅ¾ena a implementovÃ¡na
+tak, aby ji bylo moÅ¾no pouÅ¾Ã­t s jakÃ½mkoliv grafickÃ½m (pÅ™Ã­padnÄ› i konzolovÃ½m) rozhranÃ­m. KvÅ¯li pÅ™enositelnosti a
+Å¡irÅ¡Ã­ vyuÅ¾itelnosti je napsÃ¡na v jazyce C s dÅ¯razem na co nejmÃ©nÄ› zÃ¡vislostÃ­ na jinÃ½ch knihovnÃ¡ch.
 
-Klientská knihovna je rozdìlena do men¹ích blokù, které budou v této kapitole postupnì popsány.
+KlientskÃ¡ knihovna je rozdÄ›lena do menÅ¡Ã­ch blokÅ¯, kterÃ© budou v tÃ©to kapitole postupnÄ› popsÃ¡ny.
 
-\subsection{Abstraktní datové typy}
+\subsection{AbstraktnÃ­ datovÃ© typy}
 
-V této podkapitole je popsána implementace abstraktních datovıch typù po¾itıch v klientské knihovnì.
+V tÃ©to podkapitole je popsÃ¡na implementace abstraktnÃ­ch datovÃ½ch typÅ¯ poÅ¾itÃ½ch v klientskÃ© knihovnÄ›.
 
 \subsubsection{HAMList - Seznam}
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/list.pdf}
-\caption{Diagram dvousmìrného seznamu.}
+\includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/list}
+\caption{Diagram dvousmÄ›rnÃ©ho seznamu.}
 \label{fig:FigureExample}
 \end{figure}
 
-HAMList je implementací dvousmìrného seznamu. Základní datové struktury pou¾ité pro definici seznamu jsou
+HAMList je implementacÃ­ dvousmÄ›rnÃ©ho seznamu. ZÃ¡kladnÃ­ datovÃ© struktury pouÅ¾itÃ© pro definici seznamu jsou
 HAMList a HAMListItem:
 
 \begin{verbatim}
@@ -783,21 +783,21 @@ typedef struct _HAMList {
 } HAMList;
 \end{verbatim}
 
-Ka¾dá polo¾ka HAMListItem obsahuje odkaz na svého pøedchùdce (lptr) a následníka (rptr) a samotná data spjatá
-s polo¾kou (data). Struktura HAMList obsahuje odkaz na první a poslední polo¾ku a ukazatel na funkci free\_func,
-která je pou¾ita pro uvolnìní u¾ivatelskıch dat z pamìti. Pokud není tato funkce definována, nejsou u¾ivatelská
-data pøi uvolòování seznamu z pamìti uvolnìna.
+KaÅ¾dÃ¡ poloÅ¾ka HAMListItem obsahuje odkaz na svÃ©ho pÅ™edchÅ¯dce (lptr) a nÃ¡slednÃ­ka (rptr) a samotnÃ¡ data spjatÃ¡
+s poloÅ¾kou (data). Struktura HAMList obsahuje odkaz na prvnÃ­ a poslednÃ­ poloÅ¾ku a ukazatel na funkci free\_func,
+kterÃ¡ je pouÅ¾ita pro uvolnÄ›nÃ­ uÅ¾ivatelskÃ½ch dat z pamÄ›ti. Pokud nenÃ­ tato funkce definovÃ¡na, nejsou uÅ¾ivatelskÃ¡
+data pÅ™i uvolÅˆovÃ¡nÃ­ seznamu z pamÄ›ti uvolnÄ›na.
 
-\subsubsection{HAMHashTable - Hashovací tabulka}
+\subsubsection{HAMHashTable - HashovacÃ­ tabulka}
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/hash.pdf}
+\includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/hash}
 \caption{Diagram hash tabulky seznamu.}
 \label{fig:FigureExample}
 \end{figure}
 
-HAMHashTable je implementací hash tabulky. Základní datové struktury pou¾íté pøi implementaci hash tabulky jsou
+HAMHashTable je implementacÃ­ hash tabulky. ZÃ¡kladnÃ­ datovÃ© struktury pouÅ¾Ã­tÃ© pÅ™i implementaci hash tabulky jsou
 HAMHashTableItem a HAMHashTable:
 
 \begin{verbatim}
@@ -815,218 +815,218 @@ typedef struct _HAMHashTable {
 } HAMHashTable;
 \end{verbatim}
 
-Ka¾dá polo¾ka ulo¾ená v hash tabulce obsahuje svùj klíè (key), jeho délku (key\_len), data svázaná s polo¾kou a ukazatel
-na dal¹í polo¾ku. Pøi vlo¾ení nové polo¾ky do tabulky je vypoèten hash jejího klièe pomocí SDBM hashovacího algoritmu.
-Na základì hodnoty hashe je ukazatel na polo¾ku ulo¾en do pole polo¾ek items. P
+KaÅ¾dÃ¡ poloÅ¾ka uloÅ¾enÃ¡ v hash tabulce obsahuje svÅ¯j klÃ­Ä (key), jeho dÃ©lku (key\_len), data svÃ¡zanÃ¡ s poloÅ¾kou a ukazatel
+na dalÅ¡Ã­ poloÅ¾ku. PÅ™i vloÅ¾enÃ­ novÃ© poloÅ¾ky do tabulky je vypoÄten hash jejÃ­ho kliÄe pomocÃ­ SDBM hashovacÃ­ho algoritmu.
+Na zÃ¡kladÄ› hodnoty hashe je ukazatel na poloÅ¾ku uloÅ¾en do pole poloÅ¾ek items. P
 
-\subsection{Komunikace s klientskou aplikací}
+\subsection{Komunikace s klientskou aplikacÃ­}
 \label{implementace_knihovna_komunikace}
 
-Pro komunikaci s klientskou aplikací je podstatné napojení na její smyèku událostí a mo¾nost pøedávat asynchronnì
-vısledky po¾adavkù odeslanıch serveru. V této podkapitole jsou popsány øe¹ení obou tìchto problémù
+Pro komunikaci s klientskou aplikacÃ­ je podstatnÃ© napojenÃ­ na jejÃ­ smyÄku udÃ¡lostÃ­ a moÅ¾nost pÅ™edÃ¡vat asynchronnÄ›
+vÃ½sledky poÅ¾adavkÅ¯ odeslanÃ½ch serveru. V tÃ©to podkapitole jsou popsÃ¡ny Å™eÅ¡enÃ­ obou tÄ›chto problÃ©mÅ¯
 
 \subsubsection{EventLoop}
 
-Eventloop (neboli smyèka událostí) sdru¾uje metody slou¾ící k napojení na hlavní smyèku
-klientské aplikace. Pro správnou funkci klientské
-knihovny musí klientská aplikace implementovat v¹echny funkce definované ve struktuøe HAMEventLoopUICallbacks a
-pøedat je klientské knihovnì prostøednictvím metody ham\_eventloop\_set\_ui\_callbacks().
+Eventloop (neboli smyÄka udÃ¡lostÃ­) sdruÅ¾uje metody slouÅ¾Ã­cÃ­ k napojenÃ­ na hlavnÃ­ smyÄku
+klientskÃ© aplikace. Pro sprÃ¡vnou funkci klientskÃ©
+knihovny musÃ­ klientskÃ¡ aplikace implementovat vÅ¡echny funkce definovanÃ© ve struktuÅ™e HAMEventLoopUICallbacks a
+pÅ™edat je klientskÃ© knihovnÄ› prostÅ™ednictvÃ­m metody ham\_eventloop\_set\_ui\_callbacks().
 
-Funkce definované ve struktuøe HAMEventLoopUICallbacks jsou pak pou¾ívány dal¹ími èástmi klientské knihovny na
-následující èinnosti:
+Funkce definovanÃ© ve struktuÅ™e HAMEventLoopUICallbacks jsou pak pouÅ¾Ã­vÃ¡ny dalÅ¡Ã­mi ÄÃ¡stmi klientskÃ© knihovny na
+nÃ¡sledujÃ­cÃ­ Äinnosti:
 
 \begin{itemize}
-\item timeout\_add - Pøidá do hlavní smyèky programu bì¾ící v klientské aplikaci novı èasocaè. Klientská aplikace
-musí vrátit ukazatel na strukturu jednoznaènì identifikující èasovaè a
-volat opakovanì funkci pøedánou jakou ukazatel ve zvoleném intervalu.
-\item timeout\_remove - Odebere z hlavní smyèky èasovaè na základì jeho ukazatele na strukturu, která jej identifikuje.
-\item input\_add - Pøidá do hlavní smyèky klientské aplikace ukazatel na funkci, která je volána kdy¾ jsou k dispozici
-nová data na definovaném soketu. Klientská aplikace
-musí vrátit ukazatel na strukturu jednoznaènì identifikující tuto událost.
-\item input\_remove - Odebere z hlavní smyèky ukazatel na funkci vstupu na
-základì ukazatele na strukturu, která jej identifikuje.
+\item timeout\_add - PÅ™idÃ¡ do hlavnÃ­ smyÄky programu bÄ›Å¾Ã­cÃ­ v klientskÃ© aplikaci novÃ½ ÄasocaÄ. KlientskÃ¡ aplikace
+musÃ­ vrÃ¡tit ukazatel na strukturu jednoznaÄnÄ› identifikujÃ­cÃ­ ÄasovaÄ a
+volat opakovanÄ› funkci pÅ™edÃ¡nou jakou ukazatel ve zvolenÃ©m intervalu.
+\item timeout\_remove - Odebere z hlavnÃ­ smyÄky ÄasovaÄ na zÃ¡kladÄ› jeho ukazatele na strukturu, kterÃ¡ jej identifikuje.
+\item input\_add - PÅ™idÃ¡ do hlavnÃ­ smyÄky klientskÃ© aplikace ukazatel na funkci, kterÃ¡ je volÃ¡na kdyÅ¾ jsou k dispozici
+novÃ¡ data na definovanÃ©m soketu. KlientskÃ¡ aplikace
+musÃ­ vrÃ¡tit ukazatel na strukturu jednoznaÄnÄ› identifikujÃ­cÃ­ tuto udÃ¡lost.
+\item input\_remove - Odebere z hlavnÃ­ smyÄky ukazatel na funkci vstupu na
+zÃ¡kladÄ› ukazatele na strukturu, kterÃ¡ jej identifikuje.
 \end{itemize}
 
-Díky této abstrakci je tak mo¾no napojit klientskou knihovnu na jakoukoliv smyèku událostí.
+DÃ­ky tÃ©to abstrakci je tak moÅ¾no napojit klientskou knihovnu na jakoukoliv smyÄku udÃ¡lostÃ­.
 
-\subsubsection{Signály}
+\subsubsection{SignÃ¡ly}
 
-Jednotlivé èásti klientské knihovny umo¾òují definovat signály, na které se pak mù¾e klientská aplikace napojit.
-Seznam signálù je ulo¾en v hash tabulce, kde klíèem je název signálu a daty seznam funkcí, které jsou zavolány
-pokud je signál emitován. K registraci novıch signálù slou¾í funkce ham\_signals\_register\_signal().
+JednotlivÃ© ÄÃ¡sti klientskÃ© knihovny umoÅ¾ÅˆujÃ­ definovat signÃ¡ly, na kterÃ© se pak mÅ¯Å¾e klientskÃ¡ aplikace napojit.
+Seznam signÃ¡lÅ¯ je uloÅ¾en v hash tabulce, kde klÃ­Äem je nÃ¡zev signÃ¡lu a daty seznam funkcÃ­, kterÃ© jsou zavolÃ¡ny
+pokud je signÃ¡l emitovÃ¡n. K registraci novÃ½ch signÃ¡lÅ¯ slouÅ¾Ã­ funkce ham\_signals\_register\_signal().
 
-Klientské aplikaci je umo¾nìno funkcí ham\_signals\_register\_handler() zaregistrovat funkci, která je zavolána
-pøi emitování signálu. Funkce musí bıt ve formátu HAMFetchHandler. Pøi registraci signálu lze rovnì¾ definovat
-ukazatel na data, která jsou pøi emitování signálu zpracovávající funkci pøedána. Toho lze vyu¾ít pro udr¾ování
-kontextu pøi zpracovávání signálu.
+KlientskÃ© aplikaci je umoÅ¾nÄ›no funkcÃ­ ham\_signals\_register\_handler() zaregistrovat funkci, kterÃ¡ je zavolÃ¡na
+pÅ™i emitovÃ¡nÃ­ signÃ¡lu. Funkce musÃ­ bÃ½t ve formÃ¡tu HAMFetchHandler. PÅ™i registraci signÃ¡lu lze rovnÄ›Å¾ definovat
+ukazatel na data, kterÃ¡ jsou pÅ™i emitovÃ¡nÃ­ signÃ¡lu zpracovÃ¡vajÃ­cÃ­ funkci pÅ™edÃ¡na. Toho lze vyuÅ¾Ã­t pro udrÅ¾ovÃ¡nÃ­
+kontextu pÅ™i zpracovÃ¡vÃ¡nÃ­ signÃ¡lu.
 
 
 \subsection{Komunikace se serverem}
 
-Tato podkapitola popisuje implementaci komunikace se serverem v klientské knihovnì. Je zde popsáno rozhraní pro
-pøipojení k serveru, parser komunikaèního protokolu a pomocné struktury Reply a Request pro reprezetanci odchozích a
-pøíchozích paketù.
+Tato podkapitola popisuje implementaci komunikace se serverem v klientskÃ© knihovnÄ›. Je zde popsÃ¡no rozhranÃ­ pro
+pÅ™ipojenÃ­ k serveru, parser komunikaÄnÃ­ho protokolu a pomocnÃ© struktury Reply a Request pro reprezetanci odchozÃ­ch a
+pÅ™Ã­chozÃ­ch paketÅ¯.
 
-\subsubsection{Pøipojení k serveru}
+\subsubsection{PÅ™ipojenÃ­ k serveru}
 
-Pro pøipojení k serveru je nutné vytvoøit novou instanci struktury Connection funkcí ham\_connection\_new(). Touto funkcí
-se definuje adresa a port serveru, u¾ivatelské jméno a heslo. Samotné pøipojení probìhne a¾ po zavolání funkce
-ham\_connection\_connect(). Tato funkce vytvoøí novı soket pro pøipojení k serveru a pomocí funkce ham\_eventloop\_input\_add()
-pøidá do hlavní smyèky programu ukazatel na funkci pro parsování pøijatıch dat.
+Pro pÅ™ipojenÃ­ k serveru je nutnÃ© vytvoÅ™it novou instanci struktury Connection funkcÃ­ ham\_connection\_new(). Touto funkcÃ­
+se definuje adresa a port serveru, uÅ¾ivatelskÃ© jmÃ©no a heslo. SamotnÃ© pÅ™ipojenÃ­ probÄ›hne aÅ¾ po zavolÃ¡nÃ­ funkce
+ham\_connection\_connect(). Tato funkce vytvoÅ™Ã­ novÃ½ soket pro pÅ™ipojenÃ­ k serveru a pomocÃ­ funkce ham\_eventloop\_input\_add()
+pÅ™idÃ¡ do hlavnÃ­ smyÄky programu ukazatel na funkci pro parsovÃ¡nÃ­ pÅ™ijatÃ½ch dat.
 
-\subsubsection{Parsování dat}
+\subsubsection{ParsovÃ¡nÃ­ dat}
 
-K parsování dat v klientské knihovnì slou¾í HAMParser. Ten funguje na stejném principu jako RequestParser na stranì serveru.
-Parsovaná data jsou ukládána do struktury Reply, která pak pøedána prostøednictvím signálu nebo zpìtného volání (callbacku)
-funkci, která po¾adavek na server iniciovala.
+K parsovÃ¡nÃ­ dat v klientskÃ© knihovnÄ› slouÅ¾Ã­ HAMParser. Ten funguje na stejnÃ©m principu jako RequestParser na stranÄ› serveru.
+ParsovanÃ¡ data jsou uklÃ¡dÃ¡na do struktury Reply, kterÃ¡ pak pÅ™edÃ¡na prostÅ™ednictvÃ­m signÃ¡lu nebo zpÄ›tnÃ©ho volÃ¡nÃ­ (callbacku)
+funkci, kterÃ¡ poÅ¾adavek na server iniciovala.
 
-\section{Implementace klientské aplikace}
+\section{Implementace klientskÃ© aplikace}
 \label{implementace_klient}
 
-Referenèní klientská aplikace byla naprogramována v jazyce C++ s vyu¾itím grafického frameworku Qt. V této kapitole jsou struènì
-popsány jednotlivé èásti klientské aplikace, tøídy, které klientskou aplikaci implementují a jejich napojení na klientskou knihovnu.
+ReferenÄnÃ­ klientskÃ¡ aplikace byla naprogramovÃ¡na v jazyce C++ s vyuÅ¾itÃ­m grafickÃ©ho frameworku Qt. V tÃ©to kapitole jsou struÄnÄ›
+popsÃ¡ny jednotlivÃ© ÄÃ¡sti klientskÃ© aplikace, tÅ™Ã­dy, kterÃ© klientskou aplikaci implementujÃ­ a jejich napojenÃ­ na klientskou knihovnu.
 
-\subsection{Hlavní okno programu}
+\subsection{HlavnÃ­ okno programu}
 
-V této podkapitole je popsána implementace hlavního okno programu a v¹ech prvkù, které jej tvoøí.
+V tÃ©to podkapitole je popsÃ¡na implementace hlavnÃ­ho okno programu a vÅ¡ech prvkÅ¯, kterÃ© jej tvoÅ™Ã­.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.7]{fig/ham3.png}
-\caption{Hlavní okno aplikace.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.7]{fig/ham3}
+\caption{HlavnÃ­ okno aplikace.}
 \label{fig:FigureExample}
 \end{figure}
 
-\subsubsection{Tøída MainWindow}
+\subsubsection{TÅ™Ã­da MainWindow}
 
-Tøída MainWindow reprezentující hlavní okno je také hlavní tøídou klientské aplikace. Po svém vytvoøení zobrazí dialog
-pro pøipojení u¾ivatele k serveru. Pomocí metody connectServer() se pak pøihlásí k serveru. Registrovat novı u¾ivatelskı
-úèet lze metodou registerAccount.
+TÅ™Ã­da MainWindow reprezentujÃ­cÃ­ hlavnÃ­ okno je takÃ© hlavnÃ­ tÅ™Ã­dou klientskÃ© aplikace. Po svÃ©m vytvoÅ™enÃ­ zobrazÃ­ dialog
+pro pÅ™ipojenÃ­ uÅ¾ivatele k serveru. PomocÃ­ metody connectServer() se pak pÅ™ihlÃ¡sÃ­ k serveru. Registrovat novÃ½ uÅ¾ivatelskÃ½
+ÃºÄet lze metodou registerAccount.
 
-Tøída MainWindow se o úspì¹ném, pøípadnì neúspì¹ném pøihlá¹ení k serveru dozví díky napojení
-na patøièné signály klientské knihovny. V této tøídì je také obstarána komunikace mezi jednotlivımi prvky tvoøícími hlavní okno
-prostøednictvím Qt signálù.
+TÅ™Ã­da MainWindow se o ÃºspÄ›Å¡nÃ©m, pÅ™Ã­padnÄ› neÃºspÄ›Å¡nÃ©m pÅ™ihlÃ¡Å¡enÃ­ k serveru dozvÃ­ dÃ­ky napojenÃ­
+na patÅ™iÄnÃ© signÃ¡ly klientskÃ© knihovny. V tÃ©to tÅ™Ã­dÄ› je takÃ© obstarÃ¡na komunikace mezi jednotlivÃ½mi prvky tvoÅ™Ã­cÃ­mi hlavnÃ­ okno
+prostÅ™ednictvÃ­m Qt signÃ¡lÅ¯.
 
-\subsubsection{Tøída LogbookTreeWidget}
+\subsubsection{TÅ™Ã­da LogbookTreeWidget}
 
-Tøídou LogbookTreeWidget je u¾ivateli umo¾nìno zobrazení a editace logu prostøednictvím rozhraní podobného tabulce.
-Je implementována nad Qt tøídou QTreeWidget a komunikuje 
-se serverovım modulem Logbook prostøednictvím klientské knihovny. Jednotlivé polo¾ky jsou editovatelné a zmìny se pøená¹ejí
-na server. Pokud u¾ivatel poklepe na nìkterou z polo¾ek, je zpracován pøíslu¹nı Qt signál a otevøen dialog NewRecordDialog,
-ve kterém mù¾e u¾ivatel polo¾ku také editovat.
+TÅ™Ã­dou LogbookTreeWidget je uÅ¾ivateli umoÅ¾nÄ›no zobrazenÃ­ a editace logu prostÅ™ednictvÃ­m rozhranÃ­ podobnÃ©ho tabulce.
+Je implementovÃ¡na nad Qt tÅ™Ã­dou QTreeWidget a komunikuje 
+se serverovÃ½m modulem Logbook prostÅ™ednictvÃ­m klientskÃ© knihovny. JednotlivÃ© poloÅ¾ky jsou editovatelnÃ© a zmÄ›ny se pÅ™enÃ¡Å¡ejÃ­
+na server. Pokud uÅ¾ivatel poklepe na nÄ›kterou z poloÅ¾ek, je zpracovÃ¡n pÅ™Ã­sluÅ¡nÃ½ Qt signÃ¡l a otevÅ™en dialog NewRecordDialog,
+ve kterÃ©m mÅ¯Å¾e uÅ¾ivatel poloÅ¾ku takÃ© editovat.
 
-\subsubsection{Tøída EarthWidget}
+\subsubsection{TÅ™Ã­da EarthWidget}
 
-Tøída EarthWidget je technologicky nejzajímavìj¹í tøídou klientské aplikace. Umo¾òuje zobrazit zemìkouli promítnutou do roviny i 
-formou klasického globusu. Na zemìkouli lze pak zobrazovat znaèky s popisky. Toho je vyu¾ito pro zobrazení polohy právì vysilájících
+TÅ™Ã­da EarthWidget je technologicky nejzajÃ­mavÄ›jÅ¡Ã­ tÅ™Ã­dou klientskÃ© aplikace. UmoÅ¾Åˆuje zobrazit zemÄ›kouli promÃ­tnutou do roviny i 
+formou klasickÃ©ho globusu. Na zemÄ›kouli lze pak zobrazovat znaÄky s popisky. Toho je vyuÅ¾ito pro zobrazenÃ­ polohy prÃ¡vÄ› vysilÃ¡jÃ­cÃ­ch
 stanic.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham5.png}
-\caption{Ukázka mo¾nosti zobrazení zemìkoule.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham5}
+\caption{UkÃ¡zka moÅ¾nosti zobrazenÃ­ zemÄ›koule.}
 \label{fig:FigureExample}
 \end{figure}
 
-Pro zobrazení zemìkoule je vyu¾ita aplikace Xplanet. Pøi po¾adavku na pøekreslení okna je spu¹tìn novı proces Xplanet
-s po¾adovanımi parametry a je mu pøedáno ID widgetu, do kterého má vykreslovat. Znaèky s popisky jsou ulo¾eny do doèasného souboru
-a tento soubor je pak naèten programem Xplanet a pou¾it k vykreslení znaèek.
-EarthWidget umo¾òuje také pøiblí¾ení na pøeddefinované lokace (napøíklad pøiblí¾ení Evropy) pomocí kontextového menu.
+Pro zobrazenÃ­ zemÄ›koule je vyuÅ¾ita aplikace Xplanet. PÅ™i poÅ¾adavku na pÅ™ekreslenÃ­ okna je spuÅ¡tÄ›n novÃ½ proces Xplanet
+s poÅ¾adovanÃ½mi parametry a je mu pÅ™edÃ¡no ID widgetu, do kterÃ©ho mÃ¡ vykreslovat. ZnaÄky s popisky jsou uloÅ¾eny do doÄasnÃ©ho souboru
+a tento soubor je pak naÄten programem Xplanet a pouÅ¾it k vykreslenÃ­ znaÄek.
+EarthWidget umoÅ¾Åˆuje takÃ© pÅ™iblÃ­Å¾enÃ­ na pÅ™eddefinovanÃ© lokace (napÅ™Ã­klad pÅ™iblÃ­Å¾enÃ­ Evropy) pomocÃ­ kontextovÃ©ho menu.
 
-\subsubsection{Tøída DXClusterWidget}
+\subsubsection{TÅ™Ã­da DXClusterWidget}
 
-Pomocí tøídy DXClusterWidget je zobrazen seznam aktuálnì vysílajících stanic. Tøída se prostøednictvím klientské knihovny
-v pravidelnıch intervalech dotazuje
-serveru na seznam aktuálnì vysílajících stanic a tento pak zobrazuje. Pokud u¾ivatel na nìkterou ze stanic poklepe, otevøe se 
-dialog pro pøidání nového záznamu. Seznam stanic je také pøedáván za pomoci Qt signálu tøídì EarthWidget, která pak stanice
-vykresluje na mapì.
+PomocÃ­ tÅ™Ã­dy DXClusterWidget je zobrazen seznam aktuÃ¡lnÄ› vysÃ­lajÃ­cÃ­ch stanic. TÅ™Ã­da se prostÅ™ednictvÃ­m klientskÃ© knihovny
+v pravidelnÃ½ch intervalech dotazuje
+serveru na seznam aktuÃ¡lnÄ› vysÃ­lajÃ­cÃ­ch stanic a tento pak zobrazuje. Pokud uÅ¾ivatel na nÄ›kterou ze stanic poklepe, otevÅ™e se 
+dialog pro pÅ™idÃ¡nÃ­ novÃ©ho zÃ¡znamu. Seznam stanic je takÃ© pÅ™edÃ¡vÃ¡n za pomoci Qt signÃ¡lu tÅ™Ã­dÄ› EarthWidget, kterÃ¡ pak stanice
+vykresluje na mapÄ›.
 
-\subsection{Pøidání nového záznamu a editace}
+\subsection{PÅ™idÃ¡nÃ­ novÃ©ho zÃ¡znamu a editace}
 
-Novı záznam lze pøidat dvìma zpùsoby. Buï tak lze uèinit pomocí tlaèítka "Add Record" v hlavním oknì programu, nebo poklepáním
-na stanici získanou z DXClusteru. Obì mo¾nosti pak vedou k vyvolání dialogu pro pøidání nového záznamu. Stejnı dialog je pou¾it
-také pro editaci ji¾ existujícího záznamu. Editaci lze vyvolat poklepáním na existující záznam v hlavním oknì programu.
+NovÃ½ zÃ¡znam lze pÅ™idat dvÄ›ma zpÅ¯soby. BuÄ tak lze uÄinit pomocÃ­ tlaÄÃ­tka "Add Record" v hlavnÃ­m oknÄ› programu, nebo poklepÃ¡nÃ­m
+na stanici zÃ­skanou z DXClusteru. ObÄ› moÅ¾nosti pak vedou k vyvolÃ¡nÃ­ dialogu pro pÅ™idÃ¡nÃ­ novÃ©ho zÃ¡znamu. StejnÃ½ dialog je pouÅ¾it
+takÃ© pro editaci jiÅ¾ existujÃ­cÃ­ho zÃ¡znamu. Editaci lze vyvolat poklepÃ¡nÃ­m na existujÃ­cÃ­ zÃ¡znam v hlavnÃ­m oknÄ› programu.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham4.png}
-\caption{Dialog pro pøidání a editaci záznamu.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham4}
+\caption{Dialog pro pÅ™idÃ¡nÃ­ a editaci zÃ¡znamu.}
 \label{fig:FigureExample}
 \end{figure}
 
-\subsubsection{Tøída NewRecordDialog}
+\subsubsection{TÅ™Ã­da NewRecordDialog}
 
-Dialog pro pøidání nového záznamu a jeho editaci je implementován v tøídì NewRecordDialog. Dialog se skládá ze dvou èástí:
+Dialog pro pÅ™idÃ¡nÃ­ novÃ©ho zÃ¡znamu a jeho editaci je implementovÃ¡n v tÅ™Ã­dÄ› NewRecordDialog. Dialog se sklÃ¡dÃ¡ ze dvou ÄÃ¡stÃ­:
 
 \begin{itemize}
-\item Tabulka zobrazující pøedchozí spojení s pøidávanou stanicí.
-\item Formuláø s jednotlivımi poli o novì pøidávaném záznamu.
+\item Tabulka zobrazujÃ­cÃ­ pÅ™edchozÃ­ spojenÃ­ s pÅ™idÃ¡vanou stanicÃ­.
+\item FormulÃ¡Å™ s jednotlivÃ½mi poli o novÄ› pÅ™idÃ¡vanÃ©m zÃ¡znamu.
 \end{itemize}
 
-Pro implementaci tabulky s pøedchozími spojeními je pou¾ita tøída LogbookTreeWidget. Je tak znovu pou¾it ji¾ jednou existující
-kód.
+Pro implementaci tabulky s pÅ™edchozÃ­mi spojenÃ­mi je pouÅ¾ita tÅ™Ã­da LogbookTreeWidget. Je tak znovu pouÅ¾it jiÅ¾ jednou existujÃ­cÃ­
+kÃ³d.
 
-V pøípadì zmìny pole pro zadání volací znaèky (Call sign), je aktualizována tabulka s historií, a u¾ivatel tak vidí pøede¹lá 
-spojení s danou stanicí. Také se pomocí klientské knihovny zjistí podrobné informace o zadané stanici a pøedvyplní se patøièná
-pole. To zrychluje zadávání novıch záznamu. V pøípadì zmìny hodnoty v poli frekvence je na server odeslán po¾adavek o pøeladìní
-rádia na zadanou frekvenci.
+V pÅ™Ã­padÄ› zmÄ›ny pole pro zadÃ¡nÃ­ volacÃ­ znaÄky (Call sign), je aktualizovÃ¡na tabulka s historiÃ­, a uÅ¾ivatel tak vidÃ­ pÅ™edeÅ¡lÃ¡ 
+spojenÃ­ s danou stanicÃ­. TakÃ© se pomocÃ­ klientskÃ© knihovny zjistÃ­ podrobnÃ© informace o zadanÃ© stanici a pÅ™edvyplnÃ­ se patÅ™iÄnÃ¡
+pole. To zrychluje zadÃ¡vÃ¡nÃ­ novÃ½ch zÃ¡znamu. V pÅ™Ã­padÄ› zmÄ›ny hodnoty v poli frekvence je na server odeslÃ¡n poÅ¾adavek o pÅ™eladÄ›nÃ­
+rÃ¡dia na zadanou frekvenci.
 
-Po potvrzení dialogu jsou hodnoty v¹ech polí prostøednictvím klientské knihovny pøeneseny na server, kde jsou uchovány.
+Po potvrzenÃ­ dialogu jsou hodnoty vÅ¡ech polÃ­ prostÅ™ednictvÃ­m klientskÃ© knihovny pÅ™eneseny na server, kde jsou uchovÃ¡ny.
 
-\subsection{Zobrazení dostupnıch modulù}
+\subsection{ZobrazenÃ­ dostupnÃ½ch modulÅ¯}
 
-Dialog zobrazující moduly dostupné na server lze spustit prostøednictvím hlavního menu aplikace.
+Dialog zobrazujÃ­cÃ­ moduly dostupnÃ© na server lze spustit prostÅ™ednictvÃ­m hlavnÃ­ho menu aplikace.
 
 \begin{figure}[h]
 \centering
-\includegraphics[trim=0cm 0cm 0cm 0cm, scale=1]{fig/ham6.png}
-\caption{Dialog pro pøidání a editaci záznamu.}
+\includegraphics[trim=0cm 0cm 0cm 0cm, scale=1]{fig/ham6}
+\caption{Dialog pro pÅ™idÃ¡nÃ­ a editaci zÃ¡znamu.}
 \label{fig:FigureExample}
 \end{figure}
 
-\subsubsection{Tøída NewRecordDialog}
+\subsubsection{TÅ™Ã­da NewRecordDialog}
 
-Dialog zobrazující dostupné moduly je implementován tøídou NewRecordDialog. Jedná se o jednoduchou tøídu, která pomocí
-klientské knihovny získá ze serveru seznam modulù a zobrazí je formou tabulky vytvoøené díky Qt widget QTreeWidget.
+Dialog zobrazujÃ­cÃ­ dostupnÃ© moduly je implementovÃ¡n tÅ™Ã­dou NewRecordDialog. JednÃ¡ se o jednoduchou tÅ™Ã­du, kterÃ¡ pomocÃ­
+klientskÃ© knihovny zÃ­skÃ¡ ze serveru seznam modulÅ¯ a zobrazÃ­ je formou tabulky vytvoÅ™enÃ© dÃ­ky Qt widget QTreeWidget.
 
 
-\chapter{Závìr}
-Cílem této bakaláøské práce bylo navhrnutí aplikace pro vedení stanièního deníku pro pou¾ití radioamatéry. Dùraz byl kladen zejména
-na modularitu návrhu i vısledné implementance. Pro úspì¹né dokonèení práce bylo nejprve potøeba seznámit se s radioamatérskım
-hnutím a jeho fungováním a aplikacemi a metodami, které souèasní radiamatéøi pou¾ívají. K tomu bylo potøeba zorientovat se v 
-radioamatérské technologii a pochopit fungování celého radioamatérského hnutí.
-Vıslednı návrh se rovnì¾ sna¾í pouèit z problémù souèasnıch aplikací a svou strukturou zaplnit volné místo mezi aplikacemi
-umo¾òujícími vedení stanièního deníku.
+\chapter{ZÃ¡vÄ›r}
+CÃ­lem tÃ©to bakalÃ¡Å™skÃ© prÃ¡ce bylo navhrnutÃ­ aplikace pro vedenÃ­ staniÄnÃ­ho denÃ­ku pro pouÅ¾itÃ­ radioamatÃ©ry. DÅ¯raz byl kladen zejmÃ©na
+na modularitu nÃ¡vrhu i vÃ½slednÃ© implementance. Pro ÃºspÄ›Å¡nÃ© dokonÄenÃ­ prÃ¡ce bylo nejprve potÅ™eba seznÃ¡mit se s radioamatÃ©rskÃ½m
+hnutÃ­m a jeho fungovÃ¡nÃ­m a aplikacemi a metodami, kterÃ© souÄasnÃ­ radiamatÃ©Å™i pouÅ¾Ã­vajÃ­. K tomu bylo potÅ™eba zorientovat se v 
+radioamatÃ©rskÃ© technologii a pochopit fungovÃ¡nÃ­ celÃ©ho radioamatÃ©rskÃ©ho hnutÃ­.
+VÃ½slednÃ½ nÃ¡vrh se rovnÄ›Å¾ snaÅ¾Ã­ pouÄit z problÃ©mÅ¯ souÄasnÃ½ch aplikacÃ­ a svou strukturou zaplnit volnÃ© mÃ­sto mezi aplikacemi
+umoÅ¾ÅˆujÃ­cÃ­mi vedenÃ­ staniÄnÃ­ho denÃ­ku.
 
-Vıstupem implementace jsou tøi oddìlené projekty (serverová aplikace, klientská knihovna a grafické u¾ivatelské rozhraní),
-které spolu spolupracují a vzájemnì se doplòují.
+VÃ½stupem implementace jsou tÅ™i oddÄ›lenÃ© projekty (serverovÃ¡ aplikace, klientskÃ¡ knihovna a grafickÃ© uÅ¾ivatelskÃ© rozhranÃ­),
+kterÃ© spolu spolupracujÃ­ a vzÃ¡jemnÄ› se doplÅˆujÃ­.
 
-Serverová aplikace je plnì modulární a umo¾òuje jednoduché pøidávání novıch
-funkcí pomocí modulù. Splòuje ve¹keré po¾adavky na základní vedení stanièního deníku (pøidávání/editace záznamù, vyhledávání 
-informací o ostatních radioamatérech nebo napøíklad ovládání vysílaèky pøipojené k poèítaèi).
+ServerovÃ¡ aplikace je plnÄ› modulÃ¡rnÃ­ a umoÅ¾Åˆuje jednoduchÃ© pÅ™idÃ¡vÃ¡nÃ­ novÃ½ch
+funkcÃ­ pomocÃ­ modulÅ¯. SplÅˆuje veÅ¡kerÃ© poÅ¾adavky na zÃ¡kladnÃ­ vedenÃ­ staniÄnÃ­ho denÃ­ku (pÅ™idÃ¡vÃ¡nÃ­/editace zÃ¡znamÅ¯, vyhledÃ¡vÃ¡nÃ­ 
+informacÃ­ o ostatnÃ­ch radioamatÃ©rech nebo napÅ™Ã­klad ovlÃ¡dÃ¡nÃ­ vysÃ­laÄky pÅ™ipojenÃ© k poÄÃ­taÄi).
 
-Klientská knihovna je dùle¾itım prvkem implementace, proto¾e implementuje nízkoúrovòovou komunikaci s serverovou aplikaci
-a umo¾òuje tak grafickému u¾ivatelskému rozhraní vìnovat se pouze na komunikaci s u¾ivatelem.
+KlientskÃ¡ knihovna je dÅ¯leÅ¾itÃ½m prvkem implementace, protoÅ¾e implementuje nÃ­zkoÃºrovÅˆovou komunikaci s serverovou aplikaci
+a umoÅ¾Åˆuje tak grafickÃ©mu uÅ¾ivatelskÃ©mu rozhranÃ­ vÄ›novat se pouze na komunikaci s uÅ¾ivatelem.
 
-Grafické u¾ivatelské není pøili¹ rozsáhlé, ale umo¾òuje vést stanièní deník pohodlnì a poskytuje v¹echny základní funkce potøebné
-pro vedení stanièního deníku. Je graficky pøehledné a pro stávající radioamatéry intuitivní.
+GrafickÃ© uÅ¾ivatelskÃ© nenÃ­ pÅ™iliÅ¡ rozsÃ¡hlÃ©, ale umoÅ¾Åˆuje vÃ©st staniÄnÃ­ denÃ­k pohodlnÄ› a poskytuje vÅ¡echny zÃ¡kladnÃ­ funkce potÅ™ebnÃ©
+pro vedenÃ­ staniÄnÃ­ho denÃ­ku. Je graficky pÅ™ehlednÃ© a pro stÃ¡vajÃ­cÃ­ radioamatÃ©ry intuitivnÃ­.
 
-Celkovì je vısledná aplikace dobrım základem pro implementaci dal¹ích nadstandardních funkcí.
+CelkovÄ› je vÃ½slednÃ¡ aplikace dobrÃ½m zÃ¡kladem pro implementaci dalÅ¡Ã­ch nadstandardnÃ­ch funkcÃ­.
 
-\section{Mo¾nosti budoucího roz¹íøení}
+\section{MoÅ¾nosti budoucÃ­ho rozÅ¡Ã­Å™enÃ­}
 
-Bìhem implementace a testování aplikace vyplynuly nìkteré dal¹í mo¾nosti, jakım smìrem aplikaci v budoucnu roz¹iøovat.
+BÄ›hem implementace a testovÃ¡nÃ­ aplikace vyplynuly nÄ›kterÃ© dalÅ¡Ã­ moÅ¾nosti, jakÃ½m smÄ›rem aplikaci v budoucnu rozÅ¡iÅ™ovat.
 
 \subsection{Podpora MySQL}
 
-Pro vìt¹í nasazení s více u¾ivateli vyu¾ívajícími funkce serveru souèasnì by bylo vhodné implementovat podporu pro databázovı
-systém MySQL. Databázovı systém SQLite3 by se mohl pøi vìt¹ím zatí¾ení ukázat jako nevyhovující. Pøidat podporu pro jinou databázi
-je díky souèasnému návrhnu jednoduché.
+Pro vÄ›tÅ¡Ã­ nasazenÃ­ s vÃ­ce uÅ¾ivateli vyuÅ¾Ã­vajÃ­cÃ­mi funkce serveru souÄasnÄ› by bylo vhodnÃ© implementovat podporu pro databÃ¡zovÃ½
+systÃ©m MySQL. DatabÃ¡zovÃ½ systÃ©m SQLite3 by se mohl pÅ™i vÄ›tÅ¡Ã­m zatÃ­Å¾enÃ­ ukÃ¡zat jako nevyhovujÃ­cÃ­. PÅ™idat podporu pro jinou databÃ¡zi
+je dÃ­ky souÄasnÃ©mu nÃ¡vrhnu jednoduchÃ©.
 
 \subsection{Moduly pro tvorbu statistik}
 
-Dal¹ím mo¾nım roz¹íøením je implementace modulù umo¾òujících generování statistik a pøehledù o jednotlivıch záznamech v deníku.
-U¾ivateli tyto moduly umo¾ní lep¹í orientaci v jeho deníku a na stranì serveru je pak mo¾né generovat ¾ebøíèek u¾ivatelù na
-základì rùznıch klíèù.
+DalÅ¡Ã­m moÅ¾nÃ½m rozÅ¡Ã­Å™enÃ­m je implementace modulÅ¯ umoÅ¾ÅˆujÃ­cÃ­ch generovÃ¡nÃ­ statistik a pÅ™ehledÅ¯ o jednotlivÃ½ch zÃ¡znamech v denÃ­ku.
+UÅ¾ivateli tyto moduly umoÅ¾nÃ­ lepÅ¡Ã­ orientaci v jeho denÃ­ku a na stranÄ› serveru je pak moÅ¾nÃ© generovat Å¾ebÅ™Ã­Äek uÅ¾ivatelÅ¯ na
+zÃ¡kladÄ› rÅ¯znÃ½ch klÃ­ÄÅ¯.
 
 

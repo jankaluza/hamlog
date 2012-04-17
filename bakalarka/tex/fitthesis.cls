@@ -2,7 +2,7 @@
 % FIT thesis
 % ----------------------------------------------------------------------------
 % (C) 2007 Zdenek Vasicek, 2008 Michal Bidlo
-% vim: set syntax=tex encoding=latin2:
+% vim: set syntax=tex encoding=utf-8:
 % ----------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{fitthesis}[2007/04/13 Sablona pro BP/DP]
@@ -24,11 +24,11 @@
 \DeclareOption*{}
 \ProcessOptions\relax
 %Jako vychozi pouzijeme tridu REPORT
-\ifx\pdfoutput\undefined % nejedeme pod pdftexem
+%\ifx\pdfoutput\undefined % nejedeme pod pdftexem
    \LoadClass[a4paper,oneside,onecolumn,11pt]{report}
-\else
-   \LoadClass[pdftex,a4paper,oneside,onecolumn,11pt]{report}
-\fi
+%\else
+%   \LoadClass[pdftex,a4paper,oneside,onecolumn,11pt]{report}
+%\fi
 
 %-----------------------------------------------------------------------------
 %Balicky
@@ -36,18 +36,19 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[czech,english]{babel}
-\usepackage[latin2]{inputenc} %kodovani
+\usepackage[utf8]{inputenc} %kodovani
 \ifczech
   \main@language{czech}
 \else
   \main@language{english}
 \fi
-\ifx\pdfoutput\undefined  % nejedeme pod pdftexem
-  \usepackage{graphics}
-  \usepackage{epsfig}
-\else % je to pdftex !
-  \usepackage[pdftex]{graphicx}
-\fi
+\usepackage{graphicx}
+%\ifx\pdfoutput\undefined  % nejedeme pod pdftexem
+%  \usepackage{graphics}
+%  \usepackage{epsfig}
+%\else % je to pdftex !
+%  \usepackage[pdftex]{graphicx}
+%\fi
 
 %-----------------------------------------------------------------------------
 %Sazebni obrazec
@@ -60,25 +61,25 @@
 %-----------------------------------------------------------------------------
 %Texty
 %-----------------------------------------------------------------------------
-\def\@vut@CS{Vysoké uèení technické v~Brnì}
+\def\@vut@CS{VysokÃ© uÄenÃ­ technickÃ© v~BrnÄ›}
 \def\@vut@EN{Brno University of Technology}
-\def\@fit@CS{Fakulta informaèních technologií}
+\def\@fit@CS{Fakulta informaÄnÃ­ch technologiÃ­}
 \def\@fit@EN{Faculty of Information Technology}
-\def\@author@CS{Autor práce}
+\def\@author@CS{Autor prÃ¡ce}
 \def\@author@EN{Author}
-\def\@supervisor@CS{Vedoucí práce}
+\def\@supervisor@CS{VedoucÃ­ prÃ¡ce}
 \def\@supervisor@EN{Supervisor}
-\def\@dep@CS{Ústav}
+\def\@dep@CS{Ãšstav}
 \def\@dep@EN{Department of}
 \def\@abstract@CS{Abstrakt}
 \def\@abstract@EN{Abstract}
-\def\@keywords@CS{Klíèová slova}
+\def\@keywords@CS{KlÃ­ÄovÃ¡ slova}
 \def\@keywords@EN{Keywords}
 \def\@cite@CS{Citace}
-\def\@copyright@CS{Tato práce vznikla jako ¹kolní dílo na Vysokém uèení technickém v Brnì, Fakultì informaèních technologií. 
-Práce je chránìna autorskım zákonem a její u¾ití bez udìlení oprávnìní autorem je nezákonné, s vıjimkou zákonem definovanıch pøípadù.}
-\def\@tdecl@CS{Prohlá¹ení}
-\def\@tackn@CS{Podìkování}
+\def\@copyright@CS{Tato prÃ¡ce vznikla jako Å¡kolnÃ­ dÃ­lo na VysokÃ©m uÄenÃ­ technickÃ©m v BrnÄ›, FakultÄ› informaÄnÃ­ch technologiÃ­. 
+PrÃ¡ce je chrÃ¡nÄ›na autorskÃ½m zÃ¡konem a jejÃ­ uÅ¾itÃ­ bez udÄ›lenÃ­ oprÃ¡vnÄ›nÃ­ autorem je nezÃ¡konnÃ©, s vÃ½jimkou zÃ¡konem definovanÃ½ch pÅ™Ã­padÅ¯.}
+\def\@tdecl@CS{ProhlÃ¡Å¡enÃ­}
+\def\@tackn@CS{PodÄ›kovÃ¡nÃ­}
 
 \newif\ifnasel
 \def\ifEqString#1#2#3#4{\def\testa{#1}\def\testb{#2}%
@@ -88,13 +89,13 @@ Práce je chránìna autorskım zákonem a její u¾ití bez udìlení oprávnìní autorem j
 %Vyber typu projektu
 \newcommand{\set@project}[1]{%
  \naselfalse
- \ifEqString{#1}{BP}{Bakaláøská práce}{\@projecttype@CS}%
+ \ifEqString{#1}{BP}{BakalÃ¡Å™skÃ¡ prÃ¡ce}{\@projecttype@CS}%
  \ifEqString{#1}{BP}{Bachelor's thesis}{\@projecttype@EN}%
- \ifEqString{#1}{SP}{Semestrální projekt}{\@projecttype@CS}%
+ \ifEqString{#1}{SP}{SemestrÃ¡lnÃ­ projekt}{\@projecttype@CS}%
  \ifEqString{#1}{SP}{Term project}{\@projecttype@EN}%
- \ifEqString{#1}{DP}{Diplomová práce}{\@projecttype@CS}%
+ \ifEqString{#1}{DP}{DiplomovÃ¡ prÃ¡ce}{\@projecttype@CS}%
  \ifEqString{#1}{DP}{Master's thesis}{\@projecttype@EN}%
- \ifEqString{#1}{DR}{Disertaèní práce}{\@projecttype@CS}%
+ \ifEqString{#1}{DR}{DisertaÄnÃ­ prÃ¡ce}{\@projecttype@CS}%
  \ifEqString{#1}{DR}{PhD thesis}{\@projecttype@EN}%
  \ifnasel
  \else
@@ -105,13 +106,13 @@ Práce je chránìna autorskım zákonem a její u¾ití bez udìlení oprávnìní autorem j
 %Vyber ustavu
 \newcommand{\set@department}[1]{%
  \naselfalse
- \ifEqString{#1}{UIFS}{informaèních systémù}{\@department@CS}%
+ \ifEqString{#1}{UIFS}{informaÄnÃ­ch systÃ©mÅ¯}{\@department@CS}%
  \ifEqString{#1}{UIFS}{Information Systems}{\@department@EN}%
- \ifEqString{#1}{UPSY}{poèítaèovıch systémù}{\@department@CS}%
+ \ifEqString{#1}{UPSY}{poÄÃ­taÄovÃ½ch systÃ©mÅ¯}{\@department@CS}%
  \ifEqString{#1}{UPSY}{Computer Systems}{\@department@EN}%
- \ifEqString{#1}{UITS}{inteligentních systémù}{\@department@CS}%
+ \ifEqString{#1}{UITS}{inteligentnÃ­ch systÃ©mÅ¯}{\@department@CS}%
  \ifEqString{#1}{UITS}{Intelligent Systems}{\@department@EN}%
- \ifEqString{#1}{UPGM}{poèítaèové grafiky a multimédií}{\@department@CS}%
+ \ifEqString{#1}{UPGM}{poÄÃ­taÄovÃ© grafiky a multimÃ©diÃ­}{\@department@CS}%
  \ifEqString{#1}{UPGM}{Computer Graphics and Multimedia}{\@department@EN}%
  \ifnasel
  \else
@@ -158,7 +159,7 @@ Práce je chránìna autorskım zákonem a její u¾ití bez udìlení oprávnìní autorem j
 
 %Vychozi hodnoty
 \setkeys{projinfo}{
-  title.cs={Název práce (èesky)},title.en={Název práce(anglicky)}, 
+  title.cs={NÃ¡zev prÃ¡ce (Äesky)},title.en={NÃ¡zev prÃ¡ce(anglicky)}, 
   date=\today, project=BP, department=UIFS, declaration=, 
   abstract.cs=, abstract.en=, keywords.cs=, keywords.en=,
   author=Jmeno Prijmeni, supervisor=Jmeno Prijmeni
@@ -257,7 +258,7 @@ Práce je chránìna autorskım zákonem a její u¾ití bez udìlení oprávnìní autorem j
 \vfill
 
 \mktxt@b{16}{\@cite@CS}
-\noindent\@author: \@title, \MakeLowercase{\@projecttype@CS}, Brno, FIT VUT v~Brnì, \@year
+\noindent\@author: \@title, \MakeLowercase{\@projecttype@CS}, Brno, FIT VUT v~BrnÄ›, \@year
 %===================================================
 \newpage
 }
