@@ -8,22 +8,30 @@
 \providecommand{\selectlanguage}[1]{\relax}
 \providecommand{\eprint}[2][]{\url{#2}}
 
+\bibitem{mapability}
+EI8IC: Ham Radio Maps. [Online], Poslední modifikace: 18. 4. 2012, [cit.
+  2012-04-18].
+\newline\urlprefix\url{http://www.mapability.com/ei8ic/maps/maps.php}
+
 \bibitem{http}
-Fielding, R.: RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1. 1997.
+Fielding, R.: RFC 2616: Hypertext Transfer Protocol -- HTTP/1.1. 1997,
+  [Online], Poslední modifikace: 11. 6. 1999, [cit. 2012-04-15].
 \newline\urlprefix\url{http://www.ietf.org/rfc/rfc2616.txt}
 
 \bibitem{crk_hist}
-OK1XU: Co je HAM Radio? 1999.
+OK1XU: Co je HAM Radio? 1997, [Online], Poslední modifikace: 18. 2. 2009,
+  [cit. 2012-04-16].
 \newline\urlprefix\url{http://www.crk.cz/CZ/CJHRC}
 
 \bibitem{csv}
 Shafranovich, Y.: RFC 4180: Common Format and MIME Type for Comma-Separated
-  Values (CSV) Files. 2005.
+  Values (CSV) Files. 2005, [Online], Poslední modifikace: 1. 8. 2005, [cit.
+  2012-04-15].
 \newline\urlprefix\url{http://www.ietf.org/rfc/rfc4180.txt}
 
 \bibitem{rfc2617}
 W3C/MIT: RFC 2617: HTTP Authentication: Basic and Digest Access Authentication.
-  �erven 1999.
+  Červen 1999, [Online], Poslední modifikace: 10. 6. 1999, [cit. 2012-04-16].
 \newline\urlprefix\url{http://www.ietf.org/rfc/rfc2617.txt}
 
 \end{thebibliography}
