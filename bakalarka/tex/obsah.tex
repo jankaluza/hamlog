@@ -1,5 +1,11 @@
 \chapter{Úvod}
 
+%% YARDA: Přidat úvod - rozvinout abstrakt, aby čtenář věděl o čem to bude.
+%% Strukturu práce pak buďto popsat přimo v tom textu nebo v dalším odstavci nebo přidat podkapitolu
+%% Člěnění práce, nebo struktura práce, atp. Popis kapitol bych asi
+%% nestrukturoval, popsal bych to volně navazujícími větami, např.
+%% První kapitola obsahuje úvod, dále následuje kapitola popisující stručně
+%% historii amatérské radiokomunikační služby, atp.
 Tato bakalářská  práce je rozdělena do šesti kapitol.
 
 \begin{enumerate}
@@ -18,21 +24,59 @@ zde popsána implementace klientské knihovny (\ref{implementace_knihovna}) a sa
   \item \textbf{Závěr} - V šesté kapitole (\ref{zaver}) ...
 \end{enumerate}
 
+%% YARDA: Pojmenoval bych amatérská radiokomunikační služba, dále v textu bych vysvětlil
+%% právní status, např. z ČRK:
+%% Radiokomunikační řád definuje amatérskou službu jako
+%% radiokomunikační službu, která slouží k vlastnímu vzdělávání, vzájemné
+%% komunikaci a technickému zkoumání uskutečňovanému amatéry, to je plně
+%% autorizovanými osobami, které se zajímají o radiotechniku jedině z osobního
+%% snažení a bez peněžních zájmů. Obdobně je definována i amatérská družicová
+%% služba, která k radiové komunikaci používá vesmírné stanice na družicích.
+%%
+%% Radiokomunikační řád je jedním ze základních dokumentů Mezinárodní
+%% telekomunikační unie (anglicky International telecommunication union, dále jen
+%% ITU) byla založena již 17.května 1865 dvaceti evropskými státy, tehdy pod názvem Mezinárodní telegrafní
+%% unie. Naše země stála u jejího zrodu jako součást rakouského mocnářství. ITU
+%% je dnes stálou mezinárodní organizací při OSN pro dálkové telekomunikace a
+%% správu kmitočtového spektra. Opatření ITU jsou v ČR právně závazná z titulu členství ČR v ITU a v
+%% mezích základních dokumentů ITU.
+
+%% YARDA: mám trochu problém se slovem rádio, podle mě je to slangový výraz
+%% pro radiopřijímač, proto např. na webu ČRK se spojení 'amatérské rádio'
+%% poměrně úspěšně vyhýbají :) Přestože spojení 'amatérské rádio' se u nás
+%% poměrně dost často používá, asi bych se mu taky radši vyhnul a místo toho použil např.
+%% 'amatérské vysílání' nebo 'HAM radio', případně
+%% 'amatérské radio' viz např. časopis Amatérské radio (http://www.aradio.cz/)
+%% I když toto je spíš otázka pro nějakého etymologa :)
+
 \chapter{Radioamatéři}
 \label{radioamateri}
 
 V této kapitole je stručně popsána historie amatérského rádia a jsou zde vysvětleny důležité pojmy používané dále v práci.
-Podkapitola \ref{radioamateri_hist} a \ref{radioamateri_dnes} byla převzata z \cite{crk_hist}.
+Podkapitoly \ref{radioamateri_hist} a \ref{radioamateri_dnes} byla převzata z \cite{crk_hist}.
 
 \section{Historie amatérského rádia}
 \label{radioamateri_hist}
-Prvotní motivací pro vznik amatérského rádia byla myšlenka našich předků rádio nejen poslouchat, ale také vysílat.
+Prvotní motivací pro vznik amatérského rádia%% YARDA: Tady bych dal např. amatérského vysílaní atd.
+byla myšlenka našich předků rádio %% YARDA: Asi radio jako mají na ČRK.
+nejen poslouchat, ale také vysílat.
 To dalo vzniknout novému druhu zábavy - amatérskému vysílání (HAM Radio). Lidem, kteří vysílali se pak začalo říkat 
 radioamatéři.
 
-Amatérské rádio se začalo rychle šířit po první světové válce hlavně díky vlivu rozhlasu. V těchto dobách radioamatéři značně
+Amatérské rádio se začalo rychle šířit po první světové válce hlavně díky vlivu
+rozhlasu. %% YARDA: tady bych byl konzistentní v pojmech, komerční radiové
+%% vysílání jako rozhlas (AFAIK původně vzniklo ze slova radiožurnál) vs v
+%% dřívějším odstavci 'radio' pro označení toho stejného.
+V těchto dobách radioamatéři značně
 přispěli k získání znalostí o využití celého spektra radiových vln. Vysílali na dlouhých a středních vlnách, které byly do té doby
 považovány za bezcenné, a také na vlnách krátkých, o jejichž existenci se nevědělo vůbec.
+%% YARDA: Přidat následující (důležité):
+%% Když Marconi poprvé propojil radiem Evropu a Ameriku, potřeboval na dlouhých
+%% vlnách mnoho kilowattů výkonu a kilometrové antény. V roce 1923 radioamatéři
+%% zjistili, že na krátkých vlnách jim k témuž stačí energie jedné žárovky a pár
+%% desítek metrů drátu jako anténa. To odstartovalo následné komerční využivání
+%% těchto pásem.
+
 
 První pokusy o transatlantické spojení začaly lákat také Pravoslava Motyčku - prvního známého radioamatéra u nás.
 Koncem roku 1924 navázal Motyčka první spojení v Československu. 
@@ -46,48 +90,118 @@ jiných míst.
 \section{Amatérské rádio dnes}
 \label{radioamateri_dnes}
 
-Základním pilířem amatérského rádia je vysílání na krátkých vlnách umožňují spojení do celého světa včetně exotických zemí.
-Řada radioamatérů se snaží a spojení s co nejvíce exotickými zeměmi. Této zálibě říkáma DX provoz.
-Po úspěšně navázaném spojení si radioamatéři vyměnují QSL lístky (potvrzení o navázaném spojení formátu pohlednice). Cílem je
+Radioamatéři jsou aktivní prakticky na všech pásmech, pracují s analogovými i
+digitálními druhy provozů, využívají moderní technologii jako např. spojení přes
+převaděče na nízkoorbitálních satelitech, vesmírné stanicii ISS atp. 
+Za základní pilíř radioamatérského snažení lze však stále považovat vysílání na
+krátkých vlnách, jež umožňuje spojení do celého světa včetně exotických zemí. K
+tomu se nejčastěji využívá šíření vln odrazem od různých vrstev ionosféry.
+Řada radioamatérů se snaží o co nejdelší spojení s co nejvíce exotickými zeměmi.
+Tato aktivita se obecně nazývá DX provoz neboli DXing. Zkratka DX je původně souhrné pojmenování
+pro dálkový příjem/vysílání. Pocházi z anglického \clq distance
+x\crq, neboli vzdálenost neznámá. V současné době radioamatéři pod pojmem DX
+nejčastěji rozumí mezikontinentální spojení.
+Po úspěšně navázaném spojení si radioamatéři vyměnují QSL lístky (písemné potvrzení o
+navázaném spojení ve formátu pohlednice). Nepsaným pravidlem je výměna QSL
+lístků při každém prvním spojení s novou stanicí. Jedním z cílů tohoto snažení je
 získání QSL lístků z co mozná nejvíce zemí světa (ideálně všech).
 
-Pro kvalitní příjem profesionálního vysílání (například FM rozhlas nebo televize) je potřeba být od výsilače vzdálen maximálně
-v desitkách kilometrů. Radioamatéři se při svých vysíláních snaží tyto limity překonat a provádět spojení na co největší
-vzdálenosti. K tomu využívají kromě techniky také dobrých znalostí faktorů, které ovliňují šíření krátkých vln. Těmi jsou například
-rozhraní teplých a studených mas vzduchu nebo polární záře. Profesionálové se nemohou na tyto přechodné faktory spolehnout, ale 
-radioamatéři jsou díky nim schopni navázat spojení až na tisíce kilometrů
+V případě profesionálního komerčního vysílání (například FM rozhlas nebo
+televize) je třeba pro dosažení kvalitního příjmu být od výsilače vzdálen maximálně
+v desitkách kilometrů. Tyto služby jsou navrženy pro stabilní pokrytí určité
+oblasti v definované kvalitě. Radioamatérům však nejde o profesionální kvalitu,
+důležitější je překonaná vzdálenost. Často se tak snaží o překonávání limitů, tedy
+např. není vzácností, že pokud se jim podaří uskutečnit spojení na jednom pásmu,
+snaží se o totéž i na dalších pásmech, jež však nemusí být za daných
+podmínek pro toto spojení nejvhodnější a např. komerční služby by o takové
+konfiguraci vůbec neuvažovaly. K navázání spojení radioamatéři využívají kromě
+kvalitní techniky také dobrých znalostí faktorů
+ovliňujících šíření krátkých vln. Těmi jsou např. sluneční aktivita,
+stav ionosféry, denní a roční doba a taktéž aktuální meteorologické podmínky
+jako např. výskyt
+rozhraní teplých a studených mas vzduchu. Využívají se i znalosti o výskytu
+meteoritických rojů nebo polárních září. Profesionálové se nemohou na tyto přechodné faktory spolehnout, ale 
+radioamatéři jsou díky nim schopni navázat spojení až na desítky tisíc
+kilometrů. Radioamatéři pracující na krátkých vlnách jsou nezávislí na externí
+infrastruktuře. O jejich úspěšnosti či neúspěšnosti rozhoduje kvalita použité technika,
+jejich znalosti a schopnosti, kvalita použitých anténních systémů a příroda. Nezávislost na externí infrastruktuře je velkou výhodou např. v
+případě živelních pohrom. V těchto krizových situacích, kdy jsou často veřejné
+komunikační sítě vyřazeny z provozu, jsou radioamáteři schopni poskytovat
+spojení s okolním světem a předávat informace nezbytné pro řízení záchraných
+operací. V tomto směru se radioamatéři v poslední době pozitivně vyznamenali např. při
+nedávných neštěstích v Japonsku a v Thajsku. 
 
-Na řadě vysokých budov a kopců pracují pozemní radioamatérské převaděče. Převaděč přeposílá signál přijatý na na jedné frekvenci
-na frekvenci jinou. Radioamatéři se tak mohou pomocí převaděče dovolat na velké vzdálenosti i s použitím vysílačů o malém výkonu
-(často jde o kapesní radiostanice)
+Další radioamatérskou aktivitou je práce na VKV/UKV (neboli velmi krátkých/ultra
+krátkých vlnách). Tato spojení se vyznačují mnohem vyšší kvalitou srovnatelnou s
+profesionálními službami, nicméně pro jejich navázání je třeba přímá radiová
+viditelnost mezi jednotlivými stanicemi (v praxi je přímá radiová viditelnost
+většinou srovnatelná nebo díky odrazům a lomům trochu vyšší než přímá optická
+viditelnost).
+Z toho důvodu se na řadu vysokých budov a kopců umisťují tzv. pozemní radiové
+převaděče. Převaděč přeposílá zesílený signál jež byl přijatý na jedné frekvenci
+na frekvenci jiné. Díky tomu lze spolehlivě pokrýt oblasti jako města či kraje.
+Dalším častým vylepšením je propojování těchto převaděčů do sítí. Díky tomu mohou
+radioamatéři navazovat spojení i se stanicemi nacházejícími se v dosahu
+propojených převaděčů. Velice oblíbený v tomto směru je např. systém
+Echolink %%YARDA: link literatura, na echolink.org,
+který umožňuje celosvětově vytvářet tzv. červí díry (wormholes) mezi libovolnými
+převaděči v této síti. Příklad použití: stanice v dosahu brněnského převaděče
+zadá kód 366111, což zajistí propojení s převaděčem v Honolulu (propojení je
+nejčastěji realizováno pomocí sítě Internet). Radioamatéři se tak mohou pomocí převaděče dovolat na velké vzdálenosti i s použitím vysílačů o malém výkonu
+(často jde o kapesní radiostanice o velikosti srovnatelné s mobilním telefonem).
+Jistou daní je však závislost na externí infrastruktuře, což komplikuje využití
+této technologie v případě krizových situací.
 
-V počátcích 60. let byla také vypoštěna první radioamatérská družice. Dnes jich existuje několik desítek.
+V počátcích 60. let byla také vypuštěna první radioamatérská družice. Dnes jich existuje několik desítek.
+Tato činnost je koordinována neziskovou organizací AMSAT. %% YARDA: link na AMSAT
+
+%% YARDA: konzistentní terminologie, družice vs satelit
+
+%% YARDA: toto se mi nezdá, jak je to myšleno? zdroj? možná vypustit
 Družice pokrývají, podobně jako běžné televizní satelity, kruh o průměru zhruba 4000 km. 
-Narozdíl od geostacionárních televizních satelitů však amatérské družice kolem Země obíhají.
+
+Narozdíl od geostacionárních družic, které šíří např. televizní
+signál a jsou tzv. zaparkovýny na vysokých oběžných drahách. však amatérské
+družice kolem Země obíhají na nízkých oběžných drahách (tzv. LEO - Low Earth
+orbit). %% YARDA: může být link
 Díky tomu jsou schopny pokrýt postupně signálem všechny obydlené oblasti.
 
 V radioamatérském vysílání se rovněž konají závody. Cílem je například v určitém čase navázat spojení s co nejvíce jinými
 amatérskými stanicemi v co nejvíce zemích. Jinou variantou je například součet vzdáleností všech spojení vykonaných za určitý
-čas.
+čas. Jednotlivé závody mají svoje definovaná pravidla a jsou vypisovány pro
+různé kategorie.
 
-Morseova abeceda byla prvním dorozumívacím prostředkem používaným v amatérském rádiu a je radioamatéry používána dodnes.
-Hlavním přínosem morseovy abecedy je její velká odolnost proti rušení, diký níž lze překonat velké vzdálenosti i s malým
-výkonem. Další výhodou je to, že odbourává jazykové bariéry, protože se komunikuje převážně pomocí zkratek. Při hlasové komunikaci
-je mezinárodním jazykem angličtina a využívá se amplitudové modulace SSB nebo FM modulace.
+K radioamatérům neodmyslitelně patří Morseova abeceda. Morseova abeceda byla prvním dorozumívacím prostředkem používaným v amatérském rádiu a je radioamatéry používána dodnes.
+Výhodou morseovy %% YARDA: asi bych dal velké M
+abecedy je její velká odolnost proti rušení, diký níž lze překonat velké vzdálenosti i s malým
+výkonem. Taktéž pro její příjem a vysílání stačí principiálně jednoduchá zařízení. Další výhodou je to, že odbourává jazykové bariéry, protože se komunikuje převážně pomocí zkratek. Při hlasové komunikaci
+je mezinárodním jazykem angličtina (pokud však protistanice rozumí, lze pro
+spojení použít i libovolný jiný jazyk) a využívá se amplitudové modulace SSB
+nebo FM modulace. Nejnověji se experimentuje i s různými digitálními režimy
+přenosu hlasu, např. D-STAR, %% YARDA: link
+P25 C4FM, atp.
 
-Nejnovějším systémem pro zakódování řeči je je packet 
-radio. V podstatě se jedná o radioamatérský Internet, kde se informace přenáší pomocí modifikace protokolu X.25. 
-Síť packet radia pokrývá celý vyspělý svět, její součástí jsou i BBS (databanky pro ukládání a výměnu informací) a
-elektronická pošta. Poslat e-mail kamarádovi do Austrálie nemusíte jen po Internetu,
-ale také amatérským packet radiem, a nemáte-li nic lepšího na práci, můžete trávit hodiny zkoumáním nových zpráv i
-zajímavých programů v desítkách BBS po celé Evropě.
+Historicky se však digitálně přenášely jen data o malém objemu a původně jen nízkou
+přenosovou rychlostí. S postupným vývojem však dochází k nárůstu přenosové
+rychlosti. Tento systém se nazývá Packet radio. V podstatě se jedná o
+radioamatérský Internet, kde se informace přenáší pomocí modifikace protokolu
+X.25 (tzv. AX.25). %% YARDA: link 
+Jednotlivé uzly sítě jsou vzájemně propojeny (většinou radiovou cestou, nověji i
+přes Internet) a pakety putují přes jednotlivé uzly.
+Síť packet radia pokrývá celý vyspělý svět, její součástí jsou i BBS (Bulletin
+board system) databanky pro ukládání a výměnu informací) a
+elektronická pošta. Poslat e-mail kamarádovi do Austrálie tedy nemusíme jen po Internetu,
+ale také amatérským packet radiem, případně lze trávit hodiny zkoumáním nových zpráv i
+zajímavých programů v desítkách BBS.
 
-Samozřejmě jde vysílat i obrazové signály. Dlouhou tradici má tzv. pomalá televise (SSTV),
+Lze vysílat i obrazové signály. Dlouhou tradici má tzv. pomalá televize (Slow
+    scan TV - SSTV),
 jaká byla použita i u přenosu obrazu z prvních přistání amerických astronautů na Měsíci,
-dnes se experimentuje s různými digitálními přenosy a na UHF kmitočtech je možné použít i klasickou televisní normu.
+dnes se experimentuje s různými digitálními přenosy a na UHF kmitočtech je možné
+použít i klasickou televizní normu.
 
 Z ryze sportovních aktivit je dobře známý rádiový
-orientační běh. Cílem je v nejkratším čase najít pomocí
+orientační běh (ROB). Cílem je v nejkratším čase najít pomocí
 přijímače v terénu ukryté zamaskované vysílače. 
 Tyto sporty jsou atraktivní a pěstují je i lidé, kteří se jinak o radioamatérství příliš nezajímají.
 
@@ -99,16 +213,19 @@ V této podkapitole jsou popsány důležité pojmy používané mezi radioamat�
 \subsection{Volací značka}
 
 Každá stanice má přidělenu jedinečnou volací značku, kterou operátor stanice uvádí při každém spojení.
-První dva znaky značky jsou určeny podle přehledu mezinárodních volacích znaků přidělených dané zemi.
-Dalším znakem je číslo 0-9. Kombinaci těchto tří znaků se říká prefix. Zbytek značky je tvořen jedním až čtyřmi znaky.
+První dva znaky (někdy méně) značky jsou většinou určeny podle přehledu mezinárodních volacích znaků
+přidělených dané zemi.
+Dalším znakem je číslice 0-9. Kombinaci těchto znaků se říká prefix (většinou 1 až
+3 znaky). Zbytek značky je tvořen jedním až čtyřmi znaky.
 
-Na základě prefixu tak lze určit zemi, ze které daný operátor pochází a tak i jeho přibližnou polohu. K tomu slouží seznam DXCC
+Na základě prefixu tak lze určit zemi, ze které daný operátor pochází a tak i
+jeho přibližnou polohu. K tomu slouží seznam DXCC (DX Century Club)%% YARDA: link
 obsahující všechny aktuálně používané prefixy a informace k nim.
 
 \subsection{ITU zóny}
 
-Jedním z možných rozdělení světa na menší celky je jeho rozdělení do takzvaných ITU zón.
-Systém je pojmenován podle organizace International Telecommunications Union. Svět je rozdělen do celkem 
+Jedním z možných rozdělení světa na menší celky je rozdělení do takzvaných ITU zón.
+Systém je pojmenován podle organizace ITU (viz úvodní kapitola). Svět je rozdělen do celkem 
 89 zón ve třech regionech.
 
 \begin{figure}[h]
@@ -133,7 +250,13 @@ Jde o pouze 40 zón.
 \subsection{QTH lokátor}
 
 Poslední z používaných systémů pro rozdělení světa je QTH lokátor. Jde o rozdělení na základě zeměpisné šířky a délky.
-Země je rozdělena do obdélníků o velikosti 1\degree x 2\degree.
+Země je rozdělena do obdélníků o velikosti 1\degree x 2\degree (tzv. velký
+čtverec). Ty lze hierarchicky dělit na menší obdelníky. Vzniká tak hierarchický
+souřadnicový systém tvořený 2-8 znaky/číslicemi, jehož výhodou např. oproti GPS
+souřadnicím je, že stačí zachytit např. jen první dva znaky a známe přibližnou
+polohu protistanice. Další znaky pak slouží ke zpřesnění polohy. Nejčastěji se
+mezi radioamatéry používá 4 (na KV) nebo 6 (na VKV) znaků, např. JN89GE označuje
+západní Brno.  
 
 \begin{figure}[h]
 \centering
@@ -148,31 +271,36 @@ Země je rozdělena do obdélníků o velikosti 1\degree x 2\degree.
 \label{radioamateri_sluzby}
 
 Díky rozšiřování Internetu se začaly rozvíjet i služby provozované radioamatéry pro další radioamatéry. V této podkapitole
-jsou stručně popsány služby, kterých je v aplikaci využito a se kterými aplikace umí spolupracovat.
+jsou stručně popsány online služby, které jsou v navrhovaném staničním deníky využity.
 
 \subsection{DXCluster}
 
-DXCluster je komunitní službou umožňující radioamatérovi informovat ostatní radioamatéry o tom, kdo aktuálně vysílá. Kromě
+DXCluster je komunitní službou umožňující radioamatérovi informovat ostatní
+radioamatéry o tom, kdo aktuálně vysílá. Kromě
 volací značky se posílá i poloha a frekvence, na které radioamatér vysílá. Díky této službě tak lze jednodušeji navazovat
-spojení. Protokol služby DXCluster je postaven na službě telnet a není nikterak složitý. Lze jej jednoduše číst a zpracovávat.
+spojení. Protokol služby DXCluster je postaven na službě telnet a není nikterak
+složitý. Lze jej jednoduše číst a zpracovávat. Tato služba byla historicky
+šířena přes Packet radio, ale v současné době se k ní lze pohodlně připojit i přes
+Internet.
 
 \subsection{QRZ.com}
 
-QRZ.com je největší databází radioamatérů z celého světa. Na základě volací značky lze s její pomocí zjistit různé detailní
+QRZ.com je největší online databází radioamatérů z celého světa. Na základě volací značky lze s její pomocí zjistit detailní
 informace (například jméno nebo přesnou polohu) o jejím majiteli. Vyhledávat lze i pomocí speciálního webového rozhraní
 postaveného na technologii XML. To je velmi výhodné pro tvorbu aplikací využívajících QRZ.com pro zjištění informací o
-operátorech. XML rozhraní umožňuje přihlásit se ke službě QRZ.com a provést vyhledání na základě volací značky.
+operátorech.
 
-\chapter{Současné logovací aplikace}
+\chapter{Současný stav}
 \label{soucasnost}
 
-V této kapitole jsou posány aplikace používané současnými radioamatéry pro logování spojení. Každá aplikace je stručně
-popsána a jsou zmíněny i její klady a zápory. Na základě této kapitoly bude vytvořen základní návrh aplikace.
+V této kapitole jsou posány existující softwarové staniční deníky. Každá aplikace je stručně
+popsána a jsou zmíněny i její klady a zápory. Na základě této kapitoly bude dále
+vytvořen základní návrh vlastního staničního deníku.
 
-\section{Logger32}
+\section{Logger32}%% YARDA: logovací aplikace nahradit staniční deník
 
 Logger32 je jednou z nejznámějších logovacích aplikací pro operační systém Windows. Jeho hlavní výhodou je přehledné a funkční
-uživatelské rozhraní rozhraní a podpora přídavných pluginů.
+uživatelské rozhraní, které poskytuje pokročilé možnosti přizpůsobení a podpora přídavných pluginů.
 
 \begin{figure}[h]
 \centering
@@ -182,14 +310,17 @@ uživatelské rozhraní rozhraní a podpora přídavných pluginů.
 \end{figure}
 
 Lze vytvářet pluginy pro vyhledávání detailních informací na základě volací značky a také pluginy vytvářející externí okno
-s informacemi rozšiřující informace. Logger32 také umožňuje ovládání radiostanice.
+s rozšiřujícími informacemi. Logger32 také umožňuje dálkové ovládání
+radiostanice a příslušenství. Jeho velkou výhodou je univerzálnost.
 
 Hlavní nevýhodou aplikace Logger32 je její závislost na systému Windows. Moderním trendem dnešní doby je programování multiplatformních
 aplikací. Další nevýhodou je absence zdrojových kódů, takže je rozšířitelnost aplikace limitována rozhraním modulů definovaným
-tvůrcem aplikace.
+tvůrcem aplikace. Nevýhodou je též implementace v jazyce Visual Basic
+(výkonostní problémy).
 Mezi nevýhody můžeme řadit také nemožnost použití externí databáze jako je například SQLite3 nebo MySQL. Problémem může rovněž být
-situace, kdy chce uživatel zalogovat nové spojení z mobilního telefonu nebo jiného zařízení s nestandardním operačním systémem. V
-dnešní době je důležitým faktorem při tvorbě aplikací důraz na jejich použitelnost na širokém počtu zařízení.
+situace, kdy by uživatel potřeboval např. z terénu 
+zalogovat %% YARDA: místo zalogovat používat např. zapsat
+nové spojení z mobilního telefonu nebo jiného zařízení s nestandardním operačním systémem.
 
 \section{CQRLOG}
 
@@ -204,8 +335,10 @@ Windows, tak v Linuxových distribucích.
 \end{figure}
 
 Jeho uživatelské rozhraní je jednodušší než rozhraní programu Logger32 a je také více přehledné. Na druhou stranu však
-chybí podpora rozšíření formou pluginů. K dispozici jsou zdrojové kódy v jazyce Delphi. Volba tohoto programovacího jazyka
-značně ztěžuje (až znemožňuje) tvorbu oficiálních instalačních baličků pro linuxové distribuce.
+chybí podpora rozšíření formou pluginů. K dispozici jsou zdrojové kódy v jazyce
+Delphi. %% YARDA: zmínit že to pro kompilaci potřebuje Lazarus 
+Volba tohoto programovacího jazyka
+značně ztěžuje (až znemožňuje) distribuční integraci, t.j. tvorbu oficiálních instalačních baličků pro linuxové distribuce.
 
 CQRLOG umožňuje použítí
 MySQL databáze, ale návrh aplikace znemožňuje jednoduchou změnu databázové aplikace. Také volba MySQL databáze pro použití 
@@ -221,18 +354,18 @@ záznamů pomocí aplikací třetích stran a není tak jednoduché postavit dal
 \label{fig:FigureExample}
 \end{figure}
 
-\chapter{Návrh aplikace}
+\chapter{Návrh}
 \label{navrh}
 
-Cílem této kapitoly je popsání návrhu aplikace a použitého komunikačního protokolu.
+Cílem této kapitoly je návrh aplikace a použitého komunikačního protokolu.
 
-Na základě rozboru současně používaných aplikací z předchozí kapitoly vyplynuly základní požadavky
+Na základě analýzy z předchozí kapitoly vyplynuly základní požadavky
 na výslednou aplikaci.
 
 \begin{itemize}
-\item \textbf{Multiplatformnost} - Návrh aplikace musí počítat s možností jejího spouštění na různých operačních systémech
-a platformách.
-\item \textbf{Klient-server architektura} - Jádro programu je tvořeno serverem.
+\item \textbf{Multiplatformnost} - Nutným požadavkem je možnost spuštění
+aplikace (nebo přeložení zdrojového kódu) na různých operačních systémech / platformách.
+\item \textbf{Architektura klient-server} - Jádro programu je tvořeno serverem.
 Server umožňuje vedení deníků více uživatelů zároveň a poskytuje rozhraní pro přídavné moduly.
 Klientská aplikace se připojí k serveru a prostředníctvím komunikačního protokolu s ním komunikuje.
 Díky tomuto rozdělení je možné přidávat záznamy do centrální databáze z více zařízení a pracovat
@@ -251,10 +384,17 @@ pro komunikaci se serverem a umožňuje použití libovolného grafického rozhr
 Aplikace se tedy skládá z modulárního serveru, klientské knihovny a grafického uživatelského rozhraní.
 V následujících podkapitolách jsou jednotlivé části stručně popsány.
 
+%% YARDA: zmínit linux princip KISS (keep it simple and stupid), tedy modulární
+%% části, každá dělá svoje, dělá to jednoduše a dobře, pak se to spojí do většího
+%% celku. Taky zmínit, že to nemusí běžet rozděleně server klient, ale že to
+%% může běžet všchchno lokálně na jednom stroji aniž by tím nějak výrazně utrpěla
+%% výkonnost.
 \begin{figure}[h]
 \centering
 \includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.8]{fig/princip}
-\caption{Základní činnost programu.}
+\caption{Základní činnost programu.} %% YARDA: možná raději základní
+%% architektura, konzistentnost v pojmech aplikace, program, atd.
+%% Ještě bych tam zakreslil ty pluginy.
 \label{fig:FigureExample}
 \end{figure}
 
@@ -262,11 +402,17 @@ V následujících podkapitolách jsou jednotlivé části stručně popsány.
 \section{Návrh komunikačního protokolu}
 \label{navrh_protokol}
 
+%% napsat pro lamy proč komunikační protokol, k čemu ho vlastně potřebujeme.
+%% a vychválit se, že byl navržen a implementován vlastní protokol, jsou to plus
+%% body :)
 Byl zvolen protokol inspirovaný protokolem HTTP \cite{http}, převážně kvůli jeho jednoduchosti a účelnosti z hlediska modularity.
+%% YARDA: taky napsat výhodu prostupnost přes firewally proxy, atp.
 Jednotlivé moduly serveru mají své vlastní URI a klientské požadavky jsou pak směrovány podle URI na konkrétní modul,
 který vygeneruje odpověď poslanou klientovi.
 
-Protokol je zpětně kompatibilní s protokolem HTTP, ale jsou použity jen některé jeho části. Komunikace probíhá v režimu
+Protokol je zpětně kompatibilní s protokolem HTTP, %% YARDA: jestli to projde
+%% přes standardní HTTP proxy, tak to zmínit, viz výše
+ale jsou použity jen některé jeho části. Komunikace probíhá v režimu
 požadavek-odpověď.
 
 Data přenášená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první řádek reprezentuje hlavičku dat. Standardní názvy
@@ -276,19 +422,22 @@ sloupců ve hlavičce protokolu jsou:
 \item \textbf{user\_id} - ID uživatele, jemuž záznam v logu patří.
 \item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
 \item \textbf{callsign} - Volací značka (například OK2JRQ).
-\item \textbf{mode} - Mód spojení.
-\item \textbf{qth} - QTH lokátor (Maidenhead Locator).
+\item \textbf{mode} - Mód spojení. %% YARDA: příklad
+\item \textbf{qth} - QTH lokátor (Maidenhead Locator).%% YARDA: závorka není
+%% třeba, bylo vysvětleno výše
 \item \textbf{name} - Jméno operátora.
 \item \textbf{latitude} - Zeměpisná šířka.
 \item \textbf{longitude} - Zeměpisná délka.
-\item \textbf{conty} - Okres.
+\item \textbf{county} - Okres.
 \item \textbf{continent} - Zkratka kontinentu.
 \item \textbf{cq} - CQ zóna.
 \item \textbf{itu} - ITU zóna.
 \end{itemize}
 
 Jednotlivé moduly serveru však mohou použít i své vlastní názvy sloupců pro položky, které nejsou v tomto seznamu.
-
+%% YARDA: specifikoval bych výčtem, co všechno ten protokol musí umět a poskytovat,
+%% např. přihlášení uživatele a jednotlivé příklady bych přesunul do kapitoly
+%% implementace.
 \subsection{Ukázky použití protokolu}
 
 \subsubsection{Vyžádání logu}
@@ -336,7 +485,9 @@ id;user_id;callsign;date;qth;loc
 \subsection{Přihlášení uživatele}
 
 Přihlášení je prováděno metodou Digest Access Authentication definovanou v RFC 2617 \cite{rfc2617}. Díky tomu se heslo neposílá
-při přihlášení po síti a je možné jej na straně serveru ukládat zahashované. Nehrozí tak jeho možný odposlech během přihlášení.
+při přihlášení po síti a je možné jej na straně serveru ukládat
+zahashované. %% YARDA: škaredé slovo přeformulovat a použít např. slovo 'otisk'
+Díky tomu je vyloučena možnost odposlechu během přihlášení.
 
 \subsubsection{Ukázka přihlášení uživatele}
 
@@ -356,7 +507,8 @@ WWW-Authenticate: Digest realm="realm@hamlog",qop="auth,auth-int",nonce="dcd98b7
 Authentication
 \end{verbatim}
 
-Klient se přihlásí s použitím správného jména a hesla, které je všask přenášena zahashované:
+Klient se přihlásí s použitím správného jména a hesla, které je však přenášena
+zahashované:
 \begin{verbatim}
 GET /login HTTP/1.1
 Authorization: Digest username="ok2jrq",realm="realm@hamlog",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",uri="/login",qop=auth,response="d197141dc972c02d71e6a73b3396ed53",opaque="5ccc069c403ebaf9f0171e9517f40e41")
@@ -375,8 +527,11 @@ Authorized
 \section{Návrh serveru}
 \label{navrh_server}
 
-Server je konzolová aplikace zpracovávající klientské požadavky. Administrátor může server konfigurovat konfiguračním souborem
-v INI formát. Server je schopen obsluhovat více uživatelů současně.
+Server je konzolová aplikace %% YARDA: místo konzolová aplikace raději aplikace
+%% bez uživatelského rozhraní 
+zpracovávající klientské požadavky. Administrátor může server konfigurovat konfiguračním souborem
+v INI formátu. %% YARDA: popsat co to je, nebo link 
+Server je schopen obsluhovat více uživatelů současně.
 Uživatelé se k serveru přihlašují pomocí jména a hesla. Noví uživatelé se musí nejprve registrovat.
 
 Návrh serveru počítá s použitím jakékoliv databáze pro uchování perzistentních dat. V rámci této bakalářské práce jsem se 
@@ -414,7 +569,8 @@ komunikovat i s pro ni neznámými moduly pouze na základě znalosti jejich typ
 \item \textbf{Popis} - Krátký text popisující funkci modulu. V grafickém rozhraní je tento text zobrazen v seznamu modulů.
 \end{itemize}
 
-V rámci této bakalářské práce existují moduly jen dvou typů:
+V rámci této bakalářské práce byly implementovány moduly následujících typů (lze
+však rozšířit):
 
 \begin{itemize}
 \item \textbf{CALLINFO} - Moduly tohoto typu poskytují rozličné informace (například polohu nebo jméno operátora)
@@ -428,9 +584,13 @@ které aktuálně vysílají.
 S moduly typu CALLINFO lze komunikovat následujícími způsoby:
 
 \begin{itemize}
-\item \textbf{Požadavek typu POST na URI "/modul"} - Jako data je v požadavku zaslána volací značka operátora. Odpověď obsahuje
+\item \textbf{Požadavek typu POST na URI "/modul"} - %% YARDA:  link co to je
+%% POST
+Jako data je v požadavku zaslána volací značka operátora. Odpověď obsahuje
 veškeré zjistitelné informace o volací značce ve formátu CSV definovaném v podkapitole \ref{navrh_protokol}.
-\item \textbf{Požadavek typu GET na URI "/modul/username"} - Pokud modul vyžaduje registraci uživatelského jména a hesla pro
+\item \textbf{Požadavek typu GET na URI "/modul/username"} - %% YARDA: link co
+%% to je GET
+Pokud modul vyžaduje registraci uživatelského jména a hesla pro
 přístup k databázi volacích značek (například v případě, že modul přistupuje ke službě, která je jen pro registrované), musí modul
 implementovat zpracování tohoto URI a vrátit aktuálně registrované uživatelské jméno nebo prázdný řetezec. Klient pak může tohoto
 chování využít pro zjištení, jestli je potřeba být pro použití modulu registrován.
@@ -452,7 +612,8 @@ musí opakovaně ptát, aby získal nové vysílající stanice.
 \subsection{Databáze}
 \label{navrh_databaze}
 
-Součástí serveru je rozhraní pro přístup k databázi. Veškerá data všech uživatelů jsou v této databázi uložena.
+Součástí serveru je rozhraní pro přístup k databázi. Veškerá data všech
+uživatelů jsou uložena v této databázi.
 Návrh serveru počítá s využitím databáze jakéhokoliv typu (SQLite3, MySQL, PostgreSQL, \dots). Jednotlivé moduly
 umí prostřednictvím databázového rozhraní s databází pracovat a spouštět nad ní prakticky jakékoliv dotazy.
 
@@ -468,7 +629,8 @@ z tohoto obrázku jsou pak dále stručně popsány.
 
 \subsubsection{Tabulka users}
 
-Tabulka users obsahuje informace potřebné pro přihlášení uživatele deníku. Jde zejména o jeho volací značku a
+Tabulka users obsahuje informace potřebné pro přihlášení uživatele (deník může
+používat více uživatelů). Každý uživatel zde má uloženo ID, volací značku a
 heslo.
 
 \subsubsection{Tabulka logbook}
@@ -476,20 +638,21 @@ heslo.
 V tabulce logbook jsou uloženy deníky všech uživatelů. Obsahuje následující sloupce:
 
 \begin{itemize}
-\item \textbf{id} - ID záznamu v logu.
-\item \textbf{user\_id} - ID uživatele, jemuž záznam v logu patří.
-\item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
+\item \textbf{id} - ID záznamu.
+\item \textbf{user\_id} - ID uživatele, jemuž záznam patří.
+\item \textbf{qsodate} - Datum záznamu ve formátu Unix timestamp.
 \item \textbf{callsign} - Volací značka (například OK2JRQ).
-\item \textbf{mode} - Mód spojení.
+\item \textbf{mode} - Mód spojení. %% YARDA: příklad
 \item \textbf{qth} - QTH lokátor (Maidenhead Locator).
 \item \textbf{name} - Jméno operátora.
 \item \textbf{latitude} - Zeměpisná šířka.
 \item \textbf{longitude} - Zeměpisná délka.
-\item \textbf{conty} - Okres.
+\item \textbf{county} - Okres.
 \item \textbf{continent} - Zkratka kontinentu.
 \item \textbf{cq} - CQ zóna.
 \item \textbf{itu} - ITU zóna.
-\item \textbf{qsl} - Příznak žádosti o QSL lístek.
+\item \textbf{qsl} - Příznak žádosti o QSL lístek. %% YARDA: rozvést proč je to
+%% použito a co to umožňuje (např. dále v textu).
 \item \textbf{qsl\_sent} - Příznak poslání QSL lístku.
 \item \textbf{comments} - Komentáře.
 \end{itemize}
@@ -497,38 +660,45 @@ V tabulce logbook jsou uloženy deníky všech uživatelů. Obsahuje následují
 \section{Klientská knihovna}
 \label{navrh_knihovna}
 
-Cílem klientské knihovny je poskytnout grafickému rozhraní jednotné API pro přístup k serveru
-a tím pádem zamezit duplikování kódu mezi případnými grafickými rozhraními.
+Klientská knihovna poskytuje grafickému rozhraní jednotné API pro přístup k
+serveru, což je kvůli zamezení duplikace kódu při případné implementaci více
+různých grafických rozhraní.
 
 Klientská knihovna má minimální závislosti a je multiplatformní. Pomocí komunikačního protokolu
-komunikuje se server, zpracovává příchozí data a předává je klientovi.
+komunikuje se serverem, zpracovává příchozí data a předává je klientovi.
 
-Knihovna je navržena tak, aby mohla spolupracovat s jakýmkoliv grafickým rozhraním.
+Knihovna je navržena tak, aby mohla spolupracovat s jakýmkoliv grafickým
+rozhraním. %% YARDA: blíže specifikovat, co se myslí, QT, GTK?
 
-Základními funkcemi klientské knihovny je:
+Základní funkce klientské knihovny jsou:
 
 \begin{itemize}
 \item Připojení k serveru, registrace a přihlášení uživatele.
-\item Generování požadavků pro server a jejich posílání.
+\item Generování požadavků pro server a jejich předání serveru.
 \item Zpracování odpovědí serveru a předání zpracovaných dat klientské knihovně.
 \end{itemize}
 
 \section{Klient}
 \label{navrh_klient}
 
-Klient slouží koncovému uživateli k připojení k serveru, prezentaci aktuálních dat a jejich změně. Pro komunikace
+Klient umožňuje uživateli připojení k serveru, prezentaci aktuálních dat a
+jejich změny. Pro komunikace
 se serverem klient využívá klientskou knihovnu. Pro komunikaci s uživatelem pak klient využívá grafického rozhraní.
 Po startu klienta je uživatel vyzván k přihlášení se k serveru. Uživateli je rovněž nabídnuta možnost registrace
 nového účtu.
 
 Po přihlášení zobrazí klientská aplikace veškeré záznamy v deníku a umožní jejich editaci. Klientská aplikace také zobrazuje
-aktuální vysílání získané ze služby DXCluster. Stanice, které aktuálně vysílají jsou zobrazeny graficky na modelu zeměkoule.
+aktuální vysílání získané ze služby DXCluster. Stanice, které aktuálně vysílají jsou zobrazeny graficky na modelu 
+zeměkoule.
 
-Po vybrání stanice zobrazen dialog pro přidání nového záznamu s předvolenými hodnotami získanými ze služby DXCluster. Automaticky
-je také přeladěno rádio na danou frekvenci. V okně pro nový záznam je uživateli zobrazena historie všech spojení s daným operátorem.
+Po vybrání stanice je zobrazen dialog pro přidání nového záznamu s předvolenými hodnotami získanými ze služby DXCluster. Automaticky
+je také přeladěno rádio na danou frekvenci.
+
+V okně pro nový záznam je uživateli zobrazena historie všech spojení s daným operátorem.
 Po potvrzení dialogu je nový záznam odeslán na server a uložen do databáze.
 
-Klient také umožňuje zobrazit všechny moduly dostupné na serveru a jejich popis.
+Klient také umožňuje zobrazit všechny moduly dostupné na serveru a jejich
+textový popis.
 
 
 \chapter{Implementace}
@@ -539,18 +709,21 @@ V této kapitole je popsána implementace serverové aplikace, klientské aplika
 \section{Implementace serverové aplikace}
 \label{implementace_server}
 
-Server byl implementován v jazyce C++ umožňujícím lepší dekompozici aplikace a použití objektového paradigmatu. Byla rovněž
+Server byl implementován v jazyce C++ umožňujícím lepší dekompozici aplikace a
+použití objektově orientovaného přístupu. Byla rovněž
 použita knihovna Boost, která poskytuje základní metody pro asynchronní síťovou komunikaci a nabízí programátorské prostředky
 nad rámec standardní STL knihovny.
 
-Pro implementaci modulu QRZ bylo potřeba použít knihovnu pro zpracování XML. K tomuto účelu jsem použil knihovnu TinyXML.
+Pro implementaci modulu QRZ bylo potřeba použít knihovnu pro zpracování XML. K
+tomuto účelu byla použita knihovna TinyXML.
 
-V této podkapitole jsou popsány nejdůležitejší třídy serveru.
+Dále budou stručně popsány nejdůležitejší třídy serveru.
 
 \subsubsection{Třída Server}
 
 Třída Server je základní třídou serveru. Vytváří soket, na kterém server přijímá připojení z klientské knihovny. Jakmile je 
-akceptováno nové připojení, je vytvořena instance třídy Session, která dále zpracovává všechny požadavky klienta.
+akceptováno nové připojení, je vytvořena instance třídy Session, která dále
+zpracovává všechny požadavky od klienta.
 
 \subsubsection{Třída Session}
 
@@ -563,13 +736,15 @@ zpět klientovi.
 
 Třída RequestParser reprezentuje konečný automat pro parsování zpráv podle specifikace komunikačního protokolu.
 Metoda parse zpracovává přijatá data, parsuje je, a výsledek uchovává v instanci třídy Request. Pokud dojde během parsování
-k chybě, vrací funkce parse hodnotu false a uživatel, jehož klient poslal nevalidní data, je odpojen.
+k chybě, vrací funkce parse hodnotu false a uživatel, jehož klient poslal
+neplatná data, je odpojen.
 
 \subsection{Implementace databázového rozhraní}
 \label{implementace_db}
 
-Návrh a implementace serveru umožňuje použití libovolného databázového rozhraní. V rámci bakalářské práce je však podpována
-pouze databáze SQLite3. Třída implementující konkrétní databázové rozhraní musí dědit třídu StorageBackend a implementovat
+Návrh a implementace serveru umožňuje použití libovolného databázového rozhraní.
+V rámci bakalářské práce však byla implementována 
+pouze podpora pro databázi SQLite3 (lze však snadno rozšířit). Třída implementující konkrétní databázové rozhraní musí dědit třídu StorageBackend a implementovat
 její čistě virtuální metody.
 
 \begin{figure}[h]
@@ -582,35 +757,44 @@ její čistě virtuální metody.
 \subsubsection{Třída StorageBackend}
 
 Třída StorageBackend je základní abstraktní třídou pro implementaci jakéhokoliv databázového rozhraní.
-Je u ní použit návrhový vzor Singleton a jejím smyslem je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
-o jakou databázi se jedná. Názvy metod a podtříd jsou pojmenovány terminologií známou z SQL databází, ale prakticky
+Je u ní použit návrhový vzor Singleton %% YARDA: více rozvést, nebo link do
+%% literatury
+a jejím smyslem je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
+typu databáze. Názvy metod a podtříd jsou pojmenovány terminologií známou z
+oblasti SQL databází, %% YARDA: opět by se hodil link
+ ale prakticky
 lze pomocí třídy StorageBackend implementovat rozhraní pro přístup k jakémukoliv typu databáze.
 
-Třída StorageBackend Obsahuje základní podtřídy pro definici dotazů typu SELECT, INSERT, UPDATE a CREATE známých z
+Třída StorageBackend obsahuje základní podtřídy pro definici dotazů typu SELECT, INSERT, UPDATE a CREATE známých z
 jazyka SQL:
 
 \begin{itemize}
 \item StorageBackend::Column - Obsahuje veškeré informace o sloupci tabulky (jméno, typ, velikost,
-příznaky pro NOT NULL, UNIQUE a PRIMARY KEY). Slouží pro definici sloupce při vytváření
+příznaky pro NOT NULL, UNIQUE a PRIMARY KEY). %% YARDA: opět rozvést
+Slouží pro definici sloupce při vytváření
 nové tabulky metodou StorageBackend::createTable().
 \item StorageBackend::Select - Zapouzdřuje data potřebná pro provedení výběru dat z databáze. Obsahuje jméno tabulky,
-ze které se výběr provádí, a ukazatel na dvourozměrně pole, do kterého se uloží výsledky. Dále umožňuje třída StorageBackend::Select
+ze které se výběr provádí, a ukazatel na dvourozměrné pole, do kterého se uloží
+výsledky. Dále třída StorageBackend::Select umožňuje
 definovat omezení výběru (v SQL jazyce klíčové slovo WHERE) a umožňuje výběr konkrétních sloupců, které vrátí ve výsledku.
 Instance této třídy je předána metodě StorageBackend::select() nebo StorageBackend::remove().
-\item StorageBackend::Insert - Obsahuje data pro vložení (v SQL jazyce INSERT) nebo aktualizaci (v SQL jazyce UPDATE)
+\item StorageBackend::Insert - Obsahuje data pro vložení (v SQL jazyce klíčové
+slovo INSERT) nebo aktualizaci (v SQL jazyce klíčové slovo UPDATE)
 záznamu v databázi. Obsahuje název tabulky, ve které se budou data měnit, a samotná data ve formě název sloupce - hodnota.
-Umožňuje definovat omezení (v SQL jazyce WHERE) aplikovaná při aktualizaci dat. Instance této třidy je předána metodě
+Umožňuje definovat omezení (v SQL jazyce klíčové slovo WHERE) aplikovaná při aktualizaci dat. Instance této třidy je předána metodě
 StorageBackend::insert() nebo StorageBackend::update().
 \end{itemize}
 
-V závislosti na implementaci metod třídy StorageBackend v něktéré z jejich dceřiných tříd je pak vyvolána konkrétní změna v
+V závislosti na implementaci metod třídy StorageBackend je pak v některé z
+jejich dceřiných tříd provedna konkrétní změna v
 databázi. Třída StorageBackend dále umožňuje získání identifikačního čísla naposledy vloženého záznamu metodou lastInsertedID().
 
 
 \subsubsection{Třída SQLite3Backend}
 
 Tato třída dědí třídu StorageBackend a implementuje její metody pro použití databázového systému SQLite3. V metodách
-update(), insert(), select(), createTable() a remove() se na základě předaných dat vygeneruje dotaz v SQL jazyce, spustí se
+update(), insert(), select(), createTable() a remove() se na základě předaných
+dat vygeneruje dotaz v SQL jazyce, ten se spustí
 a je vrácen výsledek.
 
 \subsection{Implementace modulů}
@@ -618,7 +802,11 @@ a je vrácen výsledek.
 
 Moduly jsou implementovány jako dynamické knihovny. Každý modul musí dědit třídu Modul (zprostředkovaně například přes třídu RequestResponder)
 a implementovat její čistě virtuální
-(pure virtual) metody. Veškeré klientské požadavky jsou pak směrovány na konkrétní modul podle URI instancí třídy ModuleManager.
+(pure virtual) metody. %% YARDA: hodil by se odkaz na nějakou knihu o OOP 
+Veškeré klientské požadavky jsou pak směrovány na konkrétní modul podle URI instancí třídy ModuleManager.
+
+%% YARDA: každý obrázek musí být odkazován v textu, např. Na obrázku
+%% \ref{fig:FigureExample} je zobrazen diagram tříd modulů..
 
 \begin{figure}[h]
 \centering
@@ -647,29 +835,34 @@ metody loadModules lze načíst všechny moduly z adresáře zvoleného v konfig
 jsou předány instanci této třídy metodou handleRequest, která je pak dále směruje podle URI na konkrétní modul. Třída také
 umožňuje poslat seznam všech modulů klientské aplikaci.
 
-\subsection{Seznam implementovaných modulů}
+\subsection{Seznam implementovaných modulů} %% YARDA: možná raději
+%% implementované moduly
 \label{implementace_moduly_list}
 
 V této podkapitole jsou popsány jednotlivé implementované moduly.
 
 \subsubsection{Modul Register}
 
-Modul Register (běžící na URI "/register") slouží k registraci nových uživatelů. Při svém spuštění vytvoří pomocí
+Modul Register (URI "/register") %% YARDA: 'běžící na' bych odstranil
+slouží k registraci nových uživatelů. Při svém spuštění vytvoří pomocí
 instance třídy StorageBackend tabulku "users". V metodě handleRequest pak přijímá případné požadavky na registraci
 uživatele a přidá nového uživatele do databáze. Pokud je již uživatel zaregistrován, vrací klientské aplikaci chybový kód.
 
 \subsubsection{Modul Login}
 
-Modul Login běží na URI "/login". Jeho cílem je umožnit uživatelům přihlášení k systému. V metodě handleRequest je
-implementován princip přihlášení WWW-Authenticate.
+Modul Login má URI "/login". Jeho cílem je umožnit uživatelům přihlášení k systému. V metodě handleRequest je
+implementován princip přihlášení WWW-Authenticate. %% YARDA: určitě link
 
 \subsubsection{Modul LogBook}
 
-Tento modul je základem celého projektu, protože umožňuje uživateli ukládat nové záznamy v deníku na server. Při svém načtení
+Tento modul je základem celého projektu, protože umožňuje uživateli ukládat nové záznamy na server. Při svém načtení
 vytvoří tabulku "logbook". V metodě handleRequest na základě URI provádí následující akce:
 
 \begin{itemize}
-\item URI "/logbook" - Jako odpověd na dotaz pošle celý logbook v CSV formátu získaný z databáze pomocí instance třídy StorageBackend.
+\item URI "/logbook" - Jako odpověd na dotaz pošle celý logbook %% YARDA:
+%% ustálit terminologii, např. v textu psát místo logbook deník, prostě aby byl
+%% popisný text konzistentní v celé práci (URI ani názvy tabulek neměnit)
+v CSV formátu získaný z databáze pomocí instance třídy StorageBackend.
 \item URI "/logbook/add" - Přidá do tabulky "logbook" nový záznam podle CSV dat přijatých v dotazu.
 \item URI "/logbook/remove" - Odstraní z tabulky "logbook" záznam definovaný pomocí ID přijatého v dotazu.
 \item URI "/logbook/call" - Jako odpověď na dotaz pošle pouze záznamy o spojeních s konkrétním operátorem určeným jeho značkou v 
@@ -678,16 +871,20 @@ těle dotazu.
 
 \subsubsection{Modul DXCC}
 
-Modul DXCC (běží na URI "/dxcc") umožňuje získat z volací značky bližší informace o její lokaci. Modul je typu CALLINFO.
+Modul DXCC (URI "/dxcc") umožňuje získat z volací značky lokalizační informace. Modul je typu CALLINFO.
 Data o jednotlivých prefixech
-jsou po startu modulu načtena ze souboru "cty.csv" v CSV formátu. Tento soubor byl získán z TODO.
+jsou po startu modulu načtena ze souboru "cty.csv" v CSV formátu. Tento soubor
+byl získán z TODO. %% YARDA: doplnit
 V metodě handleRequest modul získá z požadavku prefix volací
-značky, vyhledá jej v datech načtených při startu a jako odpověď odešle informace o lokaci stanice. Pokud prefix není nalezen,
+značky, vyhledá jej v datech načtených při startu %% YARDA: přiliš komplikovaná
+%% věta
+a jako odpověď odešle informace o lokaci stanice. Pokud prefix není nalezen,
 vrací chybový kód.
 
 \subsubsection{Modul DXCluster}
 
-Modul DXCluster (běžící na URI "/dxcluster") slouží k připojení k DXClusteru dxspots.com. Modul je typu DXCLUSTER.
+Modul DXCluster (URI "/dxcluster") slouží k připojení k DXClusteru, implicitně
+se používá adresa dxspots.com. Modul je typu DXCLUSTER.
 Při prvním požadavku od klienta dojde k připojení na DXCluster.
 Veškerá data přijatá z DXClusteru jsou rozparsována a uložena v CSV formátu. Na každý
 další klientský požadavek odpoví modul daty získanými z DXClusteru. Jde tedy o jistou formu pollingu, kdy si klient
@@ -695,7 +892,7 @@ opakovaně žádá o nová data.
 
 \subsubsection{Modul QRZ}
 
-Modul QRZ (běžící na URI "/qrz") je typu CALLINFO umožňuje tedy získávat uživateli další informace o ostatních uživatelích na základě jejich
+Modul QRZ (URI "/qrz") je typu CALLINFO umožňuje tedy získávat uživateli další informace o ostatních uživatelích na základě jejich
 volací značky.K tomuto využívá službu qrz.com. V metodě handleRequest se na základě URI provádí následující akce:
 
 \begin{itemize}
@@ -710,34 +907,43 @@ Je tak třeba řešit problém, kdy klientská aplikace pošle dotaz na QRZ modu
 následovaný dotazem na modul jiný. V tomto případě by mohl být druhý dotaz zpracován před prvním a došlo by tak k narušení
 způsobu komunikace dotaz-odpověď.
 
-Řešením tohoto problému je možnost modulu zastavit dočasně zpravovávání dalších požadavků od konkrétního klienta, dokud 
+Řešením tohoto problému je možnost modulu zastavit dočasně zpracovávání dalších požadavků od konkrétního klienta, dokud 
 nebude vyřízen požadavek aktuální. To lze provést zavoláním metody Reply::setAsync(). Jakmile je odpověď připravena
 k odeslání, lze ji odeslat metodou Session::sendAsyncReply(). Po zavolání této metody je pak opět povoleno zpracovávání
 dalších požadavků od klienta.
 
 \subsubsection{Modul Hamlib}
 
-Modul Hamlib (běžící na URI "/hamlib") umožňuje ovládat frekvenci vysílačky připojené k počítačí, na které
-běží serverová aplikace. Pro změnu a získání frekvence využívá knihovnu Libhamlib. V metodě handleRequest se na základě
+Modul Hamlib (URI "/hamlib") umožňuje ovládat radiostanici připojenou k
+počítačí, na kterém
+běží serverová aplikace. Pro změnu a získání frekvence využívá knihovnu Libhamlib. 
+%% YARDA: rozvést, popsat stručně hamlib, minimálně link
+V metodě handleRequest se na základě
 URI provádí tyto akce:
 
 \begin{itemize}
-\item dotaz typu POST na URI "/hamlib" - Přeladí frekvenci vysílačky na frekvenci získanou z požadavku. Frekvence
-je posílána jako desetinné číslo v kHz.
-\item dotaz typu POST na URI "/hamlib" - Odešle zpět aktuální frekvenci jako desetinné číslo v kHz.
+\item dotaz typu POST na URI "/hamlib" - Přeladí frekvenci vysílačky %% YARDA:
+%% místo vysílačka používat radiostanice
+na frekvenci získanou z dotazu. Frekvence
+je v dotazu formátována jako desetinné číslo (v kHz).
+\item dotaz typu POST na URI "/hamlib" - Odešle zpět aktuální frekvenci jako
+desetinné číslo (v kHz).
 \end{itemize}
 
+%% YARDA: pokud se jedná o kapitolu implementace, tak jednotlivé podkapitoly
+%% už nemusí obsahovat slovo implementace
 \subsection{Implementace logování}
 \label{implementace_logovani}
 
 Logování je implementováno s použitím knihovny Log4cxx vyvíjené Apache Software Foundation a licencované pod licencí
-Apache License. Pokud však není při kompilaci knihovna Log4cxx nalezena, je pro logování použit standardní výstup.
+Apache License.  %% YARDA: link
+Pokud však není při kompilaci knihovna Log4cxx nalezena, je pro logování použit standardní výstup.
 Výhodou Použití Log4cxx je možnost široké konfigurace logování pomoci konfiguračního souboru, možnost přesměrovat
 logování do souboru a tento pak automaticky rotovat na základě jeho velikosti nebo času.
 
 Každá třída serveru má vlastní statickou instanci třídy log4cxx::LoggerPtr, kterou využívá k logování.
 U každého zápisu do logu se loguje datum a čas, závažnost záznamu (Informace, varování, chyba), název modulu a samotný
-logovaný záznam.S tandardní výstup pak vypadá například následovně:
+logovaný záznam. Standardní výstup pak vypadá například následovně:
 
 \begin{verbatim}
 2012-03-28 19:12:44,423 INFO  Server: Starting the server
@@ -751,12 +957,16 @@ Klientská knihovna je navržena a implementována
 tak, aby ji bylo možno použít s jakýmkoliv grafickým (případně i konzolovým) rozhraním. Kvůli přenositelnosti a
 širší využitelnosti je napsána v jazyce C s důrazem na co nejméně závislostí na jiných knihovnách.
 
-Klientská knihovna je rozdělena do menších bloků, které budou v této kapitole postupně popsány.
+Klientská knihovna je rozdělena do menších bloků, které budou v této kapitole
+%%YARDA: sjednotit terminologii, kapitola, vs podkapitola
+postupně popsány.
 
+%% YARDA: opět konzistence, předchozí podkapitoly obsahují slovo implementace,
+%% tahle ne, doporučuji všechny psát bez slova implementace
 \subsection{Abstraktní datové typy}
 
 V této podkapitole je popsána implementace abstraktních datových typů požitých v klientské knihovně.
-
+%% YARDA: dát to do kontextu, k čemu se to používá
 \subsubsection{HAMList - Seznam}
 
 \begin{figure}[h]
@@ -789,6 +999,7 @@ která je použita pro uvolnění uživatelských dat z paměti. Pokud není tat
 data při uvolňování seznamu z paměti uvolněna.
 
 \subsubsection{HAMHashTable - Hashovací tabulka}
+%% YARDA: opět dát to do kontextu, k čemu se to používá
 
 \begin{figure}[h]
 \centering
@@ -816,8 +1027,9 @@ typedef struct _HAMHashTable {
 \end{verbatim}
 
 Každá položka uložená v hash tabulce obsahuje svůj klíč (key), jeho délku (key\_len), data svázaná s položkou a ukazatel
-na další položku. Při vložení nové položky do tabulky je vypočten hash jejího kliče pomocí SDBM hashovacího algoritmu.
-Na základě hodnoty hashe je ukazatel na položku uložen do pole položek items. P
+na další položku. Při vložení nové položky do tabulky je vypočten hash jejího kliče pomocí SDBM
+hashovacího algoritmu. %% YARDA: určitě link
+Na základě hodnoty hashe je ukazatel na položku uložen do pole položek items.
 
 \subsection{Komunikace s klientskou aplikací}
 \label{implementace_knihovna_komunikace}
@@ -836,7 +1048,8 @@ Funkce definované ve struktuře HAMEventLoopUICallbacks jsou pak používány d
 následující činnosti:
 
 \begin{itemize}
-\item timeout\_add - Přidá do hlavní smyčky programu běžící v klientské aplikaci nový časocač. Klientská aplikace
+\item timeout\_add - Přidá do hlavní smyčky programu běžící v klientské aplikaci
+nový časovač. Klientská aplikace
 musí vrátit ukazatel na strukturu jednoznačně identifikující časovač a
 volat opakovaně funkci předánou jakou ukazatel ve zvoleném intervalu.
 \item timeout\_remove - Odebere z hlavní smyčky časovač na základě jeho ukazatele na strukturu, která jej identifikuje.
@@ -900,11 +1113,12 @@ V této podkapitole je popsána implementace hlavního okno programu a všech pr
 \subsubsection{Třída MainWindow}
 
 Třída MainWindow reprezentující hlavní okno je také hlavní třídou klientské aplikace. Po svém vytvoření zobrazí dialog
-pro připojení uživatele k serveru. Pomocí metody connectServer() se pak přihlásí k serveru. Registrovat nový uživatelský
-účet lze metodou registerAccount.
+pro připojení uživatele k serveru. Pomocí metody connectServer() se pak přihlásí
+k serveru. Nový uživatelský
+účet se registruje metodou registerAccount.
 
 Třída MainWindow se o úspěšném, případně neúspěšném přihlášení k serveru dozví díky napojení
-na patřičné signály klientské knihovny. V této třídě je také obstarána komunikace mezi jednotlivými prvky tvořícími hlavní okno
+na patřičné signály klientské knihovny. V této třídě je také implementována komunikace mezi jednotlivými prvky tvořícími hlavní okno
 prostřednictvím Qt signálů.
 
 \subsubsection{Třída LogbookTreeWidget}
@@ -963,19 +1177,22 @@ Dialog pro přidání nového záznamu a jeho editaci je implementován v tříd
 \item Formulář s jednotlivými poli o nově přidávaném záznamu.
 \end{itemize}
 
-Pro implementaci tabulky s předchozími spojeními je použita třída LogbookTreeWidget. Je tak znovu použit již jednou existující
+Pro implementaci tabulky s předchozími spojeními je použita třída
+LogbookTreeWidget. Je tak znovu použit již jednou vytvořený
 kód.
 
 V případě změny pole pro zadání volací značky (Call sign), je aktualizována tabulka s historií, a uživatel tak vidí předešlá 
 spojení s danou stanicí. Také se pomocí klientské knihovny zjistí podrobné informace o zadané stanici a předvyplní se patřičná
 pole. To zrychluje zadávání nových záznamu. V případě změny hodnoty v poli frekvence je na server odeslán požadavek o přeladění
-rádia na zadanou frekvenci.
+radiostanice na zadanou frekvenci.
+%% YARDA: někde do textu dát, že komunikace s radiostanicí byla prakticky
+%% vyzkoušena s radiostanici ICOM IC-706MKIIG (taky důležité)
 
 Po potvrzení dialogu jsou hodnoty všech polí prostřednictvím klientské knihovny přeneseny na server, kde jsou uchovány.
 
 \subsection{Zobrazení dostupných modulů}
 
-Dialog zobrazující moduly dostupné na server lze spustit prostřednictvím hlavního menu aplikace.
+Dialog zobrazující moduly dostupné na serveru lze spustit prostřednictvím hlavního menu aplikace.
 
 \begin{figure}[h]
 \centering
@@ -991,11 +1208,14 @@ klientské knihovny získá ze serveru seznam modulů a zobrazí je formou tabul
 
 
 \chapter{Závěr}
-Cílem této bakalářské práce bylo navhrnutí aplikace pro vedení staničního deníku pro použití radioamatéry. Důraz byl kladen zejména
-na modularitu návrhu i výsledné implementance. Pro úspěšné dokončení práce bylo nejprve potřeba seznámit se s radioamatérským
-hnutím a jeho fungováním a aplikacemi a metodami, které současní radiamatéři používají. K tomu bylo potřeba zorientovat se v 
+Cílem této bakalářské práce bylo navhrnout a implementovat softwarovou aplikaci
+pro vedení staničního deníku určeného pro operátory amatérské radiokomunikační služby. Důraz byl kladen zejména
+na modularitu a otevřenost návrhu. Pro úspěšné dokončení práce bylo nutné se seznámit s radioamatérským
+hnutím, základními principy, aplikacemi a terminologií používanou radiamatéry.
+Dále bylo nutné zorientovat se v 
 radioamatérské technologii a pochopit fungování celého radioamatérského hnutí.
-Výsledný návrh se rovněž snaží poučit z problémů současných aplikací a svou strukturou zaplnit volné místo mezi aplikacemi
+Výsledný návrh se snaží odstranit problémy jimiž trpí v současné době dostupné
+aplikace a zaplnit volné místo mezi aplikacemi
 umožňujícími vedení staničního deníku.
 
 Výstupem implementace jsou tři oddělené projekty (serverová aplikace, klientská knihovna a grafické uživatelské rozhraní),
@@ -1004,14 +1224,22 @@ které spolu spolupracují a vzájemně se doplňují.
 Serverová aplikace je plně modulární a umožňuje jednoduché přidávání nových
 funkcí pomocí modulů. Splňuje veškeré požadavky na základní vedení staničního deníku (přidávání/editace záznamů, vyhledávání 
 informací o ostatních radioamatérech nebo například ovládání vysílačky připojené k počítači).
+%% YARDA: vypíchnout, že se to může použít např. pro automatické generování logu
+%% na WWW stránky, atp.
 
 Klientská knihovna je důležitým prvkem implementace, protože implementuje nízkoúrovňovou komunikaci s serverovou aplikaci
 a umožňuje tak grafickému uživatelskému rozhraní věnovat se pouze na komunikaci s uživatelem.
 
+%% YARDA: opět vypíchnout, že se předpokládá vznik dalších klientů, např. pro
+%% mobil pro logování z terénu
 Grafické uživatelské není přiliš rozsáhlé, ale umožňuje vést staniční deník pohodlně a poskytuje všechny základní funkce potřebné
 pro vedení staničního deníku. Je graficky přehledné a pro stávající radioamatéry intuitivní.
 
 Celkově je výsledná aplikace dobrým základem pro implementaci dalších nadstandardních funkcí.
+
+%% YARDA: pochlubit se, že se jedná o opensource projekt uvolněný pod GPL, který
+%% je k dispozici na githubu (link), bude zabalen do fedory a už má svoje příznivce
+%% :) takže se základna vývojářů určitě rozšíří
 
 \section{Možnosti budoucího rozšíření}
 
@@ -1021,12 +1249,18 @@ Během implementace a testování aplikace vyplynuly některé další možnosti
 
 Pro větší nasazení s více uživateli využívajícími funkce serveru současně by bylo vhodné implementovat podporu pro databázový
 systém MySQL. Databázový systém SQLite3 by se mohl při větším zatížení ukázat jako nevyhovující. Přidat podporu pro jinou databázi
-je díky současnému návrhnu jednoduché.
+je díky současnému návrhnu jednoduché. %% YARDA: možná se zmínit, že v
+%% současnosti používané use cases nepředpokládají vysoké zatížení, takže to v
+%% současnosti dostačuje, ale, že třeba by se to hodilo pro multiops, což je oblast
+%% dosud neprozkoumaná, protože podobný produkt neexistuje
 
 \subsection{Moduly pro tvorbu statistik}
 
 Dalším možným rozšířením je implementace modulů umožňujících generování statistik a přehledů o jednotlivých záznamech v deníku.
 Uživateli tyto moduly umožní lepší orientaci v jeho deníku a na straně serveru je pak možné generovat žebříček uživatelů na
 základě různých klíčů.
+%% YARDA: více rozvést, že lze konstruovat kompletní dotazy a tedy spočítat
+%% statistiky prakticky pro cokoliv, a že lze snadno zobrazovat body získané v
+%% jednotlivých soutěžích, závodech a diplomech (např. DXCC, IOTA, SOTA, atp.).
 
 
