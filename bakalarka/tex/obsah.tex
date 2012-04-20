@@ -705,7 +705,7 @@ textový popis.
 
 V této kapitole je popsána implementace serverové aplikace, klientské aplikace a klientské knihovny.
 
-\section{Implementace serverové aplikace}
+\section{Serverová aplikace}
 \label{implementace_server}
 
 Server byl implementován v jazyce C++ umožňujícím lepší dekompozici aplikace a
@@ -738,7 +738,7 @@ Metoda parse zpracovává přijatá data, parsuje je, a výsledek uchovává v i
 k chybě, vrací funkce parse hodnotu false a uživatel, jehož klient poslal
 neplatná data, je odpojen.
 
-\subsection{Implementace databázového rozhraní}
+\subsection{Databázové rozhraní}
 \label{implementace_db}
 
 Návrh a implementace serveru umožňuje použití libovolného databázového rozhraní.
@@ -796,7 +796,7 @@ update(), insert(), select(), createTable() a remove() se na základě předaný
 dat vygeneruje dotaz v SQL jazyce, ten se spustí
 a je vrácen výsledek.
 
-\subsection{Implementace modulů}
+\subsection{Moduly}
 \label{implementace_moduly}
 
 Moduly jsou implementovány jako dynamické knihovny. Každý modul musí dědit třídu Modul (zprostředkovaně například přes třídu RequestResponder)
@@ -834,15 +834,14 @@ metody loadModules lze načíst všechny moduly z adresáře zvoleného v konfig
 jsou předány instanci této třídy metodou handleRequest, která je pak dále směruje podle URI na konkrétní modul. Třída také
 umožňuje poslat seznam všech modulů klientské aplikaci.
 
-\subsection{Seznam implementovaných modulů} %% YARDA: možná raději
-%% implementované moduly
-\label{implementace_moduly_list}
+\subsection{Implementované moduly} %% YARDA: možná raději implementované moduly - DONE
+\label{implementovane_moduly}
 
 V této podkapitole jsou popsány jednotlivé implementované moduly.
 
 \subsubsection{Modul Register}
 
-Modul Register (URI "/register") %% YARDA: 'běžící na' bych odstranil
+Modul Register (URI "/register") %% YARDA: 'běžící na' bych odstranil (DONE)
 slouží k registraci nových uživatelů. Při svém spuštění vytvoří pomocí
 instance třídy StorageBackend tabulku "users". V metodě handleRequest pak přijímá případné požadavky na registraci
 uživatele a přidá nového uživatele do databáze. Pokud je již uživatel zaregistrován, vrací klientské aplikaci chybový kód.
@@ -850,7 +849,7 @@ uživatele a přidá nového uživatele do databáze. Pokud je již uživatel za
 \subsubsection{Modul Login}
 
 Modul Login má URI "/login". Jeho cílem je umožnit uživatelům přihlášení k systému. V metodě handleRequest je
-implementován princip přihlášení WWW-Authenticate. %% YARDA: určitě link
+implementován princip přihlášení WWW-Authenticate definovaném v RFC 2617 \cite{rfc2617}. %% YARDA: určitě link (DONE)
 
 \subsubsection{Modul LogBook}
 
@@ -858,7 +857,7 @@ Tento modul je základem celého projektu, protože umožňuje uživateli uklád
 vytvoří tabulku "logbook". V metodě handleRequest na základě URI provádí následující akce:
 
 \begin{itemize}
-\item URI "/logbook" - Jako odpověd na dotaz pošle celý logbook %% YARDA:
+\item URI "/logbook" - Jako odpověd na dotaz pošle celý deník %% YARDA: (DONE)
 %% ustálit terminologii, např. v textu psát místo logbook deník, prostě aby byl
 %% popisný text konzistentní v celé práci (URI ani názvy tabulek neměnit)
 v CSV formátu získaný z databáze pomocí instance třídy StorageBackend.
@@ -921,7 +920,7 @@ V metodě handleRequest se na základě
 URI provádí tyto akce:
 
 \begin{itemize}
-\item dotaz typu POST na URI "/hamlib" - Přeladí frekvenci vysílačky %% YARDA:
+\item dotaz typu POST na URI "/hamlib" - Přeladí frekvenci radiostanice %% YARDA: (DONE)
 %% místo vysílačka používat radiostanice
 na frekvenci získanou z dotazu. Frekvence
 je v dotazu formátována jako desetinné číslo (v kHz).
@@ -929,9 +928,9 @@ je v dotazu formátována jako desetinné číslo (v kHz).
 desetinné číslo (v kHz).
 \end{itemize}
 
-%% YARDA: pokud se jedná o kapitolu implementace, tak jednotlivé podkapitoly
+%% YARDA (DONE): pokud se jedná o kapitolu implementace, tak jednotlivé podkapitoly
 %% už nemusí obsahovat slovo implementace
-\subsection{Implementace logování}
+\subsection{Logování}
 \label{implementace_logovani}
 
 Logování je implementováno s použitím knihovny Log4cxx vyvíjené Apache Software Foundation a licencované pod licencí
@@ -948,7 +947,7 @@ logovaný záznam. Standardní výstup pak vypadá například následovně:
 2012-03-28 19:12:44,423 INFO  Server: Starting the server
 \end{verbatim}
 
-\section{Implementace klientské knihovny}
+\section{Klientská knihovny}
 \label{implementace_knihovna}
 
 Klientská knihovna spojuje serverovou aplikaci se samotným klientským rozhraním.
@@ -956,7 +955,7 @@ Klientská knihovna je navržena a implementována
 tak, aby ji bylo možno použít s jakýmkoliv grafickým (případně i konzolovým) rozhraním. Kvůli přenositelnosti a
 širší využitelnosti je napsána v jazyce C s důrazem na co nejméně závislostí na jiných knihovnách.
 
-Klientská knihovna je rozdělena do menších bloků, které budou v této kapitole
+Klientská knihovna je rozdělena do menších bloků, které budou v této podkapitole
 %%YARDA: sjednotit terminologii, kapitola, vs podkapitola
 postupně popsány.
 
@@ -1092,7 +1091,7 @@ K parsování dat v klientské knihovně slouží HAMParser. Ten funguje na stej
 Parsovaná data jsou ukládána do struktury Reply, která pak předána prostřednictvím signálu nebo zpětného volání (callbacku)
 funkci, která požadavek na server iniciovala.
 
-\section{Implementace klientské aplikace}
+\section{Klientská aplikace}
 \label{implementace_klient}
 
 Referenční klientská aplikace byla naprogramována v jazyce C++ s využitím grafického frameworku Qt. V této kapitole jsou stručně
