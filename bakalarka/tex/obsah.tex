@@ -371,7 +371,7 @@ na výslednou aplikaci.
 \begin{itemize}
 \item \textbf{Multiplatformnost} - Nutným požadavkem je možnost spuštění
 aplikace (nebo přeložení zdrojového kódu) na různých operačních systémech / platformách.
-\item \textbf{Architektura klient-server} - Jádro programu je tvořeno serverem.
+\item \textbf{Architektura klient-server} - Jádro aplikace je tvořeno serverem.
 Server umožňuje vedení deníků více uživatelů zároveň a poskytuje rozhraní pro přídavné moduly.
 Klientská aplikace se připojí k serveru a prostředníctvím komunikačního protokolu s ním komunikuje.
 Díky tomuto rozdělení je možné přidávat záznamy do centrální databáze z více zařízení a pracovat
@@ -403,7 +403,7 @@ V následujících podkapitolách jsou jednotlivé části aplikace stručně po
 \begin{figure}[h]
 \centering
 \includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.8]{fig/princip}
-\caption{Základní architektura programu.} %% YARDA: možná raději základní
+\caption{Základní architektura aplikace} %% YARDA: možná raději základní
 %% architektura, konzistentnost v pojmech aplikace, program, atd.
 %% Ještě bych tam zakreslil ty pluginy.
 \label{fig:architektura}
@@ -1096,7 +1096,7 @@ Funkce definované ve struktuře HAMEventLoopUICallbacks jsou pak používány d
 následující činnosti:
 
 \begin{itemize}
-\item timeout\_add - Přidá do hlavní smyčky programu běžící v klientské aplikaci
+\item timeout\_add - Přidá do hlavní smyčky aplikace běžící v klientské aplikaci
 nový časovač. Klientská aplikace
 musí vrátit ukazatel na strukturu jednoznačně identifikující časovač a
 volat opakovaně funkci předánou jakou ukazatel ve zvoleném intervalu.
@@ -1133,7 +1133,7 @@ příchozích paketů.
 Pro připojení k serveru je nutné vytvořit novou instanci struktury Connection funkcí ham\_connection\_new(). Touto funkcí
 se definuje adresa a port serveru, uživatelské jméno a heslo. Samotné připojení proběhne až po zavolání funkce
 ham\_connection\_connect(). Tato funkce vytvoří nový soket pro připojení k serveru a pomocí funkce ham\_eventloop\_input\_add()
-přidá do hlavní smyčky programu ukazatel na funkci pro parsování přijatých dat.
+přidá do hlavní smyčky aplikace ukazatel na funkci pro parsování přijatých dat.
 
 \subsubsection{Parsování dat}
 
@@ -1147,9 +1147,9 @@ funkci, která požadavek na server iniciovala.
 Referenční klientská aplikace byla naprogramována v jazyce C++ s využitím grafického frameworku Qt. V této kapitole jsou stručně
 popsány jednotlivé části klientské aplikace, třídy, které klientskou aplikaci implementují a jejich napojení na klientskou knihovnu.
 
-\subsection{Hlavní okno programu}
+\subsection{Hlavní okno aplikace}
 
-V této podkapitole je popsána implementace hlavního okno programu a všech prvků, které jej tvoří.
+V této podkapitole je popsána implementace hlavního okno aplikace a všech prvků, které jej tvoří.
 
 \begin{figure}[h]
 \centering
@@ -1192,7 +1192,7 @@ stanic.
 
 Pro zobrazení zeměkoule je využita aplikace Xplanet. Při požadavku na překreslení okna je spuštěn nový proces Xplanet
 s požadovanými parametry a je mu předáno ID widgetu, do kterého má vykreslovat. Značky s popisky jsou uloženy do dočasného souboru
-a tento soubor je pak načten programem Xplanet a použit k vykreslení značek.
+a tento soubor je pak načten aplikací Xplanet a použit k vykreslení značek.
 EarthWidget umožňuje také přiblížení na předdefinované lokace (například přiblížení Evropy) pomocí kontextového menu.
 
 \subsubsection{Třída DXClusterWidget}
@@ -1205,9 +1205,9 @@ vykresluje na mapě.
 
 \subsection{Přidání nového záznamu a editace}
 
-Nový záznam lze přidat dvěma způsoby. Buď tak lze učinit pomocí tlačítka "Add Record" v hlavním okně programu, nebo poklepáním
+Nový záznam lze přidat dvěma způsoby. Buď tak lze učinit pomocí tlačítka "Add Record" v hlavním okně aplikace, nebo poklepáním
 na stanici získanou z DXClusteru. Obě možnosti pak vedou k vyvolání dialogu pro přidání nového záznamu. Stejný dialog je použit
-také pro editaci již existujícího záznamu. Editaci lze vyvolat poklepáním na existující záznam v hlavním okně programu.
+také pro editaci již existujícího záznamu. Editaci lze vyvolat poklepáním na existující záznam v hlavním okně aplikace.
 
 \begin{figure}[h]
 \centering
