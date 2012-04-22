@@ -306,13 +306,13 @@ vytvořen základní návrh vlastního staničního deníku.
 \section{Logger32}%% YARDA (DONE): logovací aplikace nahradit staniční deník
 
 Logger32 je jedním z nejznámějších staničních deníků pro operační systém Windows. Jeho hlavní výhodou je přehledné a funkční
-uživatelské rozhraní, které poskytuje pokročilé možnosti přizpůsobení a podpora přídavných pluginů.
+uživatelské rozhraní (viz obrázek \ref{fig:logger32}), které poskytuje pokročilé možnosti přizpůsobení a podpora přídavných pluginů.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/logger32}
 \caption{Uživatelské rozhraní Logger32.}
-\label{fig:FigureExample}
+\label{fig:logger32}
 \end{figure}
 
 Lze vytvářet pluginy pro vyhledávání detailních informací na základě volací značky a také pluginy vytvářející externí okno
@@ -337,11 +337,11 @@ Windows, tak v Linuxových distribucích.
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.5]{fig/cqrlog}
 \caption{Uživatelské rozhraní CQRLOG.}
-\label{fig:FigureExample}
+\label{fig:cqrlog}
 \end{figure}
 
-Jeho uživatelské rozhraní je jednodušší než rozhraní programu Logger32 a je také více přehledné. Na druhou stranu však
-chybí podpora rozšíření formou pluginů. K dispozici jsou zdrojové kódy v jazyce
+Jak lze vidět na obrázku \ref{fig:cqrlog}, je jeho uživatelské rozhraní jednodušší než rozhraní programu Logger32 a je
+také více přehledné. Na druhou stranu však chybí podpora rozšíření formou pluginů. K dispozici jsou zdrojové kódy v jazyce
 Delphi. Ke kompilaci je potřeba vývojového prostředí Lazarus. %% YARDA (DONE): zmínit že to pro kompilaci potřebuje Lazarus 
 Volba tohoto programovacího jazyka a závislosti na prostředí Lazarus
 značně ztěžuje (až znemožňuje) distribuční integraci, t.j. tvorbu oficiálních instalačních baličků pro linuxové distribuce.
@@ -357,7 +357,7 @@ záznamů pomocí aplikací třetích stran a není tak jednoduché postavit dal
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/hrd}
 \caption{Uživatelské rozhraní HAM Radio Deluxe.}
-\label{fig:FigureExample}
+\label{fig:ham_radio_deluxe}
 \end{figure}
 
 \chapter{Návrh}
@@ -398,7 +398,7 @@ V následujících podkapitolách jsou jednotlivé části stručně popsány.
 \begin{figure}[h]
 \centering
 \includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.8]{fig/princip}
-\caption{Základní činnost programu.} %% YARDA: možná raději základní
+\caption{Základní architektura programu.} %% YARDA: možná raději základní
 %% architektura, konzistentnost v pojmech aplikace, program, atd.
 %% Ještě bych tam zakreslil ty pluginy.
 \label{fig:FigureExample}
@@ -408,18 +408,25 @@ V následujících podkapitolách jsou jednotlivé části stručně popsány.
 \section{Návrh komunikačního protokolu}
 \label{navrh_protokol}
 
-%% napsat pro lamy proč komunikační protokol, k čemu ho vlastně potřebujeme.
+%% DONE: napsat pro lamy proč komunikační protokol, k čemu ho vlastně potřebujeme.
 %% a vychválit se, že byl navržen a implementován vlastní protokol, jsou to plus
 %% body :)
-Byl zvolen protokol inspirovaný protokolem HTTP \cite{http}, převážně kvůli jeho jednoduchosti a účelnosti z hlediska modularity.
+
+Komunikační protokol je důležitou součástí síťových aplikací. Určuje, jakým způsobem způsobem spolu komunikují
+klientská a serverová část. Při použití příliš jednoduchého a specializovaného protokolu je v budoucnu problém
+jej dále rozšiřovat. Naopak použití složitého protokolu znamená složitější implementaci a náročnější řízení komunikace.
+
+Pro účel staničního deníku jsem se rozhodl použít vlastní protokol inspirovaný protokolem HTTP \cite{http},
+převážně kvůli jeho jednoduchosti a účelnosti z hlediska modularity.
+
 %% YARDA: taky napsat výhodu prostupnost přes firewally proxy, atp.
 Jednotlivé moduly serveru mají své vlastní URI a klientské požadavky jsou pak směrovány podle URI na konkrétní modul,
-který vygeneruje odpověď poslanou klientovi.
+který vygeneruje odpověď poslanou klientovi. Komunikace tedy probíhá v režimu požadavek-odpověď.
 
-Protokol je zpětně kompatibilní s protokolem HTTP, %% YARDA: jestli to projde
-%% přes standardní HTTP proxy, tak to zmínit, viz výše
-ale jsou použity jen některé jeho části. Komunikace probíhá v režimu
-požadavek-odpověď.
+Protokol je zpětně kompatibilní s protokolem HTTP, ale jsou použity jen některé jeho části. Díky této kompatibilitě
+lze pak jednoduše napojit serverovou aplikaci na již prověřené technologie postavené na bázi HTTP jako je například
+AJAX \cite{ajax}.
+
 
 Data přenášená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první řádek reprezentuje hlavičku dat. Standardní názvy
 sloupců ve hlavičce protokolu jsou:
@@ -429,8 +436,7 @@ sloupců ve hlavičce protokolu jsou:
 \item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
 \item \textbf{callsign} - Volací značka (například OK2JRQ).
 \item \textbf{mode} - Mód spojení. %% YARDA: příklad
-\item \textbf{qth} - QTH lokátor (Maidenhead Locator).%% YARDA: závorka není
-%% třeba, bylo vysvětleno výše
+\item \textbf{qth} - QTH lokátor.
 \item \textbf{name} - Jméno operátora.
 \item \textbf{latitude} - Zeměpisná šířka.
 \item \textbf{longitude} - Zeměpisná délka.
@@ -441,9 +447,28 @@ sloupců ve hlavičce protokolu jsou:
 \end{itemize}
 
 Jednotlivé moduly serveru však mohou použít i své vlastní názvy sloupců pro položky, které nejsou v tomto seznamu.
-%% YARDA: specifikoval bych výčtem, co všechno ten protokol musí umět a poskytovat,
+
+\subsection{Požadavky na komunikační protokol}
+%% YARDA (DONE): specifikoval bych výčtem, co všechno ten protokol musí umět a poskytovat,
 %% např. přihlášení uživatele a jednotlivé příklady bych přesunul do kapitoly
 %% implementace.
+
+V této podkapitole je zmíněn seznam případu použití navrhovaného protokolu. Jednotlivé případy použití
+budou implementovány jako samostatné moduly (viz podkapitola \ref{navrh_moduly}).
+
+\begin{itemize}
+\item Registrace uživatele.
+\item Přihlásení uživatele - Přihlášení je prováděno metodou Digest Access Authentication definovanou v
+RFC 2617 \cite{rfc2617}. Díky tomu se heslo neposílá při přihlášení po síti a na straně serveru je možné ukládat
+pouze jeho otisk vytvořený funkcí MD5 \cite{md5}. To znemožňuje zjištění heslo odposlechem nebo jeho odcizení ze
+serveru.
+\item Vyžádání kompletního deníku a jeho částí.
+\item Zapsání nového záznamu, jeho následná editace a případné odstranění.
+\item Získání detailních informací o majiteli volacího znaku.
+\item Ovládání radiostanice - změna a získání frekvence.
+\item Získání dat ze služby DXCluster.
+\end{itemize}
+
 \subsection{Ukázky použití protokolu}
 
 \subsubsection{Vyžádání logu}
@@ -487,13 +512,6 @@ id;user_id;callsign;date;qth;loc
 1;1;TEST;2011;qt;
 2;1;LKS;2011;;location
 \end{verbatim}
-
-\subsection{Přihlášení uživatele}
-
-Přihlášení je prováděno metodou Digest Access Authentication definovanou v RFC 2617 \cite{rfc2617}. Díky tomu se heslo neposílá
-při přihlášení po síti a je možné jej na straně serveru ukládat
-zahashované. %% YARDA: škaredé slovo přeformulovat a použít např. slovo 'otisk'
-Díky tomu je vyloučena možnost odposlechu během přihlášení.
 
 \subsubsection{Ukázka přihlášení uživatele}
 
