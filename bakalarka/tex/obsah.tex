@@ -1,7 +1,5 @@
 \chapter{Úvod}
 
-
-
 %% YARDA: Přidat úvod - rozvinout abstrakt, aby čtenář věděl o čem to bude.
 %% Strukturu práce pak buďto popsat přimo v tom textu nebo v dalším odstavci nebo přidat podkapitolu
 %% Člěnění práce, nebo struktura práce, atp. Popis kapitol bych asi
@@ -587,7 +585,8 @@ připojené uživatele a deleguje požadavky na jednotlivé moduly.
 \label{navrh_moduly}
 
 Moduly umožňují dynamicky rozšiřovat funkčnost serveru. Každý nový požadavek, který server od klienta přijme je
-předán příslušnému modulu na základě URI. Modul jej zpracuje a odešle klientovi zpět odpověď. Klient si může
+předán příslušnému modulu na základě URI (viz obrázek \ref{fig:navrh_moduly}).
+Modul jej zpracuje a odešle klientovi zpět odpověď. Klient si může
 od serveru vyžádat seznam všech modulů pomocí požadavku na speciální URI "/modules".
 
 Modulům je také umožněno přistupovat k databázi záznamů všech uživatelů a provádět nad ní dotazy. Tato problematika je více
@@ -597,7 +596,7 @@ rozebrána v následující podkapitole.
 \centering
 \includegraphics[trim=11cm 11cm 11cm 11cm, scale=0.7]{fig/navrh_moduly}
 \caption{Návrh využití modulů.}
-\label{fig:FigureExample}
+\label{fig:navrh_moduly}
 \end{figure}
 
 Jednotlivé moduly serveru jsou navrženy jako dynamické knihovny.
@@ -660,14 +659,14 @@ uživatelů jsou uložena v této databázi.
 Návrh serveru počítá s využitím databáze jakéhokoliv typu (SQLite3, MySQL, PostgreSQL, \dots). Jednotlivé moduly
 umí prostřednictvím databázového rozhraní s databází pracovat a spouštět nad ní prakticky jakékoliv dotazy.
 
-Na následujícím obrázku je zobrazeno obecné schéma databáze použité pro uložení všech potřebných informací. Tabulky
+Na obrázku \ref{fig:databaze} je zobrazeno obecné schéma databáze použité pro uložení všech potřebných informací. Tabulky
 z tohoto obrázku jsou pak dále stručně popsány.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=9cm 9cm 9cm 9cm, scale=0.7]{fig/navrh_databaze}
 \caption{Návrh databáze.}
-\label{fig:FigureExample}
+\label{fig:databaze}
 \end{figure}
 
 \subsubsection{Tabulka users}
@@ -711,7 +710,7 @@ Klientská knihovna má minimální závislosti a je multiplatformní. Pomocí k
 komunikuje se serverem, zpracovává příchozí data a předává je klientovi.
 
 Knihovna je navržena tak, aby mohla spolupracovat s jakýmkoliv grafickým
-rozhraním. %% YARDA: blíže specifikovat, co se myslí, QT, GTK?
+rozhraním (například Qt, GTK, wxWidgets, ncurses, \dots). %% YARDA (DONE): blíže specifikovat, co se myslí, QT, GTK?
 
 Základní funkce klientské knihovny jsou:
 
@@ -788,13 +787,14 @@ neplatná data, je odpojen.
 Návrh a implementace serveru umožňuje použití libovolného databázového rozhraní.
 V rámci bakalářské práce však byla implementována 
 pouze podpora pro databázi SQLite3 (lze však snadno rozšířit). Třída implementující konkrétní databázové rozhraní musí dědit třídu StorageBackend a implementovat
-její čistě virtuální metody.
+její čistě virtuální metody. Vztah jednotlivých tříd implementujících a využívajících databázové rozhraní lze vidět
+na obrázku \ref{fig:imp_databaze}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=12cm 12cm 12cm 12cm, scale=0.7]{fig/imp_databaze}
 \caption{Diagram databázového rozhraní.}
-\label{fig:FigureExample}
+\label{fig:imp_databaze}
 \end{figure}
 
 \subsubsection{Třída StorageBackend}
