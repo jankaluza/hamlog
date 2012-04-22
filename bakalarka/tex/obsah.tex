@@ -388,9 +388,14 @@ pro komunikaci se serverem a umožňuje použití libovolného grafického rozhr
 \end{itemize}
 
 Aplikace se tedy skládá z modulárního serveru, klientské knihovny a grafického uživatelského rozhraní.
-V následujících podkapitolách jsou jednotlivé části stručně popsány.
+Toto rozdělení lze vidět i na obrázku \ref{fig:architektura}.
+Serverová část funguje nezávisle na klientské části. Obě části však moho bez výrazného dopadu 
+na výkonnost běžet lokálně na jednom počítači a výsledná aplikace tak bude použitelná i bez
+jakéhokoliv speciálního hardwaru.
 
-%% YARDA: zmínit linux princip KISS (keep it simple and stupid), tedy modulární
+V následujících podkapitolách jsou jednotlivé části aplikace stručně popsány.
+
+%% YARDA (DONE): zmínit linux princip KISS (keep it simple and stupid), tedy modulární
 %% části, každá dělá svoje, dělá to jednoduše a dobře, pak se to spojí do většího
 %% celku. Taky zmínit, že to nemusí běžet rozděleně server klient, ale že to
 %% může běžet všchchno lokálně na jednom stroji aniž by tím nějak výrazně utrpěla
@@ -401,7 +406,7 @@ V následujících podkapitolách jsou jednotlivé části stručně popsány.
 \caption{Základní architektura programu.} %% YARDA: možná raději základní
 %% architektura, konzistentnost v pojmech aplikace, program, atd.
 %% Ještě bych tam zakreslil ty pluginy.
-\label{fig:FigureExample}
+\label{fig:architektura}
 \end{figure}
 
 \newpage
@@ -551,10 +556,24 @@ Authorized
 \section{Návrh serveru}
 \label{navrh_server}
 
-Server je konzolová aplikace %% YARDA: místo konzolová aplikace raději aplikace
+Server je aplikace bez uživatelského rozhraní %% YARDA (DONE): místo konzolová aplikace raději aplikace
 %% bez uživatelského rozhraní 
 zpracovávající klientské požadavky. Administrátor může server konfigurovat konfiguračním souborem
-v INI formátu. %% YARDA: popsat co to je, nebo link 
+v INI formátu. %% YARDA (DONE): popsat co to je, nebo link 
+Jedná se o jednoduchý formát umožňující rozdělit konfiguraci do kategorií
+a v každé definovat dvojice klíč=hodnota sloužící ke konfiguraci. Použití INI formátu lze vidět na následující
+ukázce konfigurace serveru:
+
+\begin{verbatim}
+[server]
+hostname = 127.0.0.1
+port = 8080
+
+[database]
+type = sqlite3
+database = test.sql
+\end{verbatim}
+ 
 Server je schopen obsluhovat více uživatelů současně.
 Uživatelé se k serveru přihlašují pomocí jména a hesla. Noví uživatelé se musí nejprve registrovat.
 
