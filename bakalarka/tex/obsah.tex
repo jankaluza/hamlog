@@ -1,28 +1,45 @@
 \chapter{Úvod}
 
-%% YARDA: Přidat úvod - rozvinout abstrakt, aby čtenář věděl o čem to bude.
+Dle platných právních předpisů musí operátoři provozující amatérské bezdrátové vysílání
+ vést staniční deník obsahující seznam provedených bezdrátových spojení
+v papírové nebo elektronické podobě.
+S rozvojem počítačů a Internetu se stále více operátorů přiklání k myšlence vést staniční deník elektronicky.
+To přináší oproti klasickému papírovému deníku mnoho výhod. Vytvoření spojení i jeho zápis je jednodušší
+díky možnosti vidět aktuálně vysílající operátory na mapě světa. Je také možné automaticky přeladit radiostanici na správnou
+frekvenci, zjištit detailní informace o operátorovi prostřednictvím Internetu nebo například ve staničním deníku
+rychle vyhledávat. V neposlední řadě umožňují elektronické staniční deníky automaticky generovat řadu
+statistik včetně QSL lístků.
+
+Cílem této práce je seznámit se s amatérkým vysíláním a se způsobem vedení staničního deníku,
+zhodnotit dosavadní aplikace používané pro vedení staničního deníku a 
+na základě těchto předchozích kroků vytvořit aplikaci pro vedení staničního deníku s moderní modulární architekturou,
+která umožní jednoduché přidávání nových funkci.
+
+% dale by to chtelo napsat proc ten denik vubec delame, tedy napsat,
+%  ze dle pravnich predpisu (presne zneni lze dohledat na netu nebo dodam) musi operatori
+%  vest stanicni denik v papirove nebo elektronicke podobe. A ze kdyz uz ho vedou v elektronicke 
+% podobe, tak toho vyuzivaji k usnadneni zivota, jednak pri zapisu spojeni (DX cluster, callbook, mapa 
+% sveta, historie spojeni, atp.), jednak k automatickemu sberu statistik a podpore QSL.
+
+%% YARDA (asi DONE, ten uvod mi nejak nejde napsat, mozna to mam ted moc "nasilne" :D
+% ): Přidat úvod - rozvinout abstrakt, aby čtenář věděl o čem to bude.
 %% Strukturu práce pak buďto popsat přimo v tom textu nebo v dalším odstavci nebo přidat podkapitolu
 %% Člěnění práce, nebo struktura práce, atp. Popis kapitol bych asi
 %% nestrukturoval, popsal bych to volně navazujícími větami, např.
 %% První kapitola obsahuje úvod, dále následuje kapitola popisující stručně
 %% historii amatérské radiokomunikační služby, atp.
+
+\section{Členení práce}
+
 Tato bakalářská  práce je rozdělena do šesti kapitol.
 
-\begin{enumerate}
-  \item \textbf{Úvod} - Úvodní kapitola.
-  \item \textbf{Radioamatéři} - V druhé kapitole (\ref{radioamateri}) je popsána historie amatérského rádia
-(\ref{radioamateri_hist}) a také jeho aktuální stav dnes (\ref{radioamateri_dnes}).
-  \item \textbf{Rozbor zadání} - V třetí kapitole ...
-  \item \textbf{Návrh aplikace} - Čtvrtá kapitolá (\ref{navrh}) stručně popisuje návrh 
-komunikačního protokolu (\ref{navrh_protokol}), serverové aplikace (\ref{navrh_server}), klientské knihovny 
-(\ref{navrh_knihovna}) a samotné klientské aplikace (\ref{navrh_klient}).
-  \item \textbf{Implementace} - V páté kapitole (\ref{implementace}) je popsána implementace všech součástí
-zmíněných v kapitole čtvrté (\ref{navrh}). V podkapitole o implementaci serverové aplikace (\ref{implementace_server})
-je popsána implementace databázového rozhraní (\ref{implementace_db}), modulů (\ref{implementace_moduly}),
-seznam implementovaných modulů (\ref{implementace_moduly_list}) a logování (\ref{implementace_logovani}). Dále je
-zde popsána implementace klientské knihovny (\ref{implementace_knihovna}) a samotného klienta (\ref{implementace_klient}).
-  \item \textbf{Závěr} - V šesté kapitole (\ref{zaver}) ...
-\end{enumerate}
+První kapitola obsahuje úvod. Dále následuje kapitola popisující stručně historii amatérské radiokomunikační služby,
+v jejíž podkapitolách jsou rovněž vysvětleny důležíté pojmy a popsány služby používané radioamatéry.
+Třetí kapitola popisuje současný stav na poli aplikací pro vedení staničních deníků včetně výhod a nevýhod jednotlivých
+aplikací. V následující čtvrté kapitole je proveden rozbor zadání a jsou navrženy jednotlivé části staničního deníku.
+Pátá kapitola pojednává a implementaci a v poslední šesté kapitole je práce zhodnocena a jsou zmíněny možnosti jejího
+budoucího rozšíření.
+
 
 %% YARDA: Pojmenoval bych amatérská radiokomunikační služba, dále v textu bych vysvětlil
 %% právní status, např. z ČRK:
@@ -41,7 +58,7 @@ zde popsána implementace klientské knihovny (\ref{implementace_knihovna}) a sa
 %% správu kmitočtového spektra. Opatření ITU jsou v ČR právně závazná z titulu členství ČR v ITU a v
 %% mezích základních dokumentů ITU.
 
-%% YARDA: mám trochu problém se slovem rádio, podle mě je to slangový výraz
+%% YARDA (DONE): mám trochu problém se slovem rádio, podle mě je to slangový výraz
 %% pro radiopřijímač, proto např. na webu ČRK se spojení 'amatérské rádio'
 %% poměrně úspěšně vyhýbají :) Přestože spojení 'amatérské rádio' se u nás
 %% poměrně dost často používá, asi bych se mu taky radši vyhnul a místo toho použil např.
@@ -49,13 +66,13 @@ zde popsána implementace klientské knihovny (\ref{implementace_knihovna}) a sa
 %% 'amatérské radio' viz např. časopis Amatérské radio (http://www.aradio.cz/)
 %% I když toto je spíš otázka pro nějakého etymologa :)
 
-\chapter{Radioamatéři}
+\chapter{Amatérská radiokomunikační služba}
 \label{radioamateri}
 
 V této kapitole je stručně popsána historie amatérského vysílání a jsou zde vysvětleny důležité pojmy používané dále v práci.
 Podkapitoly \ref{radioamateri_hist} a \ref{radioamateri_dnes} byly převzaty z \cite{crk_hist}.
 
-\section{Historie amatérského rádia}
+\section{Historie amatérského vysílání}
 \label{radioamateri_hist}
 Prvotní motivací pro vznik amatérského vysílání %% YARDA (DONE): Tady bych dal např. amatérského vysílaní atd.
 byla myšlenka našich předků rozhlas %% YARDA (DONE): Asi radio jako mají na ČRK.
@@ -91,7 +108,7 @@ která ztroskotala na cestě od severního pólu. To změnilo pohled na amatérs
 příliš užitečná věc. Při mnoha pohromách na celém světě často pomohla připravenost radioamatérů poskytnout rychlé spojení do
 jiných míst.
 
-\section{Amatérské rádio dnes}
+\section{Amatérské vysílání dnes}
 \label{radioamateri_dnes}
 
 Radioamatéři jsou aktivní prakticky na všech pásmech, pracují s analogovými i
@@ -213,6 +230,7 @@ Tyto sporty jsou atraktivní a pěstují je i lidé, kteří se jinak o radioama
 \label{radioamateri_pojmy}
 
 V této podkapitole jsou popsány důležité pojmy používané mezi radioamatéry, které jsou také použity dále v této práci.
+Všechny pojmy uvedené v této podkapitole se rovněž ukládají do staničního deníku a tak je jejich vysvětlení nezbytné.
 Obrázky použité v této kapitole jsou získány z \cite{mapability}.
 
 \subsection{Volací značka}
@@ -422,13 +440,14 @@ jej dále rozšiřovat. Naopak použití složitého protokolu znamená složit�
 Pro účel staničního deníku jsem se rozhodl použít vlastní protokol inspirovaný protokolem HTTP \cite{http},
 převážně kvůli jeho jednoduchosti a účelnosti z hlediska modularity.
 
-%% YARDA: taky napsat výhodu prostupnost přes firewally proxy, atp.
+%% YARDA (DONE): taky napsat výhodu prostupnost přes firewally proxy, atp.
 Jednotlivé moduly serveru mají své vlastní URI a klientské požadavky jsou pak směrovány podle URI na konkrétní modul,
 který vygeneruje odpověď poslanou klientovi. Komunikace tedy probíhá v režimu požadavek-odpověď.
 
 Protokol je zpětně kompatibilní s protokolem HTTP, ale jsou použity jen některé jeho části. Díky této kompatibilitě
 lze pak jednoduše napojit serverovou aplikaci na již prověřené technologie postavené na bázi HTTP jako je například
-AJAX \cite{ajax}.
+AJAX \cite{ajax}. Další výhodou tohoto protokolu je jeho jednoduché tunelování skrz HTTP proxy a prakticky žádná
+omezení běžnými firewally.
 
 
 Data přenášená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první řádek reprezentuje hlavičku dat. Standardní názvy
@@ -800,9 +819,12 @@ na obrázku \ref{fig:imp_databaze}.
 \subsubsection{Třída StorageBackend}
 
 Třída StorageBackend je základní abstraktní třídou pro implementaci jakéhokoliv databázového rozhraní.
-Je u ní použit návrhový vzor Singleton %% YARDA: více rozvést, nebo link do
-%% literatury
-a jejím smyslem je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
+Je u ní použit návrhový vzor Singleton. %% YARDA (DONE): více rozvést, nebo link do literatury
+Jedná se způsob návrhu třídy, který počítá s jedinou instancí dané třídy v rámci celé aplikace.
+Tato instance je pak přístupná ze všech částí aplikace. Typicky má třída používající návrhový
+vzor Singleton privátní konstruktor a statickou přístupovou metodu vracející instanci této třídy.
+
+Smyslem třídy StorageBackend je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
 typu databáze. Názvy metod a podtříd jsou pojmenovány terminologií známou z
 oblasti SQL databází, %% YARDA: opět by se hodil link
  ale prakticky
@@ -812,10 +834,19 @@ Třída StorageBackend obsahuje základní podtřídy pro definici dotazů typu 
 jazyka SQL:
 
 \begin{itemize}
-\item StorageBackend::Column - Obsahuje veškeré informace o sloupci tabulky (jméno, typ, velikost,
-příznaky pro NOT NULL, UNIQUE a PRIMARY KEY). %% YARDA: opět rozvést
-Slouží pro definici sloupce při vytváření
-nové tabulky metodou StorageBackend::createTable().
+\item StorageBackend::Column - Slouží pro definici sloupce při vytváření nové tabulky metodou StorageBackend::createTable().
+Obsahuje veškeré informace o sloupci tabulky (jméno, typ, velikost,
+příznaky pro NOT NULL, UNIQUE a PRIMARY KEY). %% YARDA (DONE): opět rozvést
+\begin{itemize}
+\item Jméno - Jednoznačně pojmenovává sloupec. Jméno sloupce je pak použito pro výběr konkrétních sloupců v dalšíh typech
+dotazů
+\item Typ - Určuje typ sloupce. V současné implementaci existují tyto 4 typy: celé číslo, desetinné číslo, řetezec, datum a čas.
+\item Velikost - Používá se pouze pro sloupce typu řetězec. Udává maximální velikost řetezce uloženého v tomto sloupci.
+\item Příznak NOT NULL - Pokud je nastaven, musí být při přidání nebo editaci řádku v tabulce definována hodnota tohoto sloupce.
+\item Příznak UNIQUE - Pokud je nastaven, musí být při přidání nebo editaci řádku tabulky hodnota tohoto sloupce jedinečná v rámci
+celého sloupce dané tabulky.
+\item Příznak PRIMARY KEY - Pokud je nastaven, je tento sloupec primárním klíčem tabulky.
+\end{itemize}
 \item StorageBackend::Select - Zapouzdřuje data potřebná pro provedení výběru dat z databáze. Obsahuje jméno tabulky,
 ze které se výběr provádí, a ukazatel na dvourozměrné pole, do kterého se uloží
 výsledky. Dále třída StorageBackend::Select umožňuje
@@ -845,17 +876,17 @@ a je vrácen výsledek.
 
 Moduly jsou implementovány jako dynamické knihovny. Každý modul musí dědit třídu Modul (zprostředkovaně například přes třídu RequestResponder)
 a implementovat její čistě virtuální
-(pure virtual) metody. %% YARDA: hodil by se odkaz na nějakou knihu o OOP 
+(pure virtual) metody. Toto demonstruje obrázek \ref{fig:moduly}. %% YARDA: hodil by se odkaz na nějakou knihu o OOP 
 Veškeré klientské požadavky jsou pak směrovány na konkrétní modul podle URI instancí třídy ModuleManager.
 
-%% YARDA: každý obrázek musí být odkazován v textu, např. Na obrázku
+%% YARDA (DONE): každý obrázek musí být odkazován v textu, např. Na obrázku
 %% \ref{fig:FigureExample} je zobrazen diagram tříd modulů..
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=10cm 10cm 10cm 10cm, scale=0.7]{fig/moduly}
 \caption{Diagram tříd modulů.}
-\label{fig:FigureExample}
+\label{fig:moduly}
 \end{figure}
 
 \subsubsection{Třída Module}
@@ -1009,23 +1040,33 @@ Klientská knihovna je rozdělena do menších bloků, které budou v této podk
 %%YARDA: sjednotit terminologii, kapitola, vs podkapitola
 postupně popsány.
 
-%% YARDA: opět konzistence, předchozí podkapitoly obsahují slovo implementace,
+%% YARDA (DONE): opět konzistence, předchozí podkapitoly obsahují slovo implementace,
 %% tahle ne, doporučuji všechny psát bez slova implementace
 \subsection{Abstraktní datové typy}
 
 V této podkapitole je popsána implementace abstraktních datových typů požitých v klientské knihovně.
-%% YARDA: dát to do kontextu, k čemu se to používá
+S pomocí abstraktních datových typů lze zapouzdřit libovolná data a provádět nad nimi jednotné operace.
+To vede ke zjednodušení tvorby aplikace, protože je využíván již jednou naprogramovaný kód. Implementaci
+abstraktního datového typu lze také v budoucnosti změnit nezávisle na částech aplikace, které jej používají.
+%% YARDA (DONE): dát to do kontextu, k čemu se to používá
+
+Druhým abstraktním datovým typem implementovaným v klientské knihovně je 
 \subsubsection{HAMList - Seznam}
+
+Prvním abstraktním datovým typem používaným v klientské knihovně
+je dousměrný seznam (HAMList). Slouží hlavně k uchování informací o odeslaných požadavcích na server za účelem
+správného zpracování odpovědí. Dále je tento datový typ použit například pro uložení rozparsovaných CSV dat obdržených
+v odpovědi.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/list}
 \caption{Diagram dvousměrného seznamu.}
-\label{fig:FigureExample}
+\label{fig:hamlist}
 \end{figure}
 
 HAMList je implementací dvousměrného seznamu. Základní datové struktury použité pro definici seznamu jsou
-HAMList a HAMListItem:
+HAMList a HAMListItem (viz obrázek \ref{fig:hamlist}):
 
 \begin{verbatim}
 typedef struct _HAMListItem {
@@ -1047,17 +1088,19 @@ která je použita pro uvolnění uživatelských dat z paměti. Pokud není tat
 data při uvolňování seznamu z paměti uvolněna.
 
 \subsubsection{HAMHashTable - Hashovací tabulka}
-%% YARDA: opět dát to do kontextu, k čemu se to používá
+%% YARDA (DONE): opět dát to do kontextu, k čemu se to používá
+
+
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=8cm 8cm 8cm 8cm, scale=0.6]{fig/hash}
 \caption{Diagram hash tabulky seznamu.}
-\label{fig:FigureExample}
+\label{fig:hamhashtable}
 \end{figure}
 
-HAMHashTable je implementací hash tabulky. Základní datové struktury použíté při implementaci hash tabulky jsou
-HAMHashTableItem a HAMHashTable:
+HAMHashTable je implementací hash tabulky. Na obrázku \ref{fig:hamhastable} lze vidět základní datové struktury
+použíté při implementaci hash tabulky - HAMHashTableItem a HAMHashTable:
 
 \begin{verbatim}
 typedef struct _HAMHashTableItem {
@@ -1149,13 +1192,13 @@ popsány jednotlivé části klientské aplikace, třídy, které klientskou apl
 
 \subsection{Hlavní okno aplikace}
 
-V této podkapitole je popsána implementace hlavního okno aplikace a všech prvků, které jej tvoří.
+V této podkapitole je popsána implementace hlavního okno aplikace (znázorněno na obrázku \ref{fig:okno}) a všech prvků, které jej tvoří.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.7]{fig/ham3}
 \caption{Hlavní okno aplikace.}
-\label{fig:FigureExample}
+\label{fig:okno}
 \end{figure}
 
 \subsubsection{Třída MainWindow}
@@ -1206,14 +1249,15 @@ vykresluje na mapě.
 \subsection{Přidání nového záznamu a editace}
 
 Nový záznam lze přidat dvěma způsoby. Buď tak lze učinit pomocí tlačítka "Add Record" v hlavním okně aplikace, nebo poklepáním
-na stanici získanou z DXClusteru. Obě možnosti pak vedou k vyvolání dialogu pro přidání nového záznamu. Stejný dialog je použit
+na stanici získanou z DXClusteru. Obě možnosti pak vedou k vyvolání dialogu pro přidání nového záznamu
+(zobrazen na obrázku \ref{fig:novy_zaznam}). Stejný dialog je použit
 také pro editaci již existujícího záznamu. Editaci lze vyvolat poklepáním na existující záznam v hlavním okně aplikace.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham4}
 \caption{Dialog pro přidání a editaci záznamu.}
-\label{fig:FigureExample}
+\label{fig:novy_zaznam}
 \end{figure}
 
 \subsubsection{Třída NewRecordDialog}
@@ -1240,13 +1284,13 @@ Po potvrzení dialogu jsou hodnoty všech polí prostřednictvím klientské kni
 
 \subsection{Zobrazení dostupných modulů}
 
-Dialog zobrazující moduly dostupné na serveru lze spustit prostřednictvím hlavního menu aplikace.
+Dialog zobrazující moduly dostupné na serveru (viz obrázek \ref{fig:moduly_dialog}) lze spustit prostřednictvím hlavního menu aplikace.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=1]{fig/ham6}
-\caption{Dialog pro přidání a editaci záznamu.}
-\label{fig:FigureExample}
+\caption{Dialog zobrazující dostupné moduly.}
+\label{fig:moduly_dialog}
 \end{figure}
 
 \subsubsection{Třída NewRecordDialog}
@@ -1314,8 +1358,13 @@ systém MySQL. Přidat podporu pro jinou databázi je díky současnému návrhn
 
 Dalším možným rozšířením je implementace modulů umožňujících generování statistik a přehledů o jednotlivých záznamech v deníku.
 Uživateli tyto moduly umožní lepší orientaci v jeho deníku a na straně serveru je pak možné generovat žebříček uživatelů na
-základě různých klíčů.
-%% YARDA: více rozvést, že lze konstruovat kompletní dotazy a tedy spočítat
+základě různých klíčů, snadno zobrazovat bodu získáné v soutěžích v reálném čase nebo například generovat diplomy
+(DXCC, IOTA, SOTA).
+
+Díky zvolenému návrhu a implementaci databázového rozhraní lze konstruovat kompletní dotazy pro databázi a lze tedy získat
+data pro nepřeberné množství statistik. Navíc je díky implementaci modulů serveru jednoduché tyto nové funkce přidávat,
+protože nikdy nejsou součástí jádra aplikace, ale pouze toto jádro rozšiřují.
+%% YARDA (DONE): více rozvést, že lze konstruovat kompletní dotazy a tedy spočítat
 %% statistiky prakticky pro cokoliv, a že lze snadno zobrazovat body získané v
 %% jednotlivých soutěžích, závodech a diplomech (např. DXCC, IOTA, SOTA, atp.).
 
