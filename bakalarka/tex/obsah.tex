@@ -1,6 +1,7 @@
 \chapter{Úvod}
+\label{uvod}
 
-Dle platných právních předpisů musí operátoři provozující amatérské bezdrátové vysílání
+Dle platných právních předpisů musí operátoři klubových stanic provozující amatérské bezdrátové vysílání
  vést staniční deník obsahující seznam provedených bezdrátových spojení
 v papírové nebo elektronické podobě.
 S rozvojem počítačů a Internetu se stále více operátorů přiklání k myšlence vést staniční deník elektronicky.
@@ -168,7 +169,7 @@ na frekvenci jiné. Díky tomu lze spolehlivě pokrýt oblasti jako města či k
 Dalším častým vylepšením je propojování těchto převaděčů do sítí. Díky tomu mohou
 radioamatéři navazovat spojení i se stanicemi nacházejícími se v dosahu
 propojených převaděčů. Velice oblíbený v tomto směru je např. systém
-Echolink \cite{echolink}, %%YARDA: link literatura, na echolink.org,
+Echolink \cite{echolink}, %%YARDA (DONE): link literatura, na echolink.org,
 který umožňuje celosvětově vytvářet tzv. červí díry (wormholes) mezi libovolnými
 převaděči v této síti.
 
@@ -226,12 +227,25 @@ orientační běh (ROB). Cílem je v nejkratším čase najít pomocí
 přijímače v terénu ukryté zamaskované vysílače. 
 Tyto sporty jsou atraktivní a pěstují je i lidé, kteří se jinak o radioamatérství příliš nezajímají.
 
-\section{Důležité pojmy}
-\label{radioamateri_pojmy}
+\section{Staniční deník}
+\label{stanicni_denik}
 
-V této podkapitole jsou popsány důležité pojmy používané mezi radioamatéry, které jsou také použity dále v této práci.
-Všechny pojmy uvedené v této podkapitole se rovněž ukládají do staničního deníku a tak je jejich vysvětlení nezbytné.
-Obrázky použité v této kapitole jsou získány z \cite{mapability}.
+V této podkapitole je stručně popsán staniční deník a také údaje do něj zapisované.
+Při popisu jednotlivých údajů v této kapitole se vychází z \cite{pozadavky}.
+
+Dle §5 Vyhlášky o technických a provozních podmínkách amatérské radiokomunikační služby \cite{vyhlaska}
+mají klubové stanice povinnost vést staniční deník a ukládat do něj zejména tyto údaje: datum, čas a doba trvání
+uskutečněného rádiového spojení, použité kmitočtové pásmo, druh provozu,
+volací značka stanice a stanoviště klubové stanice, se kterou bylo uskutečněno rádiové spojení.
+
+Ačkoliv je tato povinnost stanovena pouze pro klubové stanice, většina radioamatérů si vede
+elektronický staniční deník kvůli ulehčení práce zmíněné v kapitole \ref{uvod}.
+
+Staniční deník si tak lze představit jako jednoduchou databázi spojení provedených operátorem dané stanice.
+Kromě základních údajů definovaných výše zmíněnou vyhláškou se do staničních deníků ukládají i další údaje
+nad její rámec. V následující části jsou tyto jednotlivé údaje popsány a vysvětleny.
+
+Obrázky použité dále v této podkapitole jsou získány z \cite{mapability}.
 
 \subsection{Volací značka}
 
@@ -244,6 +258,10 @@ Dalším znakem je číslice 0-9. Kombinaci těchto znaků se říká prefix (v�
 Na základě prefixu tak lze určit zemi, ze které daný operátor pochází a tak i
 jeho přibližnou polohu. K tomu slouží seznam DXCC (DX Century Club) \cite{dxcc} %% YARDA (DONE): link
 obsahující všechny aktuálně používané prefixy a informace k nim.
+
+\subsection{Druh provozu}
+
+Jak to popsat na pra radek....???
 
 \subsection{ITU zóny}
 
@@ -289,11 +307,15 @@ západní Brno. Toto rozdělení je zobrazeno na obrázku \ref{fig:qth}
 \label{fig:qth}
 \end{figure}
 
+\subsection{Informace o výměně QSL lístků}
+
+TODO
+
 \section{Služby používané radioamatéry}
 \label{radioamateri_sluzby}
 
 Díky rozšiřování Internetu se začaly rozvíjet i služby provozované radioamatéry pro další radioamatéry. V této podkapitole
-jsou stručně popsány online služby, které jsou v navrhovaném staničním deníky využity.
+jsou stručně popsány online služby, které jsou v navrhovaném staničním deníku využity.
 
 \subsection{DXCluster}
 
@@ -457,7 +479,7 @@ sloupců ve hlavičce protokolu jsou:
 \item \textbf{user\_id} - ID uživatele, jemuž záznam v logu patří.
 \item \textbf{qsodate} - Datum záznamu ve formátu unixového timestampu.
 \item \textbf{callsign} - Volací značka (například OK2JRQ).
-\item \textbf{mode} - Mód spojení. %% YARDA: příklad
+\item \textbf{mode} - Druh provozu. %% YARDA (DONE): příklad
 \item \textbf{qth} - QTH lokátor.
 \item \textbf{name} - Jméno operátora.
 \item \textbf{latitude} - Zeměpisná šířka.
@@ -703,7 +725,7 @@ V tabulce logbook jsou uloženy deníky všech uživatelů. Obsahuje následují
 \item \textbf{user\_id} - ID uživatele, jemuž záznam patří.
 \item \textbf{qsodate} - Datum záznamu ve formátu Unix timestamp.
 \item \textbf{callsign} - Volací značka (například OK2JRQ).
-\item \textbf{mode} - Mód spojení. %% YARDA: příklad
+\item \textbf{mode} - Druh provozu. %% YARDA (DONE): příklad
 \item \textbf{qth} - QTH lokátor (Maidenhead Locator).
 \item \textbf{name} - Jméno operátora.
 \item \textbf{latitude} - Zeměpisná šířka.
@@ -712,7 +734,7 @@ V tabulce logbook jsou uloženy deníky všech uživatelů. Obsahuje následují
 \item \textbf{continent} - Zkratka kontinentu.
 \item \textbf{cq} - CQ zóna.
 \item \textbf{itu} - ITU zóna.
-\item \textbf{qsl} - Příznak žádosti o QSL lístek. %% YARDA: rozvést proč je to
+\item \textbf{qsl} - Příznak žádosti o QSL lístek. %% YARD A (DONE): rozvést proč je to
 %% použito a co to umožňuje (např. dále v textu).
 \item \textbf{qsl\_sent} - Příznak poslání QSL lístku.
 \item \textbf{comments} - Komentáře.
@@ -876,7 +898,7 @@ a je vrácen výsledek.
 
 Moduly jsou implementovány jako dynamické knihovny. Každý modul musí dědit třídu Modul (zprostředkovaně například přes třídu RequestResponder)
 a implementovat její čistě virtuální
-(pure virtual) metody. Toto demonstruje obrázek \ref{fig:moduly}. %% YARDA: hodil by se odkaz na nějakou knihu o OOP 
+(pure virtual) metody (\cite{oop}). Toto demonstruje obrázek \ref{fig:moduly}. %% YARDA (DONE): hodil by se odkaz na nějakou knihu o OOP 
 Veškeré klientské požadavky jsou pak směrovány na konkrétní modul podle URI instancí třídy ModuleManager.
 
 %% YARDA (DONE): každý obrázek musí být odkazován v textu, např. Na obrázku
@@ -947,7 +969,7 @@ těle dotazu.
 Modul DXCC (URI "/dxcc") umožňuje získat z volací značky lokalizační informace. Modul je typu CALLINFO.
 Data o jednotlivých prefixech
 jsou po startu modulu načtena ze souboru "cty.csv" v CSV formátu. Tento soubor
-byl získán z TODO. %% YARDA: doplnit
+byl získán z \cite{cty.csv}. %% YARDA (DONE): doplnit http://www.country-files.com/cty/
 V metodě handleRequest modul získá z požadavku prefix volací
 značky, vyhledá jej v datech načtených při startu %% YARDA: přiliš komplikovaná
 %% věta
@@ -1015,7 +1037,7 @@ desetinné číslo (v kHz).
 \label{implementace_logovani}
 
 Logování je implementováno s použitím knihovny Log4cxx vyvíjené Apache Software Foundation a licencované pod licencí
-Apache License.  %% YARDA: link
+Apache License \cite{log4cxx}.  %% YARDA (DONE): link
 Pokud však není při kompilaci knihovna Log4cxx nalezena, je pro logování použit standardní výstup.
 Výhodou Použití Log4cxx je možnost široké konfigurace logování pomoci konfiguračního souboru, možnost přesměrovat
 logování do souboru a tento pak automaticky rotovat na základě jeho velikosti nebo času.
