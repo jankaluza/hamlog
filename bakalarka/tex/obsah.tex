@@ -261,7 +261,7 @@ obsahující všechny aktuálně používané prefixy a informace k nim.
 
 \subsection{Druh provozu}
 
-Jak to popsat na pra radek....???
+Jak to popsat na par radek....???
 
 \subsection{ITU zóny}
 
@@ -307,9 +307,29 @@ západní Brno. Toto rozdělení je zobrazeno na obrázku \ref{fig:qth}
 \label{fig:qth}
 \end{figure}
 
+\subsection{Systém RST}
+
+Důležitým údajem o navázaném spojení je zpráva o slyšitelnosti signálu. V praxi se pro 
+předáni těchto údajů používá systém RST. Výměna RST reportu je nezbytným předpokladem platnosti radioamatérského spojení.
+Název systému RST je tvořen iniciálami veličin, které obsahuje: Readability (čitelnost), Strenght (síla), Tone (tón).
+Při analogovém přenosu řeči je použit pouze systém RS, při digitálním přenosu se používá systému RSQ (Readability, Strenght, Quality).
+
+Každá veličina se udává pomocí číslice z intervalu 1 - 9 (čitelnost z intervalu 1 - 5), kde nejnižšímu číslu odpovídá nejnižší kvalita.
+Maximálně nejlepší report v systému RST je vyjádřen údajem 599, v systému RS údajem 59.
+
+Slovní popis jednotlivých hodnot veličin RST pro analogové a digitální módy zde z kapacitních důvodů není zmíněn, lze jej však
+naléz na stránkách Českého Radioklubu \cite{crk_rst}.
+
 \subsection{Informace o výměně QSL lístků}
 
-TODO
+Jak již bylo zmíněno v kapitole \ref{radioamateri_dnes}, po úspěšně navázaném spojení si radioamatéři vyměnují QSL lístky.
+Jedná se o kartičky podobné pohlednicím. QSL lístek obsahuje především nejzákladnější informace o operátorovi
+Jde hlavně o jeho značku, zemi, umístění stanice včetně zařazení do zón a lokátoru.
+Musí také obsahovat značku protistanice, datum a čas navázání spojení, kmitočet, druh modulace a report v systému RST. 
+
+Ve staničním deníku je pak vhodné u konkrétního spojení uchovávat informaci o tom, jestli operátor již poslal druhé
+straně QSL lístek a jestli již od druhé strany QSL lístek obdržel.
+
 
 \section{Služby používané radioamatéry}
 \label{radioamateri_sluzby}
@@ -337,7 +357,7 @@ operátorech.
 \chapter{Současný stav}
 \label{soucasnost}
 
-V této kapitole jsou posány existující softwarové staniční deníky. Každá aplikace je stručně
+V této kapitole jsou popsány existující softwarové staniční deníky. Každá aplikace je stručně
 popsána a jsou zmíněny i její klady a zápory. Na základě této kapitoly bude dále
 vytvořen základní návrh vlastního staničního deníku.
 
@@ -391,12 +411,22 @@ záznamů pomocí aplikací třetích stran a není tak jednoduché postavit dal
 
 \section{HAM Radio Deluxe}
 
+HAM Radio Delux, jehož uživatelské rozhraní lze vidět na obrázku \ref{fig:ham_radio_deluxe}, je dalším ze zástupců
+staničních deníků pro operační systém Windows. Uživatelské rozhraní vypadá na první pohled přívětivě a odladěně.
+Problémem však může být množství voleb, ve kterých se uživatel lehce ztratí.
+
 \begin{figure}[h]
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.33]{fig/hrd}
 \caption{Uživatelské rozhraní HAM Radio Deluxe.}
 \label{fig:ham_radio_deluxe}
 \end{figure}
+
+Jedná se o uzavřenou aplikaci, což brání jejímu dalšímu rozšírovaní širokou veřejností. Oproti aplikaci
+Logger32 neposkytuje ani API pro tvorbu pluginů. Na druhou stranu obsahuje HAM Radio Deluxe všechny
+potřebné nástroje pro provoz staničního deníku. Umožňuje také použití MySQL nebo MSSQL databáze.
+Nevýhodou tak zůstává jeho uzavřenost a nemožnost přístupu k deníku pomocí aplikací třetích stran.
+
 
 \chapter{Návrh}
 \label{navrh}
@@ -488,6 +518,16 @@ sloupců ve hlavičce protokolu jsou:
 \item \textbf{continent} - Zkratka kontinentu.
 \item \textbf{cq} - CQ zóna.
 \item \textbf{itu} - ITU zóna.
+\item \textbf{rst\_tx} - Odeslaný report v systému RST.
+\item \textbf{rst\_rx} - Přijatý report v systému RST.
+\item \textbf{qsl} - Příznak žádosti o QSL lístek. Pokud je tento příznak nastaven, ví operátor, že si chce
+s protistranou vyměnit QSL lístky. To umožňuje případné automatické generování QSL lístků na základě informací
+uložených v databázi.
+\item \textbf{qsl\_sent} - Příznak poslání QSL lístku. Pokud byly QSL lístky vygenerovány a odeslány, je tento
+příznak nastaven.
+\item \textbf{qsl\_received} - Příznak přijetí QSL lístku. Tento příznak je nastaven v případě, kdy operátor
+obdržel QSL lístek od radioamatéra, se kterým bylo spojení navázáno.
+\item \textbf{comments} - Komentáře.
 \end{itemize}
 
 Jednotlivé moduly serveru však mohou použít i své vlastní názvy sloupců pro položky, které nejsou v tomto seznamu.
@@ -518,27 +558,6 @@ serveru.
 \subsubsection{Vyžádání logu}
 
 Tento příklad ukazuje použití protokolu pro získání všech záznamů z logu.
-
-Dotaz na modul poskytující URI "/logbook":
-\begin{verbatim}
-GET /logbook HTTP/1.1
-
-
-\end{verbatim}
-Odpověď serveru:
-\begin{verbatim}
-HTTP/1.1 200 OK
-Content-Type: text/hamlog
-Content-Length: 74
-
-id;user_id;callsign;date;qth;loc
-1;1;TEST;2011;qt;
-2;1;LKS;2011;;location
-\end{verbatim}
-
-\subsubsection{Editace záznamu}
-
-TODO
 
 Dotaz na modul poskytující URI "/logbook":
 \begin{verbatim}
@@ -734,9 +753,15 @@ V tabulce logbook jsou uloženy deníky všech uživatelů. Obsahuje následují
 \item \textbf{continent} - Zkratka kontinentu.
 \item \textbf{cq} - CQ zóna.
 \item \textbf{itu} - ITU zóna.
-\item \textbf{qsl} - Příznak žádosti o QSL lístek. %% YARD A (DONE): rozvést proč je to
-%% použito a co to umožňuje (např. dále v textu).
-\item \textbf{qsl\_sent} - Příznak poslání QSL lístku.
+\item \textbf{rst\_tx} - Odeslaný report v systému RST.
+\item \textbf{rst\_rx} - Přijatý report v systému RST.
+\item \textbf{qsl} - Příznak žádosti o QSL lístek. Pokud je tento příznak nastaven, ví operátor, že si chce
+s protistranou vyměnit QSL lístky. To umožňuje případné automatické generování QSL lístků na základě informací
+uložených v databázi.
+\item \textbf{qsl\_sent} - Příznak poslání QSL lístku. Pokud byly QSL lístky vygenerovány a odeslány, je tento
+příznak nastaven.
+\item \textbf{qsl\_received} - Příznak přijetí QSL lístku. Tento příznak je nastaven v případě, kdy operátor
+obdržel QSL lístek od radioamatéra, se kterým bylo spojení navázáno.
 \item \textbf{comments} - Komentáře.
 \end{itemize}
 
@@ -1245,14 +1270,14 @@ ve kterém může uživatel položku také editovat.
 \subsubsection{Třída EarthWidget}
 
 Třída EarthWidget je technologicky nejzajímavější třídou klientské aplikace. Umožňuje zobrazit zeměkouli promítnutou do roviny i 
-formou klasického globusu. Na zeměkouli lze pak zobrazovat značky s popisky. Toho je využito pro zobrazení polohy právě vysilájících
+formou klasického globusu (obrázek \ref{fig:globus}). Na zeměkouli lze pak zobrazovat značky s popisky. Toho je využito pro zobrazení polohy právě vysilájících
 stanic.
 
 \begin{figure}[h]
 \centering
 \includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.9]{fig/ham5}
 \caption{Ukázka možnosti zobrazení zeměkoule.}
-\label{fig:FigureExample}
+\label{fig:globus}
 \end{figure}
 
 Pro zobrazení zeměkoule je využita aplikace Xplanet. Při požadavku na překreslení okna je spuštěn nový proces Xplanet
@@ -1320,6 +1345,31 @@ Dialog zobrazující moduly dostupné na serveru (viz obrázek \ref{fig:moduly_d
 Dialog zobrazující dostupné moduly je implementován třídou NewRecordDialog. Jedná se o jednoduchou třídu, která pomocí
 klientské knihovny získá ze serveru seznam modulů a zobrazí je formou tabulky vytvořené díky Qt widget QTreeWidget.
 
+\chapter{Ukázka použití aplikace}
+
+V této kapitole je stručně popsáno typické použití aplikace na jednoduchém příkladu.
+
+Po přihlášení k serveru vidí operátor radiostanice hlavní okno aplikace (obrázek \ref{fig:okno}).
+V tomto hlavním okně se po chvíli začnou v jeho dolní části zobrazovat ostatní radioamatéři, kteří
+právě vysílají. Operátor má možnost vidět na mapě světa umístění těchto stanic. Pro získání většího 
+detailu lze mapu světa přiblížit na požadovanou oblast. Může také změnit zobrazení a zobrazit klasický
+globus (obrázek \ref{fig:globus}).
+
+Pokud se operátor rozhodne začít komunikaci s některým s dalších vysílajících radioamatérů, stačí
+poklepat na jeho volací značku v seznamu a dojde k otevření dialogového okna pro navázaní nového spojení (obrázek \ref{fig:novy_zaznam}).
+Otevřením dialogového okna se pomocí serveru QRZ.COM a DXCC databáze získají další detailní informace o radioamatérovi, se kterým 
+se operátor snaží navázat spojení. V tento moment se také automaticky přeladí radiostanice připojená
+k jeho počítači a on může začít zkoušet navázat spojení.
+
+V tomto okně lze také vidět předešlá spojení s tímto radioamatérem a operátor se tak může rozhodnout, zda-li chce
+navázat spojení s někým, s kým už se v minulosti spojil.
+
+Během komunikace vyplní operátor další požadované údaje jako například přijatý a odeslaný RST report. Jakmile je komunikace
+u konce, uzavře operátor dialogové okno pro přidání nového záznamu a spojení se zapíše do deníku.
+
+Pokud se operátor v bodoucnu rozhodne záznam o spojení editovat (například za účelem změny příznaku o 
+přijatém QSL lístku), lze jednoduše poklepat na spojení a editovat ho ve stejném dialogu jako při jeho
+přidání.
 
 \chapter{Závěr}
 Cílem této bakalářské práce bylo navhrnout a implementovat softwarovou aplikaci
