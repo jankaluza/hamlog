@@ -234,9 +234,9 @@ V této podkapitole je stručně popsán staniční deník a také údaje do ně
 Při popisu jednotlivých údajů v této kapitole se vychází z \cite{pozadavky}.
 
 Dle §5 Vyhlášky o technických a provozních podmínkách amatérské radiokomunikační služby \cite{vyhlaska}
-mají klubové stanice povinnost vést staniční deník a ukládat do něj zejména tyto údaje: datum, čas a doba trvání
+mají klubové stanice povinnost vést staniční deník a ukládat do něj zejména tyto údaje: datum, čas a dobu trvání
 uskutečněného rádiového spojení, použité kmitočtové pásmo, druh provozu,
-volací značka stanice a stanoviště klubové stanice, se kterou bylo uskutečněno rádiové spojení.
+volací značku stanice a stanoviště klubové stanice, se kterou bylo uskutečněno rádiové spojení.
 
 Ačkoliv je tato povinnost stanovena pouze pro klubové stanice, většina radioamatérů si vede
 elektronický staniční deník kvůli ulehčení práce zmíněné v kapitole \ref{uvod}.
@@ -262,8 +262,8 @@ obsahující všechny aktuálně používané prefixy a informace k nim.
 \subsection{Druh provozu}
 
 Spojení provedené na jednom kmitočtu může být uskutečněno různými druhy provozu. Pro provedení spojení tedy nestačí mít pouze stejný kmitočet
-na obou stanicích, ale musí být také použito stejného druhy provozu. Pro analogové vysílání jsou to například: morse (CW), frekvenčni modulace (FM), amplitudová modulace (AM),
-amplitudová modulace s potlačeným postraním pasmem (SSB). Digitální druhy provozu jsou například: RTTY, AMTOR, PACTOR, PSK, WSJT, D-Star, P-25, atd.
+na obou stanicích, ale musí být také použito stejného druhy provozu. Pro analogové vysílání jsou to například: morse (CW), frekvenční modulace (FM), amplitudová modulace (AM),
+amplitudová modulace s potlačeným postraním pásmem (SSB). Digitální druhy provozu jsou například: RTTY, AMTOR, PACTOR, PSK, WSJT, D-Star, P-25, atd.
 
 Kompletní přehled všech druhů provozu lze získat na \cite{plan_vkv} pro VKV nebo \cite{plan_kv} pro KV.
 
@@ -314,7 +314,7 @@ západní Brno. Toto rozdělení je zobrazeno na obrázku \ref{fig:qth}
 \subsection{Systém RST}
 
 Důležitým údajem o navázaném spojení je zpráva o slyšitelnosti signálu. V praxi se pro 
-předáni těchto údajů používá systém RST. Výměna RST reportu je nezbytným předpokladem platnosti radioamatérského spojení.
+předání těchto údajů používá systém RST. Výměna RST reportu je nezbytným předpokladem platnosti radioamatérského spojení.
 Název systému RST je tvořen iniciálami veličin, které obsahuje: Readability (čitelnost), Strenght (síla), Tone (tón).
 Při analogovém přenosu řeči je použit pouze systém RS, při digitálním přenosu se používá systému RSQ (Readability, Strenght, Quality).
 
@@ -322,12 +322,12 @@ Každá veličina se udává pomocí číslice z intervalu 1 - 9 (čitelnost z i
 Maximálně nejlepší report v systému RST je vyjádřen údajem 599, v systému RS údajem 59.
 
 Slovní popis jednotlivých hodnot veličin RST pro analogové a digitální módy zde z kapacitních důvodů není zmíněn, lze jej však
-naléz na stránkách Českého Radioklubu \cite{crk_rst}.
+nalézt na stránkách Českého Radioklubu \cite{crk_rst}.
 
 \subsection{Informace o výměně QSL lístků}
 
 Jak již bylo zmíněno v kapitole \ref{radioamateri_dnes}, po úspěšně navázaném spojení si radioamatéři vyměnují QSL lístky.
-Jedná se o kartičky podobné pohlednicím. QSL lístek obsahuje především nejzákladnější informace o operátorovi
+Jedná se o kartičky podobné pohlednicím. QSL lístek obsahuje především nejzákladnější informace o operátorovi.
 Jde hlavně o jeho značku, zemi, umístění stanice včetně zařazení do zón a lokátoru.
 Musí také obsahovat značku protistanice, datum a čas navázání spojení, kmitočet, druh modulace a report v systému RST. 
 
@@ -426,7 +426,7 @@ Problémem však může být množství voleb, ve kterých se uživatel lehce zt
 \label{fig:ham_radio_deluxe}
 \end{figure}
 
-Jedná se o uzavřenou aplikaci, což brání jejímu dalšímu rozšírovaní širokou veřejností. Oproti aplikaci
+Jedná se o uzavřenou aplikaci, což brání jejímu dalšímu rozšířovaní širokou veřejností. Oproti aplikaci
 Logger32 neposkytuje ani API pro tvorbu pluginů. Na druhou stranu obsahuje HAM Radio Deluxe všechny
 potřebné nástroje pro provoz staničního deníku. Umožňuje také použití MySQL nebo MSSQL databáze.
 Nevýhodou tak zůstává jeho uzavřenost a nemožnost přístupu k deníku pomocí aplikací třetích stran.
@@ -451,7 +451,7 @@ tak všude se stejnými daty. Využití klient-server architektury je výhodné 
 výsledků všech účastníků proběhnout současně na centrálním místě.
 \item \textbf{Modulárnost} - Serverová aplikace je založena na modulech. Moduly jsou speciální knihovny rozšiřující funkce
 serveru. Moduly umí zpracovávat klientské požadavky a je jim umožněn přístup k deníkům jednotlivých uživatelů. Díky použití modulů
-je zajištěna jednoduchá rozšíritelnost aplikace o nové funkce bez nutnosti změny jejího jádra.
+je zajištěna jednoduchá rozšířitelnost aplikace o nové funkce bez nutnosti změny jejího jádra.
 \item \textbf{Uložení dat} - Záznamy jednotlivých uživatelů jsou uloženy v databázi SQLite3. Návrh aplikace
 však počítá s možností použití různých formátů pro uložení uživatelských dat.
 \item \textbf{Oddělení grafického rozhraní od komunikace se serverem} - Klientská aplikace využívající grafického rozhraní
@@ -490,7 +490,7 @@ V následujících podkapitolách jsou jednotlivé části aplikace stručně po
 %% body :)
 
 Komunikační protokol je důležitou součástí síťových aplikací. Určuje, jakým způsobem způsobem spolu komunikují
-klientská a serverová část. Při použití příliš jednoduchého a specializovaného protokolu je v budoucnu problém
+klientská a serverová část. Při použití příliš jednoduchého a úzce zaměřeného protokolu je v budoucnu problém
 jej dále rozšiřovat. Naopak použití složitého protokolu znamená složitější implementaci a náročnější řízení komunikace.
 
 Pro účel staničního deníku jsem se rozhodl použít vlastní protokol inspirovaný protokolem HTTP \cite{http},
@@ -548,7 +548,7 @@ budou implementovány jako samostatné moduly (viz podkapitola \ref{navrh_moduly
 \item Registrace uživatele.
 \item Přihlásení uživatele - Přihlášení je prováděno metodou Digest Access Authentication definovanou v
 RFC 2617 \cite{rfc2617}. Díky tomu se heslo neposílá při přihlášení po síti a na straně serveru je možné ukládat
-pouze jeho otisk vytvořený funkcí MD5 \cite{md5}. To znemožňuje zjištění heslo odposlechem nebo jeho odcizení ze
+pouze jeho otisk vytvořený funkcí MD5 \cite{md5}. To znemožňuje zjištění hesla odposlechem nebo jeho odcizení ze
 serveru.
 \item Vyžádání kompletního deníku a jeho částí.
 \item Zapsání nového záznamu, jeho následná editace a případné odstranění.
@@ -639,7 +639,7 @@ database = test.sql
 Server je schopen obsluhovat více uživatelů současně.
 Uživatelé se k serveru přihlašují pomocí jména a hesla. Noví uživatelé se musí nejprve registrovat.
 
-Návrh serveru počítá s použitím jakékoliv databáze pro uchování perzistentních dat. V rámci této bakalářské práce jsem se 
+Návrh serveru počítá s použitím libovolné databáze pro uchování perzistentních dat. V rámci této bakalářské práce jsem se 
 rozhodl použít databázi SQLite3.
 
 Server je modulární a veškeré služby, které uživateli poskytuje, jsou součástí modulů. Server samotný pouze spravuje
@@ -654,7 +654,7 @@ Modul jej zpracuje a odešle klientovi zpět odpověď. Klient si může
 od serveru vyžádat seznam všech modulů pomocí požadavku na speciální URI "/modules".
 
 Modulům je také umožněno přistupovat k databázi záznamů všech uživatelů a provádět nad ní dotazy. Tato problematika je více
-rozebrána v následující podkapitole.
+rozebrána v následující podkapitole \ref{navrh_databaze}.
 
 \begin{figure}[h]
 \centering
@@ -698,7 +698,7 @@ veškeré zjistitelné informace o volací značce ve formátu CSV definovaném 
 %% to je GET
 Pokud modul vyžaduje registraci uživatelského jména a hesla pro
 přístup k databázi volacích značek (například v případě, že modul přistupuje ke službě, která je jen pro registrované), musí modul
-implementovat zpracování tohoto URI a vrátit aktuálně registrované uživatelské jméno nebo prázdný řetezec. Klient pak může tohoto
+implementovat zpracování tohoto URI a vrátit aktuálně registrované uživatelské jméno nebo prázdný řetězec. Klient pak může tohoto
 chování využít pro zjištení, jestli je potřeba být pro použití modulu registrován.
 \item \textbf{Požadavek na URI "/modul/register"} - Slouží k registraci uživatelského jména a hesla pro použití modulu.
 Jméno a heslo jsou předány v hlavičce paketu pod klíči "username" a "password".
@@ -721,7 +721,7 @@ musí opakovaně ptát, aby získal nové vysílající stanice.
 Součástí serveru je rozhraní pro přístup k databázi. Veškerá data všech
 uživatelů jsou uložena v této databázi.
 Návrh serveru počítá s využitím databáze jakéhokoliv typu (SQLite3, MySQL, PostgreSQL, \dots). Jednotlivé moduly
-umí prostřednictvím databázového rozhraní s databází pracovat a spouštět nad ní prakticky jakékoliv dotazy.
+umí prostřednictvím databázového rozhraní s databází pracovat a spouštět nad ní prakticky libovolné dotazy.
 
 Na obrázku \ref{fig:databaze} je zobrazeno obecné schéma databáze použité pro uložení všech potřebných informací. Tabulky
 z tohoto obrázku jsou pak dále stručně popsány.
@@ -773,8 +773,8 @@ obdržel QSL lístek od radioamatéra, se kterým bylo spojení navázáno.
 \label{navrh_knihovna}
 
 Klientská knihovna poskytuje grafickému rozhraní jednotné API pro přístup k
-serveru, což je kvůli zamezení duplikace kódu při případné implementaci více
-různých grafických rozhraní.
+serveru. To zamezuje duplikaci kódu při případné implementaci více
+různých grafických rozhraní využívajících funkce serveru.
 
 Klientská knihovna má minimální závislosti a je multiplatformní. Pomocí komunikačního protokolu
 komunikuje se serverem, zpracovává příchozí data a předává je klientovi.
@@ -794,7 +794,7 @@ Základní funkce klientské knihovny jsou:
 \label{navrh_klient}
 
 Klient umožňuje uživateli připojení k serveru, prezentaci aktuálních dat a
-jejich změny. Pro komunikace
+jejich změny. Pro komunikaci
 se serverem klient využívá klientskou knihovnu. Pro komunikaci s uživatelem pak klient využívá grafického rozhraní.
 Po startu klienta je uživatel vyzván k přihlášení se k serveru. Uživateli je rovněž nabídnuta možnost registrace
 nového účtu.
@@ -835,13 +835,13 @@ Dále budou stručně popsány nejdůležitejší třídy serveru.
 
 Třída Server je základní třídou serveru. Vytváří soket, na kterém server přijímá připojení z klientské knihovny. Jakmile je 
 akceptováno nové připojení, je vytvořena instance třídy Session, která dále
-zpracovává všechny požadavky od klienta.
+zpracovává všechny požadavky klienta.
 
 \subsubsection{Třída Session}
 
 Tato třída reprezentuje sezení jednoho uživatele. Při obdržení nových dat od klienta jsou tato předána instanci třídy
 RequestParser, která slouží k jejich rozparsování. Pokud byla obdržena kompletní zpráva, je předána instanci třídy 
-ModuleManager metodou handleRequest, která pak řídí její další zpracování. Výsledná odpověď je pak třídou Session poslána
+ModuleManager metodou handleRequest, která pak řídí její další zpracování. Výsledná odpověď je pak instancí třídy Session poslána
 zpět klientovi.
 
 \subsubsection{Třída RequestParser}
@@ -871,35 +871,36 @@ na obrázku \ref{fig:imp_databaze}.
 
 Třída StorageBackend je základní abstraktní třídou pro implementaci jakéhokoliv databázového rozhraní.
 Je u ní použit návrhový vzor Singleton. %% YARDA (DONE): více rozvést, nebo link do literatury
-Jedná se způsob návrhu třídy, který počítá s jedinou instancí dané třídy v rámci celé aplikace.
+Jedná se o způsob návrhu třídy, který počítá s jedinou instancí dané třídy v rámci celé aplikace.
 Tato instance je pak přístupná ze všech částí aplikace. Typicky má třída používající návrhový
 vzor Singleton privátní konstruktor a statickou přístupovou metodu vracející instanci této třídy.
 
 Smyslem třídy StorageBackend je poskytnout rozhraní pro získávání dat z databázového rozhraní bez znalosti
-typu databáze. Názvy metod a podtříd jsou pojmenovány terminologií známou z
+typu databáze. Názvy metod a podtříd jsou inspirovány terminologií známou z
 oblasti SQL databází, %% YARDA: opět by se hodil link
  ale prakticky
 lze pomocí třídy StorageBackend implementovat rozhraní pro přístup k jakémukoliv typu databáze.
 
-Třída StorageBackend obsahuje základní podtřídy pro definici dotazů typu SELECT, INSERT, UPDATE a CREATE známých z
-jazyka SQL:
+Třída StorageBackend obsahuje základní podtřídy pro definici dotazů typu SELECT (používaný pro získání
+dat z databáze), INSERT (používaný pro vložení nových dat do databáza), UPDATE (sloužící k aktualizaci
+již uložených dat v databázi) a CREATE (umožňující vytvoření nové tabulky) známých z jazyka SQL:
 
 \begin{itemize}
 \item StorageBackend::Column - Slouží pro definici sloupce při vytváření nové tabulky metodou StorageBackend::createTable().
-Obsahuje veškeré informace o sloupci tabulky (jméno, typ, velikost,
-příznaky pro NOT NULL, UNIQUE a PRIMARY KEY). %% YARDA (DONE): opět rozvést
+Obsahuje veškeré informace o sloupci tabulky:
 \begin{itemize}
-\item Jméno - Jednoznačně pojmenovává sloupec. Jméno sloupce je pak použito pro výběr konkrétních sloupců v dalšíh typech
-dotazů
-\item Typ - Určuje typ sloupce. V současné implementaci existují tyto 4 typy: celé číslo, desetinné číslo, řetezec, datum a čas.
+\item Jméno - Jednoznačně pojmenovává sloupec. Jméno sloupce je pak použito pro výběr konkrétních sloupců v dalších typech
+dotazů.
+\item Typ - Určuje typ sloupce. V současné implementaci existují tyto 4 typy: celé číslo, desetinné číslo, řetězec, datum a čas.
 \item Velikost - Používá se pouze pro sloupce typu řetězec. Udává maximální velikost řetezce uloženého v tomto sloupci.
 \item Příznak NOT NULL - Pokud je nastaven, musí být při přidání nebo editaci řádku v tabulce definována hodnota tohoto sloupce.
 \item Příznak UNIQUE - Pokud je nastaven, musí být při přidání nebo editaci řádku tabulky hodnota tohoto sloupce jedinečná v rámci
 celého sloupce dané tabulky.
 \item Příznak PRIMARY KEY - Pokud je nastaven, je tento sloupec primárním klíčem tabulky.
 \end{itemize}
-\item StorageBackend::Select - Zapouzdřuje data potřebná pro provedení výběru dat z databáze. Obsahuje jméno tabulky,
-ze které se výběr provádí, a ukazatel na dvourozměrné pole, do kterého se uloží
+\item StorageBackend::Select - Zapouzdřuje data potřebná pro provedení výběru dat z databáze nebo odstranění dat z databáze.
+Obsahuje jméno tabulky,
+ze které se výběr provádí, a ukazatel na dvourozměrné pole, do kterého se uloží případné
 výsledky. Dále třída StorageBackend::Select umožňuje
 definovat omezení výběru (v SQL jazyce klíčové slovo WHERE) a umožňuje výběr konkrétních sloupců, které vrátí ve výsledku.
 Instance této třídy je předána metodě StorageBackend::select() nebo StorageBackend::remove().
@@ -1016,8 +1017,8 @@ opakovaně žádá o nová data.
 
 \subsubsection{Modul QRZ}
 
-Modul QRZ (URI "/qrz") je typu CALLINFO umožňuje tedy získávat uživateli další informace o ostatních uživatelích na základě jejich
-volací značky.K tomuto využívá službu qrz.com. V metodě handleRequest se na základě URI provádí následující akce:
+Modul QRZ (URI "/qrz") je typu CALLINFO. Umožňuje tedy získávat uživateli další informace o ostatních uživatelích na základě jejich
+volací značky. K tomuto využívá službu qrz.com. V metodě handleRequest se na základě URI provádí následující akce:
 
 \begin{itemize}
 \item URI "/qrz" - Pošle QRZ serveru požadavek pro získání informací o uživateli na základě jeho volací značky. Ke komunikaci 
@@ -1068,7 +1069,7 @@ desetinné číslo (v kHz).
 Logování je implementováno s použitím knihovny Log4cxx vyvíjené Apache Software Foundation a licencované pod licencí
 Apache License \cite{log4cxx}.  %% YARDA (DONE): link
 Pokud však není při kompilaci knihovna Log4cxx nalezena, je pro logování použit standardní výstup.
-Výhodou Použití Log4cxx je možnost široké konfigurace logování pomoci konfiguračního souboru, možnost přesměrovat
+Výhodou použití Log4cxx je možnost široké konfigurace logování pomoci konfiguračního souboru, možnost přesměrovat
 logování do souboru a tento pak automaticky rotovat na základě jeho velikosti nebo času.
 
 Každá třída serveru má vlastní statickou instanci třídy log4cxx::LoggerPtr, kterou využívá k logování.
@@ -1100,8 +1101,6 @@ S pomocí abstraktních datových typů lze zapouzdřit libovolná data a prová
 To vede ke zjednodušení tvorby aplikace, protože je využíván již jednou naprogramovaný kód. Implementaci
 abstraktního datového typu lze také v budoucnosti změnit nezávisle na částech aplikace, které jej používají.
 %% YARDA (DONE): dát to do kontextu, k čemu se to používá
-
-Druhým abstraktním datovým typem implementovaným v klientské knihovně je 
 \subsubsection{HAMList - Seznam}
 
 Prvním abstraktním datovým typem používaným v klientské knihovně
@@ -1141,7 +1140,9 @@ data při uvolňování seznamu z paměti uvolněna.
 \subsubsection{HAMHashTable - Hashovací tabulka}
 %% YARDA (DONE): opět dát to do kontextu, k čemu se to používá
 
-
+Druhým abstraktním datovým typem používaným v klientské knihovně je hashovací tabulky (HAMHashTable).
+Hlavním využitím hashovací tabulky je implementace signálů, kde slouží pro rychlé vyhledání
+správného signálu podle jeho jména. Je také použita pro uchování seznamu modulů dostupných na serveru.
 
 \begin{figure}[h]
 \centering
@@ -1150,7 +1151,7 @@ data při uvolňování seznamu z paměti uvolněna.
 \label{fig:hamhashtable}
 \end{figure}
 
-HAMHashTable je implementací hash tabulky. Na obrázku \ref{fig:hamhastable} lze vidět základní datové struktury
+HAMHashTable je implementací hash tabulky. Na obrázku \ref{fig:hamhashtable} lze vidět základní datové struktury
 použíté při implementaci hash tabulky - HAMHashTableItem a HAMHashTable:
 
 \begin{verbatim}
@@ -1170,7 +1171,7 @@ typedef struct _HAMHashTable {
 
 Každá položka uložená v hash tabulce obsahuje svůj klíč (key), jeho délku (key\_len), data svázaná s položkou a ukazatel
 na další položku. Při vložení nové položky do tabulky je vypočten hash jejího kliče pomocí SDBM
-hashovacího algoritmu. %% YARDA: určitě link
+hashovacího algoritmu \cite{sdbm}. %% YARDA: určitě link
 Na základě hodnoty hashe je ukazatel na položku uložen do pole položek items.
 
 \subsection{Komunikace s klientskou aplikací}
@@ -1193,8 +1194,8 @@ následující činnosti:
 \item timeout\_add - Přidá do hlavní smyčky aplikace běžící v klientské aplikaci
 nový časovač. Klientská aplikace
 musí vrátit ukazatel na strukturu jednoznačně identifikující časovač a
-volat opakovaně funkci předánou jakou ukazatel ve zvoleném intervalu.
-\item timeout\_remove - Odebere z hlavní smyčky časovač na základě jeho ukazatele na strukturu, která jej identifikuje.
+volat opakovaně ve zvoleném intervalu funkci předanou jako ukazatel.
+\item timeout\_remove - Odebere z hlavní smyčky časovač na základě ukazatele na strukturu, která jej identifikuje.
 \item input\_add - Přidá do hlavní smyčky klientské aplikace ukazatel na funkci, která je volána když jsou k dispozici
 nová data na definovaném soketu. Klientská aplikace
 musí vrátit ukazatel na strukturu jednoznačně identifikující tuto událost.
@@ -1219,7 +1220,7 @@ kontextu při zpracovávání signálu.
 \subsection{Komunikace se serverem}
 
 Tato podkapitola popisuje implementaci komunikace se serverem v klientské knihovně. Je zde popsáno rozhraní pro
-připojení k serveru, parser komunikačního protokolu a pomocné struktury Reply a Request pro reprezetanci odchozích a
+připojení k serveru, parser komunikačního protokolu a pomocné struktury HAMRequest a HAMReply pro reprezetanci odchozích a
 příchozích paketů.
 
 \subsubsection{Připojení k serveru}
@@ -1229,10 +1230,21 @@ se definuje adresa a port serveru, uživatelské jméno a heslo. Samotné připo
 ham\_connection\_connect(). Tato funkce vytvoří nový soket pro připojení k serveru a pomocí funkce ham\_eventloop\_input\_add()
 přidá do hlavní smyčky aplikace ukazatel na funkci pro parsování přijatých dat.
 
-\subsubsection{Parsování dat}
+\subsubsection{Odeslání požadavku}
+
+Požadavek je reprezentován strukturou HAMRequest. Její instanci lze vytvořit metodou ham\_request\_new(). Lze určit
+URI, na které bude požadavek zaslán, typ požadavku (GET nebo POST) a zasílaná data. Samotný požadavek pak lze odeslat
+metodou ham\_connection\_send() (případně ham\_connection\_send\_destroy(), která jej i uvolní z paměti).
+
+Pro použití standardních modulů jsou však v klientské knihovně implementovány jednoduché metody, které vytváření a odesílání
+požadavků provádějí automaticky. Rovněž jsou definovány signály pro zpracování odpovědí na tyto standardní dotazy.
+V praxi tak stačí aplikaci využívající klientskou knihovnu zavolat například metodu ham\_dxcc\_fetch(), která odešle
+potřebný požadavek serveru a při přijetí odpovědi automaticky emituje signál, na který se může klienstká aplikace napojit.
+
+\subsubsection{Parsování odpovědi}
 
 K parsování dat v klientské knihovně slouží HAMParser. Ten funguje na stejném principu jako RequestParser na straně serveru.
-Parsovaná data jsou ukládána do struktury Reply, která pak předána prostřednictvím signálu nebo zpětného volání (callbacku)
+Parsovaná data jsou ukládána do struktury HAMReply, která pak předána prostřednictvím signálu nebo zpětného volání (callbacku)
 funkci, která požadavek na server iniciovala.
 
 \section{Klientská aplikace}
