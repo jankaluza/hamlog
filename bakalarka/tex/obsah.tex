@@ -200,7 +200,7 @@ výkonem. Taktéž pro její příjem a vysílání stačí principiálně jedno
 je mezinárodním jazykem angličtina (pokud však protistanice rozumí, lze pro
 spojení použít i libovolný jiný jazyk) a využívá se amplitudové modulace SSB
 nebo FM modulace. Nejnověji se experimentuje i s různými digitálními režimy
-přenosu hlasu, např. D-STAR \cite{dstar}, %% YARDA (DONE): link
+přenosu hlasu, např. D-STAR, %% YARDA (DONE): link
 P25 C4FM, atp.
 
 Historicky se však digitálně přenášely jen data o malém objemu a původně jen nízkou
@@ -857,7 +857,7 @@ neplatná data, je odpojen.
 Návrh a implementace serveru umožňuje použití libovolného databázového rozhraní.
 V rámci bakalářské práce však byla implementována 
 pouze podpora pro databázi SQLite3 (lze však snadno rozšířit). Třída implementující konkrétní databázové rozhraní musí dědit třídu StorageBackend a implementovat
-její čistě virtuální metody. Vztah jednotlivých tříd implementujících a využívajících databázové rozhraní lze vidět
+její čistě virtuální metody \cite{oop}. Vztah jednotlivých tříd implementujících a využívajících databázové rozhraní lze vidět
 na obrázku \ref{fig:imp_databaze}.
 
 \begin{figure}[h]
@@ -1250,7 +1250,7 @@ funkci, která požadavek na server iniciovala.
 \section{Klientská aplikace}
 \label{implementace_klient}
 
-Referenční klientská aplikace byla naprogramována v jazyce C++ s využitím grafického frameworku Qt. V této kapitole jsou stručně
+Referenční klientská aplikace byla naprogramována v jazyce C++ s využitím grafického frameworku Qt \cite{qt}. V této kapitole jsou stručně
 popsány jednotlivé části klientské aplikace, třídy, které klientskou aplikaci implementují a jejich napojení na klientskou knihovnu.
 
 \subsection{Hlavní okno aplikace}
