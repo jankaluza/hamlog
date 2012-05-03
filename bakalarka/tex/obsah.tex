@@ -1,20 +1,30 @@
 \chapter{Úvod}
 \label{uvod}
 
-Dle platných právních předpisů musí operátoři klubových stanic provozující amatérské bezdrátové vysílání
- vést staniční deník obsahující seznam provedených bezdrátových spojení
-v papírové nebo elektronické podobě.
-S rozvojem počítačů a Internetu se stále více operátorů přiklání k myšlence vést staniční deník elektronicky.
-To přináší oproti klasickému papírovému deníku mnoho výhod. Vytvoření spojení i jeho zápis je jednodušší
-díky možnosti vidět aktuálně vysílající operátory na mapě světa. Je také možné automaticky přeladit radiostanici na správný
-kmitočet, zjištit detailní informace o operátorovi prostřednictvím Internetu nebo například ve staničním deníku
-rychle vyhledávat. V neposlední řadě umožňují elektronické staniční deníky automaticky generovat řadu
-statistik včetně QSL lístků.
-
-Cílem této práce je seznámit se s amatérkým vysíláním a se způsobem vedení staničního deníku,
+Cílem této práce je seznámit se s oblastí radioamatérkého vysílání a se způsobem vedení staničního deníku,
 zhodnotit dosavadní aplikace používané pro vedení staničního deníku a 
-na základě těchto předchozích kroků vytvořit aplikaci pro vedení staničního deníku s moderní modulární architekturou,
+na základě tohoto zhodnocení vytvořit aplikaci pro vedení staničního deníku s moderní modulární architekturou,
 která umožní jednoduché přidávání nových funkci.
+
+Staniční deník je důležitou pomůckou operátora radioamatérské komunikační
+služby. Dle platných právních předpisů (vyhláška 156/2005 Sb. o technických a
+provozních podmínkách amatérské radiokomunikační služby)
+%% YARDA2: link na vyhlášku, např. http://aplikace.mvcr.cz/archiv2008/micr/files/205/provadeci_p.pdf 
+musí operátoři klubových stanic provozující amatérské vysílání
+%% YARDA2: vynechávám 'bezdrátové'  
+vést staniční deník obsahující seznam provedených spojení.
+Současná vyhláška již sice nezavádí povinnost vést staniční deník i pro
+operátory jednotlivce, tak jako předćhozí vyhláška, 
+nicméně zavedenou praxí je, že staniční deník vede i většina operátorů
+jednotlivců a to zejména kvůli statistikám, diplomům a QSL (viz dále).
+Díky rozvoji výpočetní techniky je dnes prakticky standardem
+elektronické vedení staničního deníku.
+To přináší oproti klasickému papírovému deníku mnoho výhod, usnadňuje to
+operátorům práci a šetří čas. Vytvoření spojení i jeho zápis je mnohem
+jednodušší, lze např. sledovat aktuální stav a rozložení stanic na mapě světa. Je také možné automaticky přeladit radiostanici na správný
+kmitočet, zjištit detailní informace o operátorovi prostřednictvím Internetu nebo například ve staničním deníku
+rychle vyhledávat podle nejrůznějších kritérií. V neposlední řadě umožňují elektronické staniční deníky automaticky generovat řadu
+statistik.
 
 % dale by to chtelo napsat proc ten denik vubec delame, tedy napsat,
 %  ze dle pravnich predpisu (presne zneni lze dohledat na netu nebo dodam) musi operatori
@@ -36,29 +46,16 @@ Tato bakalářská  práce je rozdělena do šesti kapitol.
 
 První kapitola obsahuje úvod. Dále následuje kapitola popisující stručně historii amatérské radiokomunikační služby,
 v jejíž podkapitolách jsou rovněž vysvětleny důležíté pojmy a popsány služby používané radioamatéry.
-Třetí kapitola popisuje současný stav na poli aplikací pro vedení staničních deníků včetně výhod a nevýhod jednotlivých
-aplikací. V následující čtvrté kapitole je proveden rozbor zadání a jsou navrženy jednotlivé části staničního deníku.
+Třetí kapitola popisuje současný stav, jsou krátce představeny existující
+aplikace pro vedení staničních deníků včetně jejich výhod a nevýhod. V
+následující čtvrté kapitole je proveden analýza a jsou navrženy jednotlivé části staničního deníku.
 Pátá kapitola pojednává a implementaci. V šesté kapitole je zmíněn jednoduchý příklad použití výsledné aplikace
- a v poslední šesté kapitole je práce zhodnocena a jsou zmíněny možnosti jejího budoucího rozšíření.
+ a v poslední šesté kapitole je práce zhodnocena a jsou zmíněny možnosti jejího
+ dalšího rozšíření.
 
 
 %% YARDA: Pojmenoval bych amatérská radiokomunikační služba, dále v textu bych vysvětlil
 %% právní status, např. z ČRK:
-%% Radiokomunikační řád definuje amatérskou službu jako
-%% radiokomunikační službu, která slouží k vlastnímu vzdělávání, vzájemné
-%% komunikaci a technickému zkoumání uskutečňovanému amatéry, to je plně
-%% autorizovanými osobami, které se zajímají o radiotechniku jedině z osobního
-%% snažení a bez peněžních zájmů. Obdobně je definována i amatérská družicová
-%% služba, která k radiové komunikaci používá vesmírné stanice na družicích.
-%%
-%% Radiokomunikační řád je jedním ze základních dokumentů Mezinárodní
-%% telekomunikační unie (anglicky International telecommunication union, dále jen
-%% ITU) byla založena již 17.května 1865 dvaceti evropskými státy, tehdy pod názvem Mezinárodní telegrafní
-%% unie. Naše země stála u jejího zrodu jako součást rakouského mocnářství. ITU
-%% je dnes stálou mezinárodní organizací při OSN pro dálkové telekomunikace a
-%% správu kmitočtového spektra. Opatření ITU jsou v ČR právně závazná z titulu členství ČR v ITU a v
-%% mezích základních dokumentů ITU.
-
 %% YARDA (DONE): mám trochu problém se slovem rádio, podle mě je to slangový výraz
 %% pro radiopřijímač, proto např. na webu ČRK se spojení 'amatérské rádio'
 %% poměrně úspěšně vyhýbají :) Přestože spojení 'amatérské rádio' se u nás
@@ -70,13 +67,34 @@ Pátá kapitola pojednává a implementaci. V šesté kapitole je zmíněn jedno
 \chapter{Amatérská radiokomunikační služba}
 \label{radioamateri}
 
-V této kapitole je stručně popsána historie amatérského vysílání a jsou zde vysvětleny důležité pojmy používané dále v práci.
-Podkapitoly \ref{radioamateri_hist} a \ref{radioamateri_dnes} byly převzaty z \cite{crk_hist}.
+V této kapitole je definována amatérská radiokomunikační služba, dále je stručně popsána historie amatérského vysílání a jsou zde vysvětleny důležité pojmy používané dále v práci. Informace byly převzaty zejména z \cite{crk_hist}.
 
-\section{Historie amatérského vysílání}
+\section{Definice}
+\label{radioamateri_def}
+
+Radiokomunikační řád definuje amatérskou službu jako
+radiokomunikační službu, která slouží k vlastnímu vzdělávání, vzájemné
+komunikaci a technickému zkoumání uskutečňovanému amatéry, to je plně
+autorizovanými osobami, které se zajímají o radiotechniku jedině z osobního
+snažení a bez peněžních zájmů. Obdobně je definována i amatérská družicová
+služba, která k radiové komunikaci používá vesmírné stanice na družicích.
+
+Radiokomunikační řád je jedním ze základních dokumentů Mezinárodní
+telekomunikační unie (anglicky International telecommunication union, dále jen
+ITU). 
+ITU byla založena již 17.května 1865 dvaceti evropskými státy, tehdy pod názvem Mezinárodní telegrafní
+unie. Naše země stála u jejího zrodu jako součást rakouského mocnářství. ITU
+je dnes stálou mezinárodní organizací při OSN pro dálkové telekomunikace a
+správu kmitočtového spektra. %% YARDA2: link na stranky ITU
+Opatření ITU jsou v ČR právně závazná z titulu členství ČR v ITU a v
+mezích základních dokumentů ITU. O národní koordinaci se v ČR stará
+Český telekomunikační úřad (ČTÚ). %% YARDA2: link na ČTÚ
+
+%% YARDA2: nazev kapitoly bych zkratil na historie
+\section{Historie}
 \label{radioamateri_hist}
 Prvotní motivací pro vznik amatérského vysílání %% YARDA (DONE): Tady bych dal např. amatérského vysílaní atd.
-byla myšlenka našich předků rozhlas %% YARDA (DONE): Asi radio jako mají na ČRK.
+byla myšlenka našich předků radio %% YARDA (DONE): Asi radio jako mají na ČRK.
 nejen poslouchat, ale také nezávisle vysílat.
 To dalo vzniknout novému druhu zábavy - amatérskému vysílání (HAM Radio). Lidem, kteří vysílali se pak začalo říkat 
 radioamatéři.
@@ -96,8 +114,9 @@ považovány za bezcenné, a také na vlnách krátkých, o jejichž existenci s
 %% těchto pásem.
 
 Na dlouhých vlnách potřeboval například Marconi mnoho kilowattů výkonu a kilometrové antény pro první spojení
-mezi Evropou a Amerikou. Oproti tomu stačila radiamatérům v roce 1923 díky využití krátkých vln
-pro stejné spojení jen energie jedné žárovky a anténa o velikosti pár desítek metrů. To umožnilo další komerční
+mezi Evropou a Amerikou. Oproti tomu stačila radioamatérům v roce 1923 díky využití krátkých vln
+pro stejné spojení jen energie jedné žárovky a anténa o velikosti pár desítek
+metrů. To odstartovalo další komerční
 využívání těchto pásem.
 
 První pokusy o transatlantické spojení začaly lákat také Pravoslava Motyčku - prvního známého radioamatéra u nás.
@@ -105,8 +124,9 @@ Koncem roku 1924 navázal Motyčka první spojení v Československu.
 Díky Motyčkově inspiraci bylo u nás kolem 30. let 20. století až několik set radioamatérů.
 
 Dalším významným rokem byl rok 1928, kdy byl ruský radioamatér prvním, kdo zachytil volání vzducholodi ITALIA,
-která ztroskotala na cestě od severního pólu. To změnilo pohled na amatérské rádio, do té doby vnímané spíše jako zábava než
-příliš užitečná věc. Při mnoha pohromách na celém světě často pomohla připravenost radioamatérů poskytnout rychlé spojení do
+která ztroskotala na cestě od severního pólu. To změnilo pohled na amatérské
+rádio, do té doby vnímané spíše jako zábava. Při mnoha pohromách na celém světě
+pak pomáhala připravenost radioamatérů poskytnout spojení do
 jiných míst.
 
 \section{Amatérské vysílání dnes}
@@ -114,7 +134,7 @@ jiných míst.
 
 Radioamatéři jsou aktivní prakticky na všech pásmech, pracují s analogovými i
 digitálními druhy provozů, využívají moderní technologii jako např. spojení přes
-převaděče na nízkoorbitálních satelitech, vesmírné stanicii ISS atp. 
+převaděče na nízkoorbitálních satelitech, vesmírné stanicii ISS, atp. 
 
 Za základní pilíř radioamatérského snažení lze však stále považovat vysílání na
 krátkých vlnách, jež umožňuje spojení do celého světa včetně exotických zemí. K
@@ -127,18 +147,18 @@ x", neboli vzdálenost neznámá. V současné době radioamatéři pod pojmem D
 nejčastěji rozumí mezikontinentální spojení.
 Po úspěšně navázaném spojení si radioamatéři vyměnují QSL lístky (písemné potvrzení o
 navázaném spojení ve formátu pohlednice). Nepsaným pravidlem je výměna QSL
-lístků při každém prvním spojení s novou stanicí. Jedním z cílů tohoto snažení je
+lístků při prvním spojení s novou stanicí. Jedním z cílů tohoto snažení je
 získání QSL lístků z co možná nejvíce zemí světa (ideálně všech).
 
-V případě profesionálního komerčního vysílání (například FM rozhlas nebo
+U profesionálního komerčního vysílání (například FM rozhlas nebo
 televize) je třeba pro dosažení kvalitního příjmu být od vysílače vzdálen maximálně
 v desítkách kilometrů. Tyto služby jsou navrženy pro stabilní pokrytí určité
 oblasti v definované kvalitě. Radioamatérům však nejde o profesionální kvalitu.
-Důležitější je překonat vzdálenost. Často se tak snaží o překonávání limitů.
+Důležitější je úspěšné navázání spojení. Radioamatáři se neustále snaží o překonávání limitů.
 Pokud se jim například podaří uskutečnit spojení na jednom pásmu,
 snaží se o totéž i na dalších pásmech, jež však nemusí být za daných
-podmínek pro toto spojení nejvhodnější a například komerční služby by o takové
-konfiguraci vůbec neuvažovaly.
+podmínek pro spojení nejvhodnější a například komerční služby by o takovém
+použití vůbec neuvažovaly.
 
 K navázání spojení radioamatéři využívají kromě
 kvalitní techniky také dobrých znalostí faktorů
@@ -147,15 +167,15 @@ stav ionosféry, denní a roční doba a taktéž aktuální meteorologické pod
 jako například výskyt
 rozhraní teplých a studených mas vzduchu. Využívají se i znalosti o výskytu
 meteoritických rojů nebo polárních září. Profesionálové se nemohou na tyto přechodné faktory spolehnout, ale 
-radioamatéři jsou díky nim schopni navázat spojení až na desítky tisíc
-kilometrů. Radioamatéři pracující na krátkých vlnách jsou nezávislí na externí
+radioamatéři jsou díky nim schopni navázat spojení prakticky po celém světě.
+Radioamatéři pracující na krátkých vlnách jsou nezávislí na externí
 infrastruktuře. O jejich úspěšnosti či neúspěšnosti rozhoduje kvalita použité techniky,
 jejich znalosti a schopnosti, kvalita použitých anténních systémů a příroda. Nezávislost na externí infrastruktuře je velkou výhodou např. v
 případě živelních pohrom. V těchto krizových situacích, kdy jsou často veřejné
 komunikační sítě vyřazeny z provozu, jsou radioamáteři schopni poskytovat
 spojení s okolním světem a předávat informace nezbytné pro řízení záchraných
-operací. V tomto směru se radioamatéři v poslední době pozitivně vyznamenali při
-nedávných neštěstích v Japonsku a v Thajsku. 
+operací. V tomto směru se radioamatéři v poslední době pozitivně vyznamenali
+např. při nedávných neštěstích v Japonsku a v Thajsku. 
 
 Další radioamatérskou aktivitou je práce na VKV/UKV (neboli velmi krátkých/ultra
 krátkých vlnách). Tato spojení se vyznačují mnohem vyšší kvalitou srovnatelnou s
@@ -164,8 +184,8 @@ viditelnost mezi jednotlivými stanicemi (v praxi je přímá radiová viditelno
 většinou srovnatelná nebo díky odrazům a lomům trochu vyšší než přímá optická
 viditelnost).
 Z toho důvodu se na řadu vysokých budov a kopců umisťují tzv. pozemní rádiové
-převaděče. Převaděč přeposílá zesílený signál jež byl přijatý na jedné frekvenci
-na frekvenci jiné. Díky tomu lze spolehlivě pokrýt oblasti jako města či kraje.
+převaděče. Převaděč přijímá signál na jedné frekvenci, zesiluje ho a přeposílá
+dále na frekvenci jiné. Díky tomu lze spolehlivě pokrýt oblasti jako města či kraje.
 Dalším častým vylepšením je propojování těchto převaděčů do sítí. Díky tomu mohou
 radioamatéři navazovat spojení i se stanicemi nacházejícími se v dosahu
 propojených převaděčů. Velice oblíbený v tomto směru je např. systém
@@ -188,24 +208,29 @@ družice kolem Země obíhají na nízkých oběžných drahách (tzv. LEO - Low
 orbit). %% YARDA: může být link
 Díky tomu jsou schopny pokrýt postupně signálem všechny obydlené oblasti.
 
-V radioamatérském vysílání se rovněž konají závody. Cílem je například v určitém čase navázat spojení s co nejvíce jinými
+Radioamatéři rovněž pořádají závody. Cílem je například v určitém čase navázat spojení s co nejvíce jinými
 amatérskými stanicemi v co nejvíce zemích. Jinou variantou je například součet vzdáleností všech spojení vykonaných za určitý
 čas. Jednotlivé závody mají svoje definovaná pravidla a jsou vypisovány pro
 různé kategorie.
 
-K radioamatérům neodmyslitelně patří Morseova abeceda. Morseova abeceda byla prvním dorozumívacím prostředkem používaným v amatérském rádiu a je radioamatéry používána dodnes.
+K radioamatérům neodmyslitelně patří Morseova abeceda. Morseova abeceda byla
+prvním dorozumívacím prostředkem a je radioamatéry používána dodnes.
 Výhodou Morseovy %% YARDA (DONE): asi bych dal velké M
 abecedy je její velká odolnost proti rušení, diký níž lze překonat velké vzdálenosti i s malým
-výkonem. Taktéž pro její příjem a vysílání stačí principiálně jednoduchá zařízení. Další výhodou je to, že odbourává jazykové bariéry, protože se komunikuje převážně pomocí zkratek. Při hlasové komunikaci
+výkonem. Taktéž pro její příjem a vysílání stačí principiálně jednoduchá
+zařízení. Další výhodou je to, že odbourává
+jazykové bariéry, protože se v ní komunikuje
+převážně pomocí krátkých mezinárodních kódů (tzv. Q kódy). Při hlasové komunikaci
 je mezinárodním jazykem angličtina (pokud však protistanice rozumí, lze pro
-spojení použít i libovolný jiný jazyk) a využívá se amplitudové modulace SSB
+spojení použít i libovolný jiný jazyk) a využívá se nejčastěji amplitudové
+modulace s potlačeným postraním pásmem SSB
 nebo FM modulace. Nejnověji se experimentuje i s různými digitálními režimy
 přenosu hlasu, např. D-STAR, %% YARDA (DONE): link
 P25 C4FM, atp.
 
 Historicky se však digitálně přenášely jen data o malém objemu a původně jen nízkou
 přenosovou rychlostí. S postupným vývojem však dochází k nárůstu přenosové
-rychlosti. Tento systém se nazývá Packet radio. V podstatě se jedná o
+rychlosti. Tyto systémy přenosu dat se nazývají Packet radio. V podstatě se jedná o
 radioamatérský Internet, kde se informace přenáší pomocí modifikace protokolu
 X.25 (tzv. AX.25) \cite{ax25}. %% YARDA (DONE): link 
 Jednotlivé uzly sítě jsou vzájemně propojeny (většinou radiovou cestou, nověji i
@@ -226,6 +251,19 @@ Z ryze sportovních aktivit je dobře známý rádiový
 orientační běh (ROB). Cílem je v nejkratším čase najít pomocí
 přijímače v terénu ukryté zamaskované vysílače. 
 Tyto sporty jsou atraktivní a pěstují je i lidé, kteří se jinak o radioamatérství příliš nezajímají.
+
+Z dalších aktivit radioamatérů jistě zaslouží zmínku EME (Earth Moon Earth), kdy
+se navazují spojení odrazem od měsíce. Tato aktivita se v poslední době těší čím
+dál tím vyšší oblibě. Vzhledem k vysokým ztrátám této přenosové cesty se
+většinou komunikuje hluboko pod úrovní šumu pomocí digitálního režimu WSJT.
+%% YARDA2: možná link
+
+Zajímavou oblastí jsou i experimenty v oblasti mikrovln, kde jsou radioamatéři
+držiteli celosvětových rekordů. 
+
+Výše uvedené byl pokus o shrnutí nejrozšířenější činnosti provozovaných
+v současné době radioamatéry. Existuje množství dalších činnosti, nicméně jejich
+kompletní popis by vyžadoval několikanásobně větší prostor.
 
 \section{Staniční deník}
 \label{stanicni_denik}
