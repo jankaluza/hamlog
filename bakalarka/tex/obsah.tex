@@ -1,44 +1,21 @@
 \chapter{Úvod}
 \label{uvod}
 
-Cílem této práce je seznámit se s oblastí radioamatérkého vysílání a se způsobem vedení staničního deníku,
+Cílem této práce je seznámit s oblastí radioamatérkého vysílání a se způsobem vedení staničního deníku,
 zhodnotit dosavadní aplikace používané pro vedení staničního deníku a 
 na základě tohoto zhodnocení vytvořit aplikaci pro vedení staničního deníku s moderní modulární architekturou,
 která umožní jednoduché přidávání nových funkci.
 
 Staniční deník je důležitou pomůckou operátora radioamatérské komunikační
-služby. Dle platných právních předpisů (vyhláška 156/2005 Sb. o technických a
-provozních podmínkách amatérské radiokomunikační služby)
-%% YARDA2: link na vyhlášku, např. http://aplikace.mvcr.cz/archiv2008/micr/files/205/provadeci_p.pdf 
-musí operátoři klubových stanic provozující amatérské vysílání
-%% YARDA2: vynechávám 'bezdrátové'  
-vést staniční deník obsahující seznam provedených spojení.
-Současná vyhláška již sice nezavádí povinnost vést staniční deník i pro
-operátory jednotlivce, tak jako předćhozí vyhláška, 
-nicméně zavedenou praxí je, že staniční deník vede i většina operátorů
-jednotlivců a to zejména kvůli statistikám, diplomům a QSL (viz dále).
+služby. Slouží pro vedení záznamů o provedených spojeních.
 Díky rozvoji výpočetní techniky je dnes prakticky standardem
 elektronické vedení staničního deníku.
-To přináší oproti klasickému papírovému deníku mnoho výhod, usnadňuje to
-operátorům práci a šetří čas. Vytvoření spojení i jeho zápis je mnohem
-jednodušší, lze např. sledovat aktuální stav a rozložení stanic na mapě světa. Je také možné automaticky přeladit radiostanici na správný
-kmitočet, zjištit detailní informace o operátorovi prostřednictvím Internetu nebo například ve staničním deníku
-rychle vyhledávat podle nejrůznějších kritérií. V neposlední řadě umožňují elektronické staniční deníky automaticky generovat řadu
-statistik.
-
-% dale by to chtelo napsat proc ten denik vubec delame, tedy napsat,
-%  ze dle pravnich predpisu (presne zneni lze dohledat na netu nebo dodam) musi operatori
-%  vest stanicni denik v papirove nebo elektronicke podobe. A ze kdyz uz ho vedou v elektronicke 
-% podobe, tak toho vyuzivaji k usnadneni zivota, jednak pri zapisu spojeni (DX cluster, callbook, mapa 
-% sveta, historie spojeni, atp.), jednak k automatickemu sberu statistik a podpore QSL.
-
-%% YARDA (asi DONE, ten uvod mi nejak nejde napsat, mozna to mam ted moc "nasilne" :D
-% ): Přidat úvod - rozvinout abstrakt, aby čtenář věděl o čem to bude.
-%% Strukturu práce pak buďto popsat přimo v tom textu nebo v dalším odstavci nebo přidat podkapitolu
-%% Člěnění práce, nebo struktura práce, atp. Popis kapitol bych asi
-%% nestrukturoval, popsal bych to volně navazujícími větami, např.
-%% První kapitola obsahuje úvod, dále následuje kapitola popisující stručně
-%% historii amatérské radiokomunikační služby, atp.
+To přináší oproti klasickému papírovému deníku mnoho výhod, jež
+operátorům usnadňují práci a šetří čas. Lze tak např. sledovat aktuální stav a
+rozložení stanic na mapě světa, automaticky přeladit radiostanici na kmitočet
+protistanice, získat detailní informace o operátorovi protistanice
+prostřednictvím Internetu, rychle vyhledávat a vytvářet statistiky podle nejrůznějších kritérií a
+mnohé další.
 
 \section{Členení práce}
 
@@ -81,14 +58,16 @@ služba, která k radiové komunikaci používá vesmírné stanice na družicí
 
 Radiokomunikační řád je jedním ze základních dokumentů Mezinárodní
 telekomunikační unie (anglicky International telecommunication union, dále jen
-ITU). 
+ITU). %% YARDA2: link na stranky ITU www.itu.int
 ITU byla založena již 17.května 1865 dvaceti evropskými státy, tehdy pod názvem Mezinárodní telegrafní
-unie. Naše země stála u jejího zrodu jako součást rakouského mocnářství. ITU
+unie. Naše země stála u jejího zrodu ještě jako součást rakouského mocnářství. ITU
 je dnes stálou mezinárodní organizací při OSN pro dálkové telekomunikace a
-správu kmitočtového spektra. %% YARDA2: link na stranky ITU
+správu kmitočtového spektra.
 Opatření ITU jsou v ČR právně závazná z titulu členství ČR v ITU a v
 mezích základních dokumentů ITU. O národní koordinaci se v ČR stará
-Český telekomunikační úřad (ČTÚ). %% YARDA2: link na ČTÚ
+Český telekomunikační úřad (ČTÚ). %% YARDA2: link na ČTÚ www.ctu.cz
+%% YARDA2: radiokomunikační řád je k dispozici k zakoupení na stránkách ITU:
+%% http://www.itu.int/pub/R-REG-RR-2004, dal bych to jako poznámku pod čarou
 
 %% YARDA2: nazev kapitoly bych zkratil na historie
 \section{Historie}
@@ -256,14 +235,14 @@ Z dalších aktivit radioamatérů jistě zaslouží zmínku EME (Earth Moon Ear
 se navazují spojení odrazem od měsíce. Tato aktivita se v poslední době těší čím
 dál tím vyšší oblibě. Vzhledem k vysokým ztrátám této přenosové cesty se
 většinou komunikuje hluboko pod úrovní šumu pomocí digitálního režimu WSJT.
-%% YARDA2: možná link
+%% YARDA2: možná link http://physics.princeton.edu/pulsar/K1JT/
 
 Zajímavou oblastí jsou i experimenty v oblasti mikrovln, kde jsou radioamatéři
-držiteli celosvětových rekordů. 
+držiteli řady světových rekordů. 
 
-Výše uvedené byl pokus o shrnutí nejrozšířenější činnosti provozovaných
-v současné době radioamatéry. Existuje množství dalších činnosti, nicméně jejich
-kompletní popis by vyžadoval několikanásobně větší prostor.
+Tato podkapitola byla pokusem o stručný popis nejrozšířenějších činnosti v současnosti provozovaných
+radioamatéry. Rozhodně zde nebyly popsány všechny činnosti, protože to by si
+vyžádalo několikanásobně více prostoru.
 
 \section{Staniční deník}
 \label{stanicni_denik}
@@ -276,14 +255,16 @@ mají klubové stanice povinnost vést staniční deník a ukládat do něj zejm
 uskutečněného rádiového spojení, použité kmitočtové pásmo, druh provozu,
 volací značku stanice a stanoviště klubové stanice, se kterou bylo uskutečněno rádiové spojení.
 
-Ačkoliv je tato povinnost stanovena pouze pro klubové stanice, většina radioamatérů si vede
-elektronický staniční deník kvůli ulehčení práce zmíněné v kapitole \ref{uvod}.
+Ačkoliv je tato povinnost nyní stanovena pouze pro klubové stanice (předchozí
+vyhláška ji stanovovala pro všechny stanice), většina radioamatérů si vede
+elektronický staniční deník kvůli přehledu, statistikám a
+vyřizování QSL agendy.
 
-Staniční deník si tak lze představit jako jednoduchou databázi spojení provedených operátorem dané stanice.
+Staniční deník si lze představit jako databázi spojení provedených operátorem dané stanice.
 Kromě základních údajů definovaných výše zmíněnou vyhláškou se do staničních deníků ukládají i další údaje
 nad její rámec. V následující části jsou tyto jednotlivé údaje popsány a vysvětleny.
 
-Obrázky použité dále v této podkapitole jsou získány z \cite{mapability}.
+Obrázky použité dále v této podkapitole byly získány z \cite{mapability}.
 
 \subsection{Volací značka}
 
@@ -299,15 +280,24 @@ obsahující všechny aktuálně používané prefixy a informace k nim.
 
 \subsection{Druh provozu}
 
-Spojení provedené na jednom kmitočtu může být uskutečněno různými druhy provozu. Pro provedení spojení tedy nestačí mít pouze stejný kmitočet
-na obou stanicích, ale musí být také použito stejného druhy provozu. Pro analogové vysílání jsou to například: morse (CW), frekvenční modulace (FM), amplitudová modulace (AM),
-amplitudová modulace s potlačeným postraním pásmem (SSB). Digitální druhy provozu jsou například: RTTY, AMTOR, PACTOR, PSK, WSJT, D-Star, P-25, atd.
+Na jednom kmitočtu může být spojení uskutečněno různými druhy provozu. Pro
+úspěšné navázání spojení je tedy nutné, aby obě stanice použily stejný kmitočet
+a stejný druh provozu. Analogové druhy provozu jsou například: telegrafie (CW), frekvenční modulace (FM), amplitudová modulace (AM),
+amplitudová modulace s jedním potlačeným postraním pásmem (SSB). Digitální druhy provozu jsou například: RTTY, AMTOR, PACTOR, PSK, WSJT, D-Star, P-25, atd.
 
-Kompletní přehled všech druhů provozu lze získat na \cite{plan_vkv} pro VKV nebo \cite{plan_kv} pro KV.
+Aby nedocházalo k vzájemnému rušení je pásmo rozděleno na jednotlivé úseky s
+definovaným využitím (např. kmitočty pro telegrafii, kmitočty přednostně určené
+pro mezinárodní spojení, atp.). Toto rozdělení definuje kmitočtový plán (pro KV
+k dispozci např. na \cite{plan_kv}, pro VKV k dispozici např. na
+\cite{plan_kv}).
 
 \subsection{ITU zóny}
 
-Jedním z možných rozdělení světa na menší celky je rozdělení do takzvaných ITU zón.
+Lokalizace protistanice je velmi důležitá, protože nám umožňuje zjistit, jak
+daleko jsme se vlastně dovolali. V dnešní době tak rozšířené GPS, na toto není
+úplně nejvhodnější, protože telegrafický přenos velkého množství číslic
+by nebyl praktický a mohlo by docházet ke zbytečným chybám. Z tohoto důvodu se
+používají různé jiné systémy rozdělení světa. Jedním z nich je rozdělení do takzvaných ITU zón.
 Toto rozdělení lze vidět na obrázku \ref{fig:itu_zony}.
 Systém je pojmenován podle organizace ITU (viz úvodní kapitola). Svět je rozdělen do celkem 
 89 zón ve třech regionech.
@@ -351,10 +341,13 @@ západní Brno. Toto rozdělení je zobrazeno na obrázku \ref{fig:qth}
 
 \subsection{Systém RST}
 
-Důležitým údajem o navázaném spojení je zpráva o slyšitelnosti signálu. V praxi se pro 
-předání těchto údajů používá systém RST. Výměna RST reportu je nezbytným předpokladem platnosti radioamatérského spojení.
+Důležitým údajem, který si stanice navzájem sdělují, je kvalita přijatého
+signálu. V praxi se pro toto používá systém RST. Výměna RST reportu je nezbytným předpokladem platnosti radioamatérského spojení.
 Název systému RST je tvořen iniciálami veličin, které obsahuje: Readability (čitelnost), Strenght (síla), Tone (tón).
-Při analogovém přenosu řeči je použit pouze systém RS, při digitálním přenosu se používá systému RSQ (Readability, Strenght, Quality).
+RT se určuje pouze sluchem (vyžaduje určitý cvik), S se odečítá z měřiče síly
+signálu (tzv. S-meter).
+Při telegrafii se používá systému RST, při analogovém přenosu řeči se používá
+pouze systému RS, při digitálním přenosu se používá systému RSQ (Readability, Strenght, Quality).
 
 Každá veličina se udává pomocí číslice z intervalu 1 - 9 (čitelnost z intervalu 1 - 5), kde nejnižšímu číslu odpovídá nejnižší kvalita.
 Maximálně nejlepší report v systému RST je vyjádřen údajem 599, v systému RS údajem 59.
@@ -382,16 +375,15 @@ jsou stručně popsány online služby, které jsou v navrhovaném staničním d
 \subsection{DXCluster}
 
 DXCluster je komunitní službou umožňující radioamatérovi informovat ostatní
-radioamatéry o tom, kdo aktuálně vysílá. Kromě
-volací značky se posílá i poloha a frekvence, na které radioamatér vysílá. Díky této službě tak lze jednodušeji navazovat
-spojení. Protokol služby DXCluster je postaven na službě telnet a není nikterak
+radioamatéry o tom, kdo, kde a odkud aktuálně vysílá. Díky této službě tak lze jednodušeji navazovat
+spojení. Protokol služby DXCluster je v Internetu postaven na službě telnet a není nikterak
 složitý. Lze jej jednoduše číst a zpracovávat. Tato služba byla historicky
 šířena přes Packet radio, ale v současné době se k ní lze pohodlně připojit i přes
 Internet.
 
 \subsection{QRZ.com}
 
-QRZ.com je největší online databází radioamatérů z celého světa. Na základě volací značky lze s její pomocí zjistit detailní
+QRZ.com je v současnosti asi největší online databází radioamatérů z celého světa. Na základě volací značky lze s její pomocí zjistit detailní
 informace (například jméno nebo přesnou polohu) o jejím majiteli. Vyhledávat lze i pomocí speciálního webového rozhraní
 postaveného na technologii XML. To je velmi výhodné pro tvorbu aplikací využívajících QRZ.com pro zjištění informací o
 operátorech.
@@ -401,7 +393,7 @@ operátorech.
 
 V této kapitole jsou popsány existující softwarové staniční deníky. Každá aplikace je stručně
 popsána a jsou zmíněny i její klady a zápory. Na základě této kapitoly bude dále
-vytvořen základní návrh vlastního staničního deníku.
+vytvořen vlastní návrh staničního deníku.
 
 \section{Logger32}%% YARDA (DONE): logovací aplikace nahradit staniční deník
 
@@ -419,12 +411,12 @@ Lze vytvářet pluginy pro vyhledávání detailních informací na základě vo
 s rozšiřujícími informacemi. Logger32 také umožňuje dálkové ovládání
 radiostanice a příslušenství. Jeho velkou výhodou je univerzálnost.
 
-Hlavní nevýhodou aplikace Logger32 je její závislost na systému Windows. Moderním trendem dnešní doby je programování multiplatformních
-aplikací. Další nevýhodou je absence zdrojových kódů, takže je rozšířitelnost aplikace limitována rozhraním modulů definovaným
+Hlavní nevýhodou aplikace Logger32 je její závislost na systému Windows. Další nevýhodou je absence zdrojových kódů, takže je rozšířitelnost aplikace limitována rozhraním modulů definovaným
 tvůrcem aplikace. Nevýhodou je též implementace v jazyce Visual Basic
 (výkonostní problémy).
-Mezi nevýhody můžeme řadit také nemožnost použití externí databáze jako je například SQLite3 nebo MySQL. Problémem může rovněž být
-situace, kdy by uživatel potřeboval např. z terénu 
+Taktéž pro ukládání dat nelze použít externí databázi jako například SQLite3
+nebo MySQL. Problémem může být rovněž nemožnost přistupovat do databáze jiným
+způsobem, např. není možné řešit situaci, kdy by uživatel potřeboval z terénu 
 zapsat %% YARDA (DONE): místo zalogovat používat např. zapsat
 nové spojení z mobilního telefonu nebo jiného zařízení s nestandardním operačním systémem.
 
@@ -464,10 +456,11 @@ Problémem však může být množství voleb, ve kterých se uživatel lehce zt
 \label{fig:ham_radio_deluxe}
 \end{figure}
 
-Jedná se o uzavřenou aplikaci, což brání jejímu dalšímu rozšířovaní širokou veřejností. Oproti aplikaci
+Jedná se o uzavřenou aplikaci, což brání jejímu dalšímu rozšířovaní zájemci z
+řad široké veřejnosti. Oproti aplikaci
 Logger32 neposkytuje ani API pro tvorbu pluginů. Na druhou stranu obsahuje HAM Radio Deluxe všechny
 potřebné nástroje pro provoz staničního deníku. Umožňuje také použití MySQL nebo MSSQL databáze.
-Nevýhodou tak zůstává jeho uzavřenost a nemožnost přístupu k deníku pomocí aplikací třetích stran.
+Nevýhodou tak zůstává jeho uzavřenost.
 
 
 \chapter{Návrh}
