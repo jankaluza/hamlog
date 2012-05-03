@@ -474,7 +474,11 @@ na výslednou aplikaci.
 \begin{itemize}
 \item \textbf{Multiplatformnost} - Nutným požadavkem je možnost spuštění
 aplikace (nebo přeložení zdrojového kódu) na různých operačních systémech / platformách.
-\item \textbf{Architektura klient-server} - Jádro aplikace je tvořeno serverem.
+\item \textbf{Architektura klient-server} - Jádro aplikace je tvořeno
+serverem. %% YARDA2: je to požadavek, takže by to mělo být dále formulováno podobně
+%% jako předchozí požadavek, např. jádro aplikace bude tvořit server, nebo:
+%% dalším požadavkem je použití serveru, který umožní vedení deníku více
+%% uživatelů.. a podobně dále v této kapitole.
 Server umožňuje vedení deníků více uživatelů zároveň a poskytuje rozhraní pro přídavné moduly.
 Klientská aplikace se připojí k serveru a prostředníctvím komunikačního protokolu s ním komunikuje.
 Díky tomuto rozdělení je možné přidávat záznamy do centrální databáze z více zařízení a pracovat
@@ -520,25 +524,30 @@ V následujících podkapitolách jsou jednotlivé části aplikace stručně po
 %% a vychválit se, že byl navržen a implementován vlastní protokol, jsou to plus
 %% body :)
 
-Komunikační protokol je důležitou součástí síťových aplikací. Určuje, jakým způsobem způsobem spolu komunikují
-klientská a serverová část. Při použití příliš jednoduchého a úzce zaměřeného protokolu je v budoucnu problém
-jej dále rozšiřovat. Naopak použití složitého protokolu znamená složitější implementaci a náročnější řízení komunikace.
+Komunikační protokol je důležitou součástí síťových aplikací. Určuje, jakým
+způsobem spolu komunikuje
+klientská a serverová část. Použití příliš jednoduchého a úzce zaměřeného
+protokolu by mohlo znemožnit budoucí rozšířitelnost. Naopak použití zbytečně
+komplikovaného protokolu by znamenalo složitejší řízení komunikace a náročnější
+implementaci.
 
 Pro účel staničního deníku jsem se rozhodl použít vlastní protokol inspirovaný protokolem HTTP \cite{http},
 převážně kvůli jeho jednoduchosti a účelnosti z hlediska modularity.
 
 %% YARDA (DONE): taky napsat výhodu prostupnost přes firewally proxy, atp.
 Jednotlivé moduly serveru mají své vlastní URI a klientské požadavky jsou pak směrovány podle URI na konkrétní modul,
-který vygeneruje odpověď poslanou klientovi. Komunikace tedy probíhá v režimu požadavek-odpověď.
+který generuje odpověď pro klienta. Komunikace tedy probíhá v režimu požadavek-odpověď.
 
-Protokol je zpětně kompatibilní s protokolem HTTP, ale jsou použity jen některé jeho části. Díky této kompatibilitě
-lze pak jednoduše napojit serverovou aplikaci na již prověřené technologie postavené na bázi HTTP jako je například
-AJAX \cite{ajax}. Další výhodou tohoto protokolu je jeho jednoduché tunelování skrz HTTP proxy a prakticky žádná
-omezení běžnými firewally.
+Navržený protokol je zpětně kompatibilní s protokolem HTTP. Díky této kompatibilitě
+je dále možné serverovou aplikaci jednoduše napojit na ověřené technologie postavené na bázi HTTP jako je například
+AJAX \cite{ajax}. Další výhodou tohoto protokolu je jeho dobrá prostupnost přes
+existující HTTP proxy a minimální omezení existujícími firewally.
 
 
-Data přenášená protokolem HTTP jsou ve formátu CSV \cite{csv}, kde první řádek reprezentuje hlavičku dat. Standardní názvy
-sloupců ve hlavičce protokolu jsou:
+Přenášená užitečná data jsou ve formátu CSV \cite{csv}, kde první řádek reprezentuje hlavičku dat. Standardní názvy
+sloupců ve hlavičce protokolu jsou: %% YARDA2: opět, pokud je kapitola nadepsaná
+%% návrh, bylo by dobré psát např: názvy sloupců .. byly zvoleny následovně.. a
+%% obdobně dále
 \begin{itemize}
 \item \textbf{id} - ID záznamu v logu. Koresponduje s ID v databázi a slouží jako klíč pro vybrání konkrétního řádku.
 \item \textbf{user\_id} - ID uživatele, jemuž záznam v logu patří.
@@ -572,23 +581,29 @@ Jednotlivé moduly serveru však mohou použít i své vlastní názvy sloupců 
 %% např. přihlášení uživatele a jednotlivé příklady bych přesunul do kapitoly
 %% implementace.
 
-V této podkapitole je zmíněn seznam případu použití navrhovaného protokolu. Jednotlivé případy použití
-budou implementovány jako samostatné moduly (viz podkapitola \ref{navrh_moduly}).
+V této podkapitole jsou uvedeny případy použití (use cases), které vyplynuly z
+analýzy funkce existujících deníků. Tyto případy musí
+navrhovaný protokol obsloužit. Pro uvedené případy použití
+budou implementovány samostatné moduly (viz podkapitola \ref{navrh_moduly}).
 
 \begin{itemize}
 \item Registrace uživatele.
-\item Přihlásení uživatele - Přihlášení je prováděno metodou Digest Access Authentication definovanou v
-RFC 2617 \cite{rfc2617}. Díky tomu se heslo neposílá při přihlášení po síti a na straně serveru je možné ukládat
+\item Přihlásení uživatele - Přihlášení metodou Digest Access Authentication definovanou v
+RFC 2617 \cite{rfc2617}. 
+Díky tomu se heslo neposílá %% YARDA2: opět návrh, tedy: .. heslo se numusí
+%% posílat po síti 
+při přihlášení po síti a na straně serveru je možné ukládat
 pouze jeho otisk vytvořený funkcí MD5 \cite{md5}. To znemožňuje zjištění hesla odposlechem nebo jeho odcizení ze
 serveru.
-\item Vyžádání kompletního deníku a jeho částí.
-\item Zapsání nového záznamu, jeho následná editace a případné odstranění.
-\item Získání detailních informací o majiteli volacího znaku.
-\item Ovládání radiostanice - změna a získání frekvence.
+\item Vyžádání kompletního deníku nebo jeho částí.
+\item Vložení nového záznamu, jeho následná editace a případné odstranění.
+\item Zjištění detailních informací o majiteli volacího znaku.
+\item Ovládání radiostanice - změna a zjištění frekvence.
 \item Získání dat ze služby DXCluster.
 \end{itemize}
 
 \subsection{Ukázky použití protokolu}
+%% YARDA2: toto spíše do implementace
 
 \subsubsection{Vyžádání logu}
 
@@ -652,6 +667,8 @@ Authorized
 Server je aplikace bez uživatelského rozhraní %% YARDA (DONE): místo konzolová aplikace raději aplikace
 %% bez uživatelského rozhraní 
 zpracovávající klientské požadavky. Administrátor může server konfigurovat konfiguračním souborem
+%% YARDA2: opět návrh tedy např.: požadavkem je možnost konfigurace pomocí
+%% souborů v INI  formátu
 v INI formátu. %% YARDA (DONE): popsat co to je, nebo link 
 Jedná se o jednoduchý formát umožňující rozdělit konfiguraci do kategorií
 a v každé definovat dvojice klíč=hodnota sloužící ke konfiguraci. Použití INI formátu lze vidět na následující
@@ -957,8 +974,8 @@ a je vrácen výsledek.
 \subsection{Moduly}
 \label{implementace_moduly}
 
-Moduly jsou implementovány jako dynamické knihovny. Každý modul musí dědit třídu Modul (zprostředkovaně například přes třídu RequestResponder)
-a implementovat její čistě virtuální
+Moduly jsou implementovány jako dynamické knihovny. Každý implementovaný modul dědí třídu Modul (zprostředkovaně například přes třídu RequestResponder)
+a implementuje její čistě virtuální
 (pure virtual) metody (\cite{oop}). Toto demonstruje obrázek \ref{fig:moduly}. %% YARDA (DONE): hodil by se odkaz na nějakou knihu o OOP 
 Veškeré klientské požadavky jsou pak směrovány na konkrétní modul podle URI instancí třídy ModuleManager.
 
@@ -1073,7 +1090,7 @@ dalších požadavků od klienta.
 Modul Hamlib (URI "/hamlib") umožňuje ovládat radiostanici připojenou k
 počítačí, na kterém běží serverová aplikace.
 Pro změnu a získání frekvence využívá knihovnu Hamlib (Ham Radio Control Libraries) \cite{hamlib}.
-Tato knihovna poskytuje jednotné rozhraní pro ovládání radiostanic různých výrobců a typů.
+Tato knihovna poskytuje jednotné rozhraní pro ovládání radiostanic od různých výrobců a typů.
 Implementuje nízkoúrovňovou komunikaci s radiostanicí a dovoluje programátorovi ovládat 
 radiostanici jednoduchými příkazy.
 Modul byl prakticky otestován s radiostanicí ICOM IC-706MKIIG.
@@ -1398,7 +1415,7 @@ V této kapitole je stručně popsáno typické použití aplikace na jednoduch�
 
 Po přihlášení k serveru vidí operátor radiostanice hlavní okno aplikace (obrázek \ref{fig:okno}).
 V tomto hlavním okně se po chvíli začnou v jeho dolní části zobrazovat ostatní radioamatéři, kteří
-právě vysílají. Operátor má možnost vidět na mapě světa umístění těchto stanic. Pro získání většího 
+právě vysílají (DX Cluster). Operátor má možnost vidět na mapě světa umístění těchto stanic. Pro získání většího 
 detailu lze mapu světa přiblížit na požadovanou oblast. Může také změnit zobrazení a zobrazit klasický
 globus (obrázek \ref{fig:globus}).
 
@@ -1414,16 +1431,17 @@ navázat spojení s někým, s kým už se v minulosti spojil.
 Během komunikace vyplní operátor další požadované údaje jako například přijatý a odeslaný RST report. Jakmile je komunikace
 u konce, uzavře operátor dialogové okno pro přidání nového záznamu a spojení se zapíše do deníku.
 
-Pokud se operátor v bodoucnu rozhodne záznam o spojení editovat (například za účelem změny příznaku o 
+Pokud se operátor v budoucnu rozhodne záznam o spojení upravit (například za účelem změny příznaku o 
 přijatém QSL lístku), lze jednoduše poklepat na spojení a editovat ho ve stejném dialogu jako při jeho
 přidání.
 
 \chapter{Závěr}
 Cílem této bakalářské práce bylo navhrnout a implementovat softwarovou aplikaci
 pro vedení staničního deníku určeného pro operátory amatérské radiokomunikační služby. Důraz byl kladen zejména
-na modularitu a otevřenost návrhu. Pro úspěšné dokončení práce bylo nutné se seznámit s radioamatérstvím,
+na modularitu a otevřenost návrhu. Pro úspěšné dokončení práce bylo nutné se
+seznámit se 
 základními principy, aplikacemi a terminologií používanou radiamatéry.
-Dále bylo nutné zorientovat se v 
+Bylo nutné se zorientovat v 
 radioamatérské technologii a pochopit fungování celého radioamatérského společenství.
 Výsledný návrh se snaží odstranit problémy jimiž trpí v současné době dostupné
 aplikace a zaplnit volné místo mezi aplikacemi umožňujícími vedení staničního deníku.
@@ -1435,14 +1453,15 @@ Serverová aplikace je plně modulární a umožňuje jednoduché přidávání 
 funkcí pomocí modulů. Splňuje veškeré požadavky na základní vedení staničního deníku (přidávání/editace záznamů, vyhledávání 
 informací o ostatních radioamatérech nebo například ovládání vysílačky připojené k počítači).
 
-Pokud serverová aplikace běží na skutečném serveru, je díky systému modulů jednoduše vytvořit modul
-pro generování deníku na webové stránky. Případně, díky použití protokolu kompatibilního s protokolem HTTP, použít rovnou
+Pokud serverová aplikace poběží na skutečném serveru, je díky systému modulů
+možné např. jednoduše vytvořit modul
+pro generování deníku na webové stránky. Případně, díky využití protokolu kompatibilního s protokolem HTTP, použít rovnou
 serverovou aplikaci jako jednoduchý webový server.
-%% YARDA (DONE?): vypíchnout, že se to může použít např. pro automatické generování logu
+%% YARDA (DONE): vypíchnout, že se to může použít např. pro automatické generování logu
 %% na WWW stránky, atp.
 
 Klientská knihovna je důležitým prvkem implementace, protože implementuje nízkoúrovňovou komunikaci s serverovou aplikací
-a umožňuje tak grafickému uživatelskému rozhraní věnovat se pouze na komunikaci s uživatelem. Klientskou knihovnu
+a umožňuje tak grafickému uživatelskému rozhraní zaměřit se pouze na komunikaci s uživatelem. Klientskou knihovnu
 je možné použít pro jednodušší tvorbu klientských aplikací a v budoucnu se předpokládá vznik dalších specializovaných
 klientských aplikací například pro zapisování spojení z terénu prostřednicvím mobilního telefonu.
 
@@ -1453,7 +1472,8 @@ pro vedení staničního deníku. Je graficky přehledné a pro stávající rad
 
 Celkově je výsledná aplikace dobrým základem pro implementaci dalších nadstandardních funkcí. Byla uvolněna pod licencí
 GPL a je k dispozici na webu Githubu. Během vývoje byla aplikace konzultována se skutečnými radioamatéry, kteří rovněž
-přislíbili účast na dalším vývoji. V budoucnu je pak v plánu zabalení aplikace pro nejpoužívanější linuxové distribuce.
+přislíbili účast na dalším vývoji. V budoucnu je pak v plánu integrace aplikace
+do nejpoužívanějších linuxových distribucí (balíčky RPM, DEB, ebuild, \ldots).
 
 %% YARDA (DONE): pochlubit se, že se jedná o opensource projekt uvolněný pod GPL, který
 %% je k dispozici na githubu (link), bude zabalen do fedory a už má svoje příznivce
