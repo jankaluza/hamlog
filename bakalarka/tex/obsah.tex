@@ -242,16 +242,22 @@ Tyto sporty jsou atraktivní a pěstují je i lidé, kteří se jinak o radioama
 
 Z dalších aktivit radioamatérů jistě zaslouží zmínku EME (Earth Moon Earth), kdy
 se navazují spojení odrazem od měsíce. Tato aktivita se v poslední době těší čím
-dál tím vyšší oblibě. Vzhledem k vysokým ztrátám této přenosové cesty se
-většinou komunikuje hluboko pod úrovní šumu pomocí digitálního režimu WSJT.
+dál tím vyšší oblibě. Vzhledem k vysokým ztrátám přenosové cesty
+komunikace většinou probíhá hluboko pod úrovní šumu pomocí digitálního režimu WSJT.
 %% YARDA2: možná link http://physics.princeton.edu/pulsar/K1JT/
 
 Zajímavou oblastí jsou i experimenty v oblasti mikrovln, kde jsou radioamatéři
 držiteli řady světových rekordů. 
 
+Radioamatérem se dnes může stát každý, kdo
+složí státní zkoušku z radiokomunikačních předpisů, radiokomunikačního provozu,
+elektrotechniky a radiotechniky, díky čemuž získá průkaz odborné způsobilosti a
+následně pak i koncesi a vlastní značku. Více informací lze nalézt např. na
+%% YARDA3: link na http://www.crk.cz/CZ/KONCEC 
+
 Tato podkapitola byla pokusem o stručný popis nejrozšířenějších činnosti v současnosti provozovaných
 radioamatéry. Rozhodně zde nebyly popsány všechny činnosti, protože to by si
-vyžádalo několikanásobně více prostoru.
+vyžádalo několikanásobně více prostoru. 
 
 \section{Staniční deník}
 \label{stanicni_denik}
@@ -512,10 +518,11 @@ bude oddělena od nízkoúrovňové komunikace se serverem díky klientské knih
 pro komunikaci se serverem a umožní použití libovolného grafického rozhraní bez zbytečné duplikace kódu.
 \end{itemize}
 
-Aplikace se tedy bude skládat z modulárního serveru, klientské knihovny a grafického uživatelského rozhraní.
+Aplikace bude tedy složena z modulárního serveru, klientské knihovny a grafického uživatelského rozhraní.
 Toto rozdělení lze vidět i na obrázku \ref{fig:architektura}.
-Serverová část bude fungovat nezávisle na klientské části. Obě části však mohou bez výrazného dopadu 
-na výkonnost běžet lokálně na jednom počítači a výsledná aplikace tak bude použitelná i bez
+Serverová část bude fungovat nezávisle na klientské části. Obě části však budou
+moci bez výrazného dopadu 
+na výkonnost běžet o lokálně na jednom počítači a výsledná aplikace tak bude použitelná i bez
 jakéhokoliv speciálního hardwaru.
 
 V následujících podkapitolách jsou jednotlivé části aplikace stručně popsány.
@@ -553,16 +560,18 @@ Pro účel staničního deníku jsem se rozhodl použít vlastní protokol inspi
 převážně kvůli jeho jednoduchosti a účelnosti z hlediska modularity.
 
 %% YARDA (DONE): taky napsat výhodu prostupnost přes firewally proxy, atp.
-Jednotlivé moduly serveru budou mít své vlastní URI a klientské požadavky pak budou směrovány podle URI na konkrétní modul,
-který generuje odpověď pro klienta. Komunikace tedy probíhá v režimu požadavek-odpověď.
+Jednotlivé moduly serveru budou mít přiřazeno své vlastní URI a klientské
+požadavky budou směrovány podle URI na konkrétní modul.
+Ten pak vygeneruje odpověď pro klienta. Komunikovat se tedy bude v režimu požadavek-odpověď.
 
-Navržený protokol je zpětně kompatibilní s protokolem HTTP. Díky této kompatibilitě
+Důležitá je i zpětně kompatibilita s protokolem HTTP. Díky této kompatibilitě
 bude možné serverovou aplikaci jednoduše napojit na ověřené technologie postavené na bázi HTTP jako je například
-AJAX \cite{ajax}. Další výhodou tohoto protokolu je jeho dobrá prostupnost přes
+AJAX \cite{ajax}. Nezanedbatelnou výhodou takového protokolu je i dobrá prostupnost přes
 existující HTTP proxy a minimální omezení existujícími firewally.
 
 
-Přenášená užitečná data budou ve formátu CSV \cite{csv}, kde první řádek reprezentuje hlavičku dat. Standardní názvy
+Pro jednoduchost se pro přenos užitečných dat využije formátu CSV \cite{csv}. První řádek
+bude reprezentovat hlavičku dat. Názvy jednotlivých
 sloupců byly zvoleny následovně: %% YARDA2 (DONE): opět, pokud je kapitola nadepsaná
 %% návrh, bylo by dobré psát např: názvy sloupců .. byly zvoleny následovně.. a
 %% obdobně dále
@@ -592,9 +601,11 @@ obdržel QSL lístek od radioamatéra, se kterým bylo spojení navázáno.
 \item \textbf{comments} - Komentáře.
 \end{itemize}
 
-Jednotlivé moduly serveru však mohou použít i své vlastní názvy sloupců pro položky, které nejsou v tomto seznamu.
+Jednotlivé moduly serveru však budou moci využít i své vlastní názvy sloupců pro položky, které nejsou v tomto seznamu.
 
-\subsection{Požadavky na komunikační protokol}
+\subsection{Případy použití}
+%% YARDA3: navrhuji změnit název kapitoly na případy použití
+
 %% YARDA (DONE): specifikoval bych výčtem, co všechno ten protokol musí umět a poskytovat,
 %% např. přihlášení uživatele a jednotlivé příklady bych přesunul do kapitoly
 %% implementace.
@@ -603,15 +614,16 @@ V této podkapitole jsou uvedeny případy použití (use cases), které vyplynu
 analýzy funkce existujících deníků. Tyto případy musí
 navrhovaný protokol obsloužit. Pro uvedené případy použití
 budou implementovány samostatné moduly (viz podkapitola \ref{navrh_moduly}).
+Jedná se o následující případy použití:
 
 \begin{itemize}
 \item Registrace uživatele.
 \item Přihlásení uživatele - Přihlášení metodou Digest Access Authentication definovanou v
 RFC 2617 \cite{rfc2617}. 
-Díky tomu se heslo nemusí posílat při přihlášení po sítí %% YARDA2 (DONE): opět návrh, tedy: .. heslo se numusí
+Díky tomu se nebude muset heslo posílat při přihlášení po sítí %% YARDA2 (DONE): opět návrh, tedy: .. heslo se numusí
 %% posílat po síti 
-a na straně serveru je možné jej ukládat
-pouze jeho otisk vytvořený funkcí MD5 \cite{md5}. To znemožňuje zjištění hesla odposlechem nebo jeho odcizení ze
+a na straně serveru bude možné jej ukládat
+pouze jeho otisk vytvořený funkcí MD5 \cite{md5}. To znemožní zjištění hesla odposlechem nebo jeho odcizení ze
 serveru.
 \item Vyžádání kompletního deníku nebo jeho částí.
 \item Vložení nového záznamu, jeho následná editace a případné odstranění.
@@ -630,8 +642,8 @@ pomocí konfiguračního souboru. Jako formát tohoto konfiguračního souboru b
 Jedná se o jednoduchý formát umožňující rozdělit konfiguraci do kategorií
 a v každé definovat dvojice klíč=hodnota sloužící ke konfiguraci. Tento formát více než dostačuje 
 navrhovanému použití, umožňuje konfiguraci serveru bez speciálních nástrojů a je běžně používaný
-ve většině operačních systémů
-Použití INI formátu lze vidět na následující
+ve většině operačních systémů.
+Příklad použití INI formátu lze vidět na následující
 ukázce konfigurace serveru:
 
 \begin{verbatim}
@@ -645,12 +657,13 @@ database = test.sql
 \end{verbatim}
  
 Jak již bylo zmíněno, server bude schopen obsluhovat více uživatelů současně.
-Uživatelé se k serveru přihlašují pomocí jména a hesla. Noví uživatelé se musí nejprve registrovat.
+Uživatelé se k serveru přihlásí pomocí jména a hesla. Noví uživatelé se budou
+muset nejprve registrovat.
 
 Návrh serveru počítá s použitím libovolné databáze pro uchování perzistentních dat avšak v rámci této bakalářské
 práce je použiva databáze SQLite3.
 
-Server bude modulární a veškeré služby, které uživateli poskytuje, jsou součástí modulů. Server samotný bude pouze spravovat
+Server bude modulární a veškeré služby, které uživateli poskytne, budou součástí modulů. Server samotný bude pouze spravovat
 připojené uživatele a delegovat požadavky na jednotlivé moduly.
 
 \subsection{Moduly}
@@ -671,7 +684,7 @@ rozebrána v následující podkapitole \ref{navrh_databaze}.
 \label{fig:navrh_moduly}
 \end{figure}
 
-Jednotlivé moduly serveru jsou navrženy jako dynamické knihovny.
+Jednotlivé moduly serveru budou realizovány jako dynamické knihovny.
 Při spuštění serveru budou nahrány všechny moduly z adresáře nastavitelného pomocí konfiguračního souboru.
 
 Každý modul bude obsahovat následující informace:
@@ -683,55 +696,61 @@ komunikovat i s pro ni neznámými moduly pouze na základě znalosti jejich typ
 \item \textbf{Popis} - Krátký text popisující funkci modulu. V grafickém rozhraní bude tento text zobrazen v seznamu modulů.
 \end{itemize}
 
-V rámci této bakalářské práce budou implementovány moduly následujících typů (lze
-však rozšířit):
+V rámci této bakalářské práce budou uvažovány moduly následujících typů (lze
+však snadno rozšířit):
 
 \begin{itemize}
-\item \textbf{CALLINFO} - Moduly tohoto typu poskytují rozličné informace (například polohu nebo jméno operátora)
-na základě volací značky. Data jsou získávána z veřejně dostupných služeb, nebo z databáze uložené na serveru.
-\item \textbf{DXCLUSTER} - Moduly typu DXCLUSTER poskytují informace (například frekvenci a polohu) o stanicích,
-které aktuálně vysílají.
+\item \textbf{CALLINFO} - Moduly tohoto typu budou poskytovat rozličné informace (například polohu nebo jméno operátora)
+na základě volací značky. Data lze získat např. z veřejně dostupných služeb, nebo z databáze uložené na serveru.
+\item \textbf{DXCLUSTER} - Moduly typu DXCLUSTER budou realizovat službu typu
+DXCluster, tedy budou poskytovat informace (například frekvenci a polohu) o
+aktuálně vysílajících stanicích.
 \end{itemize}
 
 \subsubsection{Rozhraní modulů typu CALLINFO}
 
-S moduly typu CALLINFO lze komunikovat následujícími způsoby:
+Pro moduly typu CALLINFO byl zvolen následující způsob komunikace:
 
 \begin{itemize}
 \item \textbf{Požadavek typu POST na URI "/modul"} - %% YARDA:  link co to je
 %% POST
-Jako data je v požadavku zaslána volací značka operátora. Odpověď obsahuje
+Jako data se v požadavku zašle volací značka operátora. V odpovědi modulu se pak
+vrátí
 veškeré zjistitelné informace o volací značce ve formátu CSV definovaném v podkapitole \ref{navrh_protokol}.
 \item \textbf{Požadavek typu GET na URI "/modul/username"} - %% YARDA: link co
 %% to je GET
-Pokud modul vyžaduje registraci uživatelského jména a hesla pro
-přístup k databázi volacích značek (například v případě, že modul přistupuje ke službě, která je jen pro registrované), musí modul
+Pokud bude modul vyžadovat registraci uživatelského jména a hesla pro
+přístup k databázi volacích značek (například v případě, že bude modul
+přistupovat ke službě, která je jen pro registrované uživatele), musí modul
 implementovat zpracování tohoto URI a vrátit aktuálně registrované uživatelské jméno nebo prázdný řetězec. Klient pak může tohoto
 chování využít pro zjištení, jestli je potřeba být pro použití modulu registrován.
-\item \textbf{Požadavek na URI "/modul/register"} - Slouží k registraci uživatelského jména a hesla pro použití modulu.
-Jméno a heslo jsou předány v hlavičce paketu pod klíči "username" a "password".
+\item \textbf{Požadavek na URI "/modul/register"} - Využije se k registraci uživatelského jména a hesla pro použití modulu.
+Jméno a heslo se předá v hlavičce paketu pod klíči "username" a "password".
 \end{itemize}
 
 \subsubsection{Rozhraní modulů typu DXCLUSTER}
 
-Moduly typu DXCLUSTER poskytují následující funkce:
+Pro moduly typu DXCLUSTER byl zvolen následující způsob komunikace:
 
 \begin{itemize}
-\item \textbf{Požadavek typu GET na URI "/modul"} - Modul vrátí seznam nově vysílajících stanic od posledního dotazu. Klient se tak
-musí opakovaně ptát, aby získal nové vysílající stanice.
-\item \textbf{Požadavek typu GET na URI "/modul/username"} - Význam je stejný jako u modulu typu CALLINFO.
-\item \textbf{Požadavek na URI "/modul/register"} - Význam je stejný jako u modulu typu CALLINFO.
+\item \textbf{Požadavek typu GET na URI "/modul"} - Modul vrátí seznam nově vysílajících stanic od posledního dotazu.
+\item \textbf{Požadavek typu GET na URI "/modul/username"} - Obdnobný význam
+jako u modulu typu CALLINFO (zjištění nutnosti registrace).
+\item \textbf{Požadavek na URI "/modul/register"} - Obdobný význam jako u modulu
+typu CALLINFO (registrace).
 \end{itemize}
 
 \subsection{Databáze}
 \label{navrh_databaze}
 
 Součástí serveru bude rozhraní pro přístup k databázi. Veškerá data všech
-uživatelů jsou uložena v této databázi.
-Návrh serveru počítá s využitím databáze jakéhokoliv typu (SQLite3, MySQL, PostgreSQL, \dots). Jednotlivé moduly budou
-umět prostřednictvím databázového rozhraní s databází pracovat a spouštět nad ní prakticky libovolné dotazy.
+uživatelů budou uložena v této databázi.
+Návrh serveru počítá s využitím databáze jakéhokoliv typu (SQLite3, MySQL,
+PostgreSQL, \dots). Jednotlivé moduly musí být schopny s databází pracovat
+prostřednictvím databázového rozhraní a spouštět nad ní dotazy.
 
-Na obrázku \ref{fig:databaze} je zobrazeno obecné schéma databáze použité pro uložení všech potřebných informací. Tabulky
+Na obrázku \ref{fig:databaze} je zobrazeno obecné schéma databáze jež by mělo
+být dostatečné pro uložení všech potřebných informací. Tabulky
 z tohoto obrázku jsou pak dále stručně popsány.
 
 \begin{figure}[h]
@@ -743,13 +762,14 @@ z tohoto obrázku jsou pak dále stručně popsány.
 
 \subsubsection{Tabulka users}
 
-Tabulka users obsahuje informace potřebné pro přihlášení uživatele (deník může
-používat více uživatelů). Každý uživatel zde má uloženo ID, volací značku a
+Tabulka users bude sloužit pro uložení informací potřebných pro přihlášení uživatele (deník může
+používat více uživatelů). Každý uživatel zde bude mít uloženo ID, volací značku a
 heslo.
 
 \subsubsection{Tabulka logbook}
 
-V tabulce logbook jsou uloženy deníky všech uživatelů. Obsahuje následující sloupce:
+V tabulce logbook budou uloženy deníky všech uživatelů. Pro uložení dat byly
+zvoleny následující sloupce:
 
 \begin{itemize}
 \item \textbf{id} - ID záznamu.
@@ -767,30 +787,34 @@ V tabulce logbook jsou uloženy deníky všech uživatelů. Obsahuje následují
 \item \textbf{itu} - ITU zóna.
 \item \textbf{rst\_tx} - Odeslaný report v systému RST.
 \item \textbf{rst\_rx} - Přijatý report v systému RST.
-\item \textbf{qsl} - Příznak žádosti o QSL lístek. Pokud je tento příznak nastaven, ví operátor, že si chce
-s protistranou vyměnit QSL lístky. To umožňuje případné automatické generování QSL lístků na základě informací
+\item \textbf{qsl} - Příznak žádosti o QSL lístek. Pokud bude tento příznak
+nastaven, bude to značit, že si chce operátor
+s protistranou vyměnit QSL lístky. To umožní případný automatický tisk QSL lístků na základě informací
 uložených v databázi.
-\item \textbf{qsl\_sent} - Příznak poslání QSL lístku. Pokud byly QSL lístky vygenerovány a odeslány, je tento
+\item \textbf{qsl\_sent} - Příznak poslání QSL lístku. Pokud byly QSL lístky
+vygenerovány a odeslány, bude tento
 příznak nastaven.
-\item \textbf{qsl\_received} - Příznak přijetí QSL lístku. Tento příznak je nastaven v případě, kdy operátor
-obdržel QSL lístek od radioamatéra, se kterým bylo spojení navázáno.
+\item \textbf{qsl\_received} - Příznak přijetí QSL lístku. Tento příznak bude
+nastaven v případě, kdy operátor
+obdržel QSL lístek od protistanice, se kterou navázal spojení.
 \item \textbf{comments} - Komentáře.
 \end{itemize}
 
 \section{Klientská knihovna}
 \label{navrh_knihovna}
 
-Klientská knihovna poskytuje grafickému rozhraní jednotné API pro přístup k
-serveru. To zamezuje duplikaci kódu při případné implementaci více
-různých grafických rozhraní využívajících funkce serveru.
+Klientská knihovna poskytne grafickému rozhraní jednotné API pro přístup k
+serveru. To zamezí duplikaci kódu při případné implementaci více
+různých grafických rozhraní.
 
-Klientská knihovna bude mít minimální závislosti a bude multiplatformní. Pomocí komunikačního protokolu bude
+Požadavkem je, aby klientská knihovna měla minimální závislosti a byla
+multiplatformní. Knihovna bude pomocí komunikačního protokolu
 komunikovat se serverem, zpracovávat příchozí data a předávat je klientovi.
 
 Knihovna je navržena tak, aby mohla spolupracovat s jakýmkoliv grafickým
 rozhraním (například Qt, GTK, wxWidgets, ncurses, \dots). %% YARDA (DONE): blíže specifikovat, co se myslí, QT, GTK?
 
-Základní funkce klientské knihovny jsou:
+Základní funkce klientské knihovny byly navrženy následovně:
 
 \begin{itemize}
 \item Připojení k serveru, registrace a přihlášení uživatele.
@@ -804,21 +828,24 @@ Základní funkce klientské knihovny jsou:
 Klient bude uživateli umožňovat připojení k serveru, prezentaci aktuálních dat a
 jejich změny. Pro komunikaci
 se serverem klient využije klientskou knihovnu. Pro komunikaci s uživatelem pak klient využije grafického rozhraní.
-Po startu klienta bude uživatel vyzván k přihlášení se k serveru. Uživateli je rovněž nabídnuta možnost registrace
+Po startu klienta bude uživatel vyzván k přihlášení se k serveru. Uživateli bude rovněž nabídnuta možnost registrace
 nového účtu.
 
-Po přihlášení zobrazí klientská aplikace veškeré záznamy v deníku a umožní jejich editaci. Klientská aplikace také zobrazuje
-aktuální vysílání získané ze služby DXCluster. Stanice, které aktuálně vysílají jsou zobrazeny graficky na modelu 
+Po přihlášení zobrazí klientská aplikace veškeré záznamy v deníku a umožní
+jejich editaci. Klientská aplikace také zobrazí
+aktuální vysílání získané ze služby DXCluster. Stanice, které aktuálně vysílají
+budou zobrazeny graficky na modelu 
 zeměkoule.
 
-Po vybrání stanice je zobrazen dialog pro přidání nového záznamu s předvolenými hodnotami získanými ze služby DXCluster. Automaticky
-je také přeladěno rádio na danou frekvenci.
+Po vybrání stanice se zobrazí dialog pro přidání nového záznamu s předvolenými
+hodnotami získanými ze služby DXCluster. Dalším z požadavků je možnost
+automatického naladění radistanice na danou frekvenci.
 
-V okně pro nový záznam je uživateli zobrazena historie všech spojení s daným operátorem.
-Po potvrzení dialogu je nový záznam odeslán na server a uložen do databáze.
+V okně pro nový záznam se uživateli zobrazí historie všech spojení s daným operátorem.
+Po potvrzení dialogu se nový záznam odešle na server a uloží do databáze.
 
-Klient také umožní zobrazit všechny moduly dostupné na serveru a jejich
-textový popis.
+Klient také umožní zobrazit všechny moduly dostupné na serveru včetně jejich
+textového popisu.
 
 
 \chapter{Implementace}
@@ -827,6 +854,7 @@ textový popis.
 V této kapitole je popsána implementace serverové aplikace, klientské aplikace a klientské knihovny.
 
 \section{Protokol}
+%% YARDA3: doporučuji rozhodit do kapitoly implementované moduly 
 V této podkapitole jsou zmíněny 2 ukázky protokolu implementovaného podle návrhnu v kapitole \ref{navrh_protokol}.
 
 \subsubsection{Vyžádání logu}
