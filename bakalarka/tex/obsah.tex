@@ -253,6 +253,7 @@ Radioamatérem se dnes může stát každý, kdo
 složí státní zkoušku z radiokomunikačních předpisů, radiokomunikačního provozu,
 elektrotechniky a radiotechniky, díky čemuž získá průkaz odborné způsobilosti a
 následně pak i koncesi a vlastní značku. Více informací lze nalézt např. na
+\cite{jak_se_stat}.
 %% YARDA3: link na http://www.crk.cz/CZ/KONCEC 
 
 Tato podkapitola byla pokusem o stručný popis nejrozšířenějších činnosti v současnosti provozovaných
@@ -705,6 +706,9 @@ na základě volací značky. Data lze získat např. z veřejně dostupných sl
 \item \textbf{DXCLUSTER} - Moduly typu DXCLUSTER budou realizovat službu typu
 DXCluster, tedy budou poskytovat informace (například frekvenci a polohu) o
 aktuálně vysílajících stanicích.
+\item \textbf{UNKNOWN} - Tento typ bude použit pro moduly, které budou základní součástí serveru a nepředpokládá
+se, že by bylo potřeba mít na serveru více modulů se stejnou základní funkcí. Půjde například o moduly poskytující
+registraci a přihlášení uživatele, nebo například modul pro základní editaci deníku.
 \end{itemize}
 
 \subsubsection{Rozhraní modulů typu CALLINFO}
@@ -852,66 +856,6 @@ textového popisu.
 \label{implementace}
 
 V této kapitole je popsána implementace serverové aplikace, klientské aplikace a klientské knihovny.
-
-\section{Protokol}
-%% YARDA3: doporučuji rozhodit do kapitoly implementované moduly 
-V této podkapitole jsou zmíněny 2 ukázky protokolu implementovaného podle návrhnu v kapitole \ref{navrh_protokol}.
-
-\subsubsection{Vyžádání logu}
-
-Tento příklad ukazuje použití protokolu pro získání všech záznamů z logu.
-
-Dotaz na modul poskytující URI "/logbook":
-\begin{verbatim}
-GET /logbook HTTP/1.1
-
-
-\end{verbatim}
-Odpověď serveru:
-\begin{verbatim}
-HTTP/1.1 200 OK
-Content-Type: text/hamlog
-Content-Length: 74
-
-id;user_id;callsign;date;qth;loc
-1;1;TEST;2011;qt;
-2;1;LKS;2011;;location
-\end{verbatim}
-
-\subsubsection{Ukázka přihlášení uživatele}
-
-Dotaz na modul poskytující URI "/login":
-\begin{verbatim}
-GET /login HTTP/1.1
-
-\end{verbatim}
-
-Odpověď serveru vybízí uživatele k přihlášení podle RFC 2617 \cite{rfc2617}:
-\begin{verbatim}
-HTTP/1.0 401 Unauthorized
-Content-Type: text/html
-Content-Length: 14
-WWW-Authenticate: Digest realm="realm@hamlog",qop="auth,auth-int",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",opaque="5ccc069c403ebaf9f0171e9517f40e41"
-
-Authentication
-\end{verbatim}
-
-Klient se přihlásí s použitím správného jména a hesla, které je však přenášena
-zahashované:
-\begin{verbatim}
-GET /login HTTP/1.1
-Authorization: Digest username="ok2jrq",realm="realm@hamlog",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",uri="/login",qop=auth,response="d197141dc972c02d71e6a73b3396ed53",opaque="5ccc069c403ebaf9f0171e9517f40e41")
-
-\end{verbatim}
-
-Server informuje klienta o úspěšném přihlášení:
-\begin{verbatim}
-HTTP/1.1 200 OK
-Content-Type: text/html
-Content-Length: 10
-
-Authorized
-\end{verbatim}
 
 \section{Serverová aplikace}
 \label{implementace_server}
@@ -1073,6 +1017,43 @@ uživatele a přidá nového uživatele do databáze. Pokud je již uživatel za
 Modul Login má URI "/login". Jeho cílem je umožnit uživatelům přihlášení k systému. V metodě handleRequest je
 implementován princip přihlášení WWW-Authenticate definovaném v RFC 2617 \cite{rfc2617}. %% YARDA: určitě link (DONE)
 
+\subsubsection{Ukázka přihlášení uživatele}
+
+Tento příklad ukazuje použití komunikačního protokolu pro přihlášení uživatele.
+
+Dotaz na modul poskytující URI "/login":
+\begin{verbatim}
+GET /login HTTP/1.1
+
+\end{verbatim}
+
+Odpověď serveru vybízí uživatele k přihlášení podle RFC 2617 \cite{rfc2617}:
+\begin{verbatim}
+HTTP/1.0 401 Unauthorized
+Content-Type: text/html
+Content-Length: 14
+WWW-Authenticate: Digest realm="realm@hamlog",qop="auth,auth-int",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",opaque="5ccc069c403ebaf9f0171e9517f40e41"
+
+Authentication
+\end{verbatim}
+
+Klient se přihlásí s použitím správného jména a hesla, které je však přenášena
+zahashované:
+\begin{verbatim}
+GET /login HTTP/1.1
+Authorization: Digest username="ok2jrq",realm="realm@hamlog",nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",uri="/login",qop=auth,response="d197141dc972c02d71e6a73b3396ed53",opaque="5ccc069c403ebaf9f0171e9517f40e41")
+
+\end{verbatim}
+
+Server informuje klienta o úspěšném přihlášení:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 10
+
+Authorized
+\end{verbatim}
+
 \subsubsection{Modul LogBook}
 
 Tento modul je základem celého projektu, protože umožňuje uživateli ukládat nové záznamy na server. Při svém načtení
@@ -1088,6 +1069,27 @@ v CSV formátu získaný z databáze pomocí instance třídy StorageBackend.
 \item URI "/logbook/call" - Jako odpověď na dotaz pošle pouze záznamy o spojeních s konkrétním operátorem určeným jeho značkou v 
 těle dotazu.
 \end{itemize}
+
+\subsubsection{Ukázka vyžádání logu}
+
+Tento příklad ukazuje použití protokolu pro získání všech záznamů z logu.
+
+Dotaz na modul poskytující URI "/logbook":
+\begin{verbatim}
+GET /logbook HTTP/1.1
+
+
+\end{verbatim}
+Odpověď serveru:
+\begin{verbatim}
+HTTP/1.1 200 OK
+Content-Type: text/hamlog
+Content-Length: 74
+
+id;user_id;callsign;date;qth;loc
+1;1;TEST;2011;qt;
+2;1;LKS;2011;;location
+\end{verbatim}
 
 \subsubsection{Modul DXCC}
 
